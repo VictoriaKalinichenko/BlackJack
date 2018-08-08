@@ -84,7 +84,7 @@ namespace BlackJack.BLL.Randomize
             int cardId;
 
             Random random = new Random();
-            cardId = random.Next(AmountOfCard) + 1;
+            cardId = random.Next(AmountOfCard);
 
             return cardId;
         }

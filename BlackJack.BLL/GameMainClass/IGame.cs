@@ -18,17 +18,5 @@ namespace BlackJack.BLL.GameMainClass
         void CreateBets(int HumanBet);
 
         void FirstCardsAdding();
-
-        void AddOneMoreCardToPlayer(Player player);
-
-        bool DealerFirstCardChecking(Player dealer);
-
-        bool BlackJackChecking(Player player);
-
-        bool DealerBlackJackChecking(Player dealer);
-
-        bool CardSumMoreThan22(Player player);
-
-        bool AllPlayersHaveZeroBets();
     }
 }

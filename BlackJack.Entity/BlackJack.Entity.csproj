@@ -30,28 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Carbon.Data.Protection, Version=0.19.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Data.Protection.0.19.1\lib\netstandard2.0\Carbon.Data.Protection.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Carbon.Json, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Json.1.7.0\lib\netstandard2.0\Carbon.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Carbon.Packaging, Version=1.27.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Packaging.1.27.2\lib\netstandard2.0\Carbon.Packaging.dll</HintPath>
-    </Reference>
-    <Reference Include="Carbon.Storage, Version=1.15.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Storage.1.15.1\lib\netstandard2.0\Carbon.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="Carbon.VersionControl, Version=1.8.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.VersionControl.1.8.1\lib\netstandard2.0\Carbon.VersionControl.dll</HintPath>
-    </Reference>
-    <Reference Include="Carbon.Versioning, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Versioning.1.5.0\lib\netstandard2.0\Carbon.Versioning.dll</HintPath>
-    </Reference>
-    <Reference Include="GitHub, Version=1.12.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GitHub.1.12.1\lib\netstandard2.0\GitHub.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -76,6 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

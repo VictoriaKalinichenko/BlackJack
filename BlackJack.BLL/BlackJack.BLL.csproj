@@ -57,10 +57,10 @@
   <ItemGroup>
     <Compile Include="BetFunctions\BetWork.cs" />
     <Compile Include="BetFunctions\IBetWork.cs" />
-    <Compile Include="CardFunctions\CardWork.cs" />
-    <Compile Include="CardFunctions\ICardWork.cs" />
     <Compile Include="DataChecking\IDataChecking.cs" />
-    <Compile Include="DataChecking\NameChecking.cs" />
+    <Compile Include="DataChecking\DChecking.cs" />
+    <Compile Include="Deck\IDeck.cs" />
+    <Compile Include="Deck\NormalDeck.cs" />
     <Compile Include="GameCreation\NewGameCreation.cs" />
     <Compile Include="GameCreation\IGameCreation.cs" />
     <Compile Include="GameMainClass\Game.cs" />

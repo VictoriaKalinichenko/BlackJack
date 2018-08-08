@@ -33,32 +33,11 @@
     <Reference Include="BlackJack.Entity">
       <HintPath>..\BlackJack.Entity\bin\Debug\BlackJack.Entity.dll</HintPath>
     </Reference>
-    <Reference Include="Carbon.Data.Protection, Version=0.19.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Data.Protection.0.19.1\lib\netstandard2.0\Carbon.Data.Protection.dll</HintPath>
-    </Reference>
-    <Reference Include="Carbon.Json, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Json.1.7.0\lib\netstandard2.0\Carbon.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Carbon.Packaging, Version=1.27.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Packaging.1.27.2\lib\netstandard2.0\Carbon.Packaging.dll</HintPath>
-    </Reference>
-    <Reference Include="Carbon.Storage, Version=1.15.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Storage.1.15.1\lib\netstandard2.0\Carbon.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="Carbon.VersionControl, Version=1.8.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.VersionControl.1.8.1\lib\netstandard2.0\Carbon.VersionControl.dll</HintPath>
-    </Reference>
-    <Reference Include="Carbon.Versioning, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Carbon.Versioning.1.5.0\lib\netstandard2.0\Carbon.Versioning.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="GitHub, Version=1.12.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GitHub.1.12.1\lib\netstandard2.0\GitHub.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -85,6 +64,7 @@
     <Compile Include="Interfaces\IPlayerCardRepository.cs" />
     <Compile Include="Interfaces\IPlayerRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CardRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />

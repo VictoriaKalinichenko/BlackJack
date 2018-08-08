@@ -20,6 +20,8 @@ namespace BlackJack.Entity
 
         public int Bet { get; set; }
 
+        public int RoundScore { get; set; }
+
 
         public virtual List<PlayerCard> PlayerCardList { get; set; }
     }

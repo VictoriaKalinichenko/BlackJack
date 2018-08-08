@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +9,11 @@ using BlackJack.DAL.Repositories;
 
 namespace BlackJack.BLL.DataChecking
 {
-    public class NameChecking : IDataChecking
+    public class DChecking : IDataChecking
     {
         IUnitOfWork db;
 
-        public NameChecking(IUnitOfWork repository)
+        public DChecking(IUnitOfWork repository)
         {
             db = repository;
         }

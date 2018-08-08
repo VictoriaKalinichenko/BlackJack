@@ -33,7 +33,7 @@ namespace BlackJack.BLL.GameCreation
             string GameCode = GameCodeDefinition(humanPlayer);
 
             IRandomize gameRandomize = new GameRandomize();
-            IDataChecking NameCheck = new NameChecking(db);
+            IDataChecking NameCheck = new DChecking(db);
 
             AddBots(AmountOfBots, GameCode, NameCheck, gameRandomize);
             AddDealer(GameCode, NameCheck, gameRandomize);

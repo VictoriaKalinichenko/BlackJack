@@ -13,7 +13,7 @@ namespace BlackJack.BLL.Players
     {
         IBet Bet { get; }
 
-        PlayersCards Cards { get; }
+        ICardsAgainstDealer Cards { get; }
 
         bool IsScoreNull();
 

@@ -21,14 +21,14 @@ namespace BlackJack.DAL.Repositories
 
 
 
-        public IEnumerable<Player> SelectAll()
+        public IEnumerable<Player> GetAll()
         {
             IEnumerable<Player> players;
             players = db.Players;
             return players;
         }
 
-        public Player Select(int Id)
+        public Player Get(int Id)
         {
             Player player;
             player = db.Players.Find(Id);
@@ -38,7 +38,7 @@ namespace BlackJack.DAL.Repositories
         public Player SelectByName(string Name)
         {
             Player player;
-            player = db.Players.Where(m => m.Name.Equals(Name)).First(); // ??????????????????????
+            player = db.Players.Where(m => m.Name.Equals(Name)).First();
             return player;
         }
 

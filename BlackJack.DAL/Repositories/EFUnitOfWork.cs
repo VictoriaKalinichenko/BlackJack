@@ -15,7 +15,8 @@ namespace BlackJack.DAL.Repositories
         private DataBaseContext db;
         private CardRepository cardRepository;
         private PlayerRepository playerRepository;
-        private PlayerCardRepository playerCardRepository;
+        private GameRepository gameRepository;
+        private DeckRepository deckRepository;
 
         public EFUnitOfWork()
         {
@@ -47,15 +48,27 @@ namespace BlackJack.DAL.Repositories
             }
         }
 
-        public IPlayerCardRepository PlayerCards
+        public IGameRepository Games
         {
             get
             {
-                if (playerCardRepository == null)
+                if (gameRepository == null)
                 {
-                    playerCardRepository = new PlayerCardRepository(db);
+                    gameRepository = new GameRepository(db);
                 }
-                return playerCardRepository;
+                return gameRepository;
+            }
+        }
+
+        public IDeckRepository Decks
+        {
+            get
+            {
+                if (deckRepository == null)
+                {
+                    deckRepository = new DeckRepository(db);
+                }
+                return deckRepository;
             }
         }
 

@@ -8,13 +8,13 @@ using BlackJack.BLL.Players;
 
 namespace BlackJack.BLL.GameMainClass
 {
-    public interface IGame
+    public interface IMainGame
     {
-        BjPlayer HumanPlayer { get; }
+        IPlayer HumanPlayer { get; }
 
-        BjDealer Dealer { get; }
+        IDealer Dealer { get; }
 
-        BjBots Bots { get; }
+        IBots Bots { get; }
 
 
 

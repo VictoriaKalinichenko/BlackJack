@@ -13,7 +13,9 @@ namespace BlackJack.DAL.Interfaces
 
         IPlayerRepository Players { get; }
 
-        IPlayerCardRepository PlayerCards { get; }
+        IGameRepository Games { get; }
+
+        IDeckRepository Decks { get; }
 
         void Save();
     }

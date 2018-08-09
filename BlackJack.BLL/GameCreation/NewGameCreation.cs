@@ -13,7 +13,7 @@ namespace BlackJack.BLL.GameCreation
 {
     public class NewGameCreation : IGameCreation
     {
-        IUnitOfWork db;
+        private IUnitOfWork db;
 
         public NewGameCreation(IUnitOfWork repository)
         {
@@ -23,7 +23,7 @@ namespace BlackJack.BLL.GameCreation
 
         #region GameCreation
 
-        int DefaultPlayerScore = 8000;
+        private int DefaultPlayerScore = 8000;
         
         public Player Create(string humanPlayerName, int AmountOfBots)
         {
@@ -41,7 +41,7 @@ namespace BlackJack.BLL.GameCreation
             return humanPlayer;
         }
 
-        void AddPlayer(string _Name, string _GameCode = "", bool _IsDealer = false)
+        private void AddPlayer(string _Name, string _GameCode = "", bool _IsDealer = false)
         {
             Player player = new Player();
             player.Name = _Name;

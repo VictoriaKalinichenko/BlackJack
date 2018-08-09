@@ -20,14 +20,14 @@ namespace BlackJack.DAL.Repositories
 
 
 
-        public IEnumerable<Card> SelectAll()
+        public IEnumerable<Card> GetAll()
         {
             IEnumerable<Card> cards;
             cards = db.Cards;
             return cards;
         }
 
-        public Card Select(int Id)
+        public Card Get(int Id)
         {
             Card card;
             card = db.Cards.Find(Id);

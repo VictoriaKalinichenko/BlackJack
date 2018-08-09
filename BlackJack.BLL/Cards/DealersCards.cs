@@ -9,7 +9,7 @@ using BlackJack.BLL.Deck;
 
 namespace BlackJack.BLL.Cards
 {
-    public class DealersCards : ICards, IDealersCards
+    public class DealersCards : IDealersCards
     {
         IUnitOfWork db;
         

@@ -7,13 +7,13 @@ using BlackJack.Entity;
 
 namespace BlackJack.DAL.Interfaces
 {
-    public interface IPlayerCardRepository
+    public interface IGameRepository
     {
-        IEnumerable<PlayerCard> SelectAll();
+        Game Get(int Id);
 
-        PlayerCard Select(int Id);
+        void Create(Game obj);
 
-        void Create(PlayerCard obj);
+        void Update(Game obj);
 
         void Delete(int Id);
     }

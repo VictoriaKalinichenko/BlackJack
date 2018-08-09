@@ -12,8 +12,9 @@ using BlackJack.BLL.Players;
 
 namespace BlackJack.BLL.GameMainClass
 {
-    public class Game : IGame
+    public class MainGame : IMainGame
     {
+
         Player humanPlayer;
         Player dealer;
         List<Player> bots;
@@ -25,14 +26,14 @@ namespace BlackJack.BLL.GameMainClass
         IDeck deck;
         IUnitOfWork db;
 
-        public Game(IUnitOfWork repository)
+        public MainGame(IUnitOfWork repository)
         {
             db = repository;
             deck = new NormalDeck(db);
         }
 
 
-        public BjPlayer HumanPlayer
+        public IPlayer HumanPlayer
         {
             get
             {
@@ -44,7 +45,7 @@ namespace BlackJack.BLL.GameMainClass
             }
         }
 
-        public BjDealer Dealer
+        public IDealer Dealer
         {
             get
             {
@@ -56,7 +57,7 @@ namespace BlackJack.BLL.GameMainClass
             }
         }
 
-        public BjBots Bots
+        public IBots Bots
         {
             get
             {
@@ -149,12 +150,12 @@ namespace BlackJack.BLL.GameMainClass
 
         void BotsAndDealerInitialize()
         {
-            dealer = db.Players.SelectAll()
+            dealer = db.Players.GetAll()
                 .Where(m => m.GameCode == humanPlayer.Id.ToString())
                 .Where(m => m.IsDealer)
                 .First();
 
-            bots = db.Players.SelectAll()
+            bots = db.Players.GetAll()
                 .Where(m => m.GameCode == humanPlayer.Id.ToString())
                 .Where(m => m.IsDealer == false)
                 .Where(m => m.Id != humanPlayer.Id)

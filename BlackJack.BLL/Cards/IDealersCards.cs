@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.BLL.Cards
 {
-    public interface IDealersCards
+    public interface IDealersCards : ICards
     {
         bool BJDanger();
     }

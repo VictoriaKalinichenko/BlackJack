@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.BLL.Cards
 {
-    public interface ICardsAgainstDealer
+    public interface ICardsAgainstDealer : ICards
     {
         bool EqualsDealerScore();
 

@@ -14,20 +14,28 @@ namespace BlackJack.DAL.Context
 
         public DbSet<Player> Players { get; set; }
 
-        public DbSet<PlayerCard> PlayerCards { get; set; }
+        public DbSet<Game> Games { get; set; }
+
+        public DbSet<Deck> Decks { get; set; }
 
         
         public DataBaseContext() : base("name=DataBaseContext") { }
              
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Card>()
-                .HasMany(p => p.PlayerCardList)
-                .WithOptional(c => c.Card);
-
             modelBuilder.Entity<Player>()
-                .HasMany(p => p.PlayerCardList)
-                .WithOptional(c => c.Player);
+                .HasMany(p => p.Cards);
+
+            modelBuilder.Entity<Card>()
+                .HasMany(p => p.Decks)
+                .WithMany(c => c.Cards);
+
+            modelBuilder.Entity<Game>()
+                .HasMany(p => p.Players)
+                .WithOptional(g => g.Game);
+
+            modelBuilder.Entity<Game>()
+                .HasOptional(c => c.Deck);
         }
     }
 }

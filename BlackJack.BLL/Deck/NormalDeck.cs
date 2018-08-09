@@ -23,12 +23,12 @@ namespace BlackJack.BLL.Deck
 
         public void Create()
         {
-            cards = db.Cards.SelectAll().ToList();
+            cards = db.Cards.GetAll().ToList();
         }
 
         public void Resume()
         {
-            cards = db.Cards.SelectAll().ToList();
+            cards = db.Cards.GetAll().ToList();
         }
 
         public Card SelectCard()

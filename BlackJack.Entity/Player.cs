@@ -16,13 +16,16 @@ namespace BlackJack.Entity
 
         public bool IsDealer { get; set; }
 
-        public string GameCode { get; set; }
+        public bool IsHuman { get; set; }
+
 
         public int Bet { get; set; }
 
         public int RoundScore { get; set; }
 
 
-        public virtual List<PlayerCard> PlayerCardList { get; set; }
+        public virtual List<Card> Cards { get; set; }
+
+        public virtual Game Game { get; set; }
     }
 }

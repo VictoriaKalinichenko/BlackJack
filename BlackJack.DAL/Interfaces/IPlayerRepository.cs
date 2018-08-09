@@ -9,9 +9,9 @@ namespace BlackJack.DAL.Interfaces
 {
     public interface IPlayerRepository
     {
-        IEnumerable<Player> SelectAll();
+        IEnumerable<Player> GetAll();
 
-        Player Select(int Id);
+        Player Get(int Id);
 
         Player SelectByName(string Name);
 

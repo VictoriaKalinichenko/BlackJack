@@ -10,7 +10,7 @@ namespace BlackJack.BLL.Players
 {
     public interface IDealer
     {
-        DealersCards Cards { get; }
+        IDealersCards Cards { get; }
 
         bool IsScoreNull();
 

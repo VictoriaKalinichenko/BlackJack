@@ -27,7 +27,7 @@ namespace BlackJack.BLL.Players
         }
 
 
-        public DealersCards Cards
+        public IDealersCards Cards
         {
             get
             {

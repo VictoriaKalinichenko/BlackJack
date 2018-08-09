@@ -68,8 +68,8 @@
     <Compile Include="Deck\NormalDeck.cs" />
     <Compile Include="GameCreation\NewGameCreation.cs" />
     <Compile Include="GameCreation\IGameCreation.cs" />
-    <Compile Include="GameMainClass\Game.cs" />
-    <Compile Include="GameMainClass\IGame.cs" />
+    <Compile Include="GameMainClass\MainGame.cs" />
+    <Compile Include="GameMainClass\IMainGame.cs" />
     <Compile Include="Players\BjBots.cs" />
     <Compile Include="Players\BjDealer.cs" />
     <Compile Include="Players\BjPlayer.cs" />

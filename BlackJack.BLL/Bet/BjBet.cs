@@ -5,64 +5,71 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entity;
 using BlackJack.DAL.Interfaces;
-using BlackJack.DAL.Repositories;
 
-namespace BlackJack.BLL.BetFunctions
+namespace BlackJack.BLL.Bet
 {
-    public class BetWork : IBetWork
+    public class BjBet : IBet
     {
         IUnitOfWork db;
 
-        public BetWork(IUnitOfWork context)
+        Player player;
+        Player dealer;
+
+
+        public BjBet(IUnitOfWork context, Player _player, Player _dealer)
         {
             db = context;
+
+            player = _player;
+            dealer = _dealer;
         }
 
-        public void CreateBet(Player player, int bet)
+
+        public void Create(int bet)
         {
             player.Bet = bet;
             player.Score = player.Score - bet;
             UpdatePlayer(player);
         }
 
-        public void PayBlackJack(Player player, Player dealer)
+        public void PayBlackJack()
         {
             int pay = (int)(player.Bet * 1.5);
 
             player.Score += player.Bet + pay;
             player.Bet = 0;
             UpdatePlayer(player);
-            
+
             dealer.Score -= pay;
             UpdatePlayer(dealer);
         }
 
-        public void PayOneToOne(Player player, Player dealer)
+        public void PayOneToOne()
         {
             int pay = player.Bet;
 
             player.Score += player.Bet + pay;
             player.Bet = 0;
             UpdatePlayer(player);
-            
+
             dealer.Score -= pay;
             UpdatePlayer(dealer);
         }
 
-        public void ReturnBet(Player player)
+        public void ReturnBet()
         {
             player.Score += player.Bet;
             player.Bet = 0;
             UpdatePlayer(player);
         }
 
-        public void LossingBet(Player player, Player dealer)
+        public void LossingBet()
         {
             int pay = player.Bet;
-            
+
             player.Bet = 0;
             UpdatePlayer(player);
-            
+
             dealer.Score += pay;
             UpdatePlayer(dealer);
         }

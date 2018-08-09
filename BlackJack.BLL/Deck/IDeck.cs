@@ -11,6 +11,8 @@ namespace BlackJack.BLL.Deck
     {
         void Create();
 
+        void Resume();
+
         Card SelectCard();
     }
 }

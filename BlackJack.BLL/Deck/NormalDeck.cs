@@ -26,6 +26,11 @@ namespace BlackJack.BLL.Deck
             cards = db.Cards.SelectAll().ToList();
         }
 
+        public void Resume()
+        {
+            cards = db.Cards.SelectAll().ToList();
+        }
+
         public Card SelectCard()
         {
             Card card;

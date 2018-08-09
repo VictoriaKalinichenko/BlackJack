@@ -29,5 +29,17 @@ namespace BlackJack.BLL.DataChecking
 
             return correct;
         }
+
+        public bool BetCheck(Player player, int bet)
+        {
+            bool correct = true;
+
+            if (player.Score < bet)
+            {
+                correct = false;
+            }
+
+            return correct;
+        }
     }
 }

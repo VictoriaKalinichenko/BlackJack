@@ -28,7 +28,9 @@ namespace BlackJack.DAL.Repositories
             get
             {
                 if (cardRepository == null)
+                {
                     cardRepository = new CardRepository(db);
+                }
                 return cardRepository;
             }
         }
@@ -38,7 +40,9 @@ namespace BlackJack.DAL.Repositories
             get
             {
                 if (playerRepository == null)
+                {
                     playerRepository = new PlayerRepository(db);
+                }
                 return playerRepository;
             }
         }
@@ -48,7 +52,9 @@ namespace BlackJack.DAL.Repositories
             get
             {
                 if (playerCardRepository == null)
+                {
                     playerCardRepository = new PlayerCardRepository(db);
+                }
                 return playerCardRepository;
             }
         }

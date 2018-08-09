@@ -121,6 +121,15 @@ namespace BlackJack.BLL.Cards
         void RoundScoreUpdate()  // Туз 1 или 11 -> доделать
         {
             int cardSum = player.PlayerCardList.Sum(m => m.Card.Value);
+            int AceCount = player.PlayerCardList
+                .Where(m => m.Card.Name == "Ace")
+                .Count();
+
+            while (AceCount > 0 && cardSum > 21)
+            {
+                AceCount--;
+                cardSum -= 10;
+            }
 
             player.RoundScore = cardSum;
             db.Players.Update(player);

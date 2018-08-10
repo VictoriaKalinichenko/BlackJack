@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+
+
 namespace BlackJack.DAL.Migrations
 {
     using System;
@@ -14,10 +17,7 @@ namespace BlackJack.DAL.Migrations
 
         protected override void Seed(BlackJack.DAL.Context.DataBaseContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            
         }
     }
 }

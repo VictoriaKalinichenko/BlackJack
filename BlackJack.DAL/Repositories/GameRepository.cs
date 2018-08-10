@@ -31,11 +31,13 @@ namespace BlackJack.DAL.Repositories
         public void Create(Game obj)
         {
             db.Games.Add(obj);
+            db.SaveChanges();
         }
 
         public void Update(Game obj)
         {
             db.Entry(obj).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public void Delete(int Id)
@@ -43,6 +45,29 @@ namespace BlackJack.DAL.Repositories
             Game Game = db.Games.Find(Id);
             if (Game != null)
                 db.Games.Remove(Game);
+            db.SaveChanges();
+        }
+
+
+
+        private bool disposed = false;
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    db.Dispose();
+                }
+                this.disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

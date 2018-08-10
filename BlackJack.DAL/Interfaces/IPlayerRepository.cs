@@ -7,7 +7,7 @@ using BlackJack.Entity;
 
 namespace BlackJack.DAL.Interfaces
 {
-    public interface IPlayerRepository
+    public interface IPlayerRepository : IDisposable
     {
         IEnumerable<Player> GetAll();
 

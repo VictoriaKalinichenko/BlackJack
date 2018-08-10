@@ -5,128 +5,288 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entity;
 using BlackJack.DAL.Interfaces;
-using BlackJack.BLL.GameCreation;
-using BlackJack.BLL.Deck;
-using BlackJack.BLL.Players;
+using BlackJack.BLL.Randomize;
+using BlackJack.BLL.Infrastructure;
+using BlackJack.BLL.Helpers;
+using BlackJack.DataOnView;
+using BlackJack.DataOnView.RoundFirstPhase;
 
 
 namespace BlackJack.BLL.GameMainClass
 {
     public class MainGame : IMainGame
     {
+        private Game Game;
+        private List<Player> Players;
+        private Deck Deck;
 
-        Player humanPlayer;
-        Player dealer;
-        List<Player> bots;
 
-        BjPlayer bjHumanPlayer;
-        BjDealer bjDealer;
-        BjBots bjBots;
+        private int DefaultPlayerScore = 8000;
 
-        IDeck deck;
-        IUnitOfWork db;
 
-        public MainGame(IUnitOfWork repository)
+        private IUnitOfWork db;
+
+        public MainGame(IUnitOfWork context)
         {
-            db = repository;
-            deck = new NormalDeck(db);
+            db = context;
+            Game = new Game();
+            Players = new List<Player>();
+            Deck = new Deck();
         }
 
 
-        public IPlayer HumanPlayer
+
+        #region GameCreation
+
+        public void PlayerNameValidation(string name)
         {
-            get
+            if (name == "")
             {
-                if (bjHumanPlayer == null)
+                throw new ValidationException(Message.NameFieldIsEmpty);
+            }
+
+            if (db.Players != null && db.Players.SelectByName(name) != null)
+            {
+                throw new ValidationException(Message.NameAlreadyExist);
+            }
+        }
+
+        public void Create(string humanPlayerName, int AmountOfBots)
+        {
+            AddDealer();
+            AddPlayerToGame(false, true, humanPlayerName);
+            AddBots(AmountOfBots);
+
+            BotsAndDealerNamesGenerating();
+            foreach(Player player in Players)
+            {
+                player.Cards = new List<Card>();
+            }
+            Game.Players = Players;
+
+            DeckGeneration();
+            Game.Deck = Deck;
+
+            db.Games.Create(Game);
+            
+            Game = db.Games.Get(db.Players.SelectByName(humanPlayerName).Game.Id);
+            Players = Game.Players;
+            Deck = Game.Deck;
+        }
+        
+        
+        private void AddPlayerToGame(bool IsDealer = false, bool IsHuman = false, string Name = "")
+        {
+            Player player = new Player();
+            player.Name = Name;
+            player.Game = Game;
+            player.Score = DefaultPlayerScore;
+            player.IsDealer = IsDealer;
+            player.IsHuman = IsHuman;
+
+            Players.Add(player);
+        }
+
+        private void AddDealer()
+        {
+            AddPlayerToGame(true);
+        }
+
+        private void AddBots(int AmountOfBots)
+        {
+            for (int i = 0; i < AmountOfBots; i++)
+            {
+                AddPlayerToGame();
+            }
+        }
+        
+        private void BotsAndDealerNamesGenerating()
+        {
+            Random random = new Random();
+            
+            foreach (Player player in Players)
+            {
+                if (!player.IsHuman)
                 {
-                    bjHumanPlayer = new BjPlayer(db, humanPlayer, dealer, deck);
+                    player.Name = BotNames.Names[random.Next(BotNames.Names.Length)] + " " + BotNames.Names[random.Next(BotNames.Names.Length)];
                 }
-                return bjHumanPlayer;
             }
         }
 
-        public IDealer Dealer
+       
+        private void DeckGeneration()
         {
-            get
+            List<Card> cards = db.Cards.GetAll().ToList();
+            Deck.Cards = cards;
+        }
+
+        #endregion
+
+
+        #region RoundStarting
+
+        public RoundStartPage GenerateRoundStartPage()
+        {
+            RoundStartPage roundStartPage = new RoundStartPage();
+
+            roundStartPage.Players = new List<PlayerInfo>();
+            foreach (Player player in Players)
             {
-                if (bjDealer == null)
+                PlayerInfo playerInfo = GetPlayerInfoForView(player);
+                playerInfo.Name = player.Name;
+                playerInfo.Score = player.Score;
+
+                playerInfo.PlayerType = "Bot";
+                if (player.IsHuman)
                 {
-                    bjDealer = new BjDealer(db, dealer, deck);
+                    playerInfo.PlayerType = "Human";
                 }
-                return bjDealer;
-            }
-        }
-
-        public IBots Bots
-        {
-            get
-            {
-                if (bjBots == null)
+                if (player.IsDealer)
                 {
-                    bjBots = new BjBots(db, bots, dealer, deck);
+                    playerInfo.PlayerType = "Dealer";
                 }
-                return bjBots;
+
+                roundStartPage.Players.Add(playerInfo);
             }
+
+            return roundStartPage;
         }
 
-
-
-        public void Create(string name, int AmountOfBots)
+        public void BetsCreation(int HumanBet)
         {
-            IGameCreation gameCreation = new NewGameCreation(db);
-            humanPlayer = gameCreation.Create(name, AmountOfBots);
-            BotsAndDealerInitialize();
-            deck.Create();
-        }
+            IRandomize randomize = new GameRandomize();
+            Player humanPlayer = (Player)Game.Players.Where(m => m.IsHuman).First();
+            BetValidation(humanPlayer, HumanBet);
 
-        public void Resume(string name)
-        {
-            humanPlayer = db.Players.SelectByName(name);
-            BotsAndDealerInitialize();
-            deck.Resume();
-        }
-
-
-
-        public void FirstCardsAdding()
-        {
-            bjHumanPlayer.Cards.FirstCardsTaking();
-            bjDealer.Cards.FirstCardsTaking();
-            bjBots.FirstCardsAdding();
-        }
-
-        public void RemoveAllCards()
-        {
-            bjHumanPlayer.Cards.RemoveCards();
-            bjDealer.Cards.RemoveCards();
-            bjBots.RemoveCards();
-        }
-
-        public void RoundEnding()
-        {
-            RemoveAllCards();
-        }
-
-        public void GameEnding()
-        {
-            RemoveAllCards();
-
-            db.Players.Delete(humanPlayer.Id);
-            db.Players.Delete(dealer.Id);
-
-            foreach(Player bot in bots)
+            for (int i = 0; i < Players.Count; i++)
             {
-                db.Players.Delete(bot.Id);
+                if (Players[i].IsHuman)
+                {
+                    CreateBet(Players[i], HumanBet);
+                }
+
+                if (!Players[i].IsHuman && !Players[i].IsDealer)
+                {
+                    CreateBet(Players[i], randomize.BetGenerate(Players[i].Score));
+                }
             }
         }
 
 
+        private void BetValidation(Player player, int bet)
+        {
+            if (player.Score < bet)
+            {
+                throw new ValidationException(Message.BetMoreThanScore);
+            }
+        }
 
-        public bool IsGameOver()
+        private void CreateBet(Player player, int bet)
+        {
+            player.Bet = bet;
+            player.Score = player.Score - bet;
+            db.Players.Update(player);
+        }
+
+        #endregion
+
+
+        #region RoundFirstPhase
+
+        public void FirstCardsDistribution()
+        {
+            DeckShuffling();
+
+            foreach (Player player in Players)
+            {
+                CardAddingToPlayer(player, CardTakingFromDeck());
+                CardAddingToPlayer(player, CardTakingFromDeck());
+                RoundScoreCount(player);
+            }
+        }
+
+        public void FirstCardsChecking ()
+        { }
+
+        public RoundFirstPhasePage GenerateRoundFirstPhasePage ()
+        {
+            RoundFirstPhasePage roundFirstPhasePage = new RoundFirstPhasePage();
+
+            roundFirstPhasePage.Players = new List<PlayerRoundFirstPhaseInfo>();
+            foreach (Player player in Players)
+            {
+                PlayerRoundFirstPhaseInfo playerRoundFirstPhaseInfo = new PlayerRoundFirstPhaseInfo();
+                playerRoundFirstPhaseInfo.Cards = GetCardsForView(player);
+                playerRoundFirstPhaseInfo.PlayerInfo = GetPlayerInfoForView(player);
+                playerRoundFirstPhaseInfo.RoundScore = player.RoundScore;
+                playerRoundFirstPhaseInfo.Bet = player.Bet;
+
+                roundFirstPhasePage.Players.Add(playerRoundFirstPhaseInfo);
+            }
+
+            return roundFirstPhasePage;
+        }
+
+
+        private bool DealerBjDanger()
+        {
+            bool danger = false;
+
+            Player dealer = GetDealer();
+            Card first = dealer.Cards.First();
+
+            if (first.Value >= 10)
+            {
+                danger = true;
+            }
+
+            return danger;
+        }
+
+        #endregion
+
+
+
+        private void CardAddingToPlayer(Player player, Card card)
+        {
+            player.Cards.Add(card);
+            db.Players.Update(player);
+        }
+
+        private Card CardTakingFromDeck()
+        {
+            Card card;
+
+            IRandomize randomize = new GameRandomize();
+            card = Deck.Cards[randomize.CardIdSelection(Deck.Cards.Count)];
+            Deck.Cards.Remove(card);
+            db.Decks.Update(Deck);
+
+            return card;
+        }
+
+        private void RoundScoreCount(Player player)
+        {
+            int cardSum = player.Cards.Sum(m => m.Value);
+            int AceCount = player.Cards
+                .Where(m => m.Name == "Ace")
+                .Count();
+
+            while (AceCount > 0 && cardSum > 21)
+            {
+                AceCount--;
+                cardSum -= 10;
+            }
+
+            player.RoundScore = cardSum;
+            db.Players.Update(player);
+        }
+
+        private bool PlayerBj(Player player)
         {
             bool result = false;
 
-            if (bjHumanPlayer.IsScoreNull() || bjDealer.IsScoreNull())
+            if (player.RoundScore == 21 && player.Cards.Count == 2)
             {
                 result = true;
             }
@@ -134,32 +294,95 @@ namespace BlackJack.BLL.GameMainClass
             return result;
         }
 
-        public bool IsRoundOver()
+        private Player GetDealer()
         {
-            bool result = false;
+            Player dealer;
 
-            if (bjHumanPlayer.IsBetNull() && bjBots.IsRoundOver())
-            {
-                result = true;
-            }
+            dealer = (Player)db.Players.GetAll().Where(m => m.IsDealer);
 
-            return result;
+            return dealer;
         }
 
 
-
-        void BotsAndDealerInitialize()
+        private void PayBj(Player player)
         {
-            dealer = db.Players.GetAll()
-                .Where(m => m.GameCode == humanPlayer.Id.ToString())
-                .Where(m => m.IsDealer)
-                .First();
+            int pay = (int)(player.Bet * 1.5);
 
-            bots = db.Players.GetAll()
-                .Where(m => m.GameCode == humanPlayer.Id.ToString())
-                .Where(m => m.IsDealer == false)
-                .Where(m => m.Id != humanPlayer.Id)
-                .ToList();
+            player.Score += player.Bet + pay;
+            player.Bet = 0;
+            db.Players.Update(player);
+
+            Player dealer = GetDealer();
+            dealer.Score -= pay;
+            db.Players.Update(dealer);
+        }
+
+        private void PayOneToOne(Player player)
+        {
+            int pay = player.Bet;
+
+            player.Score += player.Bet + pay;
+            player.Bet = 0;
+            db.Players.Update(player);
+
+            Player dealer = GetDealer();
+            dealer.Score -= pay;
+            db.Players.Update(dealer);
+        }
+        
+
+        private List<string> GetCardsForView (Player player)
+        {
+            List<string> cardNames = new List<string>(); 
+
+            List<Card> cards = player.Cards;
+            foreach(Card card in cards)
+            {
+                cardNames.Add(card.Name);
+            }
+
+            return cardNames;
+        }
+
+        private PlayerInfo GetPlayerInfoForView(Player player)
+        {
+            PlayerInfo playerInfo = new PlayerInfo();
+
+            playerInfo.Name = player.Name;
+            playerInfo.Score = player.Score;
+
+            playerInfo.PlayerType = "Bot";
+            if (player.IsHuman)
+            {
+                playerInfo.PlayerType = "Human";
+            }
+            if (player.IsDealer)
+            {
+                playerInfo.PlayerType = "Dealer";
+            }
+
+            return playerInfo;
+        }
+
+
+        private void DeckShuffling()
+        {
+            Random random = new Random();
+            int card1;
+            int card2;
+            Card glass;
+
+            for (int i = 0; i < Deck.Cards.Count; i++)
+            {
+                card1 = random.Next(Deck.Cards.Count);
+                card2 = random.Next(Deck.Cards.Count);
+
+                glass = Deck.Cards[card1];
+                Deck.Cards[card1] = Deck.Cards[card2];
+                Deck.Cards[card2] = glass;
+            }
+
+            db.Decks.Update(Deck);
         }
     }
 }

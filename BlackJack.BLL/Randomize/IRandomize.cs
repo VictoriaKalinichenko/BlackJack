@@ -9,9 +9,7 @@ namespace BlackJack.BLL.Randomize
 {
     public interface IRandomize
     {
-        string NameGenerate();
-
-        int BetGenerate();
+        int BetGenerate(int PlayerScore);
 
         int CardIdSelection(int AmountOfCard);
     }

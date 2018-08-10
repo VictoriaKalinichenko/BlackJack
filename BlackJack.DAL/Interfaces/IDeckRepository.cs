@@ -7,7 +7,7 @@ using BlackJack.Entity;
 
 namespace BlackJack.DAL.Interfaces
 {
-    public interface IDeckRepository
+    public interface IDeckRepository : IDisposable
     {
         Deck Get(int Id);
 

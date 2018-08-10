@@ -7,7 +7,7 @@ using BlackJack.Entity;
 
 namespace BlackJack.DAL.Interfaces
 {
-    public interface ICardRepository
+    public interface ICardRepository : IDisposable
     {
         IEnumerable<Card> GetAll();
 

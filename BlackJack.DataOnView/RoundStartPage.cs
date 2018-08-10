@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.BLL.Cards
+namespace BlackJack.DataOnView
 {
-    public interface IDealersCards : ICards
+    public class RoundStartPage
     {
-        bool BJDanger();
+        public List<PlayerInfo> Players { get; set; }
     }
 }

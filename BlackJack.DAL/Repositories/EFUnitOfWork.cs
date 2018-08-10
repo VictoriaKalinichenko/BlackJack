@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.DAL.Interfaces;
 using BlackJack.DAL.Context;
+using BlackJack.DAL.Repositories;
 using BlackJack.Entity;
 using System.Data.Entity;
 
@@ -13,10 +14,11 @@ namespace BlackJack.DAL.Repositories
     public class EFUnitOfWork : IUnitOfWork
     {
         private DataBaseContext db;
+
         private CardRepository cardRepository;
         private PlayerRepository playerRepository;
-        private GameRepository gameRepository;
         private DeckRepository deckRepository;
+        private GameRepository gameRepository;
 
         public EFUnitOfWork()
         {
@@ -29,9 +31,7 @@ namespace BlackJack.DAL.Repositories
             get
             {
                 if (cardRepository == null)
-                {
                     cardRepository = new CardRepository(db);
-                }
                 return cardRepository;
             }
         }
@@ -41,9 +41,7 @@ namespace BlackJack.DAL.Repositories
             get
             {
                 if (playerRepository == null)
-                {
                     playerRepository = new PlayerRepository(db);
-                }
                 return playerRepository;
             }
         }
@@ -73,12 +71,6 @@ namespace BlackJack.DAL.Repositories
         }
 
 
-        public void Save ()
-        {
-            db.SaveChanges();
-        }
-
-
         private bool disposed = false;
 
         public virtual void Dispose(bool disposing)
@@ -95,6 +87,11 @@ namespace BlackJack.DAL.Repositories
 
         public void Dispose()
         {
+            playerRepository.Dispose();
+            cardRepository.Dispose();
+            deckRepository.Dispose();
+            gameRepository.Dispose();
+            
             Dispose(true);
             GC.SuppressFinalize(this);
         }

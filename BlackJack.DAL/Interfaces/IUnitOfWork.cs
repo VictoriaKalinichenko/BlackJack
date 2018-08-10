@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entity;
+using BlackJack.DAL.Interfaces;
 
 namespace BlackJack.DAL.Interfaces
 {
@@ -13,10 +14,8 @@ namespace BlackJack.DAL.Interfaces
 
         IPlayerRepository Players { get; }
 
-        IGameRepository Games { get; }
-
         IDeckRepository Decks { get; }
 
-        void Save();
+        IGameRepository Games { get; }
     }
 }

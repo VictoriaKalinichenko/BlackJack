@@ -117,15 +117,18 @@ namespace BlackJack.ConsoleApp
 
             foreach (PlayerRoundFirstPhaseInfo player in roundFirstPhasePage.Players)
             {
+                bool OnlyFirstCard = true;
+
                 PlayerInfoOutput(player.PlayerInfo);
 
                 if (!(player.PlayerInfo.PlayerType == "Dealer"))
                 {
                     Console.WriteLine("Bet: " + player.Bet);
+                    Console.WriteLine("CardPoints: " + player.RoundScore);
+                    OnlyFirstCard = false;
                 }
 
-                Console.WriteLine("CardPoints: " + player.RoundScore);
-                CardListOutput(player.Cards);
+                CardListOutput(player.Cards, OnlyFirstCard);
                 Console.WriteLine();
             }
         }
@@ -138,11 +141,17 @@ namespace BlackJack.ConsoleApp
             Console.WriteLine("Score: " + playerInfo.Score);
         }
 
-        static void CardListOutput(List<string> cards)
+        static void CardListOutput(List<string> cards, bool OnlyFirstCard = false)
         {
-            Console.Write("Cards: ");
 
-            for (int i = 0; i < cards.Count; i++)
+            int CardCount = cards.Count;
+            if (OnlyFirstCard)
+            {
+                CardCount = 1;
+            }
+
+            Console.Write("Cards: ");
+            for (int i = 0; i < CardCount; i++)
             {
                 Console.Write(cards[i]);
 

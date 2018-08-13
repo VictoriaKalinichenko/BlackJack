@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerInfo.cs" />
+    <Compile Include="RoundView\PlayerInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoundFirstPhase\PlayerRoundFirstPhaseInfo.cs" />
-    <Compile Include="RoundFirstPhase\RoundFirstPhasePage.cs" />
-    <Compile Include="RoundStartPage.cs" />
+    <Compile Include="RoundView\PlayerWithCardsInfo.cs" />
+    <Compile Include="RoundView\RoundProcessPage.cs" />
+    <Compile Include="RoundView\RoundStartPage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

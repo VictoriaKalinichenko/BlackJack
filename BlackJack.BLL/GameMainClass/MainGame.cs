@@ -8,8 +8,7 @@ using BlackJack.DAL.Interfaces;
 using BlackJack.BLL.Randomize;
 using BlackJack.BLL.Infrastructure;
 using BlackJack.BLL.Helpers;
-using BlackJack.DataOnView;
-using BlackJack.DataOnView.RoundFirstPhase;
+using BlackJack.DataOnView.PageView;
 
 
 namespace BlackJack.BLL.GameMainClass
@@ -19,9 +18,19 @@ namespace BlackJack.BLL.GameMainClass
         private Game Game;
         private List<Player> Players;
         private Deck Deck;
-
-
+        
         private int DefaultPlayerScore = 8000;
+        private List<string> RoundMessages;
+        private Dictionary<int, RoundResult> RoundResults;
+
+        private enum RoundResult
+        {
+            Continue,
+            IsBlackJack,
+            IsOneToOne,
+            IsBetReturning,
+            IsBetLossing
+        }
 
 
         private IUnitOfWork db;
@@ -29,9 +38,6 @@ namespace BlackJack.BLL.GameMainClass
         public MainGame(IUnitOfWork context)
         {
             db = context;
-            Game = new Game();
-            Players = new List<Player>();
-            Deck = new Deck();
         }
 
 
@@ -53,6 +59,14 @@ namespace BlackJack.BLL.GameMainClass
 
         public void Create(string humanPlayerName, int AmountOfBots)
         {
+            Game = new Game();
+            Players = new List<Player>();
+            Deck = new Deck();
+
+            RoundMessages = new List<string>();
+            RoundResults = new Dictionary<int, RoundResult>();
+
+
             AddDealer();
             AddPlayerToGame(false, true, humanPlayerName);
             AddBots(AmountOfBots);
@@ -69,7 +83,7 @@ namespace BlackJack.BLL.GameMainClass
 
             db.Games.Create(Game);
             
-            Game = db.Games.Get(db.Players.SelectByName(humanPlayerName).Game.Id);
+            Game = db.Players.SelectByName(humanPlayerName).Game;
             Players = Game.Players;
             Deck = Game.Deck;
         }
@@ -191,7 +205,7 @@ namespace BlackJack.BLL.GameMainClass
         #endregion
 
 
-        #region RoundFirstPhase
+        #region FirstRoundPhase
 
         public void FirstCardsDistribution()
         {
@@ -204,27 +218,41 @@ namespace BlackJack.BLL.GameMainClass
                 RoundScoreCount(player);
             }
         }
-
-        public void FirstCardsChecking ()
-        { }
-
-        public RoundFirstPhasePage GenerateRoundFirstPhasePage ()
+        
+        public void FirstCardsChecking()
         {
-            RoundFirstPhasePage roundFirstPhasePage = new RoundFirstPhasePage();
+            RoundResults.Clear();
 
-            roundFirstPhasePage.Players = new List<PlayerRoundFirstPhaseInfo>();
-            foreach (Player player in Players)
+            bool dealerBjDanger = DealerBjDanger();
+            if (dealerBjDanger)
             {
-                PlayerRoundFirstPhaseInfo playerRoundFirstPhaseInfo = new PlayerRoundFirstPhaseInfo();
-                playerRoundFirstPhaseInfo.Cards = GetCardsForView(player);
-                playerRoundFirstPhaseInfo.PlayerInfo = GetPlayerInfoForView(player);
-                playerRoundFirstPhaseInfo.RoundScore = player.RoundScore;
-                playerRoundFirstPhaseInfo.Bet = player.Bet;
-
-                roundFirstPhasePage.Players.Add(playerRoundFirstPhaseInfo);
+                RoundMessages.Add(Message.DealerBjDanger);
             }
 
-            return roundFirstPhasePage;
+            for (int i = 1; i < Players.Count; i++)
+            {
+                RoundResults.Add(Players[i].Id, RoundResult.Continue);
+                bool playerBj = PlayerBj(Players[i]);
+
+                if (playerBj)
+                {
+                    RoundMessages.Add(Players[i].Name + Message.PlayerHasBj);
+                    RoundResults[Players[i].Id] = RoundResult.IsBlackJack;
+                }
+
+                if (playerBj && dealerBjDanger)
+                {
+                    RoundResults[Players[i].Id] = RoundResult.IsOneToOne;
+                }
+
+                if (playerBj && dealerBjDanger && Players[i].IsHuman)
+                {
+                    RoundResults[Players[i].Id] = RoundResult.Continue;
+                    RoundMessages.Add(Message.Press1ToTakeReward);
+                }
+            }
+
+            RoundMessages.Add(Message.Press0ToContinue);
         }
 
 
@@ -246,23 +274,263 @@ namespace BlackJack.BLL.GameMainClass
         #endregion
 
 
+        #region SecondRoundPhase
+
+        public bool CanHumanTakeOneMoreCard ()
+        {
+            bool result = true;
+
+            Player human = GetHumanPlayer();
+            if (human.RoundScore >= 21)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        public void OneMoreCardAddingToHumanPlayer()
+        {
+            Player human = GetHumanPlayer();
+            CardAddingToPlayer(human, CardTakingFromDeck());
+            
+            RoundScoreCount(human);
+        }
+
+        public void SecondCardsChecking()
+        {
+            RoundResults.Clear();
+
+            Player dealer = GetDealer();
+            bool dealerBj = PlayerBj(dealer);
+
+
+            for (int i = 1; i < Players.Count; i++)
+            {
+                if (RoundEndedForPlayer(Players[i]))
+                {
+                    continue;
+                }
+
+
+                RoundResults.Add(Players[i].Id, RoundResult.IsBetLossing);
+                RoundMessages.Add(Players[i].Name + Message.PlayerLost);
+
+                if (PlayerBj(Players[i]) && !dealerBj)
+                {
+                    RoundResults[Players[i].Id] = RoundResult.IsBlackJack;
+
+                    RoundMessages.Remove(RoundMessages.Last());
+                    RoundMessages.Add(Players[i].Name + Message.PlayerHasBj);
+                }
+
+                if (PlayerScoreEqualsDealerScore(Players[i]))
+                {
+                    RoundResults[Players[i].Id] = RoundResult.IsBetReturning;
+
+                    RoundMessages.Remove(RoundMessages.Last());
+                    RoundMessages.Add(Players[i].Name + Message.PlayerScoreEqualsDealerScore);
+                }
+
+                if (PlayerScoreBetterThanDealerScore(Players[i]))
+                {
+                    RoundResults[Players[i].Id] = RoundResult.IsOneToOne;
+
+                    RoundMessages.Remove(RoundMessages.Last());
+                    RoundMessages.Add(Players[i].Name + Message.PlayerScoreBetterThanDealerScore);
+                }
+            }
+        }
+
+
+        public void SecondCardsDistributionToBots ()
+        {
+            for (int i = 2; i < Players.Count; i++)
+            {
+                if (RoundEndedForPlayer(Players[i]))
+                {
+                    continue;
+                }
+
+                SecondCardsAddingToBot(Players[i]);
+            }
+
+            SecondCardsAddingToBot(GetDealer());
+        }
+
+
+        private void SecondCardsAddingToBot(Player player)
+        {
+            while(player.RoundScore < 18)
+            {
+                CardAddingToPlayer(player, CardTakingFromDeck());
+                RoundScoreCount(player);
+            }
+        }
+
+        #endregion
+
+
+        #region RoundEnding
+
+        public void RoundEnding()
+        {
+            foreach(Player player in Players)
+            {
+                RemovingCardsFromPlayer(player);
+                player.RoundScore = 0;
+
+                db.Players.Update(player);
+            }
+        }
+        
+        public bool RemovingBotsWithNullScore()
+        {
+            bool result = false;
+
+            for (int i = 2; i < Players.Count; i++)
+            {
+                if (GameEndedForPlayer(Players[i]))
+                {
+                    RoundMessages.Add(Players[i].Name + Message.PlayerEndedTheGame);
+                    db.Players.Delete(Players[i].Id);
+                    result = true;
+                }
+            }
+
+            Players = db.Games.Get(Game.Id).Players;
+            return result;
+        }
+
+
+        private void RemovingCardsFromPlayer(Player player)
+        {
+            foreach(Card card in player.Cards)
+            {
+                ReturnCardToDeck(card);
+            }
+
+            player.Cards = new List<Card>();
+        }
+
+        #endregion
+
+
+        #region GameOver
+
+        public void Ending()
+        {
+            for(int i = 0; Players.Count != 0; )
+            {
+                db.Players.Delete(Players[i].Id);
+            }
+
+            db.Decks.Delete(Deck.Id);
+
+            db.Games.Delete(Game.Id);
+        }
+
+        public bool IsGameOver()
+        {
+            bool result = false;
+
+            if (GameEndedForPlayer(GetDealer()) || GameEndedForPlayer(GetHumanPlayer()))
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public string GetWinner()
+        {
+            string winner;
+
+            winner = Message.DealerIsWinner;
+            Player human = GetHumanPlayer();
+            if(human.Score > 0)
+            {
+                winner = Message.DealerIsLoser;
+            }
+
+            return winner;
+        }
+
+        #endregion
+
+
+
+        public void BetPayment(int key = 0)
+        {
+            if (key == 1)
+            {
+                Player human = GetHumanPlayer();
+                PayOneToOne(human);
+                RoundMessages.Add(human.Name + Message.PlayerGetsOneToOnePayment);
+            }
+
+            foreach (var roundResult in RoundResults)
+            {
+                Player player = Players[roundResult.Key - 1];
+
+                if (roundResult.Value == RoundResult.IsBlackJack)
+                {
+                    PayBj(player);
+                    RoundMessages.Add(player.Name + Message.PlayerGetsBjPayment);
+                }
+
+                if (roundResult.Value == RoundResult.IsOneToOne)
+                {
+                    PayOneToOne(Players[roundResult.Key - 1]);
+                    RoundMessages.Add(player.Name + Message.PlayerGetsOneToOnePayment);
+                }
+
+                if (roundResult.Value == RoundResult.IsBetLossing)
+                {
+                    BetLossing(Players[roundResult.Key - 1]);
+                    RoundMessages.Add(player.Name + Message.PlayerLostBet);
+                }
+
+                if (roundResult.Value == RoundResult.IsBetReturning)
+                {
+                    BetReturning(Players[roundResult.Key - 1]);
+                    RoundMessages.Add(Message.BetGoesBackToPlayer + player.Name);
+                }
+            }
+        }
+
+        public RoundProcessPage GenerateRoundProcessPage()
+        {
+            RoundProcessPage roundProcessPage = new RoundProcessPage();
+
+            roundProcessPage.Players = new List<PlayerWithCardsInfo>();
+            foreach (Player player in Players)
+            {
+                PlayerWithCardsInfo playerWithCardsInfo = new PlayerWithCardsInfo();
+                playerWithCardsInfo.Cards = GetCardsForView(player);
+                playerWithCardsInfo.PlayerInfo = GetPlayerInfoForView(player);
+                playerWithCardsInfo.RoundScore = player.RoundScore;
+                playerWithCardsInfo.Bet = player.Bet;
+
+                roundProcessPage.Players.Add(playerWithCardsInfo);
+            }
+
+            roundProcessPage.Messages = new List<string>();
+            foreach (string message in RoundMessages)
+            {
+                roundProcessPage.Messages.Add(message);
+            }
+            RoundMessages.Clear();
+
+            return roundProcessPage;
+        }
+
+
 
         private void CardAddingToPlayer(Player player, Card card)
         {
             player.Cards.Add(card);
             db.Players.Update(player);
-        }
-
-        private Card CardTakingFromDeck()
-        {
-            Card card;
-
-            IRandomize randomize = new GameRandomize();
-            card = Deck.Cards[randomize.CardIdSelection(Deck.Cards.Count)];
-            Deck.Cards.Remove(card);
-            db.Decks.Update(Deck);
-
-            return card;
         }
 
         private void RoundScoreCount(Player player)
@@ -282,6 +550,32 @@ namespace BlackJack.BLL.GameMainClass
             db.Players.Update(player);
         }
 
+
+        private bool RoundEndedForPlayer(Player player)
+        {
+            bool result = false;
+
+            if (player.Bet == 0)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        private bool GameEndedForPlayer(Player player)
+        {
+            bool result = false;
+
+            if (player.Score <= 0)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+
         private bool PlayerBj(Player player)
         {
             bool result = false;
@@ -294,13 +588,59 @@ namespace BlackJack.BLL.GameMainClass
             return result;
         }
 
+        private bool PlayerMoreThan21(Player player)
+        {
+            bool result = false;
+
+            if (player.RoundScore > 21)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        private bool PlayerScoreEqualsDealerScore(Player player)
+        {
+            bool result = false;
+
+            if (player.RoundScore == GetDealer().RoundScore && !PlayerMoreThan21(player))
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        private bool PlayerScoreBetterThanDealerScore(Player player)
+        {
+            bool result = false;
+
+            if (!PlayerMoreThan21(player) && (player.RoundScore > GetDealer().RoundScore || PlayerMoreThan21(GetDealer())))
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        
         private Player GetDealer()
         {
             Player dealer;
 
-            dealer = (Player)db.Players.GetAll().Where(m => m.IsDealer);
+            dealer = db.Players.GetAll().Where(m => m.IsDealer).First();
 
             return dealer;
+        }
+
+        private Player GetHumanPlayer()
+        {
+            Player humanPlayer;
+
+            humanPlayer = Players.Where(m => m.IsHuman).First();
+
+            return humanPlayer;
         }
 
 
@@ -329,7 +669,24 @@ namespace BlackJack.BLL.GameMainClass
             dealer.Score -= pay;
             db.Players.Update(dealer);
         }
-        
+
+        private void BetReturning(Player player)
+        {
+            player.Score += player.Bet;
+            player.Bet = 0;
+            db.Players.Update(player);
+        }
+
+        private void BetLossing(Player player)
+        {
+            Player dealer = GetDealer();
+            dealer.Score += player.Bet;
+            db.Players.Update(dealer);
+
+            player.Bet = 0;
+            db.Players.Update(player);
+        }
+
 
         private List<string> GetCardsForView (Player player)
         {
@@ -382,6 +739,24 @@ namespace BlackJack.BLL.GameMainClass
                 Deck.Cards[card2] = glass;
             }
 
+            db.Decks.Update(Deck);
+        }
+
+        private Card CardTakingFromDeck()
+        {
+            Card card;
+
+            IRandomize randomize = new GameRandomize();
+            card = Deck.Cards[randomize.CardIdSelection(Deck.Cards.Count)];
+            Deck.Cards.Remove(card);
+            db.Decks.Update(Deck);
+
+            return card;
+        }
+
+        private void ReturnCardToDeck(Card card)
+        {
+            Deck.Cards.Add(card);
             db.Decks.Update(Deck);
         }
     }

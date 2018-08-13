@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.DataOnView.RoundFirstPhase
+namespace BlackJack.DataOnView.PageView
 {
-    public class RoundFirstPhasePage
+    public class RoundProcessPage
     {
-        public List<PlayerRoundFirstPhaseInfo> Players { get; set; }
+        public List<PlayerWithCardsInfo> Players { get; set; }
 
         public List<string> Messages { get; set; }
     }

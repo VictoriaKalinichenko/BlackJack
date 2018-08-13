@@ -15,7 +15,7 @@ namespace BlackJack.BLL.Randomize
         {
             int bet = 0;
             
-            bet = random.Next(PlayerScore / 50) * 50;
+            bet = random.Next(PlayerScore / 50 + 1) * 50;
             
             return bet;
         }

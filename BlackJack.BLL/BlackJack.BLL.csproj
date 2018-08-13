@@ -33,7 +33,8 @@
     <Reference Include="BlackJack.DAL">
       <HintPath>..\BlackJack.DAL\bin\Debug\BlackJack.DAL.dll</HintPath>
     </Reference>
-    <Reference Include="BlackJack.DataOnView">
+    <Reference Include="BlackJack.DataOnView, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\BlackJack.DataOnView\bin\Debug\BlackJack.DataOnView.dll</HintPath>
     </Reference>
     <Reference Include="BlackJack.Entity">

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.DataOnView.RoundFirstPhase
+namespace BlackJack.DataOnView.PageView
 {
-    public class PlayerRoundFirstPhaseInfo
+    public class PlayerWithCardsInfo
     {
         public PlayerInfo PlayerInfo { get; set; }
 

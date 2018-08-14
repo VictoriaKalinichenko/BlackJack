@@ -50,14 +50,69 @@ namespace BlackJack.BLL.GameMainClass
             {
                 throw new ValidationException(Message.NameFieldIsEmpty);
             }
+        }
 
-            if (db.Players != null && db.Players.SelectByName(name) != null)
+        public bool PlayerGameExist(string name)
+        {
+            bool result = false;
+
+            if (db.Players.SelectByName(name) != null)
             {
-                throw new ValidationException(Message.NameAlreadyExist);
+                result = true;
             }
+
+            return result;
         }
 
         public void Create(string humanPlayerName, int AmountOfBots)
+        {
+            Initialization();
+
+            if (db.Players.SelectByName(humanPlayerName) != null)
+            {
+                InitializationFromDB(humanPlayerName);
+                GameDelete();
+            }
+
+            AddDealer();
+            AddPlayerToGame(false, true, humanPlayerName);
+            AddBots(AmountOfBots);
+            BotsAndDealerNamesGenerating();
+
+            foreach(Player player in Players)
+            {
+                player.Cards = new List<Card>();
+            }
+
+            Game.Players = Players;
+
+            DeckGeneration();
+            Game.Deck = Deck;
+
+            db.Games.Create(Game);
+
+            InitializationFromDB(humanPlayerName);
+            GameStageUpdate();
+        }
+
+        public void Resume(string humanPlayerName)
+        {
+            Initialization();
+
+            Game = db.Players.SelectByName(humanPlayerName).Game;
+            Players = Game.Players;
+            Deck = Game.Deck;
+
+            Player dealer = GetDealer();
+            Player human = GetHumanPlayer();
+            Players.Remove(dealer);
+            Players.Remove(human);
+            Players.Insert(0, dealer);
+            Players.Insert(1, human);
+        }
+        
+        
+        private void Initialization()
         {
             Game = new Game();
             Players = new List<Player>();
@@ -65,30 +120,15 @@ namespace BlackJack.BLL.GameMainClass
 
             RoundMessages = new List<string>();
             RoundResults = new Dictionary<int, RoundResult>();
+        }
 
-
-            AddDealer();
-            AddPlayerToGame(false, true, humanPlayerName);
-            AddBots(AmountOfBots);
-
-            BotsAndDealerNamesGenerating();
-            foreach(Player player in Players)
-            {
-                player.Cards = new List<Card>();
-            }
-            Game.Players = Players;
-
-            DeckGeneration();
-            Game.Deck = Deck;
-
-            db.Games.Create(Game);
-            
+        private void InitializationFromDB(string humanPlayerName)
+        {
             Game = db.Players.SelectByName(humanPlayerName).Game;
             Players = Game.Players;
             Deck = Game.Deck;
         }
-        
-        
+
         private void AddPlayerToGame(bool IsDealer = false, bool IsHuman = false, string Name = "")
         {
             Player player = new Player();
@@ -135,7 +175,7 @@ namespace BlackJack.BLL.GameMainClass
         }
 
         #endregion
-
+        
 
         #region RoundStarting
 
@@ -213,13 +253,20 @@ namespace BlackJack.BLL.GameMainClass
 
             foreach (Player player in Players)
             {
-                CardAddingToPlayer(player, CardTakingFromDeck());
-                CardAddingToPlayer(player, CardTakingFromDeck());
-                RoundScoreCount(player);
+                if (player.Cards.Count != 2)
+                {
+                    CardAddingToPlayer(player, CardTakingFromDeck());
+                    CardAddingToPlayer(player, CardTakingFromDeck());
+                    RoundScoreCount(player);
+                }
             }
+
+            Players = db.Games.Get(Game.Id).Players;
+            FirstCardsChecking();
         }
         
-        public void FirstCardsChecking()
+
+        private void FirstCardsChecking()
         {
             RoundResults.Clear();
 
@@ -254,14 +301,13 @@ namespace BlackJack.BLL.GameMainClass
 
             RoundMessages.Add(Message.Press0ToContinue);
         }
-
-
+        
         private bool DealerBjDanger()
         {
             bool danger = false;
 
             Player dealer = GetDealer();
-            Card first = dealer.Cards.First();
+            Card first = dealer.Cards[0];
 
             if (first.Value >= 10)
             {
@@ -297,7 +343,26 @@ namespace BlackJack.BLL.GameMainClass
             RoundScoreCount(human);
         }
 
-        public void SecondCardsChecking()
+
+        public void SecondCardsDistributionToBots ()
+        {
+            for (int i = 2; i < Players.Count; i++)
+            {
+                if (RoundEndedForPlayer(Players[i]))
+                {
+                    continue;
+                }
+
+                SecondCardsAddingToBot(Players[i]);
+            }
+
+            SecondCardsAddingToBot(GetDealer());
+
+            SecondCardsChecking();
+        }
+        
+
+        private void SecondCardsChecking()
         {
             RoundResults.Clear();
 
@@ -341,23 +406,6 @@ namespace BlackJack.BLL.GameMainClass
                 }
             }
         }
-
-
-        public void SecondCardsDistributionToBots ()
-        {
-            for (int i = 2; i < Players.Count; i++)
-            {
-                if (RoundEndedForPlayer(Players[i]))
-                {
-                    continue;
-                }
-
-                SecondCardsAddingToBot(Players[i]);
-            }
-
-            SecondCardsAddingToBot(GetDealer());
-        }
-
 
         private void SecondCardsAddingToBot(Player player)
         {
@@ -418,7 +466,7 @@ namespace BlackJack.BLL.GameMainClass
 
         #region GameOver
 
-        public void Ending()
+        public void GameDelete()
         {
             for(int i = 0; Players.Count != 0; )
             {
@@ -434,7 +482,7 @@ namespace BlackJack.BLL.GameMainClass
         {
             bool result = false;
 
-            if (GameEndedForPlayer(GetDealer()) || GameEndedForPlayer(GetHumanPlayer()))
+            if (GameEndedForPlayer(GetDealer()) || (GameEndedForPlayer(GetHumanPlayer()) && RoundEndedForPlayer(GetHumanPlayer())))
             {
                 result = true;
             }
@@ -459,6 +507,32 @@ namespace BlackJack.BLL.GameMainClass
         #endregion
 
 
+        #region Stage
+        
+        public void GameStageIncrement()
+        {
+            Game.Stage++;
+            db.Games.Update(Game);
+        }
+
+        public void GameStageUpdate()
+        {
+            Game.Stage = 0;
+            db.Games.Update(Game);
+        }
+
+        public int GetStage()
+        {
+            int stage;
+
+            stage = Game.Stage;
+
+            return stage;
+        }
+
+        #endregion
+
+
 
         public void BetPayment(int key = 0)
         {
@@ -471,7 +545,7 @@ namespace BlackJack.BLL.GameMainClass
 
             foreach (var roundResult in RoundResults)
             {
-                Player player = Players[roundResult.Key - 1];
+                Player player = Players.Where(m => m.Id == roundResult.Key).First();
 
                 if (roundResult.Value == RoundResult.IsBlackJack)
                 {
@@ -481,19 +555,19 @@ namespace BlackJack.BLL.GameMainClass
 
                 if (roundResult.Value == RoundResult.IsOneToOne)
                 {
-                    PayOneToOne(Players[roundResult.Key - 1]);
+                    PayOneToOne(player);
                     RoundMessages.Add(player.Name + Message.PlayerGetsOneToOnePayment);
                 }
 
                 if (roundResult.Value == RoundResult.IsBetLossing)
                 {
-                    BetLossing(Players[roundResult.Key - 1]);
+                    BetLossing(player);
                     RoundMessages.Add(player.Name + Message.PlayerLostBet);
                 }
 
                 if (roundResult.Value == RoundResult.IsBetReturning)
                 {
-                    BetReturning(Players[roundResult.Key - 1]);
+                    BetReturning(player);
                     RoundMessages.Add(Message.BetGoesBackToPlayer + player.Name);
                 }
             }

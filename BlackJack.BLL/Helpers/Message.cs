@@ -14,6 +14,8 @@ namespace BlackJack.BLL.Helpers
 
         public static readonly string NameAlreadyExist = "Player with that name already exist";
 
+        public static readonly string NameDontExist = "Player with that name don't exist";
+
 
         public static readonly string BetMoreThanScore = "Entered bet more than player's score";
 
@@ -74,5 +76,10 @@ namespace BlackJack.BLL.Helpers
         public static readonly string DealerIsWinner = "Dealer is winner";
 
         public static readonly string DealerIsLoser = "Dealer is loser";
+
+
+        public static readonly string Press0ToStartNewGame = "Press 0 to start new game";
+
+        public static readonly string Press1ToResumeGame = "Press 1 to resume game";
     }
 }

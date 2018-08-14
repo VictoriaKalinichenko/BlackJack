@@ -19,11 +19,12 @@ namespace BlackJack.DAL.Context
 
         public DbSet<Deck> Decks { get; set; }
 
-
+        /*
         static DataBaseContext()
         {
             Database.SetInitializer<DataBaseContext>(new DbInitializer());
         }
+        */
 
         public DataBaseContext() : base("name=DataBaseContext") { }
              

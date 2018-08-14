@@ -19,72 +19,104 @@ namespace BlackJack.ConsoleApp
             MainGame Game = new MainGame(db);
             string PlayerName = NameInput(Game);
 
+            int keyForResume = CreateOrResume(PlayerName, Game);
+            
+            if (keyForResume == 1)
+            {
+                Game.Resume(PlayerName);
+            }
+            
+
             int exit = 1;
 
             while (exit != 0)
             {
-                int AmountOfBots = AmountOfBotsInput(Game);
-
-                Game.Create(PlayerName, AmountOfBots);
+                if (keyForResume == 0)
+                {
+                    int AmountOfBots = AmountOfBotsInput(Game);
+                    Game.Create(PlayerName, AmountOfBots);
+                }
+                keyForResume = 0;
 
                 while (!Game.IsGameOver())
                 {
-                    
-
-                    
-
-                    OneMoreCardAddingToHumanPlayer(Game);
-
-                    Game.SecondCardsDistributionToBots();
-                    Game.SecondCardsChecking();
-
-                    roundProcessPage = Game.GenerateRoundProcessPage();
-                    SecondRoundPhaseOutput(roundProcessPage);
-                    Console.WriteLine(Message.PressAnyKeyToContinue);
-                    Console.ReadKey();
-
-                    Game.BetPayment();
-
-                    roundProcessPage = Game.GenerateRoundProcessPage();
-                    SecondRoundPhaseOutput(roundProcessPage);
-                    Console.WriteLine(Message.PressAnyKeyToContinue);
-                    Console.ReadKey();
-
-                    if (Game.RemovingBotsWithNullScore())
+                    switch(Game.GetStage())
                     {
-                        roundProcessPage = Game.GenerateRoundProcessPage();
-                        SecondRoundPhaseOutput(roundProcessPage);
-                        Console.WriteLine(Message.PressAnyKeyToContinue);
-                        Console.ReadKey();
+                        case 0:
+                            {
+                                RoundStarting(Game);
+                                FirstRoundPhase(Game);
+                                OneMoreCardAddingToHumanPlayer(Game);
+                                SecondRoundPhase(Game);
+                                EndRoundBetPayment(Game);
+                                break;
+                            }
+                        case 1:
+                            {
+                                FirstRoundPhase(Game);
+                                OneMoreCardAddingToHumanPlayer(Game);
+                                SecondRoundPhase(Game);
+                                EndRoundBetPayment(Game);
+                                break;
+                            }
+                        case 2:
+                            {
+                                OneMoreCardAddingToHumanPlayer(Game);
+                                SecondRoundPhase(Game);
+                                EndRoundBetPayment(Game);
+                                break;
+                            }
+                        case 3:
+                            {
+                                SecondRoundPhase(Game);
+                                EndRoundBetPayment(Game);
+                                break;
+                            }
+                        default:
+                            {
+                                break;
+                            }
                     }
 
+                    Game.GameStageUpdate();
                     Game.RoundEnding();
                 }
-
-
-                Console.WriteLine(Message.GameOver);
-                Console.WriteLine(Game.GetWinner());
-                Console.WriteLine(Message.PressAnyKeyToContinue);
-                Console.ReadKey();
-
-                Game.Ending();
-                exit = StartNewGameOrExit();
+                
+                exit = GameEnding(Game);
             }
         }
 
         #region MainFunctions
+
+        static int CreateOrResume(string name, MainGame Game)
+        {
+            int key;
+
+            Console.Clear();
+
+            if(Game.PlayerGameExist(name))
+            {
+                Console.WriteLine(Message.Press1ToResumeGame);
+            }
+            Console.WriteLine(Message.Press0ToStartNewGame);
+            key = KeyInput();
+
+            return key;
+        }
+
 
         static void RoundStarting(MainGame Game)
         {
             RoundStartPage roundStartPage = Game.GenerateRoundStartPage();
             RoundStartPageOutput(roundStartPage);
             int bet = BetInput(Game);
+
+            Game.GameStageIncrement();
         }
 
         static void FirstRoundPhase(MainGame Game)
         {
             Game.FirstCardsDistribution();
-            Game.FirstCardsChecking();
 
             RoundProcessPage roundProcessPage = Game.GenerateRoundProcessPage();
             FirstRoundPhaseOutput(roundProcessPage);
@@ -94,14 +126,19 @@ namespace BlackJack.ConsoleApp
 
             roundProcessPage = Game.GenerateRoundProcessPage();
             FirstRoundPhaseOutput(roundProcessPage);
+
+            Game.GameStageIncrement();
         }
 
-        static void OneMoreCardAddingToHumanPlayer(MainGame game)
+        static void OneMoreCardAddingToHumanPlayer(MainGame Game)
         {
             int key = 1;
 
-            while (game.CanHumanTakeOneMoreCard() && key == 1)
+            while (Game.CanHumanTakeOneMoreCard() && key == 1)
             {
+                RoundProcessPage roundPageForHumanCardsAdding = Game.GenerateRoundProcessPage();
+                FirstRoundPhaseOutput(roundPageForHumanCardsAdding);
+
                 Console.WriteLine(Message.Press0ToEnough);
                 Console.WriteLine(Message.Press1ToTakeCard);
 
@@ -109,28 +146,65 @@ namespace BlackJack.ConsoleApp
 
                 if (key == 1)
                 {
-                    game.OneMoreCardAddingToHumanPlayer();
+                    Game.OneMoreCardAddingToHumanPlayer();
 
-                    RoundProcessPage roundPageForHumanCardsAdding = game.GenerateRoundProcessPage();
+                    roundPageForHumanCardsAdding = Game.GenerateRoundProcessPage();
                     FirstRoundPhaseOutput(roundPageForHumanCardsAdding);
                 }
             }
+
+            Game.GameStageIncrement();
         }
 
-
-
-        static int StartNewGameOrExit()
+        static void SecondRoundPhase(MainGame Game)
         {
-            int key;
+            Game.SecondCardsDistributionToBots();
 
-            Console.Clear();
-            Console.WriteLine(Message.Press1ToStartNewGame);
-            Console.WriteLine(Message.Press0ToExit);
-            key = KeyInput();
-
-            return key;
+            RoundProcessPage roundProcessPage = Game.GenerateRoundProcessPage();
+            SecondRoundPhaseOutput(roundProcessPage);
+            Console.WriteLine(Message.PressAnyKeyToContinue);
+            Console.ReadKey();
+            
+            Game.GameStageIncrement();
         }
 
+        static void EndRoundBetPayment(MainGame Game)
+        {
+            Game.BetPayment();
+
+            RoundProcessPage roundProcessPage = Game.GenerateRoundProcessPage();
+            SecondRoundPhaseOutput(roundProcessPage);
+            Console.WriteLine(Message.PressAnyKeyToContinue);
+            Console.ReadKey();
+
+            if (Game.RemovingBotsWithNullScore())
+            {
+                roundProcessPage = Game.GenerateRoundProcessPage();
+                SecondRoundPhaseOutput(roundProcessPage);
+                Console.WriteLine(Message.PressAnyKeyToContinue);
+                Console.ReadKey();
+            }
+        }
+
+        
+        static int GameEnding(MainGame Game)
+        {
+            int exit;
+
+            RoundStartPage roundStartPage = Game.GenerateRoundStartPage();
+            RoundStartPageOutput(roundStartPage);
+
+            Console.WriteLine(Message.GameOver);
+            Console.WriteLine(Game.GetWinner());
+            Console.WriteLine(Message.PressAnyKeyToContinue);
+            Console.ReadKey();
+
+            Game.GameDelete();
+            exit = StartNewGameOrExit();
+
+            return exit;
+        }
+        
         #endregion
 
         #region Input
@@ -285,7 +359,6 @@ namespace BlackJack.ConsoleApp
 
         static void CardListOutput(List<string> cards, bool OnlyFirstCard = false)
         {
-
             int CardCount = cards.Count;
             if (OnlyFirstCard)
             {
@@ -298,7 +371,7 @@ namespace BlackJack.ConsoleApp
                 Console.Write(cards[i]);
 
                 string coma = ", ";
-                if (i == cards.Count - 1)
+                if (i == CardCount - 1)
                 {
                     coma = "";
                 }
@@ -310,7 +383,18 @@ namespace BlackJack.ConsoleApp
         }
 
         #endregion
+        
 
+        static int StartNewGameOrExit()
+        {
+            int key;
 
+            Console.Clear();
+            Console.WriteLine(Message.Press1ToStartNewGame);
+            Console.WriteLine(Message.Press0ToExit);
+            key = KeyInput();
+
+            return key;
+        }
     }
 }

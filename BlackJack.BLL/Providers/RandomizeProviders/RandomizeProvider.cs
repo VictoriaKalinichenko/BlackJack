@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entity;
 
-namespace BlackJack.BLL.Randomize
+namespace BlackJack.BLL.Providers.RandomizeProviders
 {
-    public class GameRandomize : IRandomize
+    public class RandomizeProvider : IRandomizeProvider
     {
         private Random random = new Random();
 

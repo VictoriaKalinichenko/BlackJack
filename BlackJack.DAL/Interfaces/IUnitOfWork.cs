@@ -10,12 +10,10 @@ namespace BlackJack.DAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        ICardRepository Cards { get; }
-
         IPlayerRepository Players { get; }
 
-        IDeckRepository Decks { get; }
-
         IGameRepository Games { get; }
+
+        IGamePlayerRepository GamePlayers { get; }
     }
 }

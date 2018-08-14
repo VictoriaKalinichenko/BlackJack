@@ -22,10 +22,5 @@ namespace BlackJack.Entity
         public int Bet { get; set; }
 
         public int RoundScore { get; set; }
-
-
-        public virtual List<Card> Cards { get; set; }
-
-        public virtual Game Game { get; set; }
     }
 }

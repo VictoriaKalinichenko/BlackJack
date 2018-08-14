@@ -14,27 +14,16 @@ namespace BlackJack.DAL.Repositories
     public class EFUnitOfWork : IUnitOfWork
     {
         private DataBaseContext db;
-
-        private CardRepository cardRepository;
+        
         private PlayerRepository playerRepository;
-        private DeckRepository deckRepository;
         private GameRepository gameRepository;
+        private GamePlayerRepository gamePlayerRepository;
 
         public EFUnitOfWork()
         {
             db = new DataBaseContext();
         }
 
-
-        public ICardRepository Cards
-        {
-            get
-            {
-                if (cardRepository == null)
-                    cardRepository = new CardRepository(db);
-                return cardRepository;
-            }
-        }
 
         public IPlayerRepository Players
         {
@@ -57,16 +46,16 @@ namespace BlackJack.DAL.Repositories
                 return gameRepository;
             }
         }
-
-        public IDeckRepository Decks
+        
+        public IGamePlayerRepository GamePlayers
         {
             get
             {
-                if (deckRepository == null)
+                if (gamePlayerRepository == null)
                 {
-                    deckRepository = new DeckRepository(db);
+                    gamePlayerRepository = new GamePlayerRepository(db);
                 }
-                return deckRepository;
+                return gamePlayerRepository;
             }
         }
 
@@ -88,9 +77,8 @@ namespace BlackJack.DAL.Repositories
         public void Dispose()
         {
             playerRepository.Dispose();
-            cardRepository.Dispose();
-            deckRepository.Dispose();
             gameRepository.Dispose();
+            gamePlayerRepository.Dispose();
             
             Dispose(true);
             GC.SuppressFinalize(this);

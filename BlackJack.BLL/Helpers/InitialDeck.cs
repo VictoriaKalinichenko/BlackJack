@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
-using BlackJack.DAL.Context;
-using BlackJack.Entity;
 
-namespace BlackJack.DAL.Initializer
+namespace BlackJack.BLL.Helpers
 {
-    public class DbInitializer : DropCreateDatabaseAlways<DataBaseContext>
+    public static class InitialDeck
     {
-        protected override void Seed(DataBaseContext db)
+        public static readonly List<Card> Cards;
+
+        static InitialDeck()
         {
             string[] cardNames = new string[] { "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Dame", "King", "Ace" };
             string[] cardTypes = new string[] { "Spades", "Clubs", "Hearts", "Diamonds" };
 
+            int Count = 0;
             for (int i = 0; i < cardNames.Length; i++)
+            {
                 for (int j = 0; j < cardTypes.Length; j++)
                 {
                     Card card = new Card();
+                    card.Id = ++Count;
                     card.Name = cardNames[i] + " " + cardTypes[j];
                     card.Value = 10;
 
@@ -33,10 +35,9 @@ namespace BlackJack.DAL.Initializer
                         card.Value = i + 2;
                     }
 
-                    db.Cards.Add(card);
+                    Cards.Add(card);
                 }
-
-            db.SaveChanges();
+            }
         }
     }
 }

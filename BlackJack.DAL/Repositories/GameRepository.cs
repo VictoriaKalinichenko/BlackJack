@@ -20,6 +20,12 @@ namespace BlackJack.DAL.Repositories
         }
 
 
+        public IEnumerable<Game> GetAll()
+        {
+            IEnumerable<Game> games;
+            games = db.Games;
+            return games;
+        }
 
         public Game Get(int Id)
         {

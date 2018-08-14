@@ -4,38 +4,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.DAL.Interfaces;
-using BlackJack.DAL.Context;
 using BlackJack.Entity;
+using BlackJack.DAL.Context;
 using System.Data.Entity;
-
 
 namespace BlackJack.DAL.Repositories
 {
-    public class DeckRepository : IDeckRepository
+    public class GamePlayerRepository : IGamePlayerRepository
     {
         private DataBaseContext db;
 
-        public DeckRepository(DataBaseContext context)
+        public GamePlayerRepository(DataBaseContext context)
         {
             db = context;
         }
 
 
-
-        public Deck Get(int Id)
+        public IEnumerable<GamePlayer> GetAll()
         {
-            Deck Deck;
-            Deck = db.Decks.Find(Id);
-            return Deck;
+            IEnumerable<GamePlayer> gamePlayers;
+            gamePlayers = db.GamePlayers;
+            return gamePlayers;
         }
 
-        public void Create(Deck obj)
+        public GamePlayer Get(int Id)
         {
-            db.Decks.Add(obj);
+            GamePlayer gamePlayer;
+            gamePlayer = db.GamePlayers.Find(Id);
+            return gamePlayer;
+        }
+
+        public void Create(GamePlayer obj)
+        {
+            db.GamePlayers.Add(obj);
             db.SaveChanges();
         }
 
-        public void Update(Deck obj)
+        public void Update(GamePlayer obj)
         {
             db.Entry(obj).State = EntityState.Modified;
             db.SaveChanges();
@@ -43,9 +48,9 @@ namespace BlackJack.DAL.Repositories
 
         public void Delete(int Id)
         {
-            Deck Deck = db.Decks.Find(Id);
-            if (Deck != null)
-                db.Decks.Remove(Deck);
+            GamePlayer gamePlayer = db.GamePlayers.Find(Id);
+            if (gamePlayer != null)
+                db.GamePlayers.Remove(gamePlayer);
             db.SaveChanges();
         }
 

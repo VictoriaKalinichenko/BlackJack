@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entity;
-using BlackJack.DataOnView.PageView;
 
-namespace BlackJack.BLL.GameMainClass
+namespace BlackJack.BLL.Providers.ValidationProviders.Bet
 {
-    public interface IMainGame
+    public interface IBetValidationProvider
     {
-        void Start();
+        void Validate(Player player, int bet);
     }
 }

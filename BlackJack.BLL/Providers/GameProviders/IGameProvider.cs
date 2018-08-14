@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entity;
 
-namespace BlackJack.DAL.Interfaces
+namespace BlackJack.BLL.Providers.GameProviders
 {
-    public interface ICardRepository : IDisposable
+    public interface IGameProvider
     {
-        IEnumerable<Card> GetAll();
-
-        Card Get(int Id);
+        Game CreateInDb();
     }
 }

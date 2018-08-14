@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace BlackJack.Entity
 {
-    public class Deck
+    public class GamePlayer
     {
         public int Id { get; set; }
 
-        public virtual List<Card> Cards { get; set; }
+        public int PlayerId { get; set; }
+
+        public int GameId { get; set; }
     }
 }

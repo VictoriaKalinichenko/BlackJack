@@ -9,6 +9,8 @@ namespace BlackJack.DAL.Interfaces
 {
     public interface IGameRepository : IDisposable
     {
+        IEnumerable<Game> GetAll();
+
         Game Get(int Id);
 
         void Create(Game obj);

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entity;
 
-namespace BlackJack.BLL.Randomize
+namespace BlackJack.BLL.Providers.RandomizeProviders
 {
-    public interface IRandomize
+    public interface IRandomizeProvider
     {
         int BetGenerate(int PlayerScore);
 

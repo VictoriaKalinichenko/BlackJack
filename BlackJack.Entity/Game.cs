@@ -11,9 +11,5 @@ namespace BlackJack.Entity
         public int Id { get; set; }
 
         public int Stage { get; set; }
-
-        public virtual Deck Deck { get; set; }
-
-        public virtual List<Player> Players { get; set; }
     }
 }

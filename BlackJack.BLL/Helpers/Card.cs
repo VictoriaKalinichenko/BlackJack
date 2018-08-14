@@ -4,20 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.Entity
+namespace BlackJack.BLL.Helpers
 {
     public class Card
     {
         public int Id { get; set; }
 
-        public int Value { get; set; }
-
         public string Name { get; set; }
-        
 
-
-        public virtual List<Deck> Decks { get; set; }
-
-        public virtual List<Player> Players { get; set; }
+        public int Value { get; set; }
     }
 }

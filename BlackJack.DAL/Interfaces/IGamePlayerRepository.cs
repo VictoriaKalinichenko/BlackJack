@@ -7,13 +7,15 @@ using BlackJack.Entity;
 
 namespace BlackJack.DAL.Interfaces
 {
-    public interface IDeckRepository : IDisposable
+    public interface IGamePlayerRepository
     {
-        Deck Get(int Id);
+        IEnumerable<GamePlayer> GetAll();
 
-        void Create(Deck obj);
+        GamePlayer Get(int Id);
 
-        void Update(Deck obj);
+        void Create(GamePlayer obj);
+
+        void Update(GamePlayer obj);
 
         void Delete(int Id);
     }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.BLL.ViewModels;
+using BlackJack.Entity.Enums;
 
 namespace BlackJack.BLL.Providers.Interfaces
 {
     public interface ICardCheckProvider
     {
-        bool FirstCardCheck(List<PlayerViewModel> players);
+        RoundResult RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger);
 
-
+        bool DealerBjDanger(int firstCardValue);
     }
 }

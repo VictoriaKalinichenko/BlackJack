@@ -9,7 +9,7 @@ using BlackJack.BLL.Providers;
 using BlackJack.BLL.Providers.Interfaces;
 using BlackJack.BLL.Services;
 using BlackJack.BLL.Services.Interfaces;
-using BlackJack.BLL.ViewModels;
+using BlackJack.ViewModels.ViewModels;
 using BlackJack.ConsoleApp.ConsoleInputOutput.ConsoleInputs;
 using BlackJack.ConsoleApp.ConsoleInputOutput.ConsoleOutputs;
 

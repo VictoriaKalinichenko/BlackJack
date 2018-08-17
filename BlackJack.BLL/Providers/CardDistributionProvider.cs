@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using BlackJack.BLL.Helpers;
 using BlackJack.BLL.Services;
 using BlackJack.BLL.Services.Interfaces;
-using BlackJack.BLL.ViewModels;
+using BlackJack.ViewModels.ViewModels;
 using BlackJack.BLL.Providers.Interfaces;
 using BlackJack.Entity.Enums;
 
@@ -20,9 +20,7 @@ namespace BlackJack.BLL.Providers
         {
             GameService = new GameService();
         }
-
-
-
+    
         public List<Card> CreateDeck()
         {
             List<Card> cards;
@@ -31,69 +29,8 @@ namespace BlackJack.BLL.Providers
 
             return cards;
         }
-
         
-
-        public void FirstCardsDistribution(List<PlayerViewModel> players, List<Card> deck)
-        {
-            ShuffleDeck(deck);
-
-            foreach (PlayerViewModel player in players)
-            {
-                AddingCardToPlayer(player, deck);
-                AddingCardToPlayer(player, deck);
-            }
-        }
-
-        public bool OneMoreCardToHuman(PlayerViewModel player, List<Card> deck = null, int takeCardKey = 0)
-        {
-            bool canTakeOneMoreCard = true;
-
-            if (takeCardKey == 1)
-            {
-                AddingCardToPlayer(player, deck);
-            }
-
-            if (player.GameScore.RoundScore >= Value.CardBjScore)
-            {
-                canTakeOneMoreCard = false;
-            }
-
-            return canTakeOneMoreCard;
-        }
-
-
-
-        private void AddingCardToPlayer(PlayerViewModel player, List<Card> deck)
-        {
-            Card card;
-            card = deck.First();
-            deck.Remove(card);
-
-            player.Cards.Add(card);
-            CardScoreCount(player);
-
-            List<int> cardIds = player.Cards.ConvertAll(CardToIntConverter);
-            GameService.UpdatePlayerCards(player.GameScore, cardIds);
-        }
-
-        private void CardScoreCount(PlayerViewModel player)
-        {
-            int count = player.Cards.Sum(m => (int)m.CardName);
-            int AceCount = player.Cards
-                .Where(m => m.CardName == CardName.Ace)
-                .Count();
-
-            for (; AceCount > 0 && count > 21;)
-            {
-                AceCount--;
-                count -= (int)CardName.Ten;
-            }
-
-            player.GameScore.RoundScore = count;
-        }
-
-        private int CardToIntConverter(Card card)
+        public int CardToIntConverter(Card card)
         {
             int id;
 
@@ -101,9 +38,8 @@ namespace BlackJack.BLL.Providers
 
             return id;
         }
-
         
-        private List<Card> ShuffleDeck(List<Card> cards)
+        public List<Card> ShuffleDeck(List<Card> cards)
         {
             List<Card> shuffledCards = cards;
 

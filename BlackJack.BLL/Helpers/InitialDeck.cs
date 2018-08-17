@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entity.Enums;
+using BlackJack.ViewModels.ViewModels;
 
 namespace BlackJack.BLL.Helpers
 {

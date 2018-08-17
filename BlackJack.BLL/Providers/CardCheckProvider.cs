@@ -5,43 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.BLL.Helpers;
 using BlackJack.BLL.Providers.Interfaces;
-using BlackJack.BLL.ViewModels;
+using BlackJack.ViewModels.ViewModels;
 using BlackJack.Entity.Enums;
 
 namespace BlackJack.BLL.Providers
 {
     public class CardCheckProvider : ICardCheckProvider
     {
-        public bool FirstCardCheck(List<PlayerViewModel> players)
-        {
-            bool humanBjAndDealerBjDanger = false;
-
-            PlayerViewModel dealer = players.Where(m => m.Player.IsDealer).First();
-            bool dealerBjDanger = DealerBjDanger((int)dealer.Cards[0].CardName);
-
-            foreach (PlayerViewModel player in players)
-            {
-                if (!player.Player.IsDealer)
-                {
-                    RoundResult roundResult = RoundFirstPhaseResult(player.GameScore.RoundScore, player.Cards.Count, dealerBjDanger);
-                }
-            }
-            
-
-            PlayerViewModel human = players.Where(m => m.Player.IsHuman).First();
-            if (human.RoundResult == RoundResult.IsOneToOne)
-            {
-                human.RoundResult = RoundResult.Continue;
-                humanBjAndDealerBjDanger = true;
-            }
-
-            return humanBjAndDealerBjDanger;
-        }
-        
-        
-
-
-        private RoundResult RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger)
+        public RoundResult RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger)
         {
             RoundResult roundResult = new RoundResult();
             roundResult = RoundResult.Continue;
@@ -60,7 +31,7 @@ namespace BlackJack.BLL.Providers
         }
         
 
-        private bool DealerBjDanger(int firstCardValue)
+        public bool DealerBjDanger(int firstCardValue)
         {
             bool danger = false;
 

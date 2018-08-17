@@ -76,7 +76,6 @@
     <Compile Include="Providers\Interfaces\ICardCheckProvider.cs" />
     <Compile Include="Providers\Interfaces\IMainGameProvider.cs" />
     <Compile Include="Providers\MainGameProvider.cs" />
-    <Compile Include="Helpers\Card.cs" />
     <Compile Include="Helpers\InitialDeck.cs" />
     <Compile Include="Helpers\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

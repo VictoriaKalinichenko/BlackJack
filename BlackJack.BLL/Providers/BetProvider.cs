@@ -24,50 +24,7 @@ namespace BlackJack.BLL.Providers
             GameService = new GameService();
         }
 
-        public void BetCreations(List<PlayerViewModel> players, int bet)
-        {
-            foreach (PlayerViewModel player in players)
-            {
-                if (player.Player.IsHuman)
-                {
-                    player.GameScore.Bet = bet;
-                }
-
-                if (!player.Player.IsDealer && !player.Player.IsHuman)
-                {
-                    player.GameScore.Bet = BetGenerate(player.GameScore.Score);
-                }
-
-                if (!player.Player.IsDealer)
-                {
-                    player.GameScore.Score = player.GameScore.Score - bet;
-                    GameService.UpdatePlayerBetAndScore(player.GameScore);
-                }
-            }
-        }
-
-        public void RoundBetPayments(List<PlayerViewModel> players, int oneToOnePayKey = 0)
-        {
-            PlayerViewModel human = players.Where(m => m.Player.IsHuman).FirstOrDefault();
-            PlayerViewModel dealer = players.Where(m => m.Player.IsDealer).FirstOrDefault();
-
-
-            if (oneToOnePayKey == 1)
-            {
-                BetPayment(human, dealer, Value.BetWinCoefficient);
-                human.RoundResult = RoundResult.Continue;
-            }
-
-            foreach(PlayerViewModel player in players)
-            {
-                if (player.BetCoefficient != Value.BetDefaultCoefficient)
-                {
-                    BetPayment(player, dealer, player.BetCoefficient);
-                }
-            }
-        }
-
-        private float GetBetCoef(RoundResult roundResult)
+        public float GetBetCoef(RoundResult roundResult)
         {
             float coef = Value.BetDefaultCoefficient;
 
@@ -94,19 +51,7 @@ namespace BlackJack.BLL.Providers
             return coef;
         }
 
-        private void BetPayment(PlayerViewModel player, PlayerViewModel dealer, float betCoef)
-        {
-            int pay = (int)(player.GameScore.Bet * betCoef);
-
-            player.GameScore.Score += player.GameScore.Bet + pay;
-            player.GameScore.Bet = Value.BetNull;
-            GameService.UpdatePlayerBetAndScore(player.GameScore);
-
-            dealer.GameScore.Score -= pay;
-            GameService.UpdatePlayerBetAndScore(dealer.GameScore);
-        }
-
-        private int BetGenerate(int PlayerScore)
+        public int BetGenerate(int PlayerScore)
         {
             int bet = 0;
 

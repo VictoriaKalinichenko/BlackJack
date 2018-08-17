@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.BLL.Helpers;
-using BlackJack.BLL.ViewModels;
+using BlackJack.ViewModels.ViewModels;
 
 namespace BlackJack.BLL.Providers.Interfaces
 {
@@ -12,8 +12,8 @@ namespace BlackJack.BLL.Providers.Interfaces
     {
         List<Card> CreateDeck();
 
-        void FirstCardsDistribution(List<PlayerViewModel> players, List<Card> deck);
+        int CardToIntConverter(Card card);
 
-        bool OneMoreCardToHuman(PlayerViewModel player, List<Card> deck = null, int takeCardKey = 0);
+        List<Card> ShuffleDeck(List<Card> cards);
     }
 }

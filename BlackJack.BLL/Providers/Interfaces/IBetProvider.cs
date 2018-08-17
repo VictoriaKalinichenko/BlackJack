@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.Entity;
-using BlackJack.BLL.ViewModels;
+using BlackJack.Entity.Enums;
 
 namespace BlackJack.BLL.Providers.Interfaces
 {
     public interface IBetProvider
     {
-        void BetCreations(List<PlayerViewModel> players, int bet);
+        float GetBetCoef(RoundResult roundResult);
 
-        void RoundBetPayments(List<PlayerViewModel> players, int oneToOnePayKey = 0);
+        int BetGenerate(int PlayerScore);
     }
 }

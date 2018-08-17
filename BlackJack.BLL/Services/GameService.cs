@@ -7,8 +7,11 @@ using BlackJack.Entity;
 using BlackJack.DAL.Interfaces;
 using BlackJack.DAL.Repositories;
 using BlackJack.BLL.Helpers;
-using BlackJack.BLL.ViewModels;
+using BlackJack.BLL.Providers;
+using BlackJack.BLL.Providers.Interfaces;
+using BlackJack.ViewModels.ViewModels;
 using BlackJack.Entity.Models;
+using BlackJack.Entity.Enums;
 using BlackJack.BLL.Services.Interfaces;
 
 
@@ -21,6 +24,10 @@ namespace BlackJack.BLL.Services
         private IGamePlayerRepository GamePlayerRepository;
         private IPlayerCardRepository PlayerCardRepository;
 
+        private IBetProvider BetProvider;
+        private ICardDistributionProvider CardDistributionProvider;
+        private ICardCheckProvider CardCheckProvider;
+
         private int DefaultPlayerScore = 8000;
 
 
@@ -30,6 +37,10 @@ namespace BlackJack.BLL.Services
             GameRepository = new GameRepository();
             PlayerCardRepository = new PlayerCardRepository();
             GamePlayerRepository = new GamePlayerRepository();
+
+            BetProvider = new BetProvider();
+            CardDistributionProvider = new CardDistributionProvider();
+            CardCheckProvider = new CardCheckProvider();
         }
         
 
@@ -92,11 +103,6 @@ namespace BlackJack.BLL.Services
         public void UpdateGameStage(Game game)
         {
             GameRepository.Update(game);
-        }
-
-        public void UpdatePlayerBetAndScore(GamePlayer gamePlayer)
-        {
-            GamePlayerRepository.Update(gamePlayer);
         }
 
         public void UpdatePlayerCards(GamePlayer gamePlayer, List<int> cardIds)
@@ -200,6 +206,152 @@ namespace BlackJack.BLL.Services
 
                 PlayerCardRepository.Create(playerCard);
             }
+        }
+
+        
+
+
+        private void BetPayment(PlayerViewModel player, PlayerViewModel dealer, float betCoef)
+        {
+            int pay = (int)(player.GameScore.Bet * betCoef);
+
+            player.GameScore.Score += player.GameScore.Bet + pay;
+            player.GameScore.Bet = Value.BetNull;
+            GamePlayerRepository.Update(player.GameScore);
+
+            dealer.GameScore.Score -= pay;
+            GamePlayerRepository.Update(dealer.GameScore);
+        }
+        
+        public void BetCreations(List<PlayerViewModel> players, int bet)
+        {
+            foreach (PlayerViewModel player in players)
+            {
+                if (player.Player.IsHuman)
+                {
+                    player.GameScore.Bet = bet;
+                }
+
+                if (!player.Player.IsDealer && !player.Player.IsHuman)
+                {
+                    player.GameScore.Bet = BetProvider.BetGenerate(player.GameScore.Score);
+                }
+
+                if (!player.Player.IsDealer)
+                {
+                    player.GameScore.Score = player.GameScore.Score - bet;
+                    GamePlayerRepository.Update(player.GameScore);
+                }
+            }
+        }
+
+        public void RoundBetPayments(List<PlayerViewModel> players, int oneToOnePayKey = 0)
+        {
+            PlayerViewModel human = players.Where(m => m.Player.IsHuman).FirstOrDefault();
+            PlayerViewModel dealer = players.Where(m => m.Player.IsDealer).FirstOrDefault();
+
+
+            if (oneToOnePayKey == 1)
+            {
+                BetPayment(human, dealer, Value.BetWinCoefficient);
+                human.RoundResult = RoundResult.Continue;
+            }
+
+            foreach (PlayerViewModel player in players)
+            {
+                if (player.BetCoefficient != Value.BetDefaultCoefficient)
+                {
+                    BetPayment(player, dealer, player.BetCoefficient);
+                }
+            }
+        }
+        
+
+
+        public void FirstCardsDistribution(List<PlayerViewModel> players, List<Card> deck)
+        {
+            CardDistributionProvider.ShuffleDeck(deck);
+
+            foreach (PlayerViewModel player in players)
+            {
+                AddingCardToPlayer(player, deck);
+                AddingCardToPlayer(player, deck);
+            }
+        }
+
+        public bool OneMoreCardToHuman(PlayerViewModel player, List<Card> deck = null, int takeCardKey = 0)
+        {
+            bool canTakeOneMoreCard = true;
+
+            if (takeCardKey == 1)
+            {
+                AddingCardToPlayer(player, deck);
+            }
+
+            if (player.GameScore.RoundScore >= Value.CardBjScore)
+            {
+                canTakeOneMoreCard = false;
+            }
+
+            return canTakeOneMoreCard;
+        }
+
+        private void AddingCardToPlayer(PlayerViewModel player, List<Card> deck)
+        {
+            Card card;
+            card = deck.First();
+            deck.Remove(card);
+
+            player.Cards.Add(card);
+            CardScoreCount(player);
+
+            List<int> cardIds = player.Cards.ConvertAll(CardDistributionProvider.CardToIntConverter);
+            UpdatePlayerCards(player.GameScore, cardIds);
+        }
+
+        private void CardScoreCount(PlayerViewModel player)
+        {
+            int count = player.Cards.Sum(m => (int)m.CardName);
+            int AceCount = player.Cards
+                .Where(m => m.CardName == CardName.Ace)
+                .Count();
+
+            for (; AceCount > 0 && count > 21;)
+            {
+                AceCount--;
+                count -= (int)CardName.Ten;
+            }
+
+            player.GameScore.RoundScore = count;
+        }
+
+
+
+
+        public bool FirstCardCheck(List<PlayerViewModel> players)
+        {
+            bool humanBjAndDealerBjDanger = false;
+
+            PlayerViewModel dealer = players.Where(m => m.Player.IsDealer).First();
+            bool dealerBjDanger = CardCheckProvider.DealerBjDanger((int)dealer.Cards[0].CardName);
+
+            foreach (PlayerViewModel player in players)
+            {
+                if (!player.Player.IsDealer)
+                {
+                    RoundResult roundResult = CardCheckProvider.RoundFirstPhaseResult(player.GameScore.RoundScore, player.Cards.Count, dealerBjDanger);
+                }
+            }
+
+
+            PlayerViewModel human = players.Where(m => m.Player.IsHuman).First();
+            if (human.RoundResult == RoundResult.IsOneToOne)
+            {
+                human.RoundResult = RoundResult.Continue;
+                humanBjAndDealerBjDanger = true;
+            }
+
+            return humanBjAndDealerBjDanger;
         }
     }
 }

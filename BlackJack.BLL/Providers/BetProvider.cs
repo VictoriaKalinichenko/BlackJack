@@ -30,12 +30,18 @@ namespace BlackJack.BLL.Providers
             {
                 if (player.Player.IsHuman)
                 {
-                    CreateBet(player, bet);
+                    player.GameScore.Bet = bet;
                 }
 
                 if (!player.Player.IsDealer && !player.Player.IsHuman)
                 {
-                    CreateBet(player, BetGenerate(player.GameScore.Score));
+                    player.GameScore.Bet = BetGenerate(player.GameScore.Score);
+                }
+
+                if (!player.Player.IsDealer)
+                {
+                    player.GameScore.Score = player.GameScore.Score - bet;
+                    GameService.UpdatePlayerBetAndScore(player.GameScore);
                 }
             }
         }
@@ -48,61 +54,49 @@ namespace BlackJack.BLL.Providers
 
             if (oneToOnePayKey == 1)
             {
-                PayOneToOne(human, dealer);
+                BetPayment(human, dealer, Value.BetWinCoefficient);
                 human.RoundResult = RoundResult.Continue;
             }
 
             foreach(PlayerViewModel player in players)
             {
-                BetPayment(player, dealer);
+                if (player.BetCoefficient != Value.BetDefaultCoefficient)
+                {
+                    BetPayment(player, dealer, player.BetCoefficient);
+                }
             }
         }
 
-        private void CreateBet(PlayerViewModel player, int bet)
+        private float GetBetCoef(RoundResult roundResult)
         {
-            player.GameScore.Bet = bet;
-            player.GameScore.Score = player.GameScore.Score - bet;
-            GameService.UpdatePlayerBetAndScore(player.GameScore);
+            float coef = Value.BetDefaultCoefficient;
+
+            if (roundResult == RoundResult.IsBlackJack)
+            {
+                coef = Value.BetBjCoefficient;
+            }
+
+            if (roundResult == RoundResult.IsOneToOne)
+            {
+                coef = Value.BetWinCoefficient;
+            }
+
+            if (roundResult == RoundResult.IsBetLossing)
+            {
+                coef = Value.BetLoseCoefficient;
+            }
+
+            if (roundResult == RoundResult.IsBetReturning)
+            {
+                coef = Value.BetNullCoefficient;
+            }
+
+            return coef;
         }
 
-        private void BetPayment(PlayerViewModel player, PlayerViewModel dealer)
+        private void BetPayment(PlayerViewModel player, PlayerViewModel dealer, float betCoef)
         {
-            if (player.RoundResult == RoundResult.IsBlackJack)
-            {
-                PayBj(player, dealer);
-            }
-
-            if (player.RoundResult == RoundResult.IsOneToOne)
-            {
-                PayOneToOne(player, dealer);
-            }
-
-            if (player.RoundResult == RoundResult.IsBetLossing)
-            {
-                BetLossing(player, dealer);
-            }
-
-            if (player.RoundResult == RoundResult.IsBetReturning)
-            {
-                BetReturning(player);
-            }
-        }
-
-        private void PayBj(PlayerViewModel player, PlayerViewModel dealer)
-        {
-            int pay = (int)(player.GameScore.Bet * Value.BetBjCoefficient);
-
-            player.GameScore.Score += player.GameScore.Bet + pay;
-            player.GameScore.Bet = Value.BetNull;
-            GameService.UpdatePlayerBetAndScore(player.GameScore);
-            
-            dealer.GameScore.Score -= pay;
-            GameService.UpdatePlayerBetAndScore(dealer.GameScore);
-        }
-
-        private void PayOneToOne(PlayerViewModel player, PlayerViewModel dealer)
-        {
-            int pay = (int)(player.GameScore.Bet * Value.BetWinCoefficient);
+            int pay = (int)(player.GameScore.Bet * betCoef);
 
             player.GameScore.Score += player.GameScore.Bet + pay;
             player.GameScore.Bet = Value.BetNull;
@@ -110,22 +104,6 @@ namespace BlackJack.BLL.Providers
 
             dealer.GameScore.Score -= pay;
             GameService.UpdatePlayerBetAndScore(dealer.GameScore);
-        }
-
-        private void BetReturning(PlayerViewModel player)
-        {
-            player.GameScore.Score += player.GameScore.Bet;
-            player.GameScore.Bet = Value.BetNull;
-            GameService.UpdatePlayerBetAndScore(player.GameScore);
-        }
-
-        private void BetLossing(PlayerViewModel player, PlayerViewModel dealer)
-        {
-            dealer.GameScore.Score += player.GameScore.Bet;
-            GameService.UpdatePlayerBetAndScore(dealer.GameScore);
-
-            player.GameScore.Bet = 0;
-            GameService.UpdatePlayerBetAndScore(player.GameScore);
         }
 
         private int BetGenerate(int PlayerScore)

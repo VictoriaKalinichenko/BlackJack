@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.BLL.Helpers;
+//using BlackJack.BLL.Helpers;
 using BlackJack.Entity.Models;
 using BlackJack.Entity.Enums;
 
-namespace BlackJack.BLL.ViewModels
+namespace BlackJack.ViewModels.ViewModels
 {
     public class PlayerViewModel
     {
@@ -15,7 +15,7 @@ namespace BlackJack.BLL.ViewModels
 
         public GamePlayer GameScore { get; set; }
 
-        public List<Card> Cards { get; set; }
+        //public List<Card> Cards { get; set; }
 
         public RoundResult RoundResult { get; set; }
 

@@ -39,12 +39,11 @@
     <Reference Include="BlackJack.DAL">
       <HintPath>..\BlackJack.DAL\bin\Debug\BlackJack.DAL.dll</HintPath>
     </Reference>
-    <Reference Include="BlackJack.DataOnView, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BlackJack.DataOnView\bin\Debug\BlackJack.DataOnView.dll</HintPath>
-    </Reference>
     <Reference Include="BlackJack.Entity">
       <HintPath>..\BlackJack.Entity\bin\Debug\BlackJack.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="BlackJack.ViewModels">
+      <HintPath>..\BlackJack.ViewModels\bin\Debug\BlackJack.ViewModels.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -87,8 +86,6 @@
     <Compile Include="Providers\CardDistributionProvider.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\Interfaces\IGameService.cs" />
-    <Compile Include="ViewModels\GameViewModel.cs" />
-    <Compile Include="ViewModels\PlayerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

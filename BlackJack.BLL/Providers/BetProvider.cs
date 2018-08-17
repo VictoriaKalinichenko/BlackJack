@@ -8,7 +8,7 @@ using BlackJack.Configuration;
 using BlackJack.BLL.Services.Interfaces;
 using BlackJack.BLL.Services;
 using BlackJack.BLL.Providers.Interfaces;
-using BlackJack.BLL.ViewModels;
+using BlackJack.ViewModels.ViewModels;
 using BlackJack.BLL.Helpers;
 using BlackJack.Entity.Enums;
 

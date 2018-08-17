@@ -21,12 +21,10 @@ namespace BlackJack.BLL.Providers
 
             foreach (PlayerViewModel player in players)
             {
-                if (player.Player.IsDealer)
+                if (!player.Player.IsDealer)
                 {
-                    continue;
+                    RoundResult roundResult = RoundFirstPhaseResult(player.GameScore.RoundScore, player.Cards.Count, dealerBjDanger);
                 }
-                
-                RoundResult roundResult = RoundFirstPhaseResult(player.GameScore.RoundScore, player.Cards.Count, dealerBjDanger);
             }
             
 

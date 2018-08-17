@@ -28,18 +28,15 @@ namespace BlackJack.BLL.Providers
         {
             foreach (PlayerViewModel player in players)
             {
-                if (player.Player.IsDealer)
-                {
-                    continue;
-                }
-
                 if (player.Player.IsHuman)
                 {
                     CreateBet(player, bet);
-                    continue;
                 }
 
-                CreateBet(player, BetGenerate(player.GameScore.Score));
+                if (!player.Player.IsDealer && !player.Player.IsHuman)
+                {
+                    CreateBet(player, BetGenerate(player.GameScore.Score));
+                }
             }
         }
 

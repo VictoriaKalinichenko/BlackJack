@@ -50,9 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game.cs" />
-    <Compile Include="GamePlayer.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Enums\CardName.cs" />
+    <Compile Include="Enums\CardType.cs" />
+    <Compile Include="Enums\BotName.cs" />
+    <Compile Include="Enums\RoundResult.cs" />
+    <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\GamePlayer.cs" />
+    <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

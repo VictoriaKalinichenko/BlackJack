@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.BLL.GameMainClass;
+using BlackJack.BLL.Providers.Interfaces;
+using BlackJack.BLL.Providers;
 
 namespace BlackJack.ConsoleApp
 {
     class Program
     {
-        public static MainGame _game;
+        public static IMainGameProvider _game;
 
         static Program()
         {
-            _game = new MainGame();
+            _game = new MainGameProvider();
         }
 
         public static void Main(string[] args)

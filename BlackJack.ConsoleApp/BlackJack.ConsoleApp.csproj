@@ -32,14 +32,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlackJack.BLL">
+    <Reference Include="BlackJack.BLL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\BlackJack.BLL\bin\Debug\BlackJack.BLL.dll</HintPath>
     </Reference>
-    <Reference Include="BlackJack.DAL">
+    <Reference Include="BlackJack.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\BlackJack.DAL\bin\Debug\BlackJack.DAL.dll</HintPath>
     </Reference>
-    <Reference Include="BlackJack.DataOnView">
+    <Reference Include="BlackJack.DataOnView, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\BlackJack.DataOnView\bin\Debug\BlackJack.DataOnView.dll</HintPath>
+    </Reference>
+    <Reference Include="BlackJack.Entity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BlackJack.Entity\bin\Debug\BlackJack.Entity.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -58,6 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleInputOutput\ConsoleInputs\ConsoleInput.cs" />
+    <Compile Include="ConsoleInputOutput\ConsoleInputs\IConsoleInput.cs" />
+    <Compile Include="ConsoleInputOutput\ConsoleOutputs\ConsoleOutput.cs" />
+    <Compile Include="ConsoleInputOutput\ConsoleOutputs\IConsoleOutput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

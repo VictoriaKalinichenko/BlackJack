@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.Entity;
+using BlackJack.Entity.Models;
 
 namespace BlackJack.DAL.Interfaces
 {
@@ -11,12 +11,14 @@ namespace BlackJack.DAL.Interfaces
     {
         IEnumerable<GamePlayer> GetAll();
 
-        GamePlayer Get(int Id);
+        GamePlayer Get(int id);
 
         void Create(GamePlayer obj);
 
         void Update(GamePlayer obj);
 
-        void Delete(int Id);
+        void Delete(int id);
+
+        GamePlayer GetLastObj();
     }
 }

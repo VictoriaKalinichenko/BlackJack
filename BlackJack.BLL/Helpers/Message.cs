@@ -22,7 +22,9 @@ namespace BlackJack.BLL.Helpers
         public static readonly string InvalidAmountOfBots = "Invalid amount of bots";
 
 
-        public static readonly string TryAgain = "Try again";
+        public static readonly string AppClosing = "Application is closing";
+
+        public static readonly string IsNullOrEmpty = "String is null or empty";
 
 
         public static readonly string InputAmountOfBots = "Please, enter amount of bots: ";

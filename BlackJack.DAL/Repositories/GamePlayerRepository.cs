@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.DAL.Interfaces;
-using BlackJack.Entity;
+using BlackJack.Entity.Models;
 using BlackJack.DAL.Context;
 using System.Data.Entity;
 
@@ -12,68 +12,72 @@ namespace BlackJack.DAL.Repositories
 {
     public class GamePlayerRepository : IGamePlayerRepository
     {
-        private DataBaseContext db;
-
-        public GamePlayerRepository(DataBaseContext context)
-        {
-            db = context;
-        }
-
-
         public IEnumerable<GamePlayer> GetAll()
         {
             IEnumerable<GamePlayer> gamePlayers;
-            gamePlayers = db.GamePlayers;
+
+            using (DataBaseContext db = new DataBaseContext())
+            {
+                gamePlayers = db.GamePlayers;
+            }
+
             return gamePlayers;
         }
 
-        public GamePlayer Get(int Id)
+        public GamePlayer Get(int id)
         {
             GamePlayer gamePlayer;
-            gamePlayer = db.GamePlayers.Find(Id);
+
+            using (DataBaseContext db = new DataBaseContext())
+            {
+                gamePlayer = db.GamePlayers.Find(id);
+            }
+
             return gamePlayer;
         }
 
         public void Create(GamePlayer obj)
         {
-            db.GamePlayers.Add(obj);
-            db.SaveChanges();
+            using (DataBaseContext db = new DataBaseContext())
+            {
+                db.GamePlayers.Add(obj);
+                db.SaveChanges();
+            }
         }
 
         public void Update(GamePlayer obj)
         {
-            db.Entry(obj).State = EntityState.Modified;
-            db.SaveChanges();
-        }
-
-        public void Delete(int Id)
-        {
-            GamePlayer gamePlayer = db.GamePlayers.Find(Id);
-            if (gamePlayer != null)
-                db.GamePlayers.Remove(gamePlayer);
-            db.SaveChanges();
-        }
-
-
-
-        private bool disposed = false;
-
-        public virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
+            using (DataBaseContext db = new DataBaseContext())
             {
-                if (disposing)
-                {
-                    db.Dispose();
-                }
-                this.disposed = true;
+                db.Entry(obj).State = EntityState.Modified;
+                db.SaveChanges();
             }
         }
 
-        public void Dispose()
+        public void Delete(int id)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            using (DataBaseContext db = new DataBaseContext())
+            {
+                GamePlayer gamePlayer = db.GamePlayers.Find(id);
+                if (gamePlayer != null)
+                {
+                    db.GamePlayers.Remove(gamePlayer);
+                }
+                db.SaveChanges();
+            }
+        }
+
+
+        public GamePlayer GetLastObj()
+        {
+            using (DataBaseContext db = new DataBaseContext())
+            {
+                GamePlayer gamePlayer;
+
+                gamePlayer = db.GamePlayers.Find(db.GamePlayers.Count());
+
+                return gamePlayer;
+            }
         }
     }
 }

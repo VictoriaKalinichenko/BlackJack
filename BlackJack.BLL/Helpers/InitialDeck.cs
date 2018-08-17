@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlackJack.Entity.Enums;
 
 namespace BlackJack.BLL.Helpers
 {
@@ -12,32 +13,45 @@ namespace BlackJack.BLL.Helpers
 
         static InitialDeck()
         {
-            string[] cardNames = new string[] { "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Dame", "King", "Ace" };
-            string[] cardTypes = new string[] { "Spades", "Clubs", "Hearts", "Diamonds" };
+            Cards = new List<Card>();
 
-            int Count = 0;
-            for (int i = 0; i < cardNames.Length; i++)
+            int cardType = 0;
+            int cardCount = 0;
+
+            CardInitialization(cardType, cardCount);
+        }
+
+        static void CardInitialization(int cardType, int cardCount)
+        {
+            if (cardType >= Value.CardTypeAmount)
             {
-                for (int j = 0; j < cardTypes.Length; j++)
-                {
-                    Card card = new Card();
-                    card.Id = ++Count;
-                    card.Name = cardNames[i] + " " + cardTypes[j];
-                    card.Value = 10;
-
-                    if (i == 12)
-                    {
-                        card.Value = 11;
-                    }
-
-                    if (i < 9)
-                    {
-                        card.Value = i + 2;
-                    }
-
-                    Cards.Add(card);
-                }
+                return;
             }
+
+            Card card; 
+
+            for (int cardName = (int)CardName.Two; cardName <= (int)CardName.Ace; cardName++)
+            {
+                if (cardName == (int)CardName.Ten)
+                {
+                    continue;
+                }
+
+                card = new Card () { Id = cardCount++, CardName = (CardName)cardName, CardType = (CardType)cardType};
+                Cards.Add(card);
+            }
+
+            card = new Card { Id = cardCount++, CardName = CardName.Ten, CardType = (CardType)cardType };
+            Cards.Add(card);
+            card = new Card { Id = cardCount++, CardName = CardName.Jack, CardType = (CardType)cardType };
+            Cards.Add(card);
+            card = new Card { Id = cardCount++, CardName = CardName.Dame, CardType = (CardType)cardType };
+            Cards.Add(card);
+            card = new Card { Id = cardCount++, CardName = CardName.King, CardType = (CardType)cardType };
+            Cards.Add(card);
+
+            cardType++;
+            CardInitialization(cardType, cardCount);
         }
     }
 }

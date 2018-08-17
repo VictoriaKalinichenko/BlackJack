@@ -33,10 +33,6 @@ namespace BlackJack.BLL.Providers
 
             GameInput = new ConsoleInput();
             GameOutput = new ConsoleOutput();
-            
-            BetProvider = new BetProvider();
-            CardDistributionProvider = new CardDistributionProvider();
-            CardCheckProvider = new CardCheckProvider();
         }
 
 

@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.Entity.Models
+namespace BlackJack.Entities.Models
 {
-    public class Player
+    public class Player : EntityBase
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public bool IsDealer { get; set; }
 
         public bool IsHuman { get; set; }
+
+
+        public virtual List<GamePlayer> GamePlayers { get; set; }
     }
 }

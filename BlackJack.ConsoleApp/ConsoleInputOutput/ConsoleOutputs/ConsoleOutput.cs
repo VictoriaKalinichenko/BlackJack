@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.BLL.Helpers;
-using BlackJack.BLL.ViewModels;
+using BlackJack.Entity.Models;
 
 namespace BlackJack.ConsoleApp.ConsoleInputOutput.ConsoleOutputs
 {
@@ -19,12 +19,12 @@ namespace BlackJack.ConsoleApp.ConsoleInputOutput.ConsoleOutputs
             Environment.Exit(0);
         }
 
-        public void RoundStartPageOutput(List<PlayerViewModel> players)
+        public void RoundStartPageOutput(List<GamePlayer> players)
         {
             Console.Clear();
 
-            PlayerViewModel dealer = players.Where(m => m.Player.IsDealer).First();
-            PlayerViewModel human = players.Where(m => m.Player.IsHuman).First();
+            GamePlayer dealer = players.Where(m => m.Player.IsDealer).First();
+            GamePlayer human = players.Where(m => m.Player.IsHuman).First();
             
             PlayerInfoOutput(dealer, "Dealer");
             PlayerInfoOutput(human, "Human");
@@ -84,38 +84,46 @@ namespace BlackJack.ConsoleApp.ConsoleInputOutput.ConsoleOutputs
 
 
 
-        private void PlayerInfoOutput(PlayerViewModel player, string playerType)
+        private void PlayerInfoOutput(GamePlayer player, string playerType)
         {
             Console.WriteLine(player.Player.Name + " (" + playerType + ")");
-            Console.WriteLine("Score: " + player.GameScore.Score);
+            Console.WriteLine("Score: " + player.Score);
             Console.WriteLine();
         }
         
-        private void RoundPlayerInfoOutput (PlayerViewModel player, string playerType)
+        private void RoundPlayerInfoOutput (GamePlayer player, string playerType)
         {
             Console.WriteLine(player.Player.Name + " (" + playerType + ")");
-            Console.WriteLine("Score: " + player.GameScore.Score);
+            Console.WriteLine("Score: " + player.Score);
 
             if (!player.Player.IsDealer)
             {
-                Console.WriteLine("Bet: " + player.GameScore.Bet);
+                Console.WriteLine("Bet: " + player.Bet);
             }
 
-            Console.WriteLine("Card score: " + player.GameScore.RoundScore);
-            CardListOutput(player.Cards);
+            Console.WriteLine("Card score: " + player.RoundScore);
+            CardListOutput(player);
             Console.WriteLine();
         }
 
-        private void RoundFirstPhaseDealerInfoOutput(PlayerViewModel dealer)
+        private void RoundFirstPhaseDealerInfoOutput(GamePlayer dealer)
         {
             Console.WriteLine(dealer.Player.Name + " (Dealer)");
-            Console.WriteLine("Score: " + dealer.GameScore.Score);
+            Console.WriteLine("Score: " + dealer.Score);
             Console.WriteLine("First card: " + dealer.Cards[0].ToString());
             Console.WriteLine();
         }
 
-        private void CardListOutput(List<Card> cards)
+        private void CardListOutput(GamePlayer player)
         {
+            List<string> cards = new List<string>();
+
+            foreach(PlayerCard playerCard in player.PlayerCards)
+            {
+                Card card = InitialDeck.Cards.Where(m => m.Id == playerCard.CardId).First();
+                cards.Add(card.ToString());
+            }
+
             Console.Write("Cards: ");
             for (int i = 0; i < cards.Count; i++)
             {

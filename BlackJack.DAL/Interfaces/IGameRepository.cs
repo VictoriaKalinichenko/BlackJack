@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.Entity.Models;
+using BlackJack.Entities.Models;
 
-namespace BlackJack.DAL.Interfaces
+namespace BlackJack.DataAccess.Interfaces
 {
     public interface IGameRepository
     {
-        IEnumerable<Game> GetAll();
+        List<Game> GetAll();
 
         Game Get(int id);
 
-        void Create(Game obj);
+        Game Create(Game obj);
 
         void Update(Game obj);
 
         void Delete(int id);
-
-        Game GetLastObj();
     }
 }

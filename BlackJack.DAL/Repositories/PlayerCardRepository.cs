@@ -1,73 +1,55 @@
-﻿using BlackJack.DAL.Context;
-using BlackJack.DAL.Interfaces;
-using BlackJack.Entity.Models;
-using System.Collections.Generic;
+﻿using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Collections.Generic;
+using BlackJack.DataAccess.Interfaces;
+using BlackJack.Entities.Models;
+using BlackJack.Configuration;
+using Dapper;
 
-namespace BlackJack.DAL.Repositories
+namespace BlackJack.DataAccess.Repositories
 {
     public class PlayerCardRepository : IPlayerCardRepository 
     {
-        public IEnumerable<PlayerCard> GetAll()
+        public List<PlayerCard> GetByGamePlayerId(int gamePlayerId)
         {
-            IEnumerable<PlayerCard> playerCards;
-
-            using (DataBaseContext db = new DataBaseContext())
+            List<PlayerCard> playerCards = null;
+            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
             {
-                playerCards = db.PlayerCards;
+                string sqlQuery = "SELECT * FROM PlayerCards WHERE GamePlayerId = @gamePlayerId";
+                playerCards = db.Query<PlayerCard>(sqlQuery, new { gamePlayerId }).ToList();
             }
-
             return playerCards;
         }
 
         public PlayerCard Get(int id)
         {
-            PlayerCard playerCard;
-
-            using (DataBaseContext db = new DataBaseContext())
+            PlayerCard playerCard = null;
+            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
             {
-                playerCard = db.PlayerCards.Find(id);
+                playerCard = db.Query<PlayerCard>("SELECT * FROM PlayerCards WHERE Id = @id", new { id }).FirstOrDefault();
             }
-
             return playerCard;
         }
 
-        public void Create(PlayerCard obj)
+        public PlayerCard Create(PlayerCard playerCard)
         {
-            using (DataBaseContext db = new DataBaseContext())
+            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
             {
-                db.PlayerCards.Add(obj);
-                db.SaveChanges();
+                string sqlQuery = "INSERT INTO PlayerCards (GamePlayerId, CardId) VALUES(@GamePlayerId, @CardId); SELECT CAST(SCOPE_IDENTITY() as int)";
+                int playerCardId = db.Query<int>(sqlQuery, playerCard).FirstOrDefault();
+                playerCard.Id = playerCardId;
             }
+            return playerCard;
         }
 
         public void DeleteByGamePlayerId(int gamePlayerId)
         {
-            using (DataBaseContext db = new DataBaseContext())
+            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
             {
-                foreach (PlayerCard playerCard in db.PlayerCards)
-                {
-                    if (playerCard.GamePlayerId == gamePlayerId)
-                    {
-                        Delete(playerCard.Id);
-                    }
-                }
+                var sqlQuery = "DELETE FROM PlayerCards WHERE GamePlayerId = @gamePlayerId";
+                db.Execute(sqlQuery, new { gamePlayerId });
             }
         }
-
-        private void Delete(int id)
-        {
-            using (DataBaseContext db = new DataBaseContext())
-            {
-                PlayerCard playerCard = db.PlayerCards.Find(id);
-                if (playerCard != null)
-                {
-                    db.PlayerCards.Remove(playerCard);
-                }
-                db.SaveChanges();
-            }
-        }
-
-
     }
 }

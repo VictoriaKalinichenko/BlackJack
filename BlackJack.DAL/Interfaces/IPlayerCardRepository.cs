@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.Entity.Models;
+using BlackJack.Entities.Models;
 
-namespace BlackJack.DAL.Interfaces
+namespace BlackJack.DataAccess.Interfaces
 {
     public interface IPlayerCardRepository
     {
-        IEnumerable<PlayerCard> GetAll();
+        List<PlayerCard> GetByGamePlayerId(int gamePlayerId);
 
         PlayerCard Get(int id);
 
-        void Create(PlayerCard obj);
+        PlayerCard Create(PlayerCard obj);
 
         void DeleteByGamePlayerId(int gamePlayerId);
     }

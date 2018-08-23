@@ -1,41 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlackJack.BLL.Helpers;
-using BlackJack.BLL.Providers.Interfaces;
-using BlackJack.ViewModels.ViewModels;
-using BlackJack.Entity.Enums;
+﻿using BlackJack.BusinessLogic.Helpers;
+using BlackJack.BusinessLogic.Interfaces;
 
-namespace BlackJack.BLL.Providers
+namespace BlackJack.BusinessLogic.Providers
 {
     public class CardCheckProvider : ICardCheckProvider
     {
-        public RoundResult RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger)
+        public float RoundFirstPhaseResult(int score, int amountOfCards, int dealerFirstCard)
         {
-            RoundResult roundResult = new RoundResult();
-            roundResult = RoundResult.Continue;
+            float coef = BetValue._betDefaultCoefficient;
+            bool dealerBjDanger = DealerBjDanger(dealerFirstCard);
 
             if (!dealerBjDanger && PlayerBj(score, amountOfCards))
             {
-                roundResult = RoundResult.IsBlackJack;
+                coef = BetValue._betBjCoefficient;
             }
 
             if (dealerBjDanger && PlayerBj(score, amountOfCards))
             {
-                roundResult = RoundResult.IsOneToOne;
+                coef = BetValue._betWinCoefficient;
             }
 
-            return roundResult;
+            return coef;
         }
         
-
-        public bool DealerBjDanger(int firstCardValue)
+        private bool DealerBjDanger(int firstCardValue)
         {
             bool danger = false;
 
-            if (firstCardValue >= Value.CardDealerBjDanger)
+            if (firstCardValue >= CardValue._cardDealerBjDanger)
             {
                 danger = true;
             }
@@ -47,7 +39,7 @@ namespace BlackJack.BLL.Providers
         {
             bool result = false;
 
-            if (score == Value.CardBjScore && amountOfCards == Value.CardBjAmount)
+            if (score == CardValue._cardBjScore && amountOfCards == CardValue._cardBjAmount)
             {
                 result = true;
             }
@@ -59,7 +51,7 @@ namespace BlackJack.BLL.Providers
         {
             bool result = false;
 
-            if (score > Value.CardBjScore)
+            if (score > CardValue._cardBjScore)
             {
                 result = true;
             }

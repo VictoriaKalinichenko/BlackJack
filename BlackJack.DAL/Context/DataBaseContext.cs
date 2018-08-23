@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
-using BlackJack.Entity.Models;
+using BlackJack.Entities.Models;
 using BlackJack.Configuration;
-using BlackJack.DAL.Initializer;
 
-namespace BlackJack.DAL.Context
+namespace BlackJack.DataAccess.Context
 {
     public class DataBaseContext : DbContext
     {
@@ -23,8 +22,25 @@ namespace BlackJack.DAL.Context
 
 
         public DataBaseContext() : base(Config.ConnectionString)
+        { }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DbInitializer());
+            modelBuilder.Entity<GamePlayer>()
+                .HasRequired(s => s.Game)
+                .WithMany(g => g.GamePlayers)
+                .HasForeignKey(f => f.GameId);
+
+            modelBuilder.Entity<GamePlayer>()
+                .HasRequired(s => s.Player)
+                .WithMany(g => g.GamePlayers)
+                .HasForeignKey(f => f.PlayerId);
+
+            modelBuilder.Entity<PlayerCard>()
+                .HasRequired(s => s.GamePlayer)
+                .WithMany(g => g.PlayerCards)
+                .HasForeignKey(f => f.GamePlayerId);
         }
     }
 }

@@ -43,10 +43,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\BotName.cs" />
+    <Compile Include="Enums\CardName.cs" />
+    <Compile Include="Enums\CardType.cs" />
+    <Compile Include="Enums\RoundResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\Card.cs" />
+    <Compile Include="ViewModels\BetInputViewModel.cs" />
+    <Compile Include="ViewModels\GameIdViewModel.cs" />
+    <Compile Include="ViewModels\GamePlayerStartViewModel.cs" />
+    <Compile Include="ViewModels\GamePlayerViewModel.cs" />
+    <Compile Include="ViewModels\GameStartViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\NameAndBotAmountInputViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

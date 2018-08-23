@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlackJack.Entity.Enums;
-using BlackJack.ViewModels.ViewModels;
+﻿using System.Collections.Generic;
+using BlackJack.ViewModels.Enums;
 
-namespace BlackJack.BLL.Helpers
+namespace BlackJack.BusinessLogic.Helpers
 {
     public static class InitialDeck
     {
-        public static readonly List<Card> Cards;
+        public static readonly List<Card> _cards;
 
         static InitialDeck()
         {
-            Cards = new List<Card>();
+            _cards = new List<Card>();
 
             int cardType = 0;
             int cardCount = 0;
@@ -24,7 +19,7 @@ namespace BlackJack.BLL.Helpers
 
         static void CardInitialization(int cardType, int cardCount)
         {
-            if (cardType >= Value.CardTypeAmount)
+            if (cardType >= CardValue._cardTypeAmount)
             {
                 return;
             }
@@ -39,17 +34,17 @@ namespace BlackJack.BLL.Helpers
                 }
 
                 card = new Card () { Id = cardCount++, CardName = (CardName)cardName, CardType = (CardType)cardType};
-                Cards.Add(card);
+                _cards.Add(card);
             }
 
             card = new Card { Id = cardCount++, CardName = CardName.Ten, CardType = (CardType)cardType };
-            Cards.Add(card);
+            _cards.Add(card);
             card = new Card { Id = cardCount++, CardName = CardName.Jack, CardType = (CardType)cardType };
-            Cards.Add(card);
+            _cards.Add(card);
             card = new Card { Id = cardCount++, CardName = CardName.Dame, CardType = (CardType)cardType };
-            Cards.Add(card);
+            _cards.Add(card);
             card = new Card { Id = cardCount++, CardName = CardName.King, CardType = (CardType)cardType };
-            Cards.Add(card);
+            _cards.Add(card);
 
             cardType++;
             CardInitialization(cardType, cardCount);

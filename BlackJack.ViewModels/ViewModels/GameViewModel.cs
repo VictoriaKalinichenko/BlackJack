@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.Entity.Models;
 
 namespace BlackJack.ViewModels.ViewModels
 {
     public class GameViewModel
     {
-        public Game Game { get; set; }
+        public int Id { get; set; }
 
-        public List<PlayerViewModel> Players { get; set; } 
+        public GamePlayerViewModel Dealer { get; set; }
+
+        public GamePlayerViewModel Human { get; set; }
+
+        public List<GamePlayerViewModel> Bots { get; set; }
     }
 }

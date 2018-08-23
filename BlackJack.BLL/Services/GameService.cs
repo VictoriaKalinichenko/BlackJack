@@ -1,356 +1,277 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlackJack.DAL.Interfaces;
-using BlackJack.DAL.Repositories;
-using BlackJack.BLL.Helpers;
-using BlackJack.BLL.Providers;
-using BlackJack.BLL.Providers.Interfaces;
+using BlackJack.BusinessLogic.Helpers;
+using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Providers;
+using BlackJack.DataAccess.Interfaces;
+using BlackJack.DataAccess.Repositories;
+using BlackJack.Entities.Models;
 using BlackJack.ViewModels.ViewModels;
-using BlackJack.Entity.Models;
-using BlackJack.Entity.Enums;
-using BlackJack.BLL.Services.Interfaces;
 
 
-namespace BlackJack.BLL.Services
+namespace BlackJack.BusinessLogic.Services
 {
     public class GameService : IGameService
     {
-        private IGameRepository GameRepository;
-        private IPlayerRepository PlayerRepository;
-        private IGamePlayerRepository GamePlayerRepository;
-        private IPlayerCardRepository PlayerCardRepository;
+        private readonly IGameRepository _gameRepository;
+        private readonly IPlayerRepository _playerRepository;
+        private readonly IGamePlayerRepository _gamePlayerRepository;
+        private readonly IPlayerCardRepository _playerCardRepository;
 
-        private IBetProvider BetProvider;
-        private ICardDistributionProvider CardDistributionProvider;
-        private ICardCheckProvider CardCheckProvider;
-
-        private int DefaultPlayerScore = 8000;
-
-
+        private readonly IGamePlayerProvider _gamePlayerProvider;
+        private readonly IPlayerCardProvider _playerCardProvider;
+        private readonly ICardCheckProvider _cardCheckProvider;
+        
         public GameService()
         {
-            PlayerRepository = new PlayerRepository();
-            GameRepository = new GameRepository();
-            PlayerCardRepository = new PlayerCardRepository();
-            GamePlayerRepository = new GamePlayerRepository();
+            _playerRepository = new PlayerRepository();
+            _gameRepository = new GameRepository();
+            _gamePlayerRepository = new GamePlayerRepository();
+            _playerCardRepository = new PlayerCardRepository();
 
-            BetProvider = new BetProvider();
-            CardDistributionProvider = new CardDistributionProvider();
-            CardCheckProvider = new CardCheckProvider();
+            _gamePlayerProvider = new GamePlayerProvider();
+            _playerCardProvider = new PlayerCardProvider();
+            _cardCheckProvider = new CardCheckProvider();
         }
         
-
-        public string PlayerNameValidation(string name)
+        public int BetsCreation(BetInputViewModel betInputViewModel)
         {
-            string result = "";
+            int gameId;
 
-            if (PlayerRepository.SelectByName(name) != null)
-            {
-                result = Message.NameAlreadyExist;
-            }
+            Game game = _gameRepository.Get(betInputViewModel.Game.Id);
+            List<GamePlayer> gamePlayers = _gamePlayerRepository.GetByGameId(game.Id);
+            gamePlayers = _gamePlayerProvider.BetsCreation(gamePlayers, betInputViewModel.HumanBet);
 
-            if (String.IsNullOrEmpty(name))
-            {
-                result = Message.IsNullOrEmpty;
-            }
+            game.Stage++;
+            _gameRepository.Update(game);
 
-            return result;
-        }
-        
-        public void DeletePlayer(int playerId)
-        {
-            List<GamePlayer> gamePlayers = GamePlayerRepository.GetAll()
-                .Where(m => m.PlayerId == playerId)
-                .ToList();
+            gameId = game.Id;
 
-            foreach(GamePlayer gamePlayer in gamePlayers)
-            {
-                DeleteGame(gamePlayer.GameId);
-            }
+            return gameId;
         }
 
-
-        public GameViewModel CreateGame(string name, int amountOfBots)
+        public GameViewModel RoundFirstPhase(int gameId)
         {
             GameViewModel gameViewModel = new GameViewModel();
 
-            Game game = new Game();
-            Game lastGame = GameRepository.GetLastObj();
-            game.Id = 1;
-            if (lastGame != null)
-            {
-                game.Id = lastGame.Id + 1;
-            }
-            GameRepository.Create(game);
-            gameViewModel.Game = game;
+            Game game = _gameRepository.Get(gameId);
+            List<GamePlayer> gamePlayers = _gamePlayerRepository.GetWithPlayersByGameId(gameId);
+            List<int> deck = CreateDeck();
+            FirstCardsDistribution(gamePlayers, deck);
+            FirstCardCheck(gamePlayers);
 
-            gameViewModel.Players = new List<PlayerViewModel>();
-            List<Player> players = CreatePlayerList(name, amountOfBots);
+            game.Stage++;
+            _gameRepository.Update(game);
 
-            foreach(Player player in players)
-            {
-                PlayerViewModel playerViewModel = CreatePlayerViewModel(player, game.Id);
-                gameViewModel.Players.Add(playerViewModel);
-            }
+            gameViewModel = GenerateFirstPhaseGameViewModel(game.Id);
 
             return gameViewModel;
         }
 
-        public void UpdateGameStage(Game game)
+        public GameStartViewModel GenerateGameStartViewModel(int gameId)
         {
-            GameRepository.Update(game);
-        }
+            GameStartViewModel gameStartViewModel = new GameStartViewModel();
+            gameStartViewModel.Bots = new List<GamePlayerStartViewModel>();
+            
+            gameStartViewModel.Id = gameId;
 
-        public void UpdatePlayerCards(GamePlayer gamePlayer, List<int> cardIds)
-        {
-            GamePlayerRepository.Update(gamePlayer);
+            List<GamePlayer> gamePlayers = _gamePlayerRepository.GetByGameId(gameId);
 
-            PlayerCardRepository.DeleteByGamePlayerId(gamePlayer.Id);
-            CreatePlayerCards(gamePlayer.Id, cardIds);
-        }
-    
-        public void DeleteGame(int gameId)
-        {
-            List<GamePlayer> gamePlayers = GamePlayerRepository.GetAll()
-                .Where(m => m.GameId == gameId)
-                .ToList();
-
-            foreach(GamePlayer gamePlayer in gamePlayers)
+            foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                PlayerCardRepository.DeleteByGamePlayerId(gamePlayer.Id);
-                GamePlayerRepository.Delete(gamePlayer.Id);
-            }
+                PlayerViewModel playerViewModel = new PlayerViewModel();
+                Player player = _gamePlayerRepository.GetPlayerByGamePlayerId(gamePlayer.Id);
 
-            GameRepository.Delete(gameId);
-        }
+                playerViewModel.Id = player.Id;
+                playerViewModel.Name = player.Name;
 
-        
-
-        private Player CreatePlayer(string name)
-        {
-            Player player = new Player();
-
-            Player lastPlayer = PlayerRepository.GetLastObj();
-            player.Id = 1;
-            if (lastPlayer != null)
-            {
-                player.Id = lastPlayer.Id + 1;
-            }
-            player.Name = name;
-            player.IsHuman = true;
-
-            PlayerRepository.Create(player);
-
-            return player;
-        }
-
-        private List<Player> CreatePlayerList(string name, int amountOfBots)
-        {
-            List<Player> players = new List<Player>();
-
-            Player dealer = PlayerRepository.GetDealer();
-            players.Add(dealer);
-            List<Player> bots = PlayerRepository.GetBots(amountOfBots);
-            players.AddRange(bots);
-
-            Player human = PlayerRepository.SelectByName(name);
-            if (human == null)
-            {
-                human = CreatePlayer(name);
-            }
-            players.Add(human);
-
-            return players;
-        }
-
-        private PlayerViewModel CreatePlayerViewModel(Player player, int gameId)
-        {
-            PlayerViewModel playerViewModel = new PlayerViewModel();
-
-            playerViewModel.Player = player;
-            playerViewModel.GameScore = CreateGamePlayer(gameId, player.Id);
-            playerViewModel.Cards = new List<Card>();
-
-            return playerViewModel;
-        }
-
-        private GamePlayer CreateGamePlayer(int gameId, int playerId)
-        {
-            GamePlayer gamePlayer = new GamePlayer();
-
-            GamePlayer lastGamePlayer = GamePlayerRepository.GetLastObj();
-            gamePlayer.Id = 1;
-            if (lastGamePlayer != null)
-            {
-                gamePlayer.Id = lastGamePlayer.Id + 1;
-            }
-            gamePlayer.PlayerId = playerId;
-            gamePlayer.GameId = gameId;
-            gamePlayer.Score = DefaultPlayerScore;
-            GamePlayerRepository.Create(gamePlayer);
-
-            return gamePlayer;
-        }
-
-        private void CreatePlayerCards(int gamePlayerId, List<int> cardIds)
-        {
-            foreach(int cardId in cardIds)
-            {
-                PlayerCard playerCard = new PlayerCard();
-                playerCard.CardId = cardId;
-                playerCard.GamePlayerId = gamePlayerId;
-
-                PlayerCardRepository.Create(playerCard);
-            }
-        }
-
-        
-
-
-        private void BetPayment(PlayerViewModel player, PlayerViewModel dealer, float betCoef)
-        {
-            int pay = (int)(player.GameScore.Bet * betCoef);
-
-            player.GameScore.Score += player.GameScore.Bet + pay;
-            player.GameScore.Bet = Value.BetNull;
-            GamePlayerRepository.Update(player.GameScore);
-
-            dealer.GameScore.Score -= pay;
-            GamePlayerRepository.Update(dealer.GameScore);
-        }
-        
-        public void BetCreations(List<PlayerViewModel> players, int bet)
-        {
-            foreach (PlayerViewModel player in players)
-            {
-                if (player.Player.IsHuman)
+                if (player.IsDealer)
                 {
-                    player.GameScore.Bet = bet;
+                    playerViewModel.PlayerType = PlayerType._dealer;
+                    gameStartViewModel.Dealer = new GamePlayerStartViewModel();
+                    gameStartViewModel.Dealer.Player = playerViewModel;
+                    gameStartViewModel.Dealer.Score = gamePlayer.Score;
                 }
 
-                if (!player.Player.IsDealer && !player.Player.IsHuman)
+                if (player.IsHuman)
                 {
-                    player.GameScore.Bet = BetProvider.BetGenerate(player.GameScore.Score);
+                    playerViewModel.PlayerType = PlayerType._human;
+                    gameStartViewModel.Human = new GamePlayerStartViewModel();
+                    gameStartViewModel.Human.Player = playerViewModel;
+                    gameStartViewModel.Human.Score = gamePlayer.Score;
                 }
 
-                if (!player.Player.IsDealer)
+                if (!player.IsHuman && !player.IsDealer)
                 {
-                    player.GameScore.Score = player.GameScore.Score - bet;
-                    GamePlayerRepository.Update(player.GameScore);
+                    playerViewModel.PlayerType = PlayerType._bot;
+                    gameStartViewModel.Bots.Add(new GamePlayerStartViewModel() { Player = playerViewModel, Score = gamePlayer.Score });
                 }
             }
+
+            return gameStartViewModel;
         }
 
-        public void RoundBetPayments(List<PlayerViewModel> players, int oneToOnePayKey = 0)
+        public GameViewModel GenerateFirstPhaseGameViewModel(int gameId)
         {
-            PlayerViewModel human = players.Where(m => m.Player.IsHuman).FirstOrDefault();
-            PlayerViewModel dealer = players.Where(m => m.Player.IsDealer).FirstOrDefault();
+            GameViewModel gameViewModel = new GameViewModel();
+            
+            gameViewModel.Id = gameId;
+            List<GamePlayer> gamePlayers = _gamePlayerRepository.GetByGameId(gameId);
 
-
-            if (oneToOnePayKey == 1)
+            foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                BetPayment(human, dealer, Value.BetWinCoefficient);
-                human.RoundResult = RoundResult.Continue;
-            }
+                GamePlayerViewModel gamePlayerViewModel = new GamePlayerViewModel { Score = gamePlayer.Score };
+                Player player = _gamePlayerRepository.GetPlayerByGamePlayerId(gamePlayer.Id);
+                PlayerViewModel playerViewModel = new PlayerViewModel() { Id = player.Id, Name = player.Name };
+                List<PlayerCard> playerCards = _playerCardRepository.GetByGamePlayerId(gamePlayer.Id);
 
-            foreach (PlayerViewModel player in players)
-            {
-                if (player.BetCoefficient != Value.BetDefaultCoefficient)
+                if (player.IsDealer)
                 {
-                    BetPayment(player, dealer, player.BetCoefficient);
+                    playerViewModel.PlayerType = PlayerType._dealer;
+                    gamePlayerViewModel.Player = playerViewModel;
+                    gamePlayerViewModel.Cards.Add(_playerCardProvider.PlayerCardToCardString(playerCards[0]));
+
+                    gameViewModel.Dealer = gamePlayerViewModel;
+                }
+
+                if (!player.IsDealer)
+                {
+                    gamePlayerViewModel.CardScore = gamePlayer.RoundScore;
+                    gamePlayerViewModel.Bet = gamePlayer.Bet;
+                    gamePlayerViewModel.Cards = _playerCardProvider.GetCardsStringList(playerCards);
+                }
+
+                if (player.IsHuman)
+                {
+                    playerViewModel.PlayerType = PlayerType._human;
+                    gamePlayerViewModel.Player = playerViewModel;
+
+                    gameViewModel.Human = gamePlayerViewModel;
+                }
+
+                if (!player.IsHuman && !player.IsDealer)
+                {
+                    playerViewModel.PlayerType = PlayerType._bot;
+                    gamePlayerViewModel.Player = playerViewModel;
+
+                    gameViewModel.Bots.Add(gamePlayerViewModel);
                 }
             }
+
+            return gameViewModel;
         }
         
-
-
-        public void FirstCardsDistribution(List<PlayerViewModel> players, List<Card> deck)
-        {
-            CardDistributionProvider.ShuffleDeck(deck);
-
-            foreach (PlayerViewModel player in players)
-            {
-                AddingCardToPlayer(player, deck);
-                AddingCardToPlayer(player, deck);
-            }
-        }
-
-        public bool OneMoreCardToHuman(PlayerViewModel player, List<Card> deck = null, int takeCardKey = 0)
-        {
-            bool canTakeOneMoreCard = true;
-
-            if (takeCardKey == 1)
-            {
-                AddingCardToPlayer(player, deck);
-            }
-
-            if (player.GameScore.RoundScore >= Value.CardBjScore)
-            {
-                canTakeOneMoreCard = false;
-            }
-
-            return canTakeOneMoreCard;
-        }
-
-        private void AddingCardToPlayer(PlayerViewModel player, List<Card> deck)
-        {
-            Card card;
-            card = deck.First();
-            deck.Remove(card);
-
-            player.Cards.Add(card);
-            CardScoreCount(player);
-
-            List<int> cardIds = player.Cards.ConvertAll(CardDistributionProvider.CardToIntConverter);
-            UpdatePlayerCards(player.GameScore, cardIds);
-        }
-
-        private void CardScoreCount(PlayerViewModel player)
-        {
-            int count = player.Cards.Sum(m => (int)m.CardName);
-            int AceCount = player.Cards
-                .Where(m => m.CardName == CardName.Ace)
-                .Count();
-
-            for (; AceCount > 0 && count > 21;)
-            {
-                AceCount--;
-                count -= (int)CardName.Ten;
-            }
-
-            player.GameScore.RoundScore = count;
-        }
-
-
-
-
-        public bool FirstCardCheck(List<PlayerViewModel> players)
+        private bool FirstCardCheck(List<GamePlayer> players)
         {
             bool humanBjAndDealerBjDanger = false;
 
-            PlayerViewModel dealer = players.Where(m => m.Player.IsDealer).First();
-            bool dealerBjDanger = CardCheckProvider.DealerBjDanger((int)dealer.Cards[0].CardName);
+            GamePlayer dealer = players.Where(m => m.Player.IsDealer).First();
+            Card dealerFirstCard = InitialDeck._cards.Where(m => m.Id == dealer.PlayerCards[0].CardId).First();
 
-            foreach (PlayerViewModel player in players)
+            foreach (GamePlayer player in players)
             {
                 if (!player.Player.IsDealer)
                 {
-                    RoundResult roundResult = CardCheckProvider.RoundFirstPhaseResult(player.GameScore.RoundScore, player.Cards.Count, dealerBjDanger);
+                    player.BetPayCoefficient = _cardCheckProvider.RoundFirstPhaseResult(player.RoundScore, player.PlayerCards.Count, (int)dealerFirstCard.CardName);
+                    _gamePlayerRepository.Update(player);
                 }
             }
 
-
-            PlayerViewModel human = players.Where(m => m.Player.IsHuman).First();
-            if (human.RoundResult == RoundResult.IsOneToOne)
+            GamePlayer human = players.Where(m => m.Player.IsHuman).First();
+            if (human.BetPayCoefficient == BetValue._betWinCoefficient)
             {
-                human.RoundResult = RoundResult.Continue;
                 humanBjAndDealerBjDanger = true;
             }
 
             return humanBjAndDealerBjDanger;
+        }
+
+        private void FirstCardsDistribution(List<GamePlayer> players, List<int> deck)
+        {
+            foreach (GamePlayer gamePlayer in players)
+            {
+                AddingCardToPlayer(gamePlayer, deck);
+                AddingCardToPlayer(gamePlayer, deck);
+            }
+        }
+                
+        private void AddingCardToPlayer(GamePlayer gamePlayer, List<int> deck)
+        {
+            _playerCardProvider.AddingCardToPlayer(gamePlayer.Id, deck);
+            List<PlayerCard> playerCards = _playerCardRepository.GetByGamePlayerId(gamePlayer.Id);
+            gamePlayer.RoundScore = _playerCardProvider.CardScoreCount(playerCards);
+            
+            _gamePlayerRepository.Update(gamePlayer);
+        }
+        
+        private List<int> CreateDeck()
+        {
+            List<int> deck;
+            deck = InitialDeck._cards.ConvertAll(CardToIntConverter);
+            deck = ShuffleDeck(deck);
+
+            return deck;
+        }
+
+        private List<int> ResumeDeck(List<GamePlayer> gamePlayers)
+        {
+            List<int> deck;
+
+            deck = InitialDeck._cards.ConvertAll(CardToIntConverter);
+            foreach (GamePlayer gamePlayer in gamePlayers)
+            {
+                List<PlayerCard> playerCards = _playerCardRepository.GetByGamePlayerId(gamePlayer.Id);
+                deck = RemoveCardsOnHands(playerCards, deck);
+            }
+
+            deck = ShuffleDeck(deck);
+
+            return deck;
+        }
+
+        private int CardToIntConverter(Card card)
+        {
+            int id;
+            id = card.Id;
+            return id;
+        }
+
+        private List<int> ShuffleDeck(List<int> cards)
+        {
+            List<int> shuffledCards = cards;
+
+            Random random = new Random();
+            int card1;
+            int card2;
+            int glass;
+
+            for (int i = 0; i < shuffledCards.Count; i++)
+            {
+                card1 = random.Next(shuffledCards.Count);
+                card2 = random.Next(shuffledCards.Count);
+
+                glass = shuffledCards[card1];
+                shuffledCards[card1] = shuffledCards[card2];
+                shuffledCards[card2] = glass;
+            }
+
+            return shuffledCards;
+        }
+
+        private List<int> RemoveCardsOnHands(List<PlayerCard> playerCards, List<int> cards)
+        {
+            List<int> returnCards = cards;
+
+            foreach (PlayerCard playerCard in playerCards)
+            {
+                if (returnCards.Contains(playerCard.CardId))
+                {
+                    returnCards.Remove(playerCard.CardId);
+                }
+            }
+
+            return returnCards;
         }
     }
 }

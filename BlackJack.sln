@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Entity", "BlackJack.Entity\BlackJack.Entity.csproj", "{192BFD2F-03F1-4D1F-985D-29C9B071DBB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Entities", "BlackJack.Entity\BlackJack.Entities.csproj", "{192BFD2F-03F1-4D1F-985D-29C9B071DBB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.DAL", "BlackJack.DAL\BlackJack.DAL.csproj", "{9BCA9946-A6CA-45F8-8CAE-D4748B78131A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.DataAccess", "BlackJack.DAL\BlackJack.DataAccess.csproj", "{9BCA9946-A6CA-45F8-8CAE-D4748B78131A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.BLL", "BlackJack.BLL\BlackJack.BLL.csproj", "{0424383B-BC97-43E2-BA28-2B9E04202C37}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.ConsoleApp", "BlackJack.ConsoleApp\BlackJack.ConsoleApp.csproj", "{35A3F0E0-9CA9-4899-8E99-895FF7F278E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.BusinessLogic", "BlackJack.BLL\BlackJack.BusinessLogic.csproj", "{0424383B-BC97-43E2-BA28-2B9E04202C37}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Configuration", "BlackJack.Configuration\BlackJack.Configuration.csproj", "{714BA634-E5F1-4890-8F8C-94DE11638195}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.ViewModels", "BlackJack.ViewModels\BlackJack.ViewModels.csproj", "{DE27A5E9-F395-48F8-8FD8-C5057832A7E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.UI", "BlackJack.UI\BlackJack.UI.csproj", "{62F71F17-D27D-48E8-B24A-A3D9E8A3EFEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{0424383B-BC97-43E2-BA28-2B9E04202C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0424383B-BC97-43E2-BA28-2B9E04202C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0424383B-BC97-43E2-BA28-2B9E04202C37}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35A3F0E0-9CA9-4899-8E99-895FF7F278E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35A3F0E0-9CA9-4899-8E99-895FF7F278E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35A3F0E0-9CA9-4899-8E99-895FF7F278E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35A3F0E0-9CA9-4899-8E99-895FF7F278E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{714BA634-E5F1-4890-8F8C-94DE11638195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{714BA634-E5F1-4890-8F8C-94DE11638195}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{714BA634-E5F1-4890-8F8C-94DE11638195}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{DE27A5E9-F395-48F8-8FD8-C5057832A7E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE27A5E9-F395-48F8-8FD8-C5057832A7E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE27A5E9-F395-48F8-8FD8-C5057832A7E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62F71F17-D27D-48E8-B24A-A3D9E8A3EFEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62F71F17-D27D-48E8-B24A-A3D9E8A3EFEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62F71F17-D27D-48E8-B24A-A3D9E8A3EFEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62F71F17-D27D-48E8-B24A-A3D9E8A3EFEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

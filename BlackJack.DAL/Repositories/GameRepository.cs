@@ -3,79 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.DAL.Interfaces;
-using BlackJack.DAL.Context;
-using BlackJack.Entity.Models;
-using System.Data.Entity;
+using System.Data;
+using System.Data.SqlClient;
+using BlackJack.DataAccess.Interfaces;
+using BlackJack.Entities.Models;
+using BlackJack.Configuration;
+using Dapper;
 
-namespace BlackJack.DAL.Repositories
+namespace BlackJack.DataAccess.Repositories
 {
     public class GameRepository : IGameRepository
     {
-        public IEnumerable<Game> GetAll()
+        public List<Game> GetAll()
         {
-            IEnumerable<Game> games;
-
-            using (DataBaseContext db = new DataBaseContext())
+            List<Game> games = null;
+            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
             {
-                games = db.Games;
+                games = db.Query<Game>("SELECT * FROM Games").ToList();
             }
-
             return games;
         }
 
         public Game Get(int id)
         {
-            Game Game;
-
-            using (DataBaseContext db = new DataBaseContext())
+            Game game = null;
+            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
             {
-                Game = db.Games.Find(id);
+                game = db.Query<Game>("SELECT * FROM Games WHERE Id = @id", new { id }).FirstOrDefault();
             }
-
-            return Game;
+            return game;
         }
 
-        public void Create(Game obj)
+        public Game Create(Game game)
         {
-            using (DataBaseContext db = new DataBaseContext())
+            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
             {
-                db.Games.Add(obj);
-                db.SaveChanges();
+                string sqlQuery = "INSERT INTO Games (Stage) VALUES(@Stage); SELECT CAST(SCOPE_IDENTITY() as int)";
+                int gameId = db.Query<int>(sqlQuery, game).FirstOrDefault();
+                game.Id = gameId;
             }
+            return game;
         }
 
-        public void Update(Game obj)
+        public void Update(Game game)
         {
-            using (DataBaseContext db = new DataBaseContext())
+            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
             {
-                db.Entry(obj).State = EntityState.Modified;
-                db.SaveChanges();
+                var sqlQuery = "UPDATE Games SET Stage = @Stage WHERE Id = @Id";
+                db.Execute(sqlQuery, game);
             }
         }
 
         public void Delete(int id)
         {
-            using (DataBaseContext db = new DataBaseContext())
+            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
             {
-                Game Game = db.Games.Find(id);
-                if (Game != null)
-                {
-                    db.Games.Remove(Game);
-                }
-                db.SaveChanges();
-            }
-        }
-
-        public Game GetLastObj()
-        {
-            using (DataBaseContext db = new DataBaseContext())
-            {
-                Game game;
-
-                game = db.Games.Find(db.Games.Count());
-
-                return game;
+                var sqlQuery = "DELETE FROM Games WHERE Id = @id";
+                db.Execute(sqlQuery, new { id });
             }
         }
     }

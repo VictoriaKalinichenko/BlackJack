@@ -9,12 +9,12 @@ namespace BlackJack.DataAccess.Interfaces
 {
     public interface IPlayerCardRepository
     {
-        List<PlayerCard> GetByGamePlayerId(int gamePlayerId);
+        Task<IEnumerable<PlayerCard>> GetByGamePlayerId(int gamePlayerId);
 
-        PlayerCard Get(int id);
+        Task<PlayerCard> Get(int id);
 
-        PlayerCard Create(PlayerCard obj);
+        Task<PlayerCard> Create(PlayerCard obj);
 
-        void DeleteByGamePlayerId(int gamePlayerId);
+        Task DeleteByGamePlayerId(int gamePlayerId);
     }
 }

@@ -2,10 +2,11 @@
 {
     public static class CardValue
     {
-        public static readonly int _cardAmount = 52;
-        public static readonly int _cardTypeAmount = 4;
-        public static readonly int _cardDealerBjDanger = 10;
-        public static readonly int _cardBjAmount = 2;
-        public static readonly int _cardBjScore = 21;
+        public static readonly int CardAmount = 52;
+        public static readonly int CardTypeAmount = 4;
+        public static readonly int CardDealerBjDanger = 10;
+        public static readonly int CardBjAmount = 2;
+        public static readonly int CardBjScore = 21;
+        public static readonly int CardBotEnoughScore = 21;
     }
 }

@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using BlackJack.BusinessLogic.Services;
+using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.ViewModels.ViewModels;
+using NLog;
 
 namespace BlackJack.UI.Controllers
 {
     public class StartGameController : Controller
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IStartGameService _startGameService;
 
 
-        public StartGameController ()
+        public StartGameController (IStartGameService startGameService)
         {
-            _startGameService = new StartGameService();
+            _startGameService = startGameService;
         }
         
         public ActionResult Index()
@@ -26,23 +25,41 @@ namespace BlackJack.UI.Controllers
         
         public ActionResult StartGame()
         {
-            NameAndBotAmountInputViewModel startInputViewModel = new NameAndBotAmountInputViewModel();
-            return View(startInputViewModel);
+            try
+            {
+                NameAndBotAmountInputViewModel startInputViewModel = new NameAndBotAmountInputViewModel();
+                return View(startInputViewModel);
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                return null;
+            }
         }
         [HttpPost]
-        public ActionResult StartGame(NameAndBotAmountInputViewModel startInputViewModel)
+        public async Task<ActionResult> StartGame(NameAndBotAmountInputViewModel startInputViewModel)
         {
-            string validationString = _startGameService.PlayerNameValidation(startInputViewModel.HumanName);
-
-            if (String.IsNullOrEmpty(validationString))
+            try
             {
-                int gameId = _startGameService.CreateGame(startInputViewModel);
-                return RedirectToAction("RoundStart", "Game", new { gameId = gameId });
+                string validationString = await _startGameService.PlayerNameValidation(startInputViewModel.HumanName);
+
+                if (String.IsNullOrEmpty(validationString))
+                {
+                    int gameId = await _startGameService.CreateGame(startInputViewModel);
+                    return RedirectToAction("RoundStart", "Game", new { gameId = gameId });
+                }
+
+                ModelState.AddModelError("HumanName", validationString);
+
+                return View(startInputViewModel);
             }
-
-            ModelState.AddModelError("HumanName", validationString);
-
-            return View(startInputViewModel);
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                return null;
+            }
         }
     }
 }

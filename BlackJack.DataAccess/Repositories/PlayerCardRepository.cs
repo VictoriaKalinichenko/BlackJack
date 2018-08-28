@@ -1,54 +1,103 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using BlackJack.DataAccess.Interfaces;
 using BlackJack.Entities.Models;
 using BlackJack.Configuration;
 using Dapper;
+using NLog;
 
 namespace BlackJack.DataAccess.Repositories
 {
     public class PlayerCardRepository : IPlayerCardRepository 
     {
-        public List<PlayerCard> GetByGamePlayerId(int gamePlayerId)
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private 
+
+        public async Task<IEnumerable<PlayerCard>> GetByGamePlayerId(int gamePlayerId)
         {
-            List<PlayerCard> playerCards = null;
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            string sqlQuery = $@"SELECT * FROM PlayerCards 
+                                 WHERE GamePlayerId = {gamePlayerId}";
+
+            try
             {
-                string sqlQuery = "SELECT * FROM PlayerCards WHERE GamePlayerId = @gamePlayerId";
-                playerCards = db.Query<PlayerCard>(sqlQuery, new { gamePlayerId }).ToList();
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    var playerCards = await db.QueryAsync<PlayerCard>(sqlQuery);
+                    return playerCards;
+                }
             }
-            return playerCards;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
-        public PlayerCard Get(int id)
+        public async Task<PlayerCard> Get(int id)
         {
-            PlayerCard playerCard = null;
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            string sqlQuery = $@"SELECT * FROM PlayerCards 
+                                 WHERE Id = {id}";
+
+            try
             {
-                playerCard = db.Query<PlayerCard>("SELECT * FROM PlayerCards WHERE Id = @id", new { id }).FirstOrDefault();
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    PlayerCard playerCard = await db.QuerySingleAsync<PlayerCard>(sqlQuery);
+                    return playerCard;
+                }
             }
-            return playerCard;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
-        public PlayerCard Create(PlayerCard playerCard)
+        public async Task<PlayerCard> Create(PlayerCard playerCard)
         {
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            string sqlQuery = $@"INSERT INTO PlayerCards (GamePlayerId, CardId) 
+                                 VALUES({playerCard.GamePlayerId}, {playerCard.CardId}); 
+                                 SELECT CAST(SCOPE_IDENTITY() as int)";
+
+            try
             {
-                string sqlQuery = "INSERT INTO PlayerCards (GamePlayerId, CardId) VALUES(@GamePlayerId, @CardId); SELECT CAST(SCOPE_IDENTITY() as int)";
-                int playerCardId = db.Query<int>(sqlQuery, playerCard).FirstOrDefault();
-                playerCard.Id = playerCardId;
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    int playerCardId = await db.QuerySingleAsync<int>(sqlQuery);
+                    playerCard.Id = playerCardId;
+                    return playerCard;
+                }
             }
-            return playerCard;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
-        public void DeleteByGamePlayerId(int gamePlayerId)
+        public async Task DeleteByGamePlayerId(int gamePlayerId)
         {
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            string sqlQuery = $@"DELETE FROM PlayerCards 
+                                 WHERE GamePlayerId = {gamePlayerId}";
+
+            try
             {
-                var sqlQuery = "DELETE FROM PlayerCards WHERE GamePlayerId = @gamePlayerId";
-                db.Execute(sqlQuery, new { gamePlayerId });
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    await db.ExecuteAsync(sqlQuery);
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
             }
         }
     }

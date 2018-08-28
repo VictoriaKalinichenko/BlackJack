@@ -1,72 +1,105 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using BlackJack.DataAccess.Interfaces;
-using BlackJack.DataAccess.Context;
 using BlackJack.Entities.Models;
 using BlackJack.Configuration;
 using Dapper;
+using NLog;
 
 namespace BlackJack.DataAccess.Repositories
 {
     public class PlayerRepository : IPlayerRepository
     {
-        public List<Player> GetAll()
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
+
+        public async Task<Player> SelectByName(string name)
         {
-            List<Player> players = null;
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            Player player = new Player();
+            string sqlQuery = @"SELECT * FROM Players    
+                                WHERE Players.Name = @name";
+
+            try
             {
-                players = db.Query<Player>("SELECT * FROM Players").ToList();
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    player = await db.QueryFirstOrDefaultAsync<Player>(sqlQuery, new { name });
+                    return player;
+                }
             }
-            return players;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
-        public Player SelectByName(string name)
+        public async Task<Player> Get(int id)
         {
-            using (DataBaseContext db = new DataBaseContext())
-            {
-                IEnumerable<Player> players = db.Players;
-            }
+            Player player = new Player();
+            string sqlQuery = $@"SELECT * FROM Players 
+                                 WHERE Id = {id}";
 
-            Player player = null;
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            try
             {
-                player = db.Query<Player>("SELECT * FROM Players WHERE Players.Name = @name", new { name }).FirstOrDefault();
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    player = await db.QuerySingleAsync<Player>(sqlQuery);
+                    return player;
+                }
             }
-            return player;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
-        public Player Get(int id)
+        public async Task<Player> Create(Player player)
         {
-            Player player = null;
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            string sqlQuery = @"INSERT INTO Players (Name, IsHuman, IsDealer) 
+                                VALUES(@Name, @IsHuman, @IsDealer); 
+                                SELECT CAST(SCOPE_IDENTITY() as int)";
+
+            try
             {
-                player = db.Query<Player>("SELECT * FROM Players WHERE Id = @id", new { id }).FirstOrDefault();
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    int playerId = await db.QuerySingleAsync<int>(sqlQuery, player);
+                    player.Id = playerId;
+                    return player;
+                }
             }
-            return player;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
-        public Player Create(Player player)
+        public async Task Delete(int id)
         {
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
-            {
-                string sqlQuery = "INSERT INTO Players (Name, IsHuman, IsDealer) VALUES(@Name, @IsHuman, @IsDealer); SELECT CAST(SCOPE_IDENTITY() as int)";
-                int playerId = db.Query<int>(sqlQuery, player).FirstOrDefault();
-                player.Id = playerId;
-            }
-            return player;
-        }
+            string sqlQuery = $@"DELETE FROM Players 
+                                 WHERE Id = {id}";
 
-        public void Delete(int id)
-        {
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            try
             {
-                var sqlQuery = "DELETE FROM Players WHERE Id = @id";
-                db.Execute(sqlQuery, new { id });
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    await db.ExecuteAsync(sqlQuery);
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
             }
         }
     }

@@ -1,95 +1,132 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.Entities.Models;
 using BlackJack.DataAccess.Interfaces;
 using BlackJack.DataAccess.Repositories;
+using NLog;
 
 namespace BlackJack.BusinessLogic.Providers
 {
     public class GamePlayerProvider : IGamePlayerProvider
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private IGamePlayerRepository _gamePlayerRepository;
 
-        public GamePlayerProvider()
+
+        public GamePlayerProvider(IGamePlayerRepository gamePlayerRepository)
         {
-            _gamePlayerRepository = new GamePlayerRepository();
+            _gamePlayerRepository = gamePlayerRepository;
+        }
+        
+        public async Task BetsCreation(IEnumerable<GamePlayer> inGamePlayers, int bet)
+        {
+            try
+            {
+                List<GamePlayer> gamePlayers = inGamePlayers.ToList();
+
+                foreach (GamePlayer gamePlayer in gamePlayers)
+                {
+                    if (gamePlayer.Player.IsHuman)
+                    {
+                        gamePlayer.Bet = bet;
+                    }
+
+                    if (!gamePlayer.Player.IsDealer && !gamePlayer.Player.IsHuman)
+                    {
+                        gamePlayer.Bet = BetGenerate(gamePlayer.Score);
+                    }
+
+                    if (!gamePlayer.Player.IsDealer)
+                    {
+                        gamePlayer.Score = gamePlayer.Score - gamePlayer.Bet;
+                    }
+
+                    await _gamePlayerRepository.Update(gamePlayer);
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
-
-        public List<GamePlayer> BetsCreation(List<GamePlayer> players, int bet)
+        public async Task RoundBetPayments(IEnumerable<GamePlayer> players, int oneToOnePayKey = 0)
         {
-            List<GamePlayer> gamePlayers = new List<GamePlayer>();
-
-            foreach (GamePlayer gamePlayer in players)
+            try
             {
-                Player player = _gamePlayerRepository.GetPlayerByGamePlayerId(gamePlayer.Id);
+                GamePlayer human = players.Where(m => m.Player.IsHuman).FirstOrDefault();
+                GamePlayer dealer = players.Where(m => m.Player.IsDealer).FirstOrDefault();
 
-                if (player.IsHuman)
+                if (oneToOnePayKey == 1)
                 {
-                    gamePlayer.Bet = bet;
+                    BetPayment(human, dealer);
+                    human.BetPayCoefficient = BetValue.BetDefaultCoefficient;
                 }
 
-                if (!player.IsDealer && !player.IsHuman)
+                foreach (GamePlayer player in players)
                 {
-                    gamePlayer.Bet = BetGenerate(gamePlayer.Score);
+                    if (!player.Player.IsDealer && player.BetPayCoefficient != BetValue.BetDefaultCoefficient)
+                    {
+                        BetPayment(player, dealer);
+                        await _gamePlayerRepository.Update(player);
+                        await _gamePlayerRepository.Update(dealer);
+                    }
                 }
-
-                if (!player.IsDealer)
-                {
-                    gamePlayer.Score = gamePlayer.Score - bet;
-                }
-
-                _gamePlayerRepository.Update(gamePlayer);
             }
-
-            return gamePlayers;
-        }
-
-        public void RoundBetPayments(List<GamePlayer> players, int oneToOnePayKey = 0)
-        {
-            GamePlayer human = players.Where(m => m.Player.IsHuman).FirstOrDefault();
-            GamePlayer dealer = players.Where(m => m.Player.IsDealer).FirstOrDefault();
-
-
-            if (oneToOnePayKey == 1)
+            catch (Exception ex)
             {
-                BetPayment(human, dealer);
-                human.BetPayCoefficient = BetValue._betDefaultCoefficient;
-            }
-
-            foreach (GamePlayer player in players)
-            {
-                if (!player.Player.IsDealer && player.BetPayCoefficient != BetValue._betDefaultCoefficient)
-                {
-                    BetPayment(player, dealer);
-                    _gamePlayerRepository.Update(player);
-                    _gamePlayerRepository.Update(dealer);
-                }
-
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
             }
         }
 
         private void BetPayment(GamePlayer player, GamePlayer dealer)
         {
-            int pay = (int)(player.Bet * player.BetPayCoefficient);
+            try
+            {
+                int pay = (int)(player.Bet * player.BetPayCoefficient);
 
-            player.Score += player.Bet + pay;
-            player.Bet = BetValue._betZero;
+                player.Score += player.Bet + pay;
+                player.Bet = BetValue.BetZero;
 
-            dealer.Score -= pay;
+                dealer.Score -= pay;
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
-        private int BetGenerate(int PlayerScore)
+        private int BetGenerate(int playerScore)
         {
-            int bet = 0;
+            try
+            {
+                Random random = new Random();
 
-            Random random = new Random();
-            bet = (random.Next(PlayerScore / BetValue._betGenCoef) + 1) * BetValue._betGenCoef;
+                int maxBet = BetValue.BotMaxBet;
+                if (maxBet > playerScore)
+                {
+                    maxBet = playerScore;
+                }
 
-            return bet;
+                int bet = (random.Next(maxBet / BetValue.BetGenCoef) + 1) * BetValue.BetGenCoef;
+                return bet;
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using BlackJack.Entities.Models;
 using BlackJack.Configuration;
 
@@ -21,7 +16,7 @@ namespace BlackJack.DataAccess.Context
 
 
 
-        public DataBaseContext() : base(Config.ConnectionString)
+        public DataBaseContext() : base(Config.ConnectionStringForEF)
         { }
 
 

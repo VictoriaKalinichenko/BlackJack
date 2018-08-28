@@ -5,11 +5,11 @@ namespace BlackJack.BusinessLogic.Helpers
 {
     public static class InitialDeck
     {
-        public static readonly List<Card> _cards;
+        public static readonly List<Card> Cards;
 
         static InitialDeck()
         {
-            _cards = new List<Card>();
+            Cards = new List<Card>();
 
             int cardType = 0;
             int cardCount = 0;
@@ -19,7 +19,7 @@ namespace BlackJack.BusinessLogic.Helpers
 
         static void CardInitialization(int cardType, int cardCount)
         {
-            if (cardType >= CardValue._cardTypeAmount)
+            if (cardType >= CardValue.CardTypeAmount)
             {
                 return;
             }
@@ -34,17 +34,17 @@ namespace BlackJack.BusinessLogic.Helpers
                 }
 
                 card = new Card () { Id = cardCount++, CardName = (CardName)cardName, CardType = (CardType)cardType};
-                _cards.Add(card);
+                Cards.Add(card);
             }
 
             card = new Card { Id = cardCount++, CardName = CardName.Ten, CardType = (CardType)cardType };
-            _cards.Add(card);
+            Cards.Add(card);
             card = new Card { Id = cardCount++, CardName = CardName.Jack, CardType = (CardType)cardType };
-            _cards.Add(card);
+            Cards.Add(card);
             card = new Card { Id = cardCount++, CardName = CardName.Dame, CardType = (CardType)cardType };
-            _cards.Add(card);
+            Cards.Add(card);
             card = new Card { Id = cardCount++, CardName = CardName.King, CardType = (CardType)cardType };
-            _cards.Add(card);
+            Cards.Add(card);
 
             cardType++;
             CardInitialization(cardType, cardCount);

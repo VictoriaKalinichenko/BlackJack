@@ -2,8 +2,8 @@
 {
     public static class PlayerType
     {
-        public static readonly string _dealer = "Dealer";
-        public static readonly string _human = "Human";
-        public static readonly string _bot = "Bot";
+        public static readonly string Dealer = "Dealer";
+        public static readonly string Human = "Human";
+        public static readonly string Bot = "Bot";
     }
 }

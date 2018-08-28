@@ -1,11 +1,12 @@
-﻿using BlackJack.ViewModels.ViewModels;
+﻿using System.Threading.Tasks;
+using BlackJack.ViewModels.ViewModels;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IStartGameService
     {
-        string PlayerNameValidation(string name);
+        Task<string> PlayerNameValidation(string name);
 
-        int CreateGame(NameAndBotAmountInputViewModel startInputViewModel);
+        Task<int> CreateGame(NameAndBotAmountInputViewModel startInputViewModel);
     }
 }

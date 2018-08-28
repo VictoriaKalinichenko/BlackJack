@@ -1,15 +1,16 @@
-﻿using BlackJack.ViewModels.ViewModels;
+﻿using System.Threading.Tasks;
+using BlackJack.ViewModels.ViewModels;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IGameService
     {
-        int BetsCreation(BetInputViewModel betInputViewModel);
+        Task<int> BetsCreation(BetInputViewModel betInputViewModel);
 
-        GameViewModel RoundFirstPhase(int gameId);
+        Task<bool> RoundFirstPhase(int gameId);
 
-        GameStartViewModel GenerateGameStartViewModel(int gameId);
+        Task<GameStartViewModel> GenerateGameStartViewModel(int gameId);
 
-        GameViewModel GenerateFirstPhaseGameViewModel(int gameId);
+        Task<GameViewModel> GenerateFirstPhaseGameViewModel(int gameId);
     }
 }

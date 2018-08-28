@@ -1,65 +1,102 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using BlackJack.DataAccess.Interfaces;
 using BlackJack.Entities.Models;
 using BlackJack.Configuration;
 using Dapper;
+using NLog;
 
 namespace BlackJack.DataAccess.Repositories
 {
     public class GameRepository : IGameRepository
     {
-        public List<Game> GetAll()
-        {
-            List<Game> games = null;
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
-            {
-                games = db.Query<Game>("SELECT * FROM Games").ToList();
-            }
-            return games;
-        }
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public Game Get(int id)
-        {
-            Game game = null;
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
-            {
-                game = db.Query<Game>("SELECT * FROM Games WHERE Id = @id", new { id }).FirstOrDefault();
-            }
-            return game;
-        }
 
-        public Game Create(Game game)
+        public async Task<Game> Get(int id)
         {
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
-            {
-                string sqlQuery = "INSERT INTO Games (Stage) VALUES(@Stage); SELECT CAST(SCOPE_IDENTITY() as int)";
-                int gameId = db.Query<int>(sqlQuery, game).FirstOrDefault();
-                game.Id = gameId;
-            }
-            return game;
-        }
+            string sqlQuery = $@"SELECT * FROM Games 
+                                 WHERE Id = {id}";
 
-        public void Update(Game game)
-        {
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            try
             {
-                var sqlQuery = "UPDATE Games SET Stage = @Stage WHERE Id = @Id";
-                db.Execute(sqlQuery, game);
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    Game game = await db.QuerySingleAsync<Game>(sqlQuery);
+                    return game;
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
             }
         }
 
-        public void Delete(int id)
+        public async Task<Game> Create(Game game)
         {
-            using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+            string sqlQuery = $@"INSERT INTO Games (Stage) 
+                                 VALUES({game.Stage}); 
+                                 SELECT CAST(SCOPE_IDENTITY() as int)";
+
+            try
             {
-                var sqlQuery = "DELETE FROM Games WHERE Id = @id";
-                db.Execute(sqlQuery, new { id });
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    int gameId = await db.QuerySingleAsync<int>(sqlQuery);
+                    game.Id = gameId;
+                    return game;
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
+        }
+
+        public async Task Update(Game game)
+        {
+            string sqlQuery = $@"UPDATE Games SET Stage = {game.Stage} 
+                                 WHERE Id = {game.Id}";
+
+            try
+            {
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    await db.QueryAsync(sqlQuery);
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
+        }
+
+        public async Task Delete(int id)
+        {
+            string sqlQuery = $@"DELETE FROM Games 
+                                 WHERE Id = {id}";
+
+            try
+            {
+                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                {
+                    await db.ExecuteAsync(sqlQuery);
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
             }
         }
     }

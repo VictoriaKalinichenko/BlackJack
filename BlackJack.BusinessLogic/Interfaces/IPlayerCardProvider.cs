@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using BlackJack.Entities.Models;
 
 namespace BlackJack.BusinessLogic.Interfaces
@@ -7,10 +8,10 @@ namespace BlackJack.BusinessLogic.Interfaces
     {
         string PlayerCardToCardString(PlayerCard playerCard);
 
-        List<string> GetCardsStringList(List<PlayerCard> playerCards);
+        List<string> GetCardsStringList(IEnumerable<PlayerCard> playerCards);
 
-        void AddingCardToPlayer(int gamePlayerId, List<int> deck);
+        Task AddingCardToPlayer(int gamePlayerId, List<int> deck);
 
-        int CardScoreCount(List<PlayerCard> playerCards);
+        int CardScoreCount(IEnumerable<PlayerCard> playerCards);
     }
 }

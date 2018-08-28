@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BlackJack.Entities.Models;
 
 namespace BlackJack.DataAccess.Interfaces
 {
     public interface IPlayerRepository
     {
-        List<Player> GetAll();
+        Task<Player> SelectByName(string name);
 
-        Player SelectByName(string name);
+        Task<Player> Get(int id);
 
-        Player Get(int id);
+        Task<Player> Create(Player obj);
 
-        Player Create(Player obj);
-
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BlackJack.Entities.Models;
 
 namespace BlackJack.DataAccess.Interfaces
 {
     public interface IGameRepository
     {
-        List<Game> GetAll();
+        Task<Game> Get(int id);
 
-        Game Get(int id);
+        Task<Game> Create(Game obj);
 
-        Game Create(Game obj);
+        Task Update(Game obj);
 
-        void Update(Game obj);
-
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

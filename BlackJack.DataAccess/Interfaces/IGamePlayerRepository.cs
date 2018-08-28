@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlackJack.Entities.Models;
 
@@ -9,20 +6,16 @@ namespace BlackJack.DataAccess.Interfaces
 {
     public interface IGamePlayerRepository
     {
-        List<GamePlayer> GetByGameId(int gameId);
+        Task<IEnumerable<GamePlayer>> GetByGameId(int gameId);
 
-        GamePlayer Get(int id);
+        Task<GamePlayer> Get(int id);
 
-        Player GetPlayerByGamePlayerId(int gamePlayerId);
+        Task<GamePlayer> Create(GamePlayer gamePlayer);
 
-        List<GamePlayer> GetWithPlayersByGameId(int gameId);
+        Task Update(GamePlayer gamePlayer);
 
-        GamePlayer Create(GamePlayer gamePlayer);
+        Task Delete(int id);
 
-        void Update(GamePlayer gamePlayer);
-
-        void Delete(int id);
-
-        void DeleteByGameId(int gameId);
+        Task DeleteByGameId(int gameId);
     }
 }

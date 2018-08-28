@@ -1,86 +1,173 @@
-﻿using BlackJack.BusinessLogic.Helpers;
+﻿using System;
+using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
+using NLog;
 
 namespace BlackJack.BusinessLogic.Providers
 {
     public class CardCheckProvider : ICardCheckProvider
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
+
         public float RoundFirstPhaseResult(int score, int amountOfCards, int dealerFirstCard)
         {
-            float coef = BetValue._betDefaultCoefficient;
-            bool dealerBjDanger = DealerBjDanger(dealerFirstCard);
-
-            if (!dealerBjDanger && PlayerBj(score, amountOfCards))
+            try
             {
-                coef = BetValue._betBjCoefficient;
-            }
+                float coef = BetValue.BetDefaultCoefficient;
+                bool dealerBjDanger = DealerBjDanger(dealerFirstCard);
 
-            if (dealerBjDanger && PlayerBj(score, amountOfCards))
+                if (!dealerBjDanger && PlayerBj(score, amountOfCards))
+                {
+                    coef = BetValue.BetBjCoefficient;
+                }
+
+                if (dealerBjDanger && PlayerBj(score, amountOfCards))
+                {
+                    coef = BetValue.BetWinCoefficient;
+                }
+
+                return coef;
+            }
+            catch (Exception ex)
             {
-                coef = BetValue._betWinCoefficient;
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
             }
-
-            return coef;
         }
-        
+
+        public bool HumanPlayerHasEnoughCards(int score)
+        {
+            try
+            {
+                bool result = false;
+                if (score >= CardValue.CardBjScore)
+                {
+                    result = true;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
+        }
+
+        public bool BotHasEnoughCards(int score)
+        {
+            try
+            {
+                bool result = false;
+                if (score >= CardValue.CardBotEnoughScore)
+                {
+                    result = true;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
+        }
+
         private bool DealerBjDanger(int firstCardValue)
         {
-            bool danger = false;
-
-            if (firstCardValue >= CardValue._cardDealerBjDanger)
+            try
             {
-                danger = true;
+                bool danger = false;
+                if (firstCardValue >= CardValue.CardDealerBjDanger)
+                {
+                    danger = true;
+                }
+                return danger;
             }
-
-            return danger;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
         private bool PlayerBj(int score, int amountOfCards)
         {
-            bool result = false;
-
-            if (score == CardValue._cardBjScore && amountOfCards == CardValue._cardBjAmount)
+            try
             {
-                result = true;
+                bool result = false;
+                if (score == CardValue.CardBjScore && amountOfCards == CardValue.CardBjAmount)
+                {
+                    result = true;
+                }
+                return result;
             }
-
-            return result;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
-        private bool PlayerMoreThan21(int score)
+        private bool PlayerLossing(int score)
         {
-            bool result = false;
-
-            if (score > CardValue._cardBjScore)
+            try
             {
-                result = true;
+                bool result = false;
+                if (score > CardValue.CardBjScore)
+                {
+                    result = true;
+                }
+                return result;
             }
-
-            return result;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
         private bool PlayerScoreEqualsDealerScore(int playerScore, int dealerScore)
         {
-            bool result = false;
-
-            if (playerScore == dealerScore && !PlayerMoreThan21(playerScore))
+            try
             {
-                result = true;
+                bool result = false;
+                if (playerScore == dealerScore && !PlayerLossing(playerScore))
+                {
+                    result = true;
+                }
+                return result;
             }
-
-            return result;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
 
         private bool PlayerScoreBetterThanDealerScore(int playerScore, int dealerScore)
         {
-            bool result = false;
-
-            if (!PlayerMoreThan21(playerScore) && (playerScore > dealerScore || PlayerMoreThan21(dealerScore)))
+            try
             {
-                result = true;
+                bool result = false;
+                if (!PlayerLossing(playerScore) && (playerScore > dealerScore || PlayerLossing(dealerScore)))
+                {
+                    result = true;
+                }
+                return result;
             }
-
-            return result;
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                throw;
+            }
         }
     }
 }

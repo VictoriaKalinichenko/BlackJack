@@ -1,47 +1,74 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using BlackJack.BusinessLogic.Services;
+using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.ViewModels.ViewModels;
+using NLog;
 
 namespace BlackJack.UI.Controllers
 {
     public class GameController : Controller
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IGameService _gameService;
 
-        public GameController ()
+        public GameController (IGameService gameService)
         {
-            _gameService = new GameService();
+            _gameService = gameService;
         }
-
-        public ActionResult RoundStart(int gameId)
+        
+        public async Task<ActionResult> RoundStart(int gameId)
         {
-            BetInputViewModel betInputViewModel = new BetInputViewModel();
-            betInputViewModel.Game = _gameService.GenerateGameStartViewModel(gameId);
-            betInputViewModel.HumanBet = BetValue._betGenCoef;
-            return View(betInputViewModel);
+            try
+            {
+                BetInputViewModel betInputViewModel = new BetInputViewModel();
+                betInputViewModel.Game = await _gameService.GenerateGameStartViewModel(gameId);
+                betInputViewModel.HumanBet = BetValue.BetGenCoef;
+                return View(betInputViewModel);
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                return null;
+            }
         }
         [HttpPost]
-        public ActionResult RoundStart(BetInputViewModel betInputViewModel)
+        public async Task<ActionResult> RoundStart(BetInputViewModel betInputViewModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                int gameId = _gameService.BetsCreation(betInputViewModel);
-                return RedirectToAction("CardDistribution", new { gameId = gameId });
-            }
+                if (ModelState.IsValid)
+                {
+                    int gameId = await _gameService.BetsCreation(betInputViewModel);
+                    return RedirectToAction("CardDistribution", new { gameId = gameId });
+                }
 
-            return View(betInputViewModel);
+                return View(betInputViewModel);
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                return null;
+            }
         }
 
-        public ActionResult CardDistribution(int gameId)
+        public async Task<ActionResult> CardDistribution(int gameId)
         {
-            GameViewModel gameViewModel = _gameService.RoundFirstPhase(gameId);
-            return View(gameViewModel);
+            try
+            {
+                bool humanBjAndDealerBjDanger = await _gameService.RoundFirstPhase(gameId);
+                GameViewModel gameViewModel = await _gameService.GenerateFirstPhaseGameViewModel(gameId);
+                return View(gameViewModel);
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                _logger.Error(message);
+                return null;
+            }
         }
     }
 }

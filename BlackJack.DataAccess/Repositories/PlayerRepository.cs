@@ -14,7 +14,13 @@ namespace BlackJack.DataAccess.Repositories
     public class PlayerRepository : IPlayerRepository
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private string _connectionString;
 
+
+        public PlayerRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public async Task<Player> SelectByName(string name)
         {
@@ -24,7 +30,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     player = await db.QueryFirstOrDefaultAsync<Player>(sqlQuery, new { name });
                     return player;
@@ -46,7 +52,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     player = await db.QuerySingleAsync<Player>(sqlQuery);
                     return player;
@@ -68,7 +74,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     int playerId = await db.QuerySingleAsync<int>(sqlQuery, player);
                     player.Id = playerId;
@@ -90,7 +96,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     await db.ExecuteAsync(sqlQuery);
                 }

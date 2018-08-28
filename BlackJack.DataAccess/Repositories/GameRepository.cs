@@ -14,7 +14,13 @@ namespace BlackJack.DataAccess.Repositories
     public class GameRepository : IGameRepository
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private string _connectionString;
 
+
+        public GameRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public async Task<Game> Get(int id)
         {
@@ -23,7 +29,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     Game game = await db.QuerySingleAsync<Game>(sqlQuery);
                     return game;
@@ -45,7 +51,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     int gameId = await db.QuerySingleAsync<int>(sqlQuery);
                     game.Id = gameId;
@@ -67,7 +73,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     await db.QueryAsync(sqlQuery);
                 }
@@ -87,7 +93,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     await db.ExecuteAsync(sqlQuery);
                 }

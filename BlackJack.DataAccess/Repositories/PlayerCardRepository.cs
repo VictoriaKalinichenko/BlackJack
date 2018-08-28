@@ -14,7 +14,13 @@ namespace BlackJack.DataAccess.Repositories
     public class PlayerCardRepository : IPlayerCardRepository 
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private 
+        private string _connectionString;
+
+
+        public PlayerCardRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public async Task<IEnumerable<PlayerCard>> GetByGamePlayerId(int gamePlayerId)
         {
@@ -23,7 +29,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     var playerCards = await db.QueryAsync<PlayerCard>(sqlQuery);
                     return playerCards;
@@ -44,7 +50,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     PlayerCard playerCard = await db.QuerySingleAsync<PlayerCard>(sqlQuery);
                     return playerCard;
@@ -66,7 +72,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     int playerCardId = await db.QuerySingleAsync<int>(sqlQuery);
                     playerCard.Id = playerCardId;
@@ -88,7 +94,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     await db.ExecuteAsync(sqlQuery);
                 }

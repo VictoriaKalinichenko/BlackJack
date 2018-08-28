@@ -15,7 +15,13 @@ namespace BlackJack.DataAccess.Repositories
     public class GamePlayerRepository : IGamePlayerRepository
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private string _connectionString;
 
+
+        public GamePlayerRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public async Task<IEnumerable<GamePlayer>> GetByGameId(int gameId)
         {
@@ -25,7 +31,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     var gamePlayers = await db.QueryAsync<GamePlayer, Player, GamePlayer>(sqlQuery,(gamePlayer, player) =>
                     {
@@ -51,7 +57,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     GamePlayer gamePlayer = await db.QuerySingleAsync<GamePlayer>(sqlQuery);
                     return gamePlayer;
@@ -73,7 +79,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     int gamePlayerId = await db.QuerySingleAsync<int>(sqlQuery, gamePlayer);
                     gamePlayer.Id = gamePlayerId;
@@ -96,7 +102,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     await db.QueryAsync(sqlQuery);
                 }
@@ -116,7 +122,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     await db.ExecuteAsync(sqlQuery);
                 }
@@ -136,7 +142,7 @@ namespace BlackJack.DataAccess.Repositories
 
             try
             {
-                using (IDbConnection db = new SqlConnection(Config.ConnectionStringForDapper))
+                using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     await db.ExecuteAsync(sqlQuery);
                 }

@@ -22,6 +22,11 @@ namespace BlackJack.UI.Controllers
         {
             return View((object)message);
         }
+
+        public ActionResult Index(int gameId)
+        {
+            return View();
+        }
         
         public async Task<ActionResult> RoundStart(int gameId)
         {

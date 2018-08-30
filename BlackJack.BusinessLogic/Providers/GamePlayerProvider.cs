@@ -44,10 +44,9 @@ namespace BlackJack.BusinessLogic.Providers
                     if (!gamePlayer.Player.IsDealer)
                     {
                         gamePlayer.Score = gamePlayer.Score - gamePlayer.Bet;
+                        await _gamePlayerRepository.Update(gamePlayer);
+                        await _logRepository.CreateLogBetIsCreated(inGamePlayers.First().GameId, gamePlayer.Player, gamePlayer.Score, gamePlayer.Bet);
                     }
-
-                    await _gamePlayerRepository.Update(gamePlayer);
-                    await _logRepository.CreateLogBetIsCreated(inGamePlayers.First().GameId, gamePlayer.Player, gamePlayer.Score, gamePlayer.Bet);
                 }
             }
             catch (Exception ex)
@@ -58,18 +57,12 @@ namespace BlackJack.BusinessLogic.Providers
             }
         }
 
-        public async Task RoundBetPayments(IEnumerable<GamePlayer> players, int oneToOnePayKey = 0)
+        public async Task RoundBetPayments(IEnumerable<GamePlayer> players)
         {
             try
             {
                 GamePlayer human = players.Where(m => m.Player.IsHuman).FirstOrDefault();
                 GamePlayer dealer = players.Where(m => m.Player.IsDealer).FirstOrDefault();
-
-                if (oneToOnePayKey == 1)
-                {
-                    BetPayment(human, dealer);
-                    human.BetPayCoefficient = BetValue.BetDefaultCoefficient;
-                }
 
                 foreach (GamePlayer player in players)
                 {

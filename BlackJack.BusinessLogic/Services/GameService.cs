@@ -50,11 +50,10 @@ namespace BlackJack.BusinessLogic.Services
                 IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(game.Id);
                 await _gamePlayerProvider.BetsCreation(gamePlayers, betInputViewModel.HumanBet);
 
+                gameId = game.Id;
                 game.Stage = Stage.BetsCreation;
                 await _gameRepository.Update(game);
                 await _logRepository.CreateLogGameStageIsChanged(game.Id, game.Stage);
-
-                gameId = game.Id;
 
                 return gameId;
             }
@@ -135,7 +134,26 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task RoundSecondPhase(int gameId)
         {
+            try
+            {
+                Game game = await _gameRepository.Get(gameId);
+                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+                List<int> deck = CreateDeck();
 
+                await SecondCardsDistribution(gamePlayers, deck);
+
+                await SecondCardCheck(gamePlayers);
+
+                game.Stage = Stage.SecondCardsDistribution;
+                await _gameRepository.Update(game);
+                await _logRepository.CreateLogGameStageIsChanged(game.Id, game.Stage);
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
         }
 
         public async Task<GameStartViewModel> GenerateGameStartViewModel(int gameId)
@@ -190,10 +208,10 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<GameViewModel> GenerateFirstPhaseGameViewModel(int gameId)
         {
-            GameViewModel gameViewModel = new GameViewModel();
-
             try
             {
+                GameViewModel gameViewModel = new GameViewModel();
+                gameViewModel.Bots = new List<GamePlayerViewModel>();
                 gameViewModel.Id = gameId;
                 IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
 
@@ -236,6 +254,8 @@ namespace BlackJack.BusinessLogic.Services
                         gameViewModel.Bots.Add(gamePlayerViewModel);
                     }
                 }
+
+                return gameViewModel;
             }
             catch (Exception ex)
             {
@@ -243,8 +263,37 @@ namespace BlackJack.BusinessLogic.Services
                 _logger.Error(message);
                 throw ex;
             }
+        }
 
-            return gameViewModel;
+        public async Task HumanBjAndDealerBjDangerContinueRound(int humanGamePlayerId)
+        {
+            try
+            {
+                GamePlayer human = await _gamePlayerRepository.Get(humanGamePlayerId);
+                human.BetPayCoefficient = BetValue.BetDefaultCoefficient;
+                await _gamePlayerRepository.Update(human);
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        public async Task BetPayments(int gameId)
+        {
+            try
+            {
+                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+                await _gamePlayerProvider.RoundBetPayments(gamePlayers);
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
         }
 
         private async Task FirstCardsDistribution(IEnumerable<GamePlayer> players, List<int> deck)
@@ -322,8 +371,32 @@ namespace BlackJack.BusinessLogic.Services
             try
             {
                 foreach (GamePlayer gamePlayer in players)
-                { 
+                {
+                    await SecondCardAddingToBot(gamePlayer, deck);
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
 
+        private async Task SecondCardCheck(IEnumerable<GamePlayer> gamePlayers)
+        {
+            try
+            {
+                GamePlayer dealer = gamePlayers.Where(m => m.Player.IsDealer).FirstOrDefault();
+
+                foreach (GamePlayer gamePlayer in gamePlayers)
+                {
+                    if (!gamePlayer.Player.IsDealer)
+                    {
+                        List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
+                        gamePlayer.BetPayCoefficient = _cardCheckProvider.RoundSecondPhaseResult(gamePlayer.Bet, gamePlayer.RoundScore, playerCards.Count, dealer.RoundScore);
+                        await _gamePlayerRepository.Update(gamePlayer);
+                    }
                 }
             }
             catch (Exception ex)
@@ -344,6 +417,23 @@ namespace BlackJack.BusinessLogic.Services
 
                 await _gamePlayerRepository.Update(gamePlayer);
                 await _logRepository.CreateLogCardIsAdded(gamePlayer.GameId, gamePlayer.Player, gamePlayer.RoundScore, cardId, (int)InitialDeck.Cards[cardId].CardName, InitialDeck.Cards[cardId].ToString());
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        private async Task SecondCardAddingToBot(GamePlayer gamePlayer, List<int> deck)
+        {
+            try
+            {
+                for (; !_cardCheckProvider.BotHasEnoughCards(gamePlayer.RoundScore);)
+                {
+                    await AddingCardToPlayer(gamePlayer, deck);
+                }
             }
             catch (Exception ex)
             {

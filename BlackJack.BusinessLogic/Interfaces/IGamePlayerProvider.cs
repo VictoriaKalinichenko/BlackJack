@@ -8,6 +8,6 @@ namespace BlackJack.BusinessLogic.Interfaces
     {
         Task BetsCreation(IEnumerable<GamePlayer> players, int bet);
 
-        Task RoundBetPayments(IEnumerable<GamePlayer> players, int oneToOnePayKey = 0);
+        Task RoundBetPayments(IEnumerable<GamePlayer> players);
     }
 }

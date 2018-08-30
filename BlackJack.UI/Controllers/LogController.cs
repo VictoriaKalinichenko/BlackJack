@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using BlackJack.ViewModels.ViewModels;
 using BlackJack.BusinessLogic.Interfaces;
 using NLog;
 
@@ -18,12 +16,18 @@ namespace BlackJack.UI.Controllers
             _logService = logService;
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetLogs()
         {
             try
             {
-                IEnumerable<LogViewModel> logViewModels = await _logService.GetAll();
-                return View(logViewModels);
+                var logViewModels = await _logService.GetAll();
+                return Json(logViewModels, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

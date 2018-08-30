@@ -55,6 +55,51 @@ namespace BlackJack.BusinessLogic.Providers
             }
         }
 
+        public float RoundSecondPhaseResult(int bet, int score, int amountOfCards, int dealerScore)
+        {
+            try
+            {
+                float coef = BetValue.BetDefaultCoefficient;
+
+                if (PlayerEndedTheRound(bet))
+                {
+                    return coef;
+                }
+
+                if (PlayerBj(score, amountOfCards))
+                {
+                    coef = BetValue.BetBjCoefficient;
+                    return coef;
+                }
+
+                if (PlayerLossing(score))
+                {
+                    coef = BetValue.BetLoseCoefficient;
+                    return coef;
+                }
+
+                if (PlayerScoreEqualsDealerScore(score, dealerScore))
+                {
+                    coef = BetValue.BetZeroCoefficient;
+                    return coef;
+                }
+
+                if (PlayerScoreBetterThanDealerScore(score, dealerScore))
+                {
+                    coef = BetValue.BetWinCoefficient;
+                    return coef;
+                }
+
+                return coef;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
         public bool HumanPlayerHasEnoughCards(int score)
         {
             try
@@ -156,6 +201,25 @@ namespace BlackJack.BusinessLogic.Providers
             {
                 bool result = false;
                 if (!PlayerLossing(playerScore) && (playerScore > dealerScore || PlayerLossing(dealerScore)))
+                {
+                    result = true;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        private bool PlayerEndedTheRound(int bet)
+        {
+            try
+            {
+                bool result = false;
+                if (bet == BetValue.BetZero)
                 {
                     result = true;
                 }

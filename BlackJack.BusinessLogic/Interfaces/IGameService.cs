@@ -9,8 +9,18 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task<bool> RoundFirstPhase(int gameId);
 
+        Task AddOneMoreCardToHuman(int gameId);
+
+        Task<bool> CanHumanTakeOneMoreCard(int gameId);
+
+        Task RoundSecondPhase(int gameId);
+
         Task<GameStartViewModel> GenerateGameStartViewModel(int gameId);
 
         Task<GameViewModel> GenerateFirstPhaseGameViewModel(int gameId);
+
+        Task HumanBjAndDealerBjDangerContinueRound(int humanGamePlayerId);
+
+        Task BetPayments(int gameId);
     }
 }

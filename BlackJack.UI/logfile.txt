@@ -187,3 +187,10 @@
 2018-08-29 12:08:10.1972|ERROR|BlackJack.UI.Controllers.GameController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.GameController.<RoundStart>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 35|Exception of type 'System.Exception' was thrown.
 2018-08-29 12:09:41.9489|ERROR|BlackJack.UI.Controllers.GameController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.GameController.<RoundStart>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 35|Exception of type 'System.Exception' was thrown.
 2018-08-29 12:10:48.6438|ERROR|BlackJack.UI.Controllers.GameController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.GameController.<RoundStart>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 35|Exception of type 'System.Exception' was thrown.
+2018-08-30 11:32:17.8686|ERROR|BlackJack.BusinessLogic.Services.GameService|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.GameService.<GenerateFirstPhaseGameViewModel>d__16.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameService.cs:line 236|Object reference not set to an instance of an object.
+2018-08-30 11:32:17.8936|ERROR|BlackJack.UI.Controllers.GameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.GameService.<GenerateFirstPhaseGameViewModel>d__16.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameService.cs:line 244
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.GameController.<CardDistribution>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 69|Object reference not set to an instance of an object.

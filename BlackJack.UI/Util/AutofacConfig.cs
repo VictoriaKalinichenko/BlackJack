@@ -13,7 +13,7 @@ namespace BlackJack.UI.Util
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            builder.RegisterModule(new BllModule());
+            builder.RegisterModule(new BusinessLogicConfig());
 
             var container = builder.Build();
             

@@ -32,9 +32,9 @@ namespace BlackJack.UI.Controllers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return null;
+                return RedirectToAction("Error", "Game", new { message = message });
             }
         }
         [HttpPost]
@@ -56,9 +56,9 @@ namespace BlackJack.UI.Controllers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return null;
+                return RedirectToAction("Error", "Game", new { message = ex.Message });
             }
         }
     }

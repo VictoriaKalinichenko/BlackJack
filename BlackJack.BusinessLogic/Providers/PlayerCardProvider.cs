@@ -6,7 +6,6 @@ using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.Entities.Models;
 using BlackJack.DataAccess.Interfaces;
-using BlackJack.DataAccess.Repositories;
 using BlackJack.ViewModels.Enums;
 using NLog;
 
@@ -32,9 +31,9 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
@@ -47,13 +46,13 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
-        public async Task AddingCardToPlayer(int gamePlayerId, List<int> deck)
+        public async Task<int> AddingCardToPlayer(int gamePlayerId, List<int> deck)
         {
             try
             {
@@ -66,12 +65,13 @@ namespace BlackJack.BusinessLogic.Providers
                     GamePlayerId = gamePlayerId
                 };
                 await _playerCardRepository.Create(playerCard);
+                return cardId;
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
@@ -104,9 +104,9 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
     }

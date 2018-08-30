@@ -10,7 +10,7 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         List<string> GetCardsStringList(IEnumerable<PlayerCard> playerCards);
 
-        Task AddingCardToPlayer(int gamePlayerId, List<int> deck);
+        Task<int> AddingCardToPlayer(int gamePlayerId, List<int> deck);
 
         int CardScoreCount(IEnumerable<PlayerCard> playerCards);
     }

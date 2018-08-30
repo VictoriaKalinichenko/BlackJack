@@ -10,12 +10,30 @@ namespace BlackJack.BusinessLogic.Providers
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
 
-        public float RoundFirstPhaseResult(int score, int amountOfCards, int dealerFirstCard)
+        public bool DealerBjDanger(int firstCardValue)
+        {
+            try
+            {
+                bool danger = false;
+                if (firstCardValue >= CardValue.CardDealerBjDanger)
+                {
+                    danger = true;
+                }
+                return danger;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        public float RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger)
         {
             try
             {
                 float coef = BetValue.BetDefaultCoefficient;
-                bool dealerBjDanger = DealerBjDanger(dealerFirstCard);
 
                 if (!dealerBjDanger && PlayerBj(score, amountOfCards))
                 {
@@ -31,9 +49,9 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
@@ -50,9 +68,9 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
@@ -69,31 +87,12 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
-
-        private bool DealerBjDanger(int firstCardValue)
-        {
-            try
-            {
-                bool danger = false;
-                if (firstCardValue >= CardValue.CardDealerBjDanger)
-                {
-                    danger = true;
-                }
-                return danger;
-            }
-            catch (Exception ex)
-            {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
-                _logger.Error(message);
-                throw;
-            }
-        }
-
+        
         private bool PlayerBj(int score, int amountOfCards)
         {
             try
@@ -107,9 +106,9 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
@@ -126,9 +125,9 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
@@ -145,9 +144,9 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
@@ -164,9 +163,9 @@ namespace BlackJack.BusinessLogic.Providers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
     }

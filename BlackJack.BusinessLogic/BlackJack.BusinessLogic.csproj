@@ -77,6 +77,7 @@
     <Compile Include="Helpers\UiMessage.cs" />
     <Compile Include="Helpers\BetValue.cs" />
     <Compile Include="Interfaces\IGamePlayerProvider.cs" />
+    <Compile Include="Interfaces\ILogService.cs" />
     <Compile Include="Interfaces\IPlayerCardProvider.cs" />
     <Compile Include="Interfaces\IStartGameService.cs" />
     <Compile Include="Providers\CardCheckProvider.cs" />
@@ -88,8 +89,9 @@
     <Compile Include="Providers\PlayerCardProvider.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Interfaces\IGameService.cs" />
+    <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\StartGameService.cs" />
-    <Compile Include="Util\BllModule.cs" />
+    <Compile Include="Util\BusinessLogicConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

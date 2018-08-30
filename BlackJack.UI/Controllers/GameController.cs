@@ -17,6 +17,11 @@ namespace BlackJack.UI.Controllers
         {
             _gameService = gameService;
         }
+
+        public ActionResult Error(string message)
+        {
+            return View((object)message);
+        }
         
         public async Task<ActionResult> RoundStart(int gameId)
         {
@@ -25,13 +30,14 @@ namespace BlackJack.UI.Controllers
                 BetInputViewModel betInputViewModel = new BetInputViewModel();
                 betInputViewModel.Game = await _gameService.GenerateGameStartViewModel(gameId);
                 betInputViewModel.HumanBet = BetValue.BetGenCoef;
+                
                 return View(betInputViewModel);
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return null;
+                return RedirectToAction("Error", "Game", new { message = ex.Message });
             }
         }
         [HttpPost]
@@ -49,9 +55,9 @@ namespace BlackJack.UI.Controllers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return null;
+                return RedirectToAction("Error", "Game", new { message = ex.Message });
             }
         }
 
@@ -65,9 +71,9 @@ namespace BlackJack.UI.Controllers
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return null;
+                return RedirectToAction("Error", "Game", new { message = ex.Message });
             }
         }
     }

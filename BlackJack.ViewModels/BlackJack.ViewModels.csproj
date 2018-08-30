@@ -51,6 +51,7 @@
     <Compile Include="ViewModels\GamePlayerViewModel.cs" />
     <Compile Include="ViewModels\GameStartViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\NameAndBotAmountInputViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
   </ItemGroup>

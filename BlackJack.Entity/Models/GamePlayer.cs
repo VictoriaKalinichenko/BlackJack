@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dapper.Contrib.Extensions;
 
 namespace BlackJack.Entities.Models
 {
@@ -20,11 +16,7 @@ namespace BlackJack.Entities.Models
 
         public float BetPayCoefficient { get; set; }
         
-
+        [Write(false)]
         public virtual Player Player { get; set; }
-
-        public virtual Game Game { get; set; }
-
-        public virtual List<PlayerCard> PlayerCards { get; set; }
     }
 }

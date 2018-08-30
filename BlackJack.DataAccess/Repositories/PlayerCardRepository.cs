@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using BlackJack.DataAccess.Interfaces;
 using BlackJack.Entities.Models;
-using BlackJack.Configuration;
 using Dapper;
+using Dapper.Contrib.Extensions;
 using NLog;
 
 namespace BlackJack.DataAccess.Repositories
@@ -24,7 +24,7 @@ namespace BlackJack.DataAccess.Repositories
 
         public async Task<IEnumerable<PlayerCard>> GetByGamePlayerId(int gamePlayerId)
         {
-            string sqlQuery = $@"SELECT * FROM PlayerCards 
+            string sqlQuery = $@"SELECT Id, GamePlayerId, CardId FROM PlayerCards 
                                  WHERE GamePlayerId = {gamePlayerId}";
 
             try
@@ -37,15 +37,15 @@ namespace BlackJack.DataAccess.Repositories
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
         public async Task<PlayerCard> Get(int id)
         {
-            string sqlQuery = $@"SELECT * FROM PlayerCards 
+            string sqlQuery = $@"SELECT Id, GamePlayerId, CardId FROM PlayerCards 
                                  WHERE Id = {id}";
 
             try
@@ -58,32 +58,28 @@ namespace BlackJack.DataAccess.Repositories
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
         public async Task<PlayerCard> Create(PlayerCard playerCard)
         {
-            string sqlQuery = $@"INSERT INTO PlayerCards (GamePlayerId, CardId) 
-                                 VALUES({playerCard.GamePlayerId}, {playerCard.CardId}); 
-                                 SELECT CAST(SCOPE_IDENTITY() as int)";
-
             try
             {
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    int playerCardId = await db.QuerySingleAsync<int>(sqlQuery);
+                    int playerCardId = await db.InsertAsync(playerCard);
                     playerCard.Id = playerCardId;
                     return playerCard;
                 }
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
@@ -101,9 +97,9 @@ namespace BlackJack.DataAccess.Repositories
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
     }

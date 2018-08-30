@@ -2,7 +2,9 @@
 {
     public interface ICardCheckProvider
     {
-        float RoundFirstPhaseResult(int score, int amountOfCards, int dealerFirstCard);
+        bool DealerBjDanger(int dealerFirstCard);
+
+        float RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger);
 
         bool HumanPlayerHasEnoughCards(int score);
 

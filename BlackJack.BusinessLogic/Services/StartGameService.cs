@@ -19,13 +19,15 @@ namespace BlackJack.BusinessLogic.Services
         private readonly IGameRepository _gameRepository;
         private readonly IPlayerRepository _playerRepository;
         private readonly IGamePlayerRepository _gamePlayerRepository;
+        private readonly ILogRepository _logRepository;
         
 
-        public StartGameService(IGameRepository gameRepository, IPlayerRepository playerRepository, IGamePlayerRepository gamePlayerRepository)
+        public StartGameService(IGameRepository gameRepository, IPlayerRepository playerRepository, IGamePlayerRepository gamePlayerRepository, ILogRepository logRepository)
         {
             _gamePlayerRepository = gamePlayerRepository;
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
+            _logRepository = logRepository;
         }
         
         public async Task<string> PlayerNameValidation(string name)
@@ -46,8 +48,9 @@ namespace BlackJack.BusinessLogic.Services
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
+                throw ex;
             }
 
             return result;
@@ -61,6 +64,7 @@ namespace BlackJack.BusinessLogic.Services
 
                 Game game = new Game();
                 game = await _gameRepository.Create(game);
+                await _logRepository.CreateLogGameIsCreated(game.Id, game.Stage);
 
                 List<Player> players = await CreatePlayerList(startInputViewModel.HumanName, startInputViewModel.AmountOfBots);
                 foreach (Player player in players)
@@ -76,19 +80,18 @@ namespace BlackJack.BusinessLogic.Services
                     };
 
                     await _gamePlayerRepository.Create(gamePlayer);
+                    await _logRepository.CreateLogPlayerIsAddedToGame(game.Id, player, gamePlayer.Score);
                 }
 
                 gameId = game.Id;
-
-                _logger.Info(Environment.StackTrace + "|" + InfoMessage.GameIsCreated);
 
                 return gameId;
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
         
@@ -105,9 +108,9 @@ namespace BlackJack.BusinessLogic.Services
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
@@ -138,9 +141,9 @@ namespace BlackJack.BusinessLogic.Services
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
     }

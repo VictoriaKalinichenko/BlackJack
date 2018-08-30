@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using BlackJack.DataAccess.Interfaces;
 using BlackJack.Entities.Models;
-using BlackJack.Configuration;
 using Dapper;
+using Dapper.Contrib.Extensions;
 using NLog;
 
 namespace BlackJack.DataAccess.Repositories
@@ -25,7 +24,7 @@ namespace BlackJack.DataAccess.Repositories
         public async Task<Player> SelectByName(string name)
         {
             Player player = new Player();
-            string sqlQuery = @"SELECT * FROM Players    
+            string sqlQuery = @"SELECT Id, Players.Name, IsHuman, IsDealer FROM Players    
                                 WHERE Players.Name = @name";
 
             try
@@ -38,16 +37,16 @@ namespace BlackJack.DataAccess.Repositories
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
         public async Task<Player> Get(int id)
         {
             Player player = new Player();
-            string sqlQuery = $@"SELECT * FROM Players 
+            string sqlQuery = $@"SELECT Id, Players.`Name`, IsHuman, IsDealer FROM Players 
                                  WHERE Id = {id}";
 
             try
@@ -60,52 +59,45 @@ namespace BlackJack.DataAccess.Repositories
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
         public async Task<Player> Create(Player player)
         {
-            string sqlQuery = @"INSERT INTO Players (Name, IsHuman, IsDealer) 
-                                VALUES(@Name, @IsHuman, @IsDealer); 
-                                SELECT CAST(SCOPE_IDENTITY() as int)";
-
             try
             {
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    int playerId = await db.QuerySingleAsync<int>(sqlQuery, player);
+                    int playerId = await db.InsertAsync(player);
                     player.Id = playerId;
                     return player;
                 }
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
 
         public async Task Delete(int id)
         {
-            string sqlQuery = $@"DELETE FROM Players 
-                                 WHERE Id = {id}";
-
             try
             {
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    await db.ExecuteAsync(sqlQuery);
+                    await db.DeleteAsync(new Player() { Id = id });
                 }
             }
             catch (Exception ex)
             {
-                string message = String.Format(ex.Source + "|" + ex.TargetSite + "|" + ex.StackTrace + "|" + ex.Message);
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                throw;
+                throw ex;
             }
         }
     }

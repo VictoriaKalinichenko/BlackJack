@@ -47,7 +47,7 @@ namespace BlackJack.UI.Controllers
                 if (String.IsNullOrEmpty(validationString))
                 {
                     int gameId = await _startGameService.CreateGame(startInputViewModel);
-                    return RedirectToAction("RoundStart", "Game", new { gameId = gameId });
+                    return RedirectToAction("Index", "Game", new { gameId = gameId });
                 }
 
                 ModelState.AddModelError("HumanName", validationString);

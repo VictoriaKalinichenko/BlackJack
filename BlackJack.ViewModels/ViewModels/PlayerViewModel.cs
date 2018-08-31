@@ -12,6 +12,8 @@ namespace BlackJack.ViewModels.ViewModels
 
         public string Name { get; set; }
 
+        public int Score { get; set; }
+
         public string PlayerType { get; set; }
     }
 }

@@ -23,9 +23,19 @@ namespace BlackJack.UI.Controllers
             return View((object)message);
         }
 
-        public ActionResult Index(int gameId)
+        public async Task<ActionResult> Index(int gameId)
         {
-            return View();
+            try
+            {
+                GameViewModel game = await _gameService.GetGame(gameId);
+                return View(game);
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                return RedirectToAction("Error", "Game", new { message = ex.Message });
+            }
         }
         
         public async Task<ActionResult> RoundStart(int gameId)
@@ -46,17 +56,47 @@ namespace BlackJack.UI.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> RoundStart(BetInputViewModel betInputViewModel)
+        public async Task<ActionResult> RoundStart(int bet, int inGameId)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    int gameId = await _gameService.BetsCreation(betInputViewModel);
-                    return RedirectToAction("CardDistribution", new { gameId = gameId });
-                }
+                await _gameService.BetsCreation(bet, inGameId);
+                bool humanBjAndDealerBjDanger = await _gameService.RoundFirstPhase(inGameId);
+                bool canHumanTakeOneMoreCard = await _gameService.CanHumanTakeOneMoreCard(inGameId);
+                string message = "SUCCESS";
+                return Json(new { Message = message, HumanBjAndDealerBjDanger = humanBjAndDealerBjDanger, CanHumanTakeOneMoreCard = canHumanTakeOneMoreCard }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                return RedirectToAction("Error", "Game", new { message = ex.Message });
+            }
+        }
+        
+        [HttpGet]
+        public async Task<ActionResult> GetPlayer(int gamePlayerId)
+        {
+            try
+            {
+                GamePlayerViewModel gamePlayer = await _gameService.GetGamePlayer(gamePlayerId);
+                return Json(gamePlayer, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                return RedirectToAction("Error", "Game", new { message = ex.Message });
+            }
+        }
 
-                return View(betInputViewModel);
+        [HttpGet]
+        public async Task<ActionResult> GetDealerInFirstPhase(int gamePlayerId)
+        {
+            try
+            {
+                GamePlayerViewModel gamePlayer = await _gameService.GetDealerInFirstPhase(gamePlayerId);
+                return Json(gamePlayer, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

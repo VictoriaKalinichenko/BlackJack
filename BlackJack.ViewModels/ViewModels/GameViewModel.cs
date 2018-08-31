@@ -10,10 +10,10 @@ namespace BlackJack.ViewModels.ViewModels
     {
         public int Id { get; set; }
 
-        public GamePlayerViewModel Dealer { get; set; }
+        public PlayerViewModel Dealer { get; set; }
 
-        public GamePlayerViewModel Human { get; set; }
+        public PlayerViewModel Human { get; set; }
 
-        public List<GamePlayerViewModel> Bots { get; set; }
+        public List<PlayerViewModel> Bots { get; set; }
     }
 }

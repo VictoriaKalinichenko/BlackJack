@@ -5,7 +5,13 @@ namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IGameService
     {
-        Task<int> BetsCreation(BetInputViewModel betInputViewModel);
+        Task<GamePlayerViewModel> GetGamePlayer(int gamePlayerId);
+
+        Task<GameViewModel> GetGame(int gameId);
+
+        Task<GamePlayerViewModel> GetDealerInFirstPhase(int gamePlayerId);
+
+        Task<int> BetsCreation(int bet, int inGameId);
 
         Task<bool> RoundFirstPhase(int gameId);
 
@@ -19,7 +25,7 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task<GameViewModel> GenerateFirstPhaseGameViewModel(int gameId);
 
-        Task HumanBjAndDealerBjDangerContinueRound(int humanGamePlayerId);
+        Task HumanBjAndDealerBjDangerContinueRound(int gameId);
 
         Task BetPayments(int gameId);
     }

@@ -40,22 +40,111 @@ namespace BlackJack.BusinessLogic.Services
             _cardCheckProvider = cardCheckProvider;
         }
         
-        public async Task<int> BetsCreation(BetInputViewModel betInputViewModel)
+        public async Task<GamePlayerViewModel> GetGamePlayer(int gamePlayerId)
         {
             try
             {
-                int gameId = 0;
+                GamePlayerViewModel gamePlayerViewModel = new GamePlayerViewModel();
+                GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
+                gamePlayerViewModel.Id = gamePlayer.Id;
+                gamePlayerViewModel.Bet = gamePlayer.Bet;
+                gamePlayerViewModel.Score = gamePlayer.Score;
+                gamePlayerViewModel.CardScore = gamePlayer.RoundScore;
+                List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
+                gamePlayerViewModel.Cards = _playerCardProvider.GetCardsStringList(playerCards);
+                return gamePlayerViewModel;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
 
-                Game game = await _gameRepository.Get(betInputViewModel.Game.Id);
+        public async Task<GamePlayerViewModel> GetDealerInFirstPhase(int gamePlayerId)
+        {
+            try
+            {
+                GamePlayerViewModel gamePlayerViewModel = new GamePlayerViewModel();
+                GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
+                gamePlayerViewModel.Id = gamePlayer.Id;
+                gamePlayerViewModel.Score = gamePlayer.Score;
+                List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
+                gamePlayerViewModel.Cards = new List<string>();
+                gamePlayerViewModel.Cards.Add(InitialDeck.Cards.Where(m => m.Id == playerCards[0].CardId).First().ToString());
+                return gamePlayerViewModel;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        public async Task<GameViewModel> GetGame(int gameId)
+        {
+            try
+            {
+                GameViewModel game = new GameViewModel();
+                game.Bots = new List<PlayerViewModel>();
+                game.Id = gameId;
+
+                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+
+                foreach (GamePlayer gamePlayer in gamePlayers)
+                {
+                    PlayerViewModel playerViewModel = new PlayerViewModel();
+
+                    playerViewModel.Id = gamePlayer.Id;
+                    playerViewModel.Name = gamePlayer.Player.Name;
+                    playerViewModel.Score = gamePlayer.Score;
+
+                    if (gamePlayer.Player.IsDealer)
+                    {
+                        game.Dealer = playerViewModel;
+                    }
+
+                    if (gamePlayer.Player.IsHuman)
+                    {
+                        game.Human = playerViewModel;
+                    }
+
+                    if (!gamePlayer.Player.IsHuman && !gamePlayer.Player.IsDealer)
+                    {
+                        game.Bots.Add(playerViewModel);
+                    }
+                }
+
+                return game;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+
+
+        public async Task<int> BetsCreation(int bet, int inGameId)
+        {
+            try
+            {
+                int outGameId = 0;
+
+                Game game = await _gameRepository.Get(inGameId);
                 IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(game.Id);
-                await _gamePlayerProvider.BetsCreation(gamePlayers, betInputViewModel.HumanBet);
+                await _gamePlayerProvider.BetsCreation(gamePlayers, bet);
 
-                gameId = game.Id;
+                outGameId = game.Id;
                 game.Stage = Stage.BetsCreation;
                 await _gameRepository.Update(game);
                 await _logRepository.CreateLogGameStageIsChanged(game.Id, game.Stage);
 
-                return gameId;
+                return outGameId;
             }
             catch (Exception ex)
             {
@@ -121,7 +210,7 @@ namespace BlackJack.BusinessLogic.Services
                 GamePlayer human = gamePlayers.Where(g => g.Player.IsHuman).FirstOrDefault();
 
                 bool canHumanTakeOneMoreCard = false;
-                canHumanTakeOneMoreCard = _cardCheckProvider.HumanPlayerHasEnoughCards(human.RoundScore);                
+                canHumanTakeOneMoreCard = !_cardCheckProvider.HumanPlayerHasEnoughCards(human.RoundScore);                
                 return canHumanTakeOneMoreCard;
             }
             catch (Exception ex)
@@ -155,7 +244,7 @@ namespace BlackJack.BusinessLogic.Services
                 throw ex;
             }
         }
-
+        
         public async Task<GameStartViewModel> GenerateGameStartViewModel(int gameId)
         {
             try
@@ -211,7 +300,7 @@ namespace BlackJack.BusinessLogic.Services
             try
             {
                 GameViewModel gameViewModel = new GameViewModel();
-                gameViewModel.Bots = new List<GamePlayerViewModel>();
+                //gameViewModel.Bots = new List<GamePlayerViewModel>();
                 gameViewModel.Id = gameId;
                 IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
 
@@ -228,7 +317,7 @@ namespace BlackJack.BusinessLogic.Services
                         gamePlayerViewModel.Player = playerViewModel;
                         gamePlayerViewModel.Cards.Add(_playerCardProvider.PlayerCardToCardString(playerCards[0]));
 
-                        gameViewModel.Dealer = gamePlayerViewModel;
+                        //gameViewModel.Dealer = gamePlayerViewModel;
                     }
 
                     if (!gamePlayer.Player.IsDealer)
@@ -243,7 +332,7 @@ namespace BlackJack.BusinessLogic.Services
                         playerViewModel.PlayerType = PlayerType.Human;
                         gamePlayerViewModel.Player = playerViewModel;
 
-                        gameViewModel.Human = gamePlayerViewModel;
+                        //gameViewModel.Human = gamePlayerViewModel;
                     }
 
                     if (!gamePlayer.Player.IsHuman && !gamePlayer.Player.IsDealer)
@@ -251,7 +340,7 @@ namespace BlackJack.BusinessLogic.Services
                         playerViewModel.PlayerType = PlayerType.Bot;
                         gamePlayerViewModel.Player = playerViewModel;
 
-                        gameViewModel.Bots.Add(gamePlayerViewModel);
+                        //gameViewModel.Bots.Add(gamePlayerViewModel);
                     }
                 }
 
@@ -265,11 +354,12 @@ namespace BlackJack.BusinessLogic.Services
             }
         }
 
-        public async Task HumanBjAndDealerBjDangerContinueRound(int humanGamePlayerId)
+        public async Task HumanBjAndDealerBjDangerContinueRound(int gameId)
         {
             try
             {
-                GamePlayer human = await _gamePlayerRepository.Get(humanGamePlayerId);
+                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+                GamePlayer human = gamePlayers.Where(m => m.Player.IsHuman).FirstOrDefault();
                 human.BetPayCoefficient = BetValue.BetDefaultCoefficient;
                 await _gamePlayerRepository.Update(human);
             }
@@ -295,6 +385,8 @@ namespace BlackJack.BusinessLogic.Services
                 throw ex;
             }
         }
+
+
 
         private async Task FirstCardsDistribution(IEnumerable<GamePlayer> players, List<int> deck)
         {

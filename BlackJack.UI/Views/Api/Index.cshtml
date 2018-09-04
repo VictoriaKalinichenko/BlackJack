@@ -1,0 +1,61 @@
+﻿@using BlackJack.ViewModels.ViewModels
+@model GameViewModel
+@{
+    ViewBag.Title = "Index";
+    ViewBag.UserName = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input hidden id="gameid" name="gameid" value=@Model.Id />
+<input hidden id="stage" name="stage" value=@Model.Stage />
+<input hidden id="userName" value=@Model.Name />
+<div id="players">
+    <div class="row row-flex">
+        <div id="dealer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
+            <input hidden id="dealergameplayerid" name="dealergameplayerid" value=@Model.Dealer.Id />
+            <h4><span class="label label-danger">Dealer</span></h4>
+            <p>Name: @Model.Dealer.Name</p>
+            <div id="dealergameplay">
+                <p>Score: @Model.Dealer.Score</p>
+            </div>
+        </div>
+
+        <div id="human" class="col-lg-8 col-md-8 col-sm-8 col-xs-12 well">
+            <div class="row row-flex">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <input hidden id="humangameplayerid" name="humangameplayerid" value=@Model.Human.Id />
+                    <h4><span class="label label-primary">Human</span></h4>
+                    <p>Name: @Model.Human.Name</p>
+                    <div id="humangameplay">
+                        <p>Score: @Model.Human.Score</p>
+                    </div>
+                </div>
+                <div id="gameplay" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <label class="control-label">Enter your bet: </label>
+                    <input type="number" id="betinput" class="form-control" step="50" min="50" value="50" max=@Model.Human.Score />
+                    <br />
+                    <input type="submit" class="btn btn-primary" name="betbutton" id="betbutton" value="Enter" />
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+
+    <div id="bots" class="row row-flex">
+        @foreach (var bot in Model.Bots)
+        {
+            <div id="bot" class="col-lg-2 col-md-4 col-sm-4 col-xs-6 well">
+                <input type="hidden" id=@bot.GamePlayerDomId value=@bot.Id />
+                <h4><span class="label label-default">Bot</span></h4>
+                <p>Name: @bot.Name</p>
+
+                <div id=@bot.GamePlayDomId>
+                    <p>Score: @bot.Score</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="~/Scripts/Round/RoundHendler.js"></script>

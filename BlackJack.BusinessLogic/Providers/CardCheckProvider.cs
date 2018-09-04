@@ -55,18 +55,23 @@ namespace BlackJack.BusinessLogic.Providers
             }
         }
 
-        public float RoundSecondPhaseResult(int bet, int score, int amountOfCards, int dealerScore)
+        public float RoundSecondPhaseResult(int bet, int score, int amountOfCards, int dealerScore, int dealerAmountOfCards, float betPayCoefficient)
         {
             try
             {
-                float coef = BetValue.BetDefaultCoefficient;
+                if (betPayCoefficient == BetValue.BetWinCoefficient)
+                {
+                    return betPayCoefficient;
+                }
 
                 if (PlayerEndedTheRound(bet))
                 {
-                    return coef;
+                    return BetValue.BetDefaultCoefficient;
                 }
 
-                if (PlayerBj(score, amountOfCards))
+                float coef = BetValue.BetLoseCoefficient;
+
+                if (PlayerBj(score, amountOfCards) && !PlayerBj(dealerScore, dealerAmountOfCards))
                 {
                     coef = BetValue.BetBjCoefficient;
                     return coef;
@@ -75,19 +80,16 @@ namespace BlackJack.BusinessLogic.Providers
                 if (PlayerLossing(score))
                 {
                     coef = BetValue.BetLoseCoefficient;
-                    return coef;
                 }
 
                 if (PlayerScoreEqualsDealerScore(score, dealerScore))
                 {
                     coef = BetValue.BetZeroCoefficient;
-                    return coef;
                 }
 
                 if (PlayerScoreBetterThanDealerScore(score, dealerScore))
                 {
                     coef = BetValue.BetWinCoefficient;
-                    return coef;
                 }
 
                 return coef;
@@ -129,6 +131,42 @@ namespace BlackJack.BusinessLogic.Providers
                     result = true;
                 }
                 return result;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        public string HumanRoundResult(float betPayCoefficient)
+        {
+            try
+            {
+                string humanRoundResult = string.Empty;
+                
+                if (betPayCoefficient == BetValue.BetBjCoefficient)
+                {
+                    humanRoundResult = RoundResult.BlackJack;
+                }
+
+                if (betPayCoefficient == BetValue.BetWinCoefficient)
+                {
+                    humanRoundResult = RoundResult.Win;
+                }
+
+                if (betPayCoefficient == BetValue.BetZeroCoefficient)
+                {
+                    humanRoundResult = RoundResult.ReturnBet;
+                }
+
+                if (betPayCoefficient == BetValue.BetLoseCoefficient)
+                {
+                    humanRoundResult = RoundResult.Lose;
+                }
+
+                return humanRoundResult;
             }
             catch (Exception ex)
             {

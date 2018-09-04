@@ -7,6 +7,7 @@
         public static readonly int CardDealerBjDanger = 10;
         public static readonly int CardBjAmount = 2;
         public static readonly int CardBjScore = 21;
-        public static readonly int CardBotEnoughScore = 21;
+        public static readonly int CardBotEnoughScore = 17;
+        public static readonly int CardZeroScore = 0;
     }
 }

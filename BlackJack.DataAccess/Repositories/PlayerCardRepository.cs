@@ -43,6 +43,28 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
+        public async Task<int> GetCountByGamePlayerId(int gamePlayerId)
+        {
+            string sqlQuery = $@"SELECT COUNT(GamePlayerId) FROM PlayerCards 
+                                 WHERE GamePlayerId = {gamePlayerId}
+                                 GROUP BY GamePlayerId";
+
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    int playerCardsCount = await db.QuerySingleAsync<int>(sqlQuery);
+                    return playerCardsCount;
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
         public async Task<PlayerCard> Get(int id)
         {
             string sqlQuery = $@"SELECT Id, GamePlayerId, CardId FROM PlayerCards 

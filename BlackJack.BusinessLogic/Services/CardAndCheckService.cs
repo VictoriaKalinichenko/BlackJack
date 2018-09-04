@@ -6,12 +6,11 @@ using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Interfaces;
 using BlackJack.Entities.Models;
-using BlackJack.ViewModels.ViewModels;
 using NLog;
 
 namespace BlackJack.BusinessLogic.Services
 {
-    public class GameService : IGameService
+    public class CardAndCheckService : ICardAndCheckService
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -26,7 +25,7 @@ namespace BlackJack.BusinessLogic.Services
         private readonly ICardCheckProvider _cardCheckProvider;
         
 
-        public GameService(IPlayerRepository playerRepository, IGameRepository gameRepository, IGamePlayerRepository gamePlayerRepository, IPlayerCardRepository playerCardRepository, 
+        public CardAndCheckService(IPlayerRepository playerRepository, IGameRepository gameRepository, IGamePlayerRepository gamePlayerRepository, IPlayerCardRepository playerCardRepository, 
             IGamePlayerProvider gamePlayerProvider, IPlayerCardProvider playerCardProvider, ICardCheckProvider cardCheckProvider, ILogRepository logRepository)
         {
             _playerRepository = playerRepository;
@@ -40,141 +39,62 @@ namespace BlackJack.BusinessLogic.Services
             _cardCheckProvider = cardCheckProvider;
         }
         
-        public async Task<GamePlayerViewModel> GetGamePlayer(int gamePlayerId)
-        {
-            try
-            {
-                GamePlayerViewModel gamePlayerViewModel = new GamePlayerViewModel();
-                GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
-                gamePlayerViewModel.Id = gamePlayer.Id;
-                gamePlayerViewModel.Bet = gamePlayer.Bet;
-                gamePlayerViewModel.Score = gamePlayer.Score;
-                gamePlayerViewModel.CardScore = gamePlayer.RoundScore;
-                List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
-                gamePlayerViewModel.Cards = _playerCardProvider.GetCardsStringList(playerCards);
-                return gamePlayerViewModel;
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
-        }
-
-        public async Task<GamePlayerViewModel> GetDealerInFirstPhase(int gamePlayerId)
-        {
-            try
-            {
-                GamePlayerViewModel gamePlayerViewModel = new GamePlayerViewModel();
-                GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
-                gamePlayerViewModel.Id = gamePlayer.Id;
-                gamePlayerViewModel.Score = gamePlayer.Score;
-                List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
-                gamePlayerViewModel.Cards = new List<string>();
-                gamePlayerViewModel.Cards.Add(InitialDeck.Cards.Where(m => m.Id == playerCards[0].CardId).First().ToString());
-                return gamePlayerViewModel;
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
-        }
-
-        public async Task<GameViewModel> GetGame(int gameId)
-        {
-            try
-            {
-                GameViewModel game = new GameViewModel();
-                game.Bots = new List<PlayerViewModel>();
-                game.Id = gameId;
-
-                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-
-                foreach (GamePlayer gamePlayer in gamePlayers)
-                {
-                    PlayerViewModel playerViewModel = new PlayerViewModel();
-
-                    playerViewModel.Id = gamePlayer.Id;
-                    playerViewModel.Name = gamePlayer.Player.Name;
-                    playerViewModel.Score = gamePlayer.Score;
-
-                    if (gamePlayer.Player.IsDealer)
-                    {
-                        game.Dealer = playerViewModel;
-                    }
-
-                    if (gamePlayer.Player.IsHuman)
-                    {
-                        game.Human = playerViewModel;
-                    }
-
-                    if (!gamePlayer.Player.IsHuman && !gamePlayer.Player.IsDealer)
-                    {
-                        game.Bots.Add(playerViewModel);
-                    }
-                }
-
-                return game;
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
-        }
-
-
-
-        public async Task<int> BetsCreation(int bet, int inGameId)
-        {
-            try
-            {
-                int outGameId = 0;
-
-                Game game = await _gameRepository.Get(inGameId);
-                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(game.Id);
-                await _gamePlayerProvider.BetsCreation(gamePlayers, bet);
-
-                outGameId = game.Id;
-                game.Stage = Stage.BetsCreation;
-                await _gameRepository.Update(game);
-                await _logRepository.CreateLogGameStageIsChanged(game.Id, game.Stage);
-
-                return outGameId;
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
-        }
-
-        public async Task<bool> RoundFirstPhase(int gameId)
+        public async Task RoundFirstPhase(int gameId)
         {
             try
             {
                 await _logRepository.CreateLogRoundIsStarted(gameId);
-
-                bool humanBjAndDealerBjDanger = false;
-
-                Game game = await _gameRepository.Get(gameId);
+                
                 IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
                 List<int> deck = CreateDeck();
 
                 await FirstCardsDistribution(gamePlayers, deck);
+                await FirstCardCheck(gamePlayers);
 
-                humanBjAndDealerBjDanger = await FirstCardCheck(gamePlayers);
-
+                Game game = await _gameRepository.Get(gameId);
                 game.Stage = Stage.FirstCardsDistribution;
                 await _gameRepository.Update(game);
                 await _logRepository.CreateLogGameStageIsChanged(game.Id, game.Stage);
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> IsHumanBjAndDealerBjDanger(int gameId)
+        {
+            try
+            {
+                bool humanBjAndDealerBjDanger = false;
+
+                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+                GamePlayer human = gamePlayers.Where(m => m.Player.IsHuman).First();
+                if (human.BetPayCoefficient == BetValue.BetWinCoefficient)
+                {
+                    humanBjAndDealerBjDanger = true;
+                }
 
                 return humanBjAndDealerBjDanger;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        public async Task HumanBjAndDealerBjDangerContinueRound(int gameId)
+        {
+            try
+            {
+                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+                GamePlayer human = gamePlayers.Where(m => m.Player.IsHuman).FirstOrDefault();
+                human.BetPayCoefficient = BetValue.BetDefaultCoefficient;
+                await _gamePlayerRepository.Update(human);
             }
             catch (Exception ex)
             {
@@ -227,10 +147,9 @@ namespace BlackJack.BusinessLogic.Services
             {
                 Game game = await _gameRepository.Get(gameId);
                 IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-                List<int> deck = CreateDeck();
+                List<int> deck = await ResumeDeck(gamePlayers);
 
                 await SecondCardsDistribution(gamePlayers, deck);
-
                 await SecondCardCheck(gamePlayers);
 
                 game.Stage = Stage.SecondCardsDistribution;
@@ -245,149 +164,6 @@ namespace BlackJack.BusinessLogic.Services
             }
         }
         
-        public async Task<GameStartViewModel> GenerateGameStartViewModel(int gameId)
-        {
-            try
-            {
-                GameStartViewModel gameStartViewModel = new GameStartViewModel();
-                gameStartViewModel.Bots = new List<GamePlayerStartViewModel>();
-                gameStartViewModel.Id = gameId;
-
-                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-
-                foreach (GamePlayer gamePlayer in gamePlayers)
-                {
-                    PlayerViewModel playerViewModel = new PlayerViewModel();
-
-                    playerViewModel.Id = gamePlayer.Player.Id;
-                    playerViewModel.Name = gamePlayer.Player.Name;
-
-                    if (gamePlayer.Player.IsDealer)
-                    {
-                        playerViewModel.PlayerType = PlayerType.Dealer;
-                        gameStartViewModel.Dealer = new GamePlayerStartViewModel();
-                        gameStartViewModel.Dealer.Player = playerViewModel;
-                        gameStartViewModel.Dealer.Score = gamePlayer.Score;
-                    }
-
-                    if (gamePlayer.Player.IsHuman)
-                    {
-                        playerViewModel.PlayerType = PlayerType.Human;
-                        gameStartViewModel.Human = new GamePlayerStartViewModel();
-                        gameStartViewModel.Human.Player = playerViewModel;
-                        gameStartViewModel.Human.Score = gamePlayer.Score;
-                    }
-
-                    if (!gamePlayer.Player.IsHuman && !gamePlayer.Player.IsDealer)
-                    {
-                        playerViewModel.PlayerType = PlayerType.Bot;
-                        gameStartViewModel.Bots.Add(new GamePlayerStartViewModel() { Player = playerViewModel, Score = gamePlayer.Score });
-                    }
-                }
-
-                return gameStartViewModel;
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
-        }
-
-        public async Task<GameViewModel> GenerateFirstPhaseGameViewModel(int gameId)
-        {
-            try
-            {
-                GameViewModel gameViewModel = new GameViewModel();
-                //gameViewModel.Bots = new List<GamePlayerViewModel>();
-                gameViewModel.Id = gameId;
-                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-
-                foreach (GamePlayer gamePlayer in gamePlayers)
-                {
-                    GamePlayerViewModel gamePlayerViewModel = new GamePlayerViewModel { Score = gamePlayer.Score };
-                    gamePlayerViewModel.Cards = new List<string>();
-                    PlayerViewModel playerViewModel = new PlayerViewModel() { Id = gamePlayer.Player.Id, Name = gamePlayer.Player.Name };
-                    List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
-
-                    if (gamePlayer.Player.IsDealer)
-                    {
-                        playerViewModel.PlayerType = PlayerType.Dealer;
-                        gamePlayerViewModel.Player = playerViewModel;
-                        gamePlayerViewModel.Cards.Add(_playerCardProvider.PlayerCardToCardString(playerCards[0]));
-
-                        //gameViewModel.Dealer = gamePlayerViewModel;
-                    }
-
-                    if (!gamePlayer.Player.IsDealer)
-                    {
-                        gamePlayerViewModel.CardScore = gamePlayer.RoundScore;
-                        gamePlayerViewModel.Bet = gamePlayer.Bet;
-                        gamePlayerViewModel.Cards = _playerCardProvider.GetCardsStringList(playerCards);
-                    }
-
-                    if (gamePlayer.Player.IsHuman)
-                    {
-                        playerViewModel.PlayerType = PlayerType.Human;
-                        gamePlayerViewModel.Player = playerViewModel;
-
-                        //gameViewModel.Human = gamePlayerViewModel;
-                    }
-
-                    if (!gamePlayer.Player.IsHuman && !gamePlayer.Player.IsDealer)
-                    {
-                        playerViewModel.PlayerType = PlayerType.Bot;
-                        gamePlayerViewModel.Player = playerViewModel;
-
-                        //gameViewModel.Bots.Add(gamePlayerViewModel);
-                    }
-                }
-
-                return gameViewModel;
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
-        }
-
-        public async Task HumanBjAndDealerBjDangerContinueRound(int gameId)
-        {
-            try
-            {
-                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-                GamePlayer human = gamePlayers.Where(m => m.Player.IsHuman).FirstOrDefault();
-                human.BetPayCoefficient = BetValue.BetDefaultCoefficient;
-                await _gamePlayerRepository.Update(human);
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
-        }
-
-        public async Task BetPayments(int gameId)
-        {
-            try
-            {
-                IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-                await _gamePlayerProvider.RoundBetPayments(gamePlayers);
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
-        }
-
-
-
         private async Task FirstCardsDistribution(IEnumerable<GamePlayer> players, List<int> deck)
         {
             try
@@ -406,12 +182,10 @@ namespace BlackJack.BusinessLogic.Services
             }
         }
 
-        private async Task<bool> FirstCardCheck(IEnumerable<GamePlayer> gamePlayers)
+        private async Task FirstCardCheck(IEnumerable<GamePlayer> gamePlayers)
         {
             try
             {
-                bool humanBjAndDealerBjDanger = false;
-
                 GamePlayer dealer = gamePlayers.Where(m => m.Player.IsDealer).First();
                 List<PlayerCard> dealerPlayerCards = (await _playerCardRepository.GetByGamePlayerId(dealer.Id)).ToList();
                 Card dealerFirstCard = InitialDeck.Cards.Where(m => m.Id == dealerPlayerCards[0].CardId).First();
@@ -426,8 +200,8 @@ namespace BlackJack.BusinessLogic.Services
                 {
                     if (!gamePlayer.Player.IsDealer)
                     {
-                        List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
-                        gamePlayer.BetPayCoefficient = _cardCheckProvider.RoundFirstPhaseResult(gamePlayer.RoundScore, playerCards.Count, dealerBjDanger);
+                        int playerCardsCount = await _playerCardRepository.GetCountByGamePlayerId(gamePlayer.Id);
+                        gamePlayer.BetPayCoefficient = _cardCheckProvider.RoundFirstPhaseResult(gamePlayer.RoundScore, playerCardsCount, dealerBjDanger);
                         await _gamePlayerRepository.Update(gamePlayer);
 
                         if (gamePlayer.BetPayCoefficient == BetValue.BetBjCoefficient)
@@ -441,14 +215,6 @@ namespace BlackJack.BusinessLogic.Services
                         }
                     }
                 }
-
-                GamePlayer human = gamePlayers.Where(m => m.Player.IsHuman).First();
-                if (human.BetPayCoefficient == BetValue.BetWinCoefficient)
-                {
-                    humanBjAndDealerBjDanger = true;
-                }
-
-                return humanBjAndDealerBjDanger;
             }
             catch (Exception ex)
             {
@@ -464,7 +230,10 @@ namespace BlackJack.BusinessLogic.Services
             {
                 foreach (GamePlayer gamePlayer in players)
                 {
-                    await SecondCardAddingToBot(gamePlayer, deck);
+                    if (!gamePlayer.Player.IsHuman)
+                    {
+                        await SecondCardAddingToBot(gamePlayer, deck);
+                    }
                 }
             }
             catch (Exception ex)
@@ -480,13 +249,14 @@ namespace BlackJack.BusinessLogic.Services
             try
             {
                 GamePlayer dealer = gamePlayers.Where(m => m.Player.IsDealer).FirstOrDefault();
+                int dealerPlayerCardsCount = await _playerCardRepository.GetCountByGamePlayerId(dealer.Id);
 
                 foreach (GamePlayer gamePlayer in gamePlayers)
                 {
                     if (!gamePlayer.Player.IsDealer)
                     {
-                        List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
-                        gamePlayer.BetPayCoefficient = _cardCheckProvider.RoundSecondPhaseResult(gamePlayer.Bet, gamePlayer.RoundScore, playerCards.Count, dealer.RoundScore);
+                        int playerCardsCount = await _playerCardRepository.GetCountByGamePlayerId(gamePlayer.Id);
+                        gamePlayer.BetPayCoefficient = _cardCheckProvider.RoundSecondPhaseResult(gamePlayer.Bet, gamePlayer.RoundScore, playerCardsCount, dealer.RoundScore, dealerPlayerCardsCount, gamePlayer.BetPayCoefficient);
                         await _gamePlayerRepository.Update(gamePlayer);
                     }
                 }

@@ -26,25 +26,11 @@ namespace BlackJack.BusinessLogic.Helpers
 
             Card card; 
 
-            for (int cardName = (int)CardName.Two; cardName <= (int)CardName.Ace; cardName++)
+            for (int cardName = (int)CardName.Two; cardName <= (int)CardName.King; cardName++)
             {
-                if (cardName == (int)CardName.Ten)
-                {
-                    continue;
-                }
-
                 card = new Card () { Id = cardCount++, CardName = (CardName)cardName, CardType = (CardType)cardType};
                 Cards.Add(card);
             }
-
-            card = new Card { Id = cardCount++, CardName = CardName.Ten, CardType = (CardType)cardType };
-            Cards.Add(card);
-            card = new Card { Id = cardCount++, CardName = CardName.Jack, CardType = (CardType)cardType };
-            Cards.Add(card);
-            card = new Card { Id = cardCount++, CardName = CardName.Dame, CardType = (CardType)cardType };
-            Cards.Add(card);
-            card = new Card { Id = cardCount++, CardName = CardName.King, CardType = (CardType)cardType };
-            Cards.Add(card);
 
             cardType++;
             CardInitialization(cardType, cardCount);

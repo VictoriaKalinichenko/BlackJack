@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BlackJack.ViewModels.ViewModels
 {
@@ -10,10 +6,14 @@ namespace BlackJack.ViewModels.ViewModels
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
+        public int Stage { get; set; }
+
         public PlayerViewModel Dealer { get; set; }
 
         public PlayerViewModel Human { get; set; }
 
-        public List<PlayerViewModel> Bots { get; set; }
+        public List<BotViewModel> Bots { get; set; }
     }
 }

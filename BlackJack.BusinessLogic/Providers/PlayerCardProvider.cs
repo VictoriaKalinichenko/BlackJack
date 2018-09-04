@@ -79,27 +79,32 @@ namespace BlackJack.BusinessLogic.Providers
         {
             try
             {
-                int roundScore;
-
+                int roundScore = 0;
+                
                 List<Card> cards = new List<Card>();
                 foreach (PlayerCard playerCard in playerCards)
                 {
                     Card card = InitialDeck.Cards.Where(m => m.Id == playerCard.CardId).First();
+                    int cardScore = (int)card.CardName;
+                    if (cardScore > (int)CardName.Ace)
+                    {
+                        cardScore = (int)CardName.Ten;
+                    }
+
+                    roundScore += cardScore;
                     cards.Add(card);
                 }
-
-                int count = cards.Sum(m => (int)m.CardName);
+                
                 int aceCount = cards
                     .Where(m => m.CardName == CardName.Ace)
                     .Count();
 
-                for (; aceCount > 0 && count > CardValue.CardBjScore;)
+                for (; aceCount > 0 && roundScore > CardValue.CardBjScore;)
                 {
                     aceCount--;
-                    count -= (int)CardName.Ten;
+                    roundScore -= (int)CardName.Ten;
                 }
-
-                roundScore = count;
+                
                 return roundScore;
             }
             catch (Exception ex)

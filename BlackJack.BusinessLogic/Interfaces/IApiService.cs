@@ -1,0 +1,32 @@
+﻿using System.Threading.Tasks;
+using BlackJack.ViewModels.ViewModels;
+
+namespace BlackJack.BusinessLogic.Interfaces
+{
+    public interface IApiService
+    {
+        Task<GamePlayerViewModel> GetGamePlayer(int gamePlayerId);
+
+        Task<GameViewModel> GetGame(int gameId);
+
+        Task<GamePlayerViewModel> GetDealerInSecondPhase(int gamePlayerId);
+
+        Task<GamePlayerViewModel> GetDealerInFirstPhase(int gamePlayerId);
+
+        Task<int> BetsCreation(int bet, int inGameId);
+
+        Task<string> BetValidation(int bet, int gamePlayerId);
+
+        Task<string> HumanRoundResult(int gameId);
+
+        Task BetPayments(int gameId);
+
+        Task UpdateGamePlayersForNewRound(int gameId);
+
+        Task BotsRemoving(int gameId);
+
+        Task<string> IsGameOver(int gameId);
+
+        Task OnGameOver(int gameId, string gameResult);
+    }
+}

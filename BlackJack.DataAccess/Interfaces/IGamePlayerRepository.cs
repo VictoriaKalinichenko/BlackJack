@@ -10,6 +10,8 @@ namespace BlackJack.DataAccess.Interfaces
 
         Task<GamePlayer> Get(int id);
 
+        Task<int> GetGameIdByPlayerId(int id);
+
         Task<GamePlayer> Create(GamePlayer gamePlayer);
 
         Task Update(GamePlayer gamePlayer);

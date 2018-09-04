@@ -15,7 +15,8 @@ namespace BlackJack.BusinessLogic.Util
             builder.RegisterType<CardCheckProvider>().As<ICardCheckProvider>();
 
             builder.RegisterType<StartGameService>().As<IStartGameService>();
-            builder.RegisterType<GameService>().As<IGameService>();
+            builder.RegisterType<CardAndCheckService>().As<ICardAndCheckService>();
+            builder.RegisterType<ApiService>().As<IApiService>();
             builder.RegisterType<LogService>().As<ILogService>();
 
             builder.RegisterModule(new DataAccessConfig());

@@ -16,9 +16,9 @@ namespace BlackJack.UI.Controllers
             _logService = logService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string userName)
         {
-            return View();
+            return View(model: userName);
         }
 
         [HttpGet]

@@ -169,7 +169,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\CardAndCheckController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\StartGameController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2699,12 +2700,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\StartGame\Index.cshtml" />
-    <Content Include="Views\StartGame\StartGame.cshtml" />
-    <Content Include="Views\Game\RoundStart.cshtml" />
-    <Content Include="Views\Game\CardDistribution.cshtml" />
-    <Content Include="Views\Game\Error.cshtml" />
+    <Content Include="Views\CardAndCheck\Error.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
-    <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\Api\Index.cshtml" />
+    <Content Include="Views\Shared\_StartPage.cshtml" />
+    <Content Include="Views\StartGame\MainPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

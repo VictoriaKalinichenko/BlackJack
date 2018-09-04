@@ -69,13 +69,14 @@
   <ItemGroup>
     <Compile Include="Helpers\Card.cs" />
     <Compile Include="Helpers\CardValue.cs" />
+    <Compile Include="Helpers\DomId.cs" />
     <Compile Include="Helpers\GameMessage.cs" />
     <Compile Include="Helpers\GameValue.cs" />
-    <Compile Include="Helpers\InfoMessage.cs" />
     <Compile Include="Helpers\PlayerType.cs" />
+    <Compile Include="Helpers\RoundResult.cs" />
     <Compile Include="Helpers\Stage.cs" />
-    <Compile Include="Helpers\UiMessage.cs" />
     <Compile Include="Helpers\BetValue.cs" />
+    <Compile Include="Interfaces\IApiService.cs" />
     <Compile Include="Interfaces\IGamePlayerProvider.cs" />
     <Compile Include="Interfaces\ILogService.cs" />
     <Compile Include="Interfaces\IPlayerCardProvider.cs" />
@@ -87,8 +88,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\GamePlayerProvider.cs" />
     <Compile Include="Providers\PlayerCardProvider.cs" />
-    <Compile Include="Services\GameService.cs" />
-    <Compile Include="Interfaces\IGameService.cs" />
+    <Compile Include="Services\ApiService.cs" />
+    <Compile Include="Services\CardAndCheckService.cs" />
+    <Compile Include="Interfaces\ICardAndCheckService.cs" />
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\StartGameService.cs" />
     <Compile Include="Util\BusinessLogicConfig.cs" />

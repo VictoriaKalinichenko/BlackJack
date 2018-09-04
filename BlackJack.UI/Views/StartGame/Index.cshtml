@@ -1,8 +1,27 @@
-﻿@{
+﻿@using BlackJack.BusinessLogic.Helpers;
+@using BlackJack.ViewModels.ViewModels;
+@model NameValidationViewModel
+@{
+    Layout = "~/Views/Shared/_StartPage.cshtml";
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
     <h1>BlackJack</h1>
-    @Html.ActionLink("Start game", "StartGame", "StartGame", null, new { @class = "btn btn-primary"})
+
+    @using (Html.BeginForm("Index", "StartGame", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            <label class="control-label col-md-2">@InputMessage.NameInput</label>
+            <div class="col-md-10">
+                @if (!string.IsNullOrEmpty(Model.ValidateMessage))
+                {
+                    <div class="alert alert-danger">@Model.ValidateMessage</div>
+                }
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                <br />
+                <input type="submit" value="Enter" class="btn btn-primary" />
+            </div>
+        </div>
+    }
 </div>

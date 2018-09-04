@@ -362,3 +362,145 @@
 2018-08-31 13:42:51.5969|ERROR|BlackJack.UI.Controllers.GameController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.GameController.<GetPlayer>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 98|Exception of type 'System.Exception' was thrown.
 2018-08-31 13:44:42.4824|ERROR|BlackJack.UI.Controllers.GameController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.GameController.<GetPlayer>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 98|Exception of type 'System.Exception' was thrown.
 2018-08-31 13:45:26.0054|ERROR|BlackJack.UI.Controllers.GameController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.GameController.<GetPlayer>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 98|Exception of type 'System.Exception' was thrown.
+2018-09-03 15:42:16.6903|ERROR|BlackJack.DataAccess.Repositories.PlayerRepository|.Net SqlClient Data Provider|System.Data.Common.DbDataReader <ExecuteDbDataReaderAsync>b__180_0(System.Threading.Tasks.Task`1[System.Data.SqlClient.SqlDataReader])|   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__180_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.ValidateEnd(Task task)
+   at Dapper.SqlMapper.<QueryRowAsync>d__34`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.PlayerRepository.<Get>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\PlayerRepository.cs:line 56|Incorrect syntax near '`'.
+2018-09-03 15:42:16.7164|ERROR|BlackJack.BusinessLogic.Services.StartGameService|.Net SqlClient Data Provider|System.Data.Common.DbDataReader <ExecuteDbDataReaderAsync>b__180_0(System.Threading.Tasks.Task`1[System.Data.SqlClient.SqlDataReader])|   at BlackJack.DataAccess.Repositories.PlayerRepository.<Get>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\PlayerRepository.cs:line 64
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartGameService.<CreatePlayerList>d__11.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 167|Incorrect syntax near '`'.
+2018-09-03 15:42:16.7365|ERROR|BlackJack.BusinessLogic.Services.StartGameService|.Net SqlClient Data Provider|System.Data.Common.DbDataReader <ExecuteDbDataReaderAsync>b__180_0(System.Threading.Tasks.Task`1[System.Data.SqlClient.SqlDataReader])|   at BlackJack.BusinessLogic.Services.StartGameService.<CreatePlayerList>d__11.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 185
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartGameService.<CreateGame>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 98|Incorrect syntax near '`'.
+2018-09-03 15:42:16.7591|ERROR|BlackJack.UI.Controllers.StartGameController|.Net SqlClient Data Provider|System.Data.Common.DbDataReader <ExecuteDbDataReaderAsync>b__180_0(System.Threading.Tasks.Task`1[System.Data.SqlClient.SqlDataReader])|   at BlackJack.BusinessLogic.Services.StartGameService.<CreateGame>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 123
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<StartNewGame>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 47|Incorrect syntax near '`'.
+2018-09-03 15:57:11.6959|ERROR|BlackJack.DataAccess.Repositories.GamePlayerRepository|System.Core|TSource Single[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row)
+   at Dapper.SqlMapper.<QueryRowAsync>d__34`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetGameIdByPlayerId>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 83|Sequence contains no elements
+2018-09-03 15:57:11.7238|ERROR|BlackJack.BusinessLogic.Services.StartGameService|System.Core|TSource Single[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetGameIdByPlayerId>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 91
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartGameService.<ResumeGame>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 131|Sequence contains no elements
+2018-09-03 15:57:11.7438|ERROR|BlackJack.UI.Controllers.StartGameController|System.Core|TSource Single[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.BusinessLogic.Services.StartGameService.<ResumeGame>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 138
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<ResumeGame>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 62|Sequence contains no elements
+2018-09-03 16:06:47.9864|ERROR|BlackJack.DataAccess.Repositories.GamePlayerRepository|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row)
+   at Dapper.SqlMapper.<QueryRowAsync>d__34`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetGameIdByPlayerId>d__5.MoveNext()|Sequence contains no elements
+2018-09-03 16:06:48.0155|ERROR|BlackJack.BusinessLogic.Services.StartGameService|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetGameIdByPlayerId>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartGameService.<ResumeGame>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 131|Sequence contains no elements
+2018-09-03 16:06:48.0445|ERROR|BlackJack.UI.Controllers.StartGameController|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.BusinessLogic.Services.StartGameService.<ResumeGame>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 138
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<ResumeGame>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 62|Sequence contains no elements
+2018-09-04 09:52:44.3934|ERROR|BlackJack.DataAccess.Repositories.GamePlayerRepository|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row)
+   at Dapper.SqlMapper.<QueryRowAsync>d__34`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetGameIdByPlayerId>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 84|Sequence contains no elements
+2018-09-04 09:52:44.4214|ERROR|BlackJack.BusinessLogic.Services.StartGameService|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetGameIdByPlayerId>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 92
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartGameService.<ResumeGame>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 124|Sequence contains no elements
+2018-09-04 09:52:44.4423|ERROR|BlackJack.UI.Controllers.StartGameController|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.BusinessLogic.Services.StartGameService.<ResumeGame>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 131
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<ResumeGame>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 85|Sequence contains no elements
+2018-09-04 10:11:47.5700|ERROR|BlackJack.DataAccess.Repositories.GamePlayerRepository|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row)
+   at Dapper.SqlMapper.<QueryRowAsync>d__34`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetGameIdByPlayerId>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 84|Sequence contains no elements
+2018-09-04 10:11:47.5982|ERROR|BlackJack.BusinessLogic.Services.StartGameService|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetGameIdByPlayerId>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 92
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartGameService.<ResumeGame>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 124|Sequence contains no elements
+2018-09-04 10:11:47.6199|ERROR|BlackJack.UI.Controllers.StartGameController|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.BusinessLogic.Services.StartGameService.<ResumeGame>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 131
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<ResumeGame>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 85|Sequence contains no elements
+2018-09-04 11:10:31.6544|ERROR|BlackJack.BusinessLogic.Services.StartGameService|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 78|Object reference not set to an instance of an object.
+2018-09-04 11:10:31.6804|ERROR|BlackJack.UI.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 97
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<MainPage>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 54|Object reference not set to an instance of an object.
+2018-09-04 11:10:47.5164|ERROR|BlackJack.BusinessLogic.Services.StartGameService|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 78|Object reference not set to an instance of an object.
+2018-09-04 11:10:47.5350|ERROR|BlackJack.UI.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 97
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<MainPage>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 54|Object reference not set to an instance of an object.
+2018-09-04 11:11:59.2570|ERROR|BlackJack.BusinessLogic.Services.StartGameService|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 78|Object reference not set to an instance of an object.
+2018-09-04 11:11:59.2769|ERROR|BlackJack.UI.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 97
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<MainPage>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 54|Object reference not set to an instance of an object.
+2018-09-04 11:12:20.7350|ERROR|BlackJack.BusinessLogic.Services.StartGameService|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 78|Object reference not set to an instance of an object.
+2018-09-04 11:12:20.7631|ERROR|BlackJack.UI.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 97
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<MainPage>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 54|Object reference not set to an instance of an object.
+2018-09-04 11:21:22.6366|ERROR|BlackJack.UI.Controllers.ApiController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.ApiController.<GetPlayer>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\ApiController.cs:line 43|Exception of type 'System.Exception' was thrown.
+2018-09-04 11:21:22.6376|ERROR|BlackJack.UI.Controllers.ApiController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.ApiController.<GetPlayer>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\ApiController.cs:line 43|Exception of type 'System.Exception' was thrown.
+2018-09-04 11:21:22.6376|ERROR|BlackJack.UI.Controllers.ApiController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.ApiController.<GetPlayer>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\ApiController.cs:line 43|Exception of type 'System.Exception' was thrown.

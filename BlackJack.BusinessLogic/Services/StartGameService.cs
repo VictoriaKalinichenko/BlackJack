@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlackJack.DataAccess.Interfaces;
-using BlackJack.DataAccess.Repositories;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.Entities.Models;
@@ -30,21 +29,16 @@ namespace BlackJack.BusinessLogic.Services
             _logRepository = logRepository;
         }
         
-        public async Task<string> PlayerNameValidation(string name)
+        public string PlayerNameValidation(string name)
         {
-            string result = String.Empty;
-
             try
             {
-                if (await _playerRepository.SelectByName(name) != null)
-                {
-                    result = InputMessage.NameAlreadyExist;
-                }
-
+                string result = String.Empty;
                 if (String.IsNullOrEmpty(name))
                 {
                     result = InputMessage.NameFieldIsEmpty;
                 }
+                return result;
             }
             catch (Exception ex)
             {
@@ -52,11 +46,60 @@ namespace BlackJack.BusinessLogic.Services
                 _logger.Error(message);
                 throw ex;
             }
-
-            return result;
         }
 
-        public async Task<int> CreateGame(NameAndBotAmountInputViewModel startInputViewModel)
+        public async Task<string> PlayerCreation(string name)
+        {
+            try
+            {
+                Player human = await _playerRepository.SelectByName(name);
+                if (human == null)
+                {
+                    human = await CreatePlayer(name, true);
+                }
+
+                return human.Name;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        public async Task<AuthPlayerViewModel> PlayerAuthorization(string name)
+        {
+            try
+            {
+                Player human = await _playerRepository.SelectByName(name);
+
+                bool resumeGame = true;
+                int gameId = await _gamePlayerRepository.GetGameIdByPlayerId(human.Id);
+                Game game = await _gameRepository.Get(gameId);
+                if (game == null || !string.IsNullOrEmpty(game.Result))
+                {
+                    resumeGame = false;
+                }
+
+                AuthPlayerViewModel authPlayerViewModel = new AuthPlayerViewModel()
+                {
+                    PlayerId = human.Id,
+                    Name = human.Name,
+                    ResumeGame = resumeGame
+                };
+
+                return authPlayerViewModel;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
+        public async Task<int> CreateGame(int playerId, int amountOfBots)
         {
             try
             {
@@ -66,7 +109,7 @@ namespace BlackJack.BusinessLogic.Services
                 game = await _gameRepository.Create(game);
                 await _logRepository.CreateLogGameIsCreated(game.Id, game.Stage);
 
-                List<Player> players = await CreatePlayerList(startInputViewModel.HumanName, startInputViewModel.AmountOfBots);
+                List<Player> players = await CreatePlayerList(playerId, amountOfBots);
                 foreach (Player player in players)
                 {
                     GamePlayer gamePlayer = new GamePlayer()
@@ -94,7 +137,22 @@ namespace BlackJack.BusinessLogic.Services
                 throw ex;
             }
         }
-        
+
+        public async Task<int> ResumeGame(int playerId)
+        {
+            try
+            {
+                int gameId = await _gamePlayerRepository.GetGameIdByPlayerId(playerId);
+                return gameId;
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
         private async Task<Player> CreatePlayer(string name, bool isHuman = false, bool isDealer = false)
         {
             try
@@ -114,18 +172,13 @@ namespace BlackJack.BusinessLogic.Services
             }
         }
 
-        private async Task<List<Player>> CreatePlayerList(string name, int amountOfBots)
+        private async Task<List<Player>> CreatePlayerList(int playerId, int amountOfBots)
         {
             try
             {
                 List<Player> players = new List<Player>();
 
-                Player human = await _playerRepository.SelectByName(name);
-                if (human == null)
-                {
-                    human = await CreatePlayer(name, true);
-                }
-                players.Add(human);
+                players.Add(await _playerRepository.Get(playerId));
 
                 Random random = new Random();
                 Player dealer = await CreatePlayer(((BotName)random.Next(GameValue.BotNameAmount)).ToString(), false, true);

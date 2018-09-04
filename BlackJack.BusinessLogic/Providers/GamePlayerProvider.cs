@@ -90,6 +90,7 @@ namespace BlackJack.BusinessLogic.Providers
 
                 player.Score += player.Bet + pay;
                 player.Bet = BetValue.BetZero;
+                player.BetPayCoefficient = BetValue.BetDefaultCoefficient;
 
                 dealer.Score -= pay;
             }

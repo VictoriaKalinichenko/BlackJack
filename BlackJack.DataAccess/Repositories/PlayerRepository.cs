@@ -46,7 +46,7 @@ namespace BlackJack.DataAccess.Repositories
         public async Task<Player> Get(int id)
         {
             Player player = new Player();
-            string sqlQuery = $@"SELECT Id, Players.`Name`, IsHuman, IsDealer FROM Players 
+            string sqlQuery = $@"SELECT Id, Players.Name, IsHuman, IsDealer FROM Players 
                                  WHERE Id = {id}";
 
             try

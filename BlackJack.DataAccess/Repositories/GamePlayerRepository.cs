@@ -71,6 +71,28 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
+        public async Task<int> GetGameIdByPlayerId(int id)
+        {
+            string sqlQuery = $@"SELECT TOP (1) GameId FROM GamePlayers 
+                                 WHERE PlayerId = {id}
+                                 ORDER BY ID DESC";
+
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    int gameId = await db.QueryFirstOrDefaultAsync<int>(sqlQuery);
+                    return gameId;
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                throw ex;
+            }
+        }
+
         public async Task<GamePlayer> Create(GamePlayer gamePlayer)
         {
             try

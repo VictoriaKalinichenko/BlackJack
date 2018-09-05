@@ -14,6 +14,6 @@ namespace BlackJack.ViewModels.ViewModels
 
         public PlayerViewModel Human { get; set; }
 
-        public List<BotViewModel> Bots { get; set; }
+        public List<PlayerViewModel> Bots { get; set; }
     }
 }

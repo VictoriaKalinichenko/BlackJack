@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Helpers;
 using BlackJack.ViewModels.ViewModels;
 using NLog;
 
@@ -43,7 +44,8 @@ namespace BlackJack.UI.Controllers
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return RedirectToAction("Error", "CardAndCheck", new { message = message });
+                message = GameMessageHelper.PlayerAuthError;
+                return RedirectToAction("Error", new { message = message });
             }
         }
         
@@ -58,7 +60,8 @@ namespace BlackJack.UI.Controllers
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return RedirectToAction("Error", "CardAndCheck", new { message = message });
+                message = GameMessageHelper.PlayerAuthError;
+                return RedirectToAction("Error", new { message = message });
             }
         }
 
@@ -68,13 +71,14 @@ namespace BlackJack.UI.Controllers
             try
             {
                 int gameId = await _startGameService.CreateGame(playerId, amountOfBots);
-                return RedirectToAction("Index", "Api", new { gameId = gameId });
+                return RedirectToAction("Round", new { gameId = gameId });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return RedirectToAction("Error", "CardAndCheck", new { message = ex.Message });
+                message = GameMessageHelper.GameCreationError;
+                return RedirectToAction("Error", new { message = message });
             }
         }
 
@@ -83,14 +87,36 @@ namespace BlackJack.UI.Controllers
             try
             {
                 int gameId = await _startGameService.ResumeGame(playerId);
-                return RedirectToAction("Index", "Api", new { gameId = gameId });
+                return RedirectToAction("Round", new { gameId = gameId });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return RedirectToAction("Error", "CardAndCheck", new { message = ex.Message });
+                message = GameMessageHelper.GameResumingError;
+                return RedirectToAction("Error", new { message = message });
             }
+        }
+
+        public async Task<ActionResult> Round(int gameId)
+        {
+            try
+            {
+                GameViewModel game = await _startGameService.GetGame(gameId);
+                return View(game);
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                message = GameMessageHelper.GameLoadingError;
+                return RedirectToAction("Error", new { message = message });
+            }
+        }
+
+        public ActionResult Error(string message)
+        {
+            return View((object)message);
         }
     }
 }

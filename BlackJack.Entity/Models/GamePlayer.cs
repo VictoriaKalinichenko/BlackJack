@@ -17,6 +17,6 @@ namespace BlackJack.Entities.Models
         public float BetPayCoefficient { get; set; }
         
         [Write(false)]
-        public virtual Player Player { get; set; }
+        public Player Player { get; set; }
     }
 }

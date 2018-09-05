@@ -1,274 +1,170 @@
-﻿using System;
-using BlackJack.BusinessLogic.Helpers;
+﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using NLog;
 
 namespace BlackJack.BusinessLogic.Providers
 {
     public class CardCheckProvider : ICardCheckProvider
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-
-
         public bool DealerBjDanger(int firstCardValue)
         {
-            try
+            bool danger = false;
+            if (firstCardValue >= CardValueHelper.CardDealerBjDanger)
             {
-                bool danger = false;
-                if (firstCardValue >= CardValue.CardDealerBjDanger)
-                {
-                    danger = true;
-                }
-                return danger;
+                danger = true;
             }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
+            return danger;
         }
 
         public float RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger)
         {
-            try
+            float coef = BetValueHelper.BetDefaultCoefficient;
+
+            if (!dealerBjDanger && PlayerBj(score, amountOfCards))
             {
-                float coef = BetValue.BetDefaultCoefficient;
-
-                if (!dealerBjDanger && PlayerBj(score, amountOfCards))
-                {
-                    coef = BetValue.BetBjCoefficient;
-                }
-
-                if (dealerBjDanger && PlayerBj(score, amountOfCards))
-                {
-                    coef = BetValue.BetWinCoefficient;
-                }
-
-                return coef;
+                coef = BetValueHelper.BetBjCoefficient;
             }
-            catch (Exception ex)
+
+            if (dealerBjDanger && PlayerBj(score, amountOfCards))
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                coef = BetValueHelper.BetWinCoefficient;
             }
+
+            return coef;
         }
 
         public float RoundSecondPhaseResult(int bet, int score, int amountOfCards, int dealerScore, int dealerAmountOfCards, float betPayCoefficient)
         {
-            try
+            if (betPayCoefficient == BetValueHelper.BetWinCoefficient)
             {
-                if (betPayCoefficient == BetValue.BetWinCoefficient)
-                {
-                    return betPayCoefficient;
-                }
+                return betPayCoefficient;
+            }
 
-                if (PlayerEndedTheRound(bet))
-                {
-                    return BetValue.BetDefaultCoefficient;
-                }
+            if (PlayerEndedTheRound(bet))
+            {
+                return BetValueHelper.BetDefaultCoefficient;
+            }
 
-                float coef = BetValue.BetLoseCoefficient;
+            float coef = BetValueHelper.BetLoseCoefficient;
 
-                if (PlayerBj(score, amountOfCards) && !PlayerBj(dealerScore, dealerAmountOfCards))
-                {
-                    coef = BetValue.BetBjCoefficient;
-                    return coef;
-                }
-
-                if (PlayerLossing(score))
-                {
-                    coef = BetValue.BetLoseCoefficient;
-                }
-
-                if (PlayerScoreEqualsDealerScore(score, dealerScore))
-                {
-                    coef = BetValue.BetZeroCoefficient;
-                }
-
-                if (PlayerScoreBetterThanDealerScore(score, dealerScore))
-                {
-                    coef = BetValue.BetWinCoefficient;
-                }
-
+            if (PlayerBj(score, amountOfCards) && !PlayerBj(dealerScore, dealerAmountOfCards))
+            {
+                coef = BetValueHelper.BetBjCoefficient;
                 return coef;
             }
-            catch (Exception ex)
+
+            if (PlayerLossing(score))
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                coef = BetValueHelper.BetLoseCoefficient;
             }
+
+            if (PlayerScoreEqualsDealerScore(score, dealerScore))
+            {
+                coef = BetValueHelper.BetZeroCoefficient;
+            }
+
+            if (PlayerScoreBetterThanDealerScore(score, dealerScore))
+            {
+                coef = BetValueHelper.BetWinCoefficient;
+            }
+
+            return coef;
         }
 
         public bool HumanPlayerHasEnoughCards(int score)
         {
-            try
+            bool result = false;
+            if (score >= CardValueHelper.CardBjScore)
             {
-                bool result = false;
-                if (score >= CardValue.CardBjScore)
-                {
-                    result = true;
-                }
-                return result;
+                result = true;
             }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
+            return result;
         }
 
         public bool BotHasEnoughCards(int score)
         {
-            try
+            bool result = false;
+            if (score >= CardValueHelper.CardBotEnoughScore)
             {
-                bool result = false;
-                if (score >= CardValue.CardBotEnoughScore)
-                {
-                    result = true;
-                }
-                return result;
+                result = true;
             }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
+            return result;
         }
 
         public string HumanRoundResult(float betPayCoefficient)
         {
-            try
+            string humanRoundResult = string.Empty;
+
+            if (betPayCoefficient == BetValueHelper.BetBjCoefficient)
             {
-                string humanRoundResult = string.Empty;
-                
-                if (betPayCoefficient == BetValue.BetBjCoefficient)
-                {
-                    humanRoundResult = RoundResult.BlackJack;
-                }
-
-                if (betPayCoefficient == BetValue.BetWinCoefficient)
-                {
-                    humanRoundResult = RoundResult.Win;
-                }
-
-                if (betPayCoefficient == BetValue.BetZeroCoefficient)
-                {
-                    humanRoundResult = RoundResult.ReturnBet;
-                }
-
-                if (betPayCoefficient == BetValue.BetLoseCoefficient)
-                {
-                    humanRoundResult = RoundResult.Lose;
-                }
-
-                return humanRoundResult;
+                humanRoundResult = RoundResultHelper.BlackJack;
             }
-            catch (Exception ex)
+
+            if (betPayCoefficient == BetValueHelper.BetWinCoefficient)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                humanRoundResult = RoundResultHelper.Win;
             }
+
+            if (betPayCoefficient == BetValueHelper.BetZeroCoefficient)
+            {
+                humanRoundResult = RoundResultHelper.ReturnBet;
+            }
+
+            if (betPayCoefficient == BetValueHelper.BetLoseCoefficient)
+            {
+                humanRoundResult = RoundResultHelper.Lose;
+            }
+
+            return humanRoundResult;
         }
-        
+
         private bool PlayerBj(int score, int amountOfCards)
         {
-            try
+            bool result = false;
+            if (score == CardValueHelper.CardBjScore && amountOfCards == CardValueHelper.CardBjAmount)
             {
-                bool result = false;
-                if (score == CardValue.CardBjScore && amountOfCards == CardValue.CardBjAmount)
-                {
-                    result = true;
-                }
-                return result;
+                result = true;
             }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
+            return result;
         }
 
         private bool PlayerLossing(int score)
         {
-            try
+            bool result = false;
+            if (score > CardValueHelper.CardBjScore)
             {
-                bool result = false;
-                if (score > CardValue.CardBjScore)
-                {
-                    result = true;
-                }
-                return result;
+                result = true;
             }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
+            return result;
         }
 
         private bool PlayerScoreEqualsDealerScore(int playerScore, int dealerScore)
         {
-            try
+            bool result = false;
+            if (playerScore == dealerScore && !PlayerLossing(playerScore))
             {
-                bool result = false;
-                if (playerScore == dealerScore && !PlayerLossing(playerScore))
-                {
-                    result = true;
-                }
-                return result;
+                result = true;
             }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
+            return result;
         }
 
         private bool PlayerScoreBetterThanDealerScore(int playerScore, int dealerScore)
         {
-            try
+            bool result = false;
+            if (!PlayerLossing(playerScore) && (playerScore > dealerScore || PlayerLossing(dealerScore)))
             {
-                bool result = false;
-                if (!PlayerLossing(playerScore) && (playerScore > dealerScore || PlayerLossing(dealerScore)))
-                {
-                    result = true;
-                }
-                return result;
+                result = true;
             }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
+            return result;
         }
 
         private bool PlayerEndedTheRound(int bet)
         {
-            try
+            bool result = false;
+            if (bet == BetValueHelper.BetZero)
             {
-                bool result = false;
-                if (bet == BetValue.BetZero)
-                {
-                    result = true;
-                }
-                return result;
+                result = true;
             }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
-            }
+            return result;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BlackJack.BusinessLogic.Helpers
 {
-    public static class RoundResult
+    public static class RoundResultHelper
     {
         public static readonly string BlackJack = "You have Blackjack and receive award 3:2";
         public static readonly string Win = "You are winner and receive award 1:1";

@@ -12,8 +12,8 @@
             var transParam = { inGameId: gameId };
 
             $.ajax({
-                type: "POST",
-                url: "/CardAndCheck/FirstPhaseGamePlay",
+                type: "GET",
+                url: "/GameLogic/FirstPhaseGamePlay",
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
@@ -52,8 +52,8 @@
             var transParam = { inGameId: gameId };
 
             $.ajax({
-                type: "POST",
-                url: "/Api/HumanRoundResult",
+                type: "GET",
+                url: "/PlayerLogic/HumanRoundResult",
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
@@ -84,7 +84,7 @@
         var transParam = { bet: betInput, humanGamePlayerId: humanId, inGameId: gameId };
         $.ajax({
             type: "POST",
-            url: "/Api/BetsCreation",
+            url: "/PlayerLogic/BetsCreation",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -97,8 +97,8 @@
                     var transParam = { inGameId: gameId };
 
                     $.ajax({
-                        type: "POST",
-                        url: "/CardAndCheck/RoundStart",
+                        type: "GET",
+                        url: "/GameLogic/RoundStart",
                         data: transParam,
                         dataType: "json",
                         success: function (response) {
@@ -111,8 +111,8 @@
                                 var transParam = { inGameId: gameId };
 
                                 $.ajax({
-                                    type: "POST",
-                                    url: "/CardAndCheck/FirstPhaseGamePlay",
+                                    type: "GET",
+                                    url: "/GameLogic/FirstPhaseGamePlay",
                                     data: transParam,
                                     dataType: "json",
                                     success: function (response) {
@@ -160,8 +160,8 @@
         var gameId = $("#gameid").val();
         var transParam = { inGameId: gameId };
         $.ajax({
-            type: "POST",
-            url: "/CardAndCheck/HumanBjAndDealerBjDangerContinueRound",
+            type: "GET",
+            url: "/GameLogic/HumanBjAndDealerBjDangerContinueRound",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -183,8 +183,8 @@
         var gameId = $("#gameid").val();
         var transParam = { inGameId: gameId };
         $.ajax({
-            type: "POST",
-            url: "/CardAndCheck/AddOneMoreCardToHuman",
+            type: "GET",
+            url: "/GameLogic/AddOneMoreCardToHuman",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -213,8 +213,8 @@
         var gameId = $("#gameid").val();
         var transParam = { inGameId: gameId };
         $.ajax({
-            type: "POST",
-            url: "/Api/UpdateGamePlayersForNewRound",
+            type: "GET",
+            url: "/PlayerLogic/UpdateGamePlayersForNewRound",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -279,7 +279,7 @@
 
         $.ajax({
             type: "GET",
-            url: "/Api/GetPlayer",
+            url: "/PlayerLogic/GetPlayer",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -319,7 +319,7 @@
 
         $.ajax({
             type: "GET",
-            url: "/Api/GetDealerInFirstPhase",
+            url: "/PlayerLogic/GetDealerInFirstPhase",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -357,7 +357,7 @@
 
         $.ajax({
             type: "GET",
-            url: "/Api/GetDealerInSecondPhase",
+            url: "/PlayerLogic/GetDealerInSecondPhase",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -489,8 +489,8 @@
         var gameId = $("#gameid").val();
         var transParam = { inGameId: gameId };
         $.ajax({
-            type: "POST",
-            url: "/CardAndCheck/SecondPhase",
+            type: "GET",
+            url: "/GameLogic/SecondPhase",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -502,8 +502,8 @@
                     var gameId = $("#gameid").val();
                     var transParam = { inGameId: gameId };
                     $.ajax({
-                        type: "POST",
-                        url: "/Api/HumanRoundResult",
+                        type: "GET",
+                        url: "/PlayerLogic/HumanRoundResult",
                         data: transParam,
                         dataType: "json",
                         success: function (response) {

@@ -1,6 +1,6 @@
 ﻿namespace BlackJack.BusinessLogic.Helpers
 {
-    public static class BetValue
+    public static class BetValueHelper
     {
         public static readonly float BetBjCoefficient = 1.5F;
         public static readonly int BetWinCoefficient = 1;

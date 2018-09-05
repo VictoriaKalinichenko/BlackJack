@@ -12,7 +12,7 @@
     @using (Html.BeginForm("Index", "StartGame", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         <div class="form-group">
-            <label class="control-label col-md-2">@InputMessage.NameInput</label>
+            <label class="control-label col-md-2">@GameMessageHelper.NameInput</label>
             <div class="col-md-10">
                 @if (!string.IsNullOrEmpty(Model.ValidateMessage))
                 {

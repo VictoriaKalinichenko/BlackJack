@@ -1,6 +1,6 @@
 ﻿namespace BlackJack.BusinessLogic.Helpers
 {
-    public static class CardValue
+    public static class CardValueHelper
     {
         public static readonly int CardAmount = 52;
         public static readonly int CardTypeAmount = 4;

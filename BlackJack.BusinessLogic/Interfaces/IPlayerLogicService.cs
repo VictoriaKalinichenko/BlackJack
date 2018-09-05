@@ -3,12 +3,10 @@ using BlackJack.ViewModels.ViewModels;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
-    public interface IApiService
+    public interface IPlayerLogicService
     {
         Task<GamePlayerViewModel> GetGamePlayer(int gamePlayerId);
-
-        Task<GameViewModel> GetGame(int gameId);
-
+        
         Task<GamePlayerViewModel> GetDealerInSecondPhase(int gamePlayerId);
 
         Task<GamePlayerViewModel> GetDealerInFirstPhase(int gamePlayerId);

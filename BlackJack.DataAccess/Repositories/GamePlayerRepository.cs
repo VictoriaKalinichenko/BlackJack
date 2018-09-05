@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using BlackJack.DataAccess.Interfaces;
+using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Models;
 using Dapper;
 using Dapper.Contrib.Extensions;
-using NLog;
 
 namespace BlackJack.DataAccess.Repositories
 {
     public class GamePlayerRepository : IGamePlayerRepository
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private string _connectionString;
 
 
@@ -28,24 +25,15 @@ namespace BlackJack.DataAccess.Repositories
                                  INNER JOIN Players AS B ON A.PlayerId = B.Id
                                  WHERE A.GameId = {gameId}";
 
-            try
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    var gamePlayers = await db.QueryAsync<GamePlayer, Player, GamePlayer>(sqlQuery,(gamePlayer, player) =>
-                    {
-                        gamePlayer.Player = player;
-                        return gamePlayer;
-                    });
+                var gamePlayers = await db.QueryAsync<GamePlayer, Player, GamePlayer>(sqlQuery, (gamePlayer, player) =>
+                 {
+                     gamePlayer.Player = player;
+                     return gamePlayer;
+                 });
 
-                    return gamePlayers;
-                }
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                return gamePlayers;
             }
         }
 
@@ -55,19 +43,10 @@ namespace BlackJack.DataAccess.Repositories
                                  FROM GamePlayers 
                                  WHERE Id = {id}";
 
-            try
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    GamePlayer gamePlayer = await db.QuerySingleAsync<GamePlayer>(sqlQuery);
-                    return gamePlayer;
-                }
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                GamePlayer gamePlayer = await db.QuerySingleOrDefaultAsync<GamePlayer>(sqlQuery);
+                return gamePlayer;
             }
         }
 
@@ -77,72 +56,36 @@ namespace BlackJack.DataAccess.Repositories
                                  WHERE PlayerId = {id}
                                  ORDER BY ID DESC";
 
-            try
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    int gameId = await db.QueryFirstOrDefaultAsync<int>(sqlQuery);
-                    return gameId;
-                }
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                int gameId = await db.QueryFirstOrDefaultAsync<int>(sqlQuery);
+                return gameId;
             }
         }
 
         public async Task<GamePlayer> Create(GamePlayer gamePlayer)
         {
-            try
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    int gamePlayerId = await db.InsertAsync(gamePlayer);
-                    gamePlayer.Id = gamePlayerId;
-                    return gamePlayer;
-                }
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                int gamePlayerId = await db.InsertAsync(gamePlayer);
+                gamePlayer.Id = gamePlayerId;
+                return gamePlayer;
             }
         }
 
         public async Task Update(GamePlayer gamePlayer)
         {
-            try
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    await db.UpdateAsync(gamePlayer);
-                }
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                await db.UpdateAsync(gamePlayer);
             }
         }
 
         public async Task Delete(int id)
         {
-            try
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    await db.DeleteAsync(new GamePlayer() { Id = id } );
-                }
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                await db.DeleteAsync(new GamePlayer() { Id = id });
             }
         }
 
@@ -151,18 +94,9 @@ namespace BlackJack.DataAccess.Repositories
             string sqlQuery = $@"DELETE FROM GamePlayers 
                                  WHERE GameId = {gameId}";
 
-            try
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    await db.ExecuteAsync(sqlQuery);
-                }
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                throw ex;
+                await db.ExecuteAsync(sqlQuery);
             }
         }
     }

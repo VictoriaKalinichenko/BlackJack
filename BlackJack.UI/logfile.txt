@@ -504,3 +504,29 @@
 2018-09-04 11:21:22.6366|ERROR|BlackJack.UI.Controllers.ApiController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.ApiController.<GetPlayer>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\ApiController.cs:line 43|Exception of type 'System.Exception' was thrown.
 2018-09-04 11:21:22.6376|ERROR|BlackJack.UI.Controllers.ApiController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.ApiController.<GetPlayer>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\ApiController.cs:line 43|Exception of type 'System.Exception' was thrown.
 2018-09-04 11:21:22.6376|ERROR|BlackJack.UI.Controllers.ApiController|BlackJack.UI|Void MoveNext()|   at BlackJack.UI.Controllers.ApiController.<GetPlayer>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\ApiController.cs:line 43|Exception of type 'System.Exception' was thrown.
+2018-09-04 19:10:53.0119|ERROR|BlackJack.BusinessLogic.Providers.PlayerCardProvider|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at BlackJack.BusinessLogic.Providers.PlayerCardProvider.<AddingCardToPlayer>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Providers\PlayerCardProvider.cs:line 51|Sequence contains no elements
+2018-09-04 19:10:53.0394|ERROR|BlackJack.BusinessLogic.Services.CardAndCheckService|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.BusinessLogic.Providers.PlayerCardProvider.<AddingCardToPlayer>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Providers\PlayerCardProvider.cs:line 66
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.CardAndCheckService.<AddingCardToPlayer>d__21.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\CardAndCheckService.cs:line 278|Sequence contains no elements
+2018-09-04 19:10:53.0595|ERROR|BlackJack.BusinessLogic.Services.CardAndCheckService|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.BusinessLogic.Services.CardAndCheckService.<AddingCardToPlayer>d__21.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\CardAndCheckService.cs:line 289
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.BusinessLogic.Services.CardAndCheckService.<FirstCardsDistribution>d__17.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\CardAndCheckService.cs:line 175|Sequence contains no elements
+2018-09-04 19:10:53.0795|ERROR|BlackJack.BusinessLogic.Services.CardAndCheckService|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.BusinessLogic.Services.CardAndCheckService.<FirstCardsDistribution>d__17.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\CardAndCheckService.cs:line 183
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.BusinessLogic.Services.CardAndCheckService.<RoundFirstPhase>d__11.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\CardAndCheckService.cs:line 53|Sequence contains no elements
+2018-09-04 19:10:53.1039|ERROR|BlackJack.UI.Controllers.CardAndCheckController|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at BlackJack.BusinessLogic.Services.CardAndCheckService.<RoundFirstPhase>d__11.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\CardAndCheckService.cs:line 65
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.UI.Controllers.CardAndCheckController.<RoundStart>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\CardAndCheckController.cs:line 30|Sequence contains no elements

@@ -6,13 +6,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<input hidden id="gameid" name="gameid" value=@Model.Id />
-<input hidden id="stage" name="stage" value=@Model.Stage />
-<input hidden id="userName" value=@Model.Name />
+<input type="hidden" id="gameid" name="gameid" value=@Model.Id />
+<input type="hidden" id="stage" name="stage" value=@Model.Stage />
+<input type="hidden" id="userName" value=@Model.Name />
 <div id="players">
     <div class="row row-flex">
         <div id="dealer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
-            <input hidden id="dealergameplayerid" name="dealergameplayerid" value=@Model.Dealer.Id />
+            <input type="hidden" id="dealergameplayerid" name="dealergameplayerid" value=@Model.Dealer.Id />
             <h4><span class="label label-danger">Dealer</span></h4>
             <p>Name: @Model.Dealer.Name</p>
             <div id="dealergameplay">
@@ -23,7 +23,7 @@
         <div id="human" class="col-lg-8 col-md-8 col-sm-8 col-xs-12 well">
             <div class="row row-flex">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <input hidden id="humangameplayerid" name="humangameplayerid" value=@Model.Human.Id />
+                    <input type="hidden" id="humangameplayerid" name="humangameplayerid" value=@Model.Human.Id />
                     <h4><span class="label label-primary">Human</span></h4>
                     <p>Name: @Model.Human.Name</p>
                     <div id="humangameplay">
@@ -39,18 +39,19 @@
             </div>
         </div>
 
-        
+
     </div>
 
     <div id="bots" class="row row-flex">
+        @{ int botCount = 0;}
         @foreach (var bot in Model.Bots)
         {
             <div id="bot" class="col-lg-2 col-md-4 col-sm-4 col-xs-6 well">
-                <input type="hidden" id=@bot.GamePlayerDomId value=@bot.Id />
+                <input type="hidden" id="botgameplayerid@(++botCount)" value=@bot.Id />
                 <h4><span class="label label-default">Bot</span></h4>
                 <p>Name: @bot.Name</p>
 
-                <div id=@bot.GamePlayDomId>
+                <div id="botgameplay@(botCount)">
                     <p>Score: @bot.Score</p>
                 </div>
             </div>

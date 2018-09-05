@@ -2,9 +2,9 @@
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Providers;
 using BlackJack.BusinessLogic.Services;
-using BlackJack.DataAccess.Util;
+using BlackJack.DataAccess.Config;
 
-namespace BlackJack.BusinessLogic.Util
+namespace BlackJack.BusinessLogic.Config
 {
     public class BusinessLogicConfig : Module
     {
@@ -15,8 +15,8 @@ namespace BlackJack.BusinessLogic.Util
             builder.RegisterType<CardCheckProvider>().As<ICardCheckProvider>();
 
             builder.RegisterType<StartGameService>().As<IStartGameService>();
-            builder.RegisterType<CardAndCheckService>().As<ICardAndCheckService>();
-            builder.RegisterType<ApiService>().As<IApiService>();
+            builder.RegisterType<GameLogicService>().As<IGameLogicService>();
+            builder.RegisterType<PlayerLogicService>().As<IPlayerLogicService>();
             builder.RegisterType<LogService>().As<ILogService>();
 
             builder.RegisterModule(new DataAccessConfig());

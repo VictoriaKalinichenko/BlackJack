@@ -2,9 +2,10 @@
 {
     public enum CardType
     {
-        Spades = 0,
+        None = 0,
         Clubs = 1,
         Hearts = 2,
-        Diamonds = 3
+        Diamonds = 3,
+        Spades = 4
     }
 }

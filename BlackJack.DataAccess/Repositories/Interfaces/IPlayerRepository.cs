@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using BlackJack.Entities.Models;
 
-namespace BlackJack.DataAccess.Interfaces
+namespace BlackJack.DataAccess.Repositories.Interfaces
 {
     public interface IPlayerRepository
     {

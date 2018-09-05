@@ -1,6 +1,6 @@
 ﻿namespace BlackJack.BusinessLogic.Helpers
 {
-    public static class PlayerType
+    public static class PlayerTypeHelper
     {
         public static readonly string Dealer = "Dealer";
         public static readonly string Human = "Human";

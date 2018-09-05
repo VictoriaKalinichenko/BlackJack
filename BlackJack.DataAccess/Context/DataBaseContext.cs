@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity;
 using BlackJack.Entities.Models;
-using BlackJack.Configuration;
 
 namespace BlackJack.DataAccess.Context
 {
@@ -16,9 +15,11 @@ namespace BlackJack.DataAccess.Context
 
         public DbSet<Log> Logs { get; set; }
 
+        public DbSet<Card> Cards { get; set; }
 
 
-        public DataBaseContext() : base(Config.ConnectionStringForEF)
+
+        public DataBaseContext() : base(BlackJack.Configuration.Config.ConnectionStringForEF)
         { }
     }
 }

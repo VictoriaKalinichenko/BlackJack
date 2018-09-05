@@ -2,7 +2,7 @@
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
-    public interface ICardAndCheckService
+    public interface IGameLogicService
     {
         Task RoundFirstPhase(int gameId);
 

@@ -6,11 +6,11 @@ namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IPlayerCardProvider
     {
-        string PlayerCardToCardString(PlayerCard playerCard);
+        string ConvertCardToString(Card card);
 
         List<string> GetCardsStringList(IEnumerable<PlayerCard> playerCards);
 
-        Task<int> AddingCardToPlayer(int gamePlayerId, List<int> deck);
+        Task<Card> AddingCardToPlayer(int gamePlayerId, List<Card> deck);
 
         int CardScoreCount(IEnumerable<PlayerCard> playerCards);
     }

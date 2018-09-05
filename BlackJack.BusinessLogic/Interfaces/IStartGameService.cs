@@ -14,5 +14,7 @@ namespace BlackJack.BusinessLogic.Interfaces
         Task<AuthPlayerViewModel> PlayerAuthorization(string name);
 
         Task<int> ResumeGame(int playerId);
+
+        Task<GameViewModel> GetGame(int gameId);
     }
 }

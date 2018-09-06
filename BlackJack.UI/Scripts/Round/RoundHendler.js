@@ -37,8 +37,6 @@
                         if (response.CanHumanTakeOneMoreCard) {
                             DrowButtonsCanHumanTakeOneMoreCard();
                         }
-
-                        document.getElementById('stage').value = 0;
                     }
                 },
                 error: function (response) {
@@ -67,7 +65,6 @@
                         ReloadPlayers();
                         ReloadDealerInSecondPhase();
                         DrowButtonsEndRound();
-                        document.getElementById('stage').value = 0;
                     }
                 },
                 error: function (response) {

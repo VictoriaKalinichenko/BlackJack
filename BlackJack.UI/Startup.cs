@@ -1,8 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
-using System.Diagnostics;
+using System.Web.Mvc;
+using System.Web.Http;
+using System.Web.Optimization;
+using System.Web.Routing;
+using BlackJack.UI.Config;
 
 [assembly: OwinStartup(typeof(BlackJack.UI.Startup))]
 
@@ -12,15 +14,12 @@ namespace BlackJack.UI
     {
         public void Configuration(IAppBuilder app)
         {
-            app.Use(async (context, nextMiddleWare) =>
-            {
-                await nextMiddleWare.Invoke();
-            });
-
-            app.Use(async (context, nextMiddleWare) =>
-            {
-                await nextMiddleWare.Invoke();
-            });
+            AutofacConfig.ConfigureContainer();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            AreaRegistration.RegisterAllAreas();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

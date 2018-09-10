@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { APP_BASE_HREF } from '@angular/common';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { StartpageComponent } from './startpage/startpage.component';
@@ -34,7 +35,8 @@ var AppModule = /** @class */ (function () {
                 RouterModule.forRoot(appRoutes, { enableTracing: true })
             ],
             providers: [
-                DataService
+                DataService,
+                { provide: APP_BASE_HREF, useValue: '/' }
             ],
             bootstrap: [
                 AppComponent,

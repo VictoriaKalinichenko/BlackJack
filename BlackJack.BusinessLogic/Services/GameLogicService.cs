@@ -6,6 +6,7 @@ using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Models;
+using BlackJack.ViewModels.Enums;
 
 namespace BlackJack.BusinessLogic.Services
 {
@@ -40,7 +41,8 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task RoundFirstPhase(int gameId)
         {
-            await _logRepository.CreateLogRoundIsStarted(gameId);
+            string message = "New round is started";
+            await _logRepository.Create(gameId, message);
 
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
             List<Card> deck = await CreateDeck();
@@ -51,7 +53,9 @@ namespace BlackJack.BusinessLogic.Services
             Game game = await _gameRepository.Get(gameId);
             game.Stage = StageHelper.FirstCardsDistribution;
             await _gameRepository.Update(game);
-            await _logRepository.CreateLogGameStageIsChanged(game.Id, game.Stage);
+
+            message = $"Stage is changed (Stage={game.Stage})";
+            await _logRepository.Create(game.Id, message);
         }
 
         public async Task<bool> IsHumanBjAndDealerBjDanger(int gameId)
@@ -59,7 +63,7 @@ namespace BlackJack.BusinessLogic.Services
             bool humanBjAndDealerBjDanger = false;
 
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(m => m.Player.IsHuman).First();
+            GamePlayer human = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).First();
             if (human.BetPayCoefficient == BetValueHelper.BetWinCoefficient)
             {
                 humanBjAndDealerBjDanger = true;
@@ -71,7 +75,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task HumanBjAndDealerBjDangerContinueRound(int gameId)
         {
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(m => m.Player.IsHuman).FirstOrDefault();
+            GamePlayer human = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).FirstOrDefault();
             human.BetPayCoefficient = BetValueHelper.BetDefaultCoefficient;
             await _gamePlayerRepository.Update(human);
         }
@@ -79,7 +83,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task AddOneMoreCardToHuman(int gameId)
         {
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(g => g.Player.IsHuman).FirstOrDefault();
+            GamePlayer human = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).FirstOrDefault();
             List<Card> deck = await ResumeDeck(gamePlayers);
 
             await AddingCardToPlayer(human, deck);
@@ -88,7 +92,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<bool> CanHumanTakeOneMoreCard(int gameId)
         {
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(g => g.Player.IsHuman).FirstOrDefault();
+            GamePlayer human = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).FirstOrDefault();
 
             bool canHumanTakeOneMoreCard = false;
             canHumanTakeOneMoreCard = !_cardCheckProvider.HumanPlayerHasEnoughCards(human.RoundScore);
@@ -106,7 +110,9 @@ namespace BlackJack.BusinessLogic.Services
 
             game.Stage = StageHelper.SecondCardsDistribution;
             await _gameRepository.Update(game);
-            await _logRepository.CreateLogGameStageIsChanged(game.Id, game.Stage);
+
+            string message = $"Stage is changed (Stage={game.Stage})";
+            await _logRepository.Create(game.Id, message);
         }
         
         private async Task FirstCardsDistribution(IEnumerable<GamePlayer> players, List<Card> deck)
@@ -120,19 +126,21 @@ namespace BlackJack.BusinessLogic.Services
 
         private async Task FirstCardCheck(IEnumerable<GamePlayer> gamePlayers)
         {
-            GamePlayer dealer = gamePlayers.Where(m => m.Player.IsDealer).First();
+            GamePlayer dealer = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Dealer).First();
             List<PlayerCard> dealerPlayerCards = (await _playerCardRepository.GetByGamePlayerId(dealer.Id)).ToList();
             Card dealerFirstCard = dealerPlayerCards[0].Card;
             bool dealerBjDanger = _cardCheckProvider.DealerBjDanger(dealerFirstCard.CardName);
 
             if (dealerBjDanger)
             {
-                await _logRepository.CreateLogDealerBjDanger(gamePlayers.First().GameId, dealer.Player, dealerFirstCard.Id, dealerFirstCard.CardName, dealerFirstCard.ToString());
+                string playerType = "";
+                string message = $"{playerType}(Id={dealer.Player.Id}, Name={dealer.Player.Name}) has BlackJackDanger. His first card is (Id={dealerFirstCard.Id}, Value={dealerFirstCard.CardName}, Name={dealerFirstCard.ToString()})";
+                await _logRepository.Create(gamePlayers.First().GameId, message);
             }
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                if (!gamePlayer.Player.IsDealer)
+                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer))
                 {
                     int playerCardsCount = await _playerCardRepository.GetCountByGamePlayerId(gamePlayer.Id);
                     gamePlayer.BetPayCoefficient = _cardCheckProvider.RoundFirstPhaseResult(gamePlayer.RoundScore, playerCardsCount, dealerBjDanger);
@@ -140,12 +148,16 @@ namespace BlackJack.BusinessLogic.Services
 
                     if (gamePlayer.BetPayCoefficient == BetValueHelper.BetBjCoefficient)
                     {
-                        await _logRepository.CreateLogPlayerBj(gamePlayer.Id, gamePlayer.Player, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient);
+                        string playerType = "";
+                        string message = $"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})";
+                        await _logRepository.Create(gamePlayer.GameId, message);
                     }
 
                     if (gamePlayer.BetPayCoefficient == BetValueHelper.BetWinCoefficient)
                     {
-                        await _logRepository.CreateLogPlayerBjAndDealerBjDanger(gamePlayer.Id, gamePlayer.Player, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient);
+                        string playerType = "";
+                        string message = $"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}) with DealerBlackJackDanger. BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})";
+                        await _logRepository.Create(gamePlayer.GameId, message);
                     }
                 }
             }
@@ -155,7 +167,7 @@ namespace BlackJack.BusinessLogic.Services
         {
             foreach (GamePlayer gamePlayer in players)
             {
-                if (!gamePlayer.Player.IsHuman)
+                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human))
                 {
                     await SecondCardAddingToBot(gamePlayer, deck);
                 }
@@ -164,12 +176,12 @@ namespace BlackJack.BusinessLogic.Services
 
         private async Task SecondCardCheck(IEnumerable<GamePlayer> gamePlayers)
         {
-            GamePlayer dealer = gamePlayers.Where(m => m.Player.IsDealer).FirstOrDefault();
+            GamePlayer dealer = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Dealer).FirstOrDefault();
             int dealerPlayerCardsCount = await _playerCardRepository.GetCountByGamePlayerId(dealer.Id);
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                if (!gamePlayer.Player.IsDealer)
+                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer))
                 {
                     int playerCardsCount = await _playerCardRepository.GetCountByGamePlayerId(gamePlayer.Id);
                     gamePlayer.BetPayCoefficient = _cardCheckProvider.RoundSecondPhaseResult(gamePlayer.Bet, gamePlayer.RoundScore, playerCardsCount, dealer.RoundScore, dealerPlayerCardsCount, gamePlayer.BetPayCoefficient);
@@ -185,7 +197,10 @@ namespace BlackJack.BusinessLogic.Services
             gamePlayer.RoundScore = _playerCardProvider.CardScoreCount(playerCards);
 
             await _gamePlayerRepository.Update(gamePlayer);
-            await _logRepository.CreateLogCardIsAdded(gamePlayer.GameId, gamePlayer.Player, gamePlayer.RoundScore, card.Id, card.CardName, _playerCardProvider.ConvertCardToString(card));
+
+            string playerType = "";
+            string message = $"Card(Id={card.Id}, Value={card.CardName}, Name={_playerCardProvider.ConvertCardToString(card)}) is added to {playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, RoundScore={gamePlayer.RoundScore})";
+            await _logRepository.Create(gamePlayer.GameId, message);
         }
 
         private async Task SecondCardAddingToBot(GamePlayer gamePlayer, List<Card> deck)
@@ -214,13 +229,6 @@ namespace BlackJack.BusinessLogic.Services
 
             deck = ShuffleDeck(deck);
             return deck;
-        }
-
-        private int CardToIntConverter(Card card)
-        {
-            int id;
-            id = card.Id;
-            return id;
         }
 
         private List<Card> ShuffleDeck(List<Card> cards)

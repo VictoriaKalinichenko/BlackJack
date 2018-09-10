@@ -95,10 +95,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./homepage/homepage.component */ "./src/app/homepage/homepage.component.ts");
-/* harmony import */ var _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./startpage/startpage.component */ "./src/app/startpage/startpage.component.ts");
-/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/data.service */ "./src/app/services/data.service.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./homepage/homepage.component */ "./src/app/homepage/homepage.component.ts");
+/* harmony import */ var _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./startpage/startpage.component */ "./src/app/startpage/startpage.component.ts");
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./services/data.service */ "./src/app/services/data.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -114,9 +115,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var appRoutes = [
-    { path: 'startpage', component: _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_7__["StartpageComponent"] },
-    { path: 'homepage', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_6__["HomepageComponent"] }
+    { path: 'startpage', component: _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"] },
+    { path: 'homepage', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"] }
 ];
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -124,9 +126,9 @@ var AppModule = /** @class */ (function () {
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
-                _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_6__["HomepageComponent"],
-                _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_7__["StartpageComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
+                _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"],
+                _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -135,12 +137,13 @@ var AppModule = /** @class */ (function () {
                 _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"].forRoot(appRoutes, { enableTracing: true })
             ],
             providers: [
-                _services_data_service__WEBPACK_IMPORTED_MODULE_8__["DataService"]
+                _services_data_service__WEBPACK_IMPORTED_MODULE_9__["DataService"],
+                { provide: _angular_common__WEBPACK_IMPORTED_MODULE_5__["APP_BASE_HREF"], useValue: '/' }
             ],
             bootstrap: [
-                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
-                _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_6__["HomepageComponent"],
-                _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_7__["StartpageComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
+                _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"],
+                _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"]
             ]
         })
     ], AppModule);
@@ -169,7 +172,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\" />\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>BlackJack</title>\r\n    <base href=\"/\">\r\n    <link href=\"Content/css\" rel=\"stylesheet\" />\r\n    <script src=\"Scripts/bootstrap.min.js\"></script>\r\n    <script src=\"Scripts/jquery-3.3.1.min.js\"></script>\r\n    <script src=\"Scripts/modernizr-2.8.3.js\"></script>\r\n</head>\r\n<body>\r\n    <div class=\"jumbotron\">\r\n        <h1>BlackJack</h1>\r\n\r\n        <div class=\"form-group\">\r\n            <label>User name: </label>\r\n            <input class=\"form-control\" name=\"name\" [(ngModel)]=\"userName\" #name=\"ngModel\" required />\r\n            <div [hidden]=\"name.valid || name.untouched\" class=\"alert alert-danger\">\r\n                Name is not entered\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"form-group\">\r\n            <button class=\"btn btn-primary\" (click)=\"authUser(userName)\">Enter</button>\r\n        </div>\r\n    </div>\r\n</body>\r\n</html>"
+module.exports = "<div class=\"jumbotron\">\r\n    <h1>BlackJack</h1>\r\n\r\n    <div class=\"form-group\">\r\n        <label>User name: </label>\r\n        <input class=\"form-control\" name=\"name\" [(ngModel)]=\"userName\" #name=\"ngModel\" required />\r\n        <div [hidden]=\"name.valid || name.untouched\" class=\"alert alert-danger\">\r\n            Name is not entered\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n        <button class=\"btn btn-primary\" (click)=\"authUser(userName)\">Enter</button>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -205,7 +208,7 @@ var HomepageComponent = /** @class */ (function () {
     }
     HomepageComponent.prototype.authUser = function (userName) {
         this.dataService.setUserName(userName);
-        this.router.navigateByUrl('../startpage/startpage.component.ts');
+        this.router.navigate(['/startpage']);
     };
     HomepageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -287,7 +290,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  startpage works!\n</p>\n"
+module.exports = "<div class=\"jumbotron\">\r\n    <h1>BlackJack</h1>\r\n</div>"
 
 /***/ }),
 

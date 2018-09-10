@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.Entities.Models;
+using BlackJack.ViewModels.Enums;
 using BlackJack.DataAccess.Repositories.Interfaces;
 
 namespace BlackJack.BusinessLogic.Providers
@@ -27,33 +28,36 @@ namespace BlackJack.BusinessLogic.Providers
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                if (gamePlayer.Player.IsHuman)
+                if ((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human)
                 {
                     gamePlayer.Bet = bet;
                 }
 
-                if (!gamePlayer.Player.IsDealer && !gamePlayer.Player.IsHuman)
+                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer) && !((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human))
                 {
                     gamePlayer.Bet = BetGenerate(gamePlayer.Score);
                 }
 
-                if (!gamePlayer.Player.IsDealer)
+                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer))
                 {
                     gamePlayer.Score = gamePlayer.Score - gamePlayer.Bet;
                     await _gamePlayerRepository.Update(gamePlayer);
-                    await _logRepository.CreateLogBetIsCreated(inGamePlayers.First().GameId, gamePlayer.Player, gamePlayer.Score, gamePlayer.Bet);
+
+                    string playerType = "";
+                    string message = $"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) created the bet(={gamePlayer.Bet})";
+                    await _logRepository.Create(inGamePlayers.First().GameId, message);
                 }
             }
         }
 
         public async Task RoundBetPayments(IEnumerable<GamePlayer> players)
         {
-            GamePlayer human = players.Where(m => m.Player.IsHuman).FirstOrDefault();
-            GamePlayer dealer = players.Where(m => m.Player.IsDealer).FirstOrDefault();
+            GamePlayer human = players.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).FirstOrDefault();
+            GamePlayer dealer = players.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Dealer).FirstOrDefault();
 
             foreach (GamePlayer player in players)
             {
-                if (!player.Player.IsDealer && player.BetPayCoefficient != BetValueHelper.BetDefaultCoefficient)
+                if (!((PlayerType)player.Player.PlayerType == PlayerType.Dealer) && player.BetPayCoefficient != BetValueHelper.BetDefaultCoefficient)
                 {
                     BetPayment(player, dealer);
                     await _gamePlayerRepository.Update(player);

@@ -17,7 +17,7 @@ var HomepageComponent = /** @class */ (function () {
     }
     HomepageComponent.prototype.authUser = function (userName) {
         this.dataService.setUserName(userName);
-        this.router.navigateByUrl('../startpage/startpage.component.ts');
+        this.router.navigate(['/startpage']);
     };
     HomepageComponent = __decorate([
         Component({

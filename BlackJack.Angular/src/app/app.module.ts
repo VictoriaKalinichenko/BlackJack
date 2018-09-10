@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
+import { APP_BASE_HREF } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component';
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
       )
   ],
     providers: [
-        DataService
+        DataService,
+        { provide: APP_BASE_HREF, useValue: '/' }
     ],
     bootstrap: [
         AppComponent,

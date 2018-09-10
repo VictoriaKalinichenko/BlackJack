@@ -41,7 +41,7 @@ namespace BlackJack.BusinessLogic.Services
             Player human = await _playerRepository.SelectByName(name);
             if (human == null)
             {
-                human = await CreatePlayer(name, true);
+                human = await CreatePlayer(name, PlayerType.Human);
             }
 
             return human.Name;
@@ -75,7 +75,8 @@ namespace BlackJack.BusinessLogic.Services
 
             Game game = new Game();
             game = await _gameRepository.Create(game);
-            await _logRepository.CreateLogGameIsCreated(game.Id, game.Stage);
+            string message = $"Game(Id={gameId}, Stage={game.Stage}) is created";
+            await _logRepository.Create(game.Id, message);
 
             List<Player> players = await CreatePlayerList(playerId, amountOfBots);
             foreach (Player player in players)
@@ -91,7 +92,10 @@ namespace BlackJack.BusinessLogic.Services
                 };
 
                 await _gamePlayerRepository.Create(gamePlayer);
-                await _logRepository.CreateLogPlayerIsAddedToGame(game.Id, player, gamePlayer.Score);
+
+                string playerType = "";
+                message = $"{playerType}(Id={player.Id}, Name={player.Name}, Score={gamePlayer.Score}) is added to game";
+                await _logRepository.Create(game.Id, message);
             }
 
             gameId = game.Id;
@@ -121,18 +125,18 @@ namespace BlackJack.BusinessLogic.Services
                 playerViewModel.Name = gamePlayer.Player.Name;
                 playerViewModel.Score = gamePlayer.Score;
 
-                if (gamePlayer.Player.IsDealer)
+                if ((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer)
                 {
                     gameViewModel.Dealer = playerViewModel;
                 }
 
-                if (gamePlayer.Player.IsHuman)
+                if ((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human)
                 {
                     gameViewModel.Human = playerViewModel;
                     gameViewModel.Name = playerViewModel.Name;
                 }
 
-                if (!gamePlayer.Player.IsHuman && !gamePlayer.Player.IsDealer)
+                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human) && !((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer))
                 {
                     gameViewModel.Bots.Add(playerViewModel);
                 }
@@ -141,12 +145,11 @@ namespace BlackJack.BusinessLogic.Services
             return gameViewModel;
         }
 
-        private async Task<Player> CreatePlayer(string name, bool isHuman = false, bool isDealer = false)
+        private async Task<Player> CreatePlayer(string name, PlayerType playerType)
         {
             Player player = new Player();
             player.Name = name;
-            player.IsHuman = isHuman;
-            player.IsDealer = isDealer;
+            player.PlayerType = (int)playerType;
             await _playerRepository.Create(player);
             return player;
         }
@@ -158,12 +161,12 @@ namespace BlackJack.BusinessLogic.Services
             players.Add(await _playerRepository.Get(playerId));
 
             Random random = new Random();
-            Player dealer = await CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), false, true);
+            Player dealer = await CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Dealer);
             players.Add(dealer);
 
             for (int i = 0; i < amountOfBots; i++)
             {
-                Player bot = await CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString());
+                Player bot = await CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Bot);
                 players.Add(bot);
             }
 

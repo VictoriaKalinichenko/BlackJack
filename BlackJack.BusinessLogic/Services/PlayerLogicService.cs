@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Models;
+using BlackJack.ViewModels.Enums;
 using BlackJack.ViewModels.ViewModels;
 using NLog;
 
@@ -104,7 +104,9 @@ namespace BlackJack.BusinessLogic.Services
             outGameId = game.Id;
             game.Stage = StageHelper.RoundStart;
             await _gameRepository.Update(game);
-            await _logRepository.CreateLogGameStageIsChanged(game.Id, game.Stage);
+
+            string message = $"Stage is changed (Stage={game.Stage})";
+            await _logRepository.Create(game.Id, message);
 
             return outGameId;
         }
@@ -118,7 +120,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<string> HumanRoundResult(int gameId)
         {
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(g => g.Player.IsHuman).FirstOrDefault();
+            GamePlayer human = gamePlayers.Where(g => (PlayerType)g.Player.PlayerType == PlayerType.Human).FirstOrDefault();
 
             string humanRoundResult;
             humanRoundResult = _cardCheckProvider.HumanRoundResult(human.BetPayCoefficient);
@@ -147,7 +149,7 @@ namespace BlackJack.BusinessLogic.Services
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                if (!gamePlayer.Player.IsDealer && !gamePlayer.Player.IsHuman && IsZeroScore(gamePlayer))
+                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer) && !((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human) && IsZeroScore(gamePlayer))
                 {
                     await _gamePlayerRepository.Delete(gamePlayer.Id);
                 }
@@ -161,12 +163,12 @@ namespace BlackJack.BusinessLogic.Services
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                if (gamePlayer.Player.IsDealer && IsZeroScore(gamePlayer))
+                if (((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer) && IsZeroScore(gamePlayer))
                 {
                     isGameOver = GameMessageHelper.DealerIsLoser;
                 }
 
-                if (gamePlayer.Player.IsHuman && IsZeroScore(gamePlayer))
+                if (((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human) && IsZeroScore(gamePlayer))
                 {
                     isGameOver = GameMessageHelper.DealerIsWinner;
                 }

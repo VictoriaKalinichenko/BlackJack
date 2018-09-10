@@ -14,6 +14,6 @@ export class HomepageComponent {
 
     authUser(userName: string) {
         this.dataService.setUserName(userName);
-        this.router.navigateByUrl('../startpage/startpage.component.ts');
+        this.router.navigate(['/startpage']);
     }
 }

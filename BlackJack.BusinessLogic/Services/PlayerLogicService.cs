@@ -111,12 +111,6 @@ namespace BlackJack.BusinessLogic.Services
             return outGameId;
         }
 
-        public async Task BetPayments(int gameId)
-        {
-            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            await _gamePlayerProvider.RoundBetPayments(gamePlayers);
-        }
-
         public async Task<string> HumanRoundResult(int gameId)
         {
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
@@ -125,35 +119,6 @@ namespace BlackJack.BusinessLogic.Services
             string humanRoundResult;
             humanRoundResult = _cardCheckProvider.HumanRoundResult(human.BetPayCoefficient);
             return humanRoundResult;
-        }
-
-        public async Task UpdateGamePlayersForNewRound(int gameId)
-        {
-            Game game = await _gameRepository.Get(gameId);
-            game.Stage = StageHelper.RoundStart;
-            await _gameRepository.Update(game);
-
-            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-
-            foreach (GamePlayer gamePlayer in gamePlayers)
-            {
-                gamePlayer.RoundScore = CardValueHelper.CardZeroScore;
-                await _gamePlayerRepository.Update(gamePlayer);
-                await _playerCardRepository.DeleteByGamePlayerId(gamePlayer.Id);
-            }
-        }
-
-        public async Task BotsRemoving(int gameId)
-        {
-            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-
-            foreach (GamePlayer gamePlayer in gamePlayers)
-            {
-                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer) && !((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human) && IsZeroScore(gamePlayer))
-                {
-                    await _gamePlayerRepository.Delete(gamePlayer.Id);
-                }
-            }
         }
 
         public async Task<string> IsGameOver(int gameId)
@@ -182,6 +147,48 @@ namespace BlackJack.BusinessLogic.Services
             Game game = await _gameRepository.Get(gameId);
             game.Result = gameResult;
             await _gameRepository.Update(game);
+        }
+
+        public async Task OnRoundOver(int inGameId)
+        {
+            await BetPayments(inGameId);
+            await UpdateGamePlayersForNewRound(inGameId);
+            await BotsRemoving(inGameId);
+        }
+
+        private async Task BetPayments(int gameId)
+        {
+            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+            await _gamePlayerProvider.RoundBetPayments(gamePlayers);
+        }
+
+        private async Task UpdateGamePlayersForNewRound(int gameId)
+        {
+            Game game = await _gameRepository.Get(gameId);
+            game.Stage = StageHelper.RoundStart;
+            await _gameRepository.Update(game);
+
+            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+
+            foreach (GamePlayer gamePlayer in gamePlayers)
+            {
+                gamePlayer.RoundScore = CardValueHelper.CardZeroScore;
+                await _gamePlayerRepository.Update(gamePlayer);
+                await _playerCardRepository.DeleteByGamePlayerId(gamePlayer.Id);
+            }
+        }
+
+        private async Task BotsRemoving(int gameId)
+        {
+            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+
+            foreach (GamePlayer gamePlayer in gamePlayers)
+            {
+                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer) && !((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human) && IsZeroScore(gamePlayer))
+                {
+                    await _gamePlayerRepository.Delete(gamePlayer.Id);
+                }
+            }
         }
 
         private bool IsZeroScore(GamePlayer gamePlayer)

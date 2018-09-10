@@ -110,9 +110,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                await _playerLogicService.BetPayments(inGameId);
-                await _playerLogicService.UpdateGamePlayersForNewRound(inGameId);
-                await _playerLogicService.BotsRemoving(inGameId);
+                await _playerLogicService.OnRoundOver(inGameId);
                 string isGameOver = await _playerLogicService.IsGameOver(inGameId);
 
                 if (!string.IsNullOrEmpty(isGameOver))

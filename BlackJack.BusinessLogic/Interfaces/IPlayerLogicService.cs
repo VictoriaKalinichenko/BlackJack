@@ -17,11 +17,7 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task<string> HumanRoundResult(int gameId);
 
-        Task BetPayments(int gameId);
-
-        Task UpdateGamePlayersForNewRound(int gameId);
-
-        Task BotsRemoving(int gameId);
+        Task OnRoundOver(int inGameId);
 
         Task<string> IsGameOver(int gameId);
 

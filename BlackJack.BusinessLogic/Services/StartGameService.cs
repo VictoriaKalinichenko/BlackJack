@@ -110,20 +110,16 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<GameViewModel> GetGame(int gameId)
         {
-            GameViewModel gameViewModel = new GameViewModel();
-            gameViewModel.Bots = new List<PlayerViewModel>();
-            gameViewModel.Id = gameId;
             Game game = await _gameRepository.Get(gameId);
-            gameViewModel.Stage = game.Stage;
+            GameViewModel gameViewModel = Mapper.Map<Game, GameViewModel>(game);
 
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
 
+            gameViewModel.Bots = new List<PlayerViewModel>();
+
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                PlayerViewModel playerViewModel = new PlayerViewModel();
-                playerViewModel.Id = gamePlayer.Id;
-                playerViewModel.Name = gamePlayer.Player.Name;
-                playerViewModel.Score = gamePlayer.Score;
+                PlayerViewModel playerViewModel = Mapper.Map<GamePlayer, PlayerViewModel>(gamePlayer); 
 
                 if ((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer)
                 {

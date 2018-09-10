@@ -15,8 +15,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { StartpageComponent } from './startpage/startpage.component';
 import { DataService } from './services/data.service';
 var appRoutes = [
-    { path: 'startpage', component: StartpageComponent },
-    { path: 'homepage', component: HomepageComponent }
+    { path: '', component: HomepageComponent },
+    { path: 'startpage', component: StartpageComponent }
 ];
 var AppModule = /** @class */ (function () {
     function AppModule() {

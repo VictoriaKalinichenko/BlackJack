@@ -41,7 +41,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-homepage></app-homepage>"
+module.exports = "<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -117,8 +117,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 var appRoutes = [
-    { path: 'startpage', component: _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"] },
-    { path: 'homepage', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"] }
+    { path: '', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"] },
+    { path: 'startpage', component: _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"] }
 ];
 var AppModule = /** @class */ (function () {
     function AppModule() {

@@ -11,8 +11,8 @@ import { StartpageComponent } from './startpage/startpage.component';
 import { DataService } from './services/data.service';
 
 const appRoutes: Routes = [
-    { path: 'startpage', component: StartpageComponent },
-    { path: 'homepage', component: HomepageComponent }
+    { path: '', component: HomepageComponent },
+    { path: 'startpage', component: StartpageComponent }
 ];
 
 @NgModule({

@@ -54,7 +54,7 @@ namespace BlackJack.DataAccess.Repositories
         {
             string sqlQuery = $@"SELECT TOP (1) GameId FROM GamePlayers 
                                  WHERE PlayerId = {id}
-                                 ORDER BY ID DESC";
+                                 ORDER BY CreationDate DESC";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {

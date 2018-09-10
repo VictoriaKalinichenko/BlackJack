@@ -67,12 +67,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\CardValue.cs" />
-    <Compile Include="Helpers\GameMessage.cs" />
-    <Compile Include="Helpers\GameValue.cs" />
-    <Compile Include="Helpers\PlayerType.cs" />
-    <Compile Include="Helpers\RoundResult.cs" />
-    <Compile Include="Helpers\Stage.cs" />
+    <Compile Include="Helpers\CardValueHelper.cs" />
+    <Compile Include="Helpers\GameMessageHelper.cs" />
+    <Compile Include="Helpers\GameValueHelper.cs" />
+    <Compile Include="Helpers\PlayerTypeHelper.cs" />
+    <Compile Include="Helpers\RoundResultHelper.cs" />
+    <Compile Include="Helpers\StageHelper.cs" />
     <Compile Include="Helpers\BetValueHelper.cs" />
     <Compile Include="Interfaces\IPlayerLogicService.cs" />
     <Compile Include="Interfaces\IGamePlayerProvider.cs" />

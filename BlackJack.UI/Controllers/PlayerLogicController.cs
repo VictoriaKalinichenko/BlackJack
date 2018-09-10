@@ -8,6 +8,7 @@ using NLog;
 
 namespace BlackJack.UI.Controllers
 {
+    [RoutePrefix("PlayerLogic")]
     public class PlayerLogicController : ApiController
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
@@ -18,61 +19,55 @@ namespace BlackJack.UI.Controllers
             _playerLogicService = playerLogicService;
         }
         
-        [Route("PlayerLogic/GetPlayer"), HttpGet]
+        [Route("GetPlayer"), HttpGet]
         public async Task<IHttpActionResult> GetPlayer(int gamePlayerId)
         {
             try
             {
                 GamePlayerViewModel gamePlayer = await _playerLogicService.GetGamePlayer(gamePlayerId);
-                string message = GameMessageHelper.Success;
-                return Json(new { GamePlayer = gamePlayer, Message = message });
+                return Json(new { GamePlayer = gamePlayer, Message = GameMessageHelper.Success });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.GameError;
-                return Json(new { Message = message });
+                return Json(new { Message = GameMessageHelper.GameError });
             }
         }
         
-        [Route("PlayerLogic/GetDealerInFirstPhase"), HttpGet]
+        [Route("GetDealerInFirstPhase"), HttpGet]
         public async Task<IHttpActionResult> GetDealerInFirstPhase(int gamePlayerId)
         {
             try
             {
                 GamePlayerViewModel gamePlayer = await _playerLogicService.GetDealerInFirstPhase(gamePlayerId);
-                string message = GameMessageHelper.Success;
-                return Json(new { GamePlayer = gamePlayer, Message = message });
+                return Json(new { GamePlayer = gamePlayer, Message = GameMessageHelper.Success });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.GameError;
-                return Json(new { Message = message });
+                return Json(new { Message = GameMessageHelper.GameError });
             }
         }
         
-        [Route("PlayerLogic/GetDealerInSecondPhase"), HttpGet]
+        [Route("GetDealerInSecondPhase"), HttpGet]
         public async Task<IHttpActionResult> GetDealerInSecondPhase(int gamePlayerId)
         {
             try
             {
                 GamePlayerViewModel gamePlayer = await _playerLogicService.GetDealerInSecondPhase(gamePlayerId);
-                string message = GameMessageHelper.Success;
-                return Json(new { GamePlayer = gamePlayer, Message = message });
+                return Json(new { GamePlayer = gamePlayer, Message = GameMessageHelper.Success });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.GameError;
-                return Json(new { Message = message });
+                return Json(new { Message = GameMessageHelper.GameError });
             }
         }
 
-        [Route("PlayerLogic/BetsCreation"), HttpPost]
+        [Route("BetsCreation"), HttpPost]
         public async Task<IHttpActionResult> BetsCreation(BetCreationApiViewModel viewModel)
         {
             try
@@ -91,30 +86,27 @@ namespace BlackJack.UI.Controllers
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.GameError;
-                return Json(new { Message = message });
+                return Json(new { Message = GameMessageHelper.GameError });
             }
         }
         
-        [Route("PlayerLogic/HumanRoundResult"), HttpGet]
+        [Route("HumanRoundResult"), HttpGet]
         public async Task<IHttpActionResult> HumanRoundResult(int inGameId)
         {
             try
             {
                 string roundResult = await _playerLogicService.HumanRoundResult(inGameId);
-                string message = GameMessageHelper.Success;
-                return Json(new { Message = message, HumanRoundResult = roundResult });
+                return Json(new { Message = GameMessageHelper.Success, HumanRoundResult = roundResult });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.GameError;
-                return Json(new { Message = message });
+                return Json(new { Message = GameMessageHelper.GameError });
             }
         }
         
-        [Route("PlayerLogic/UpdateGamePlayersForNewRound"), HttpGet]
+        [Route("UpdateGamePlayersForNewRound"), HttpGet]
         public async Task<IHttpActionResult> UpdateGamePlayersForNewRound(int inGameId)
         {
             try
@@ -129,15 +121,13 @@ namespace BlackJack.UI.Controllers
                     await _playerLogicService.OnGameOver(inGameId, isGameOver);
                 }
 
-                string message = GameMessageHelper.Success;
-                return Json(new { Message = message, IsGameOver = isGameOver });
+                return Json(new { Message = GameMessageHelper.Success, IsGameOver = isGameOver });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.GameError;
-                return Json(new { Message = message });
+                return Json(new { Message = GameMessageHelper.GameError });
             }
         }
     }

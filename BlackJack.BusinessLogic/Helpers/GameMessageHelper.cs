@@ -21,5 +21,6 @@
         public static readonly string GameCreationError = "Game creation is not succeeded. Try again later";
         public static readonly string GameLoadingError = "Game loading is not succeeded. Try again later";
         public static readonly string GameError = "The game proccessing is not succeeded. Try reload page";
+        public static readonly string LogError = "The logs loading is not succeeded. Try reload page";
     }
 }

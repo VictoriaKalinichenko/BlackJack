@@ -44,8 +44,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.PlayerAuthError;
-                return RedirectToAction("Error", new { message = message });
+                return RedirectToAction("Error", new { message = GameMessageHelper.PlayerAuthError });
             }
         }
         
@@ -60,8 +59,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.PlayerAuthError;
-                return RedirectToAction("Error", new { message = message });
+                return RedirectToAction("Error", new { message = GameMessageHelper.PlayerAuthError });
             }
         }
 
@@ -77,8 +75,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.GameCreationError;
-                return RedirectToAction("Error", new { message = message });
+                return RedirectToAction("Error", new { message = GameMessageHelper.GameCreationError });
             }
         }
 
@@ -93,8 +90,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.GameResumingError;
-                return RedirectToAction("Error", new { message = message });
+                return RedirectToAction("Error", new { message = GameMessageHelper.GameResumingError });
             }
         }
 
@@ -109,8 +105,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                message = GameMessageHelper.GameLoadingError;
-                return RedirectToAction("Error", new { message = message });
+                return RedirectToAction("Error", new { message = GameMessageHelper.GameLoadingError });
             }
         }
 

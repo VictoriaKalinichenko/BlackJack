@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Helpers;
 using NLog;
 
 namespace BlackJack.UI.Controllers
@@ -33,7 +34,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return RedirectToAction("Error", "Game", new { message = ex.Message });
+                return RedirectToAction("Error", "StartGame", new { message = GameMessageHelper.LogError});
             }
         }
     }

@@ -25,13 +25,13 @@ namespace BlackJack.UI.Controllers
             try
             {
                 GamePlayerViewModel gamePlayer = await _playerLogicService.GetGamePlayer(gamePlayerId);
-                return Json(new { GamePlayer = gamePlayer, Message = GameMessageHelper.Success });
+                return Ok(gamePlayer);
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
         
@@ -41,13 +41,13 @@ namespace BlackJack.UI.Controllers
             try
             {
                 GamePlayerViewModel gamePlayer = await _playerLogicService.GetDealerInFirstPhase(gamePlayerId);
-                return Json(new { GamePlayer = gamePlayer, Message = GameMessageHelper.Success });
+                return Ok(gamePlayer);
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
         
@@ -57,13 +57,13 @@ namespace BlackJack.UI.Controllers
             try
             {
                 GamePlayerViewModel gamePlayer = await _playerLogicService.GetDealerInSecondPhase(gamePlayerId);
-                return Json(new { GamePlayer = gamePlayer, Message = GameMessageHelper.Success });
+                return Ok(gamePlayer);
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
 
@@ -77,16 +77,15 @@ namespace BlackJack.UI.Controllers
                 if (string.IsNullOrEmpty(message))
                 {
                     await _playerLogicService.BetsCreation(viewModel.Bet, viewModel.InGameId);
-                    message = GameMessageHelper.Success;
                 }
 
-                return Json(new { Message = message });
+                return Ok(new { Message = message });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
         
@@ -96,13 +95,13 @@ namespace BlackJack.UI.Controllers
             try
             {
                 string roundResult = await _playerLogicService.HumanRoundResult(inGameId);
-                return Json(new { Message = GameMessageHelper.Success, HumanRoundResult = roundResult });
+                return Ok(new { RoundResult = roundResult });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
         
@@ -121,13 +120,13 @@ namespace BlackJack.UI.Controllers
                     await _playerLogicService.OnGameOver(inGameId, isGameOver);
                 }
 
-                return Json(new { Message = GameMessageHelper.Success, IsGameOver = isGameOver });
+                return Ok(new { IsGameOver = isGameOver });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
     }

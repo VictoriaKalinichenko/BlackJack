@@ -17,26 +17,20 @@
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
-                    if (response.Message != "SUCCESS") {
-                        alert(response.Message);
+                    $("#gameplay").text("");
+
+                    if ((!response.HumanBjAndDealerBjDanger) && (!response.CanHumanTakeOneMoreCard)) {
+                        SecondPhase();
                     }
 
-                    if (response.Message == "SUCCESS") {
-                        $("#gameplay").text("");
+                    ReloadPlayers();
+                    ReloadDealerInFirstPhase();
+                    if (response.HumanBjAndDealerBjDanger) {
+                        DrowButtonsHumanBjAndDealerBjDanger();
+                    }
 
-                        if ((!response.HumanBjAndDealerBjDanger) && (!response.CanHumanTakeOneMoreCard)) {
-                            SecondPhase();
-                        }
-
-                        ReloadPlayers();
-                        ReloadDealerInFirstPhase();
-                        if (response.HumanBjAndDealerBjDanger) {
-                            DrowButtonsHumanBjAndDealerBjDanger();
-                        }
-
-                        if (response.CanHumanTakeOneMoreCard) {
-                            DrowButtonsCanHumanTakeOneMoreCard();
-                        }
+                    if (response.CanHumanTakeOneMoreCard) {
+                        DrowButtonsCanHumanTakeOneMoreCard();
                     }
                 },
                 error: function (response) {
@@ -55,17 +49,11 @@
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
-                    if (response.Message != "SUCCESS") {
-                        alert(response.Message);
-                    }
-
-                    if (response.Message == "SUCCESS") {
-                        $("#gameplay").text("");
-                        $("#gameplay").append(`<p>${response.HumanRoundResult}</p>`)
-                        ReloadPlayers();
-                        ReloadDealerInSecondPhase();
-                        DrowButtonsEndRound();
-                    }
+                    $("#gameplay").text("");
+                    $("#gameplay").append(`<p>${response.HumanRoundResult}</p>`)
+                    ReloadPlayers();
+                    ReloadDealerInSecondPhase();
+                    DrowButtonsEndRound();
                 },
                 error: function (response) {
                     ShowError(response);
@@ -85,61 +73,49 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Message != "SUCCESS") {
+                var gameId = $("#gameid").val();
+                var transParam = { inGameId: gameId };
+
+                if (response.Message != "") {
                     alert(response.Message);
                 }
 
-                if (response.Message == "SUCCESS") {
-                    var gameId = $("#gameid").val();
-                    var transParam = { inGameId: gameId };
-
+                if (response.Message == "") {
                     $.ajax({
                         type: "GET",
                         url: "/GameLogic/RoundStart",
                         data: transParam,
                         dataType: "json",
                         success: function (response) {
-                            if (response.Message != "SUCCESS") {
-                                alert(response.Message);
-                            }
+                            var gameId = $("#gameid").val();
+                            var transParam = { inGameId: gameId };
 
-                            if (response.Message == "SUCCESS") {
-                                var gameId = $("#gameid").val();
-                                var transParam = { inGameId: gameId };
+                            $.ajax({
+                                type: "GET",
+                                url: "/GameLogic/FirstPhaseGamePlay",
+                                data: transParam,
+                                dataType: "json",
+                                success: function (response) {
+                                    $("#gameplay").text("");
 
-                                $.ajax({
-                                    type: "GET",
-                                    url: "/GameLogic/FirstPhaseGamePlay",
-                                    data: transParam,
-                                    dataType: "json",
-                                    success: function (response) {
-                                        if (response.Message != "SUCCESS") {
-                                            alert(response.Message);
-                                        }
-
-                                        if (response.Message == "SUCCESS") {
-                                            $("#gameplay").text("");
-
-                                            if ((!response.HumanBjAndDealerBjDanger) && (!response.CanHumanTakeOneMoreCard)) {
-                                                SecondPhase();
-                                            }
-
-                                            ReloadPlayers();
-                                            ReloadDealerInFirstPhase();
-                                            if (response.HumanBjAndDealerBjDanger) {
-                                                DrowButtonsHumanBjAndDealerBjDanger();
-                                            }
-
-                                            if (response.CanHumanTakeOneMoreCard) {
-                                                DrowButtonsCanHumanTakeOneMoreCard();
-                                            }
-                                        }
-                                    },
-                                    error: function (response) {
-                                        ShowError(response);
+                                    if ((!response.HumanBjAndDealerBjDanger) && (!response.CanHumanTakeOneMoreCard)) {
+                                        SecondPhase();
                                     }
-                                });
-                            }
+
+                                    ReloadPlayers();
+                                    ReloadDealerInFirstPhase();
+                                    if (response.HumanBjAndDealerBjDanger) {
+                                        DrowButtonsHumanBjAndDealerBjDanger();
+                                    }
+
+                                    if (response.CanHumanTakeOneMoreCard) {
+                                        DrowButtonsCanHumanTakeOneMoreCard();
+                                    }
+                                },
+                                error: function (response) {
+                                    ShowError(response);
+                                }
+                            });
                         },
                         error: function (response) {
                             ShowError(response);
@@ -162,13 +138,7 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Message != "SUCCESS") {
-                    alert(response.Message);
-                }
-
-                if (response.Message == "SUCCESS") {
-                    SecondPhase();
-                }
+                SecondPhase();
             },
             error: function (response) {
                 ShowError(response);
@@ -185,19 +155,13 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Message != "SUCCESS") {
-                    alert(response.Message);
+                if (response.CanHumanTakeOneMoreCard) {
+                    var humanId = $("#humangameplayerid").val();
+                    ReloadPlayer(humanId, "#humangameplay");
                 }
 
-                if (response.Message == "SUCCESS") {
-                    if (response.CanHumanTakeOneMoreCard) {
-                        var humanId = $("#humangameplayerid").val();
-                        ReloadPlayer(humanId, "#humangameplay");
-                    }
-
-                    if (!response.CanHumanTakeOneMoreCard) {
-                        SecondPhase();
-                    }
+                if (!response.CanHumanTakeOneMoreCard) {
+                    SecondPhase();
                 }
             },
             error: function (response) {
@@ -215,20 +179,14 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Message != "SUCCESS") {
-                    alert(response.Message);
+                if (response.IsGameOver != "") {
+                    $("#gameplay").text("");
+                    $("#gameplay").append(`<p>${response.IsGameOver}</p>`);
+                    DrowButtonsNewGame();
                 }
 
-                if (response.Message == "SUCCESS") {
-                    if (response.IsGameOver != "") {
-                        $("#gameplay").text("");
-                        $("#gameplay").append(`<p>${response.IsGameOver}</p>`);
-                        DrowButtonsNewGame();
-                    }
-
-                    if (response.IsGameOver == "") {
-                        location.reload();
-                    }
+                if (response.IsGameOver == "") {
+                    location.reload();
                 }
             },
             error: function (response) {
@@ -280,15 +238,9 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Message != "SUCCESS") {
-                    alert(response.Message);
-                }
-
-                if (response.Message == "SUCCESS") {
-                    var text = GetPlayerText(response.GamePlayer);
-                    $(gamePlay).text("");
-                    $(gamePlay).append(text);
-                }
+                var text = GetPlayerText(response);
+                $(gamePlay).text("");
+                $(gamePlay).append(text);
             },
             error: function (response) {
                 ShowError(response);
@@ -320,15 +272,9 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Message != "SUCCESS") {
-                    alert(response.Message);
-                }
-
-                if (response.Message == "SUCCESS") {
-                    var text = GetDealerInFirstPhaseText(response.GamePlayer);
-                    $("#dealergameplay").text("");
-                    $("#dealergameplay").append(text);
-                }
+                var text = GetDealerInFirstPhaseText(response);
+                $("#dealergameplay").text("");
+                $("#dealergameplay").append(text);
             },
             error: function (response) {
                 ShowError(response);
@@ -358,15 +304,9 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Message != "SUCCESS") {
-                    alert(response.Message);
-                }
-
-                if (response.Message == "SUCCESS") {
-                    var text = GetDealerInSecondPhaseText(response.GamePlayer);
-                    $("#dealergameplay").text("");
-                    $("#dealergameplay").append(text);
-                }
+                var text = GetDealerInSecondPhaseText(response);
+                $("#dealergameplay").text("");
+                $("#dealergameplay").append(text);
             },
             error: function (response) {
                 ShowError(response);
@@ -491,36 +431,24 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Message != "SUCCESS") {
-                    alert(response.Message);
-                }
-
-                if (response.Message == "SUCCESS") {
-                    var gameId = $("#gameid").val();
-                    var transParam = { inGameId: gameId };
-                    $.ajax({
-                        type: "GET",
-                        url: "/PlayerLogic/HumanRoundResult",
-                        data: transParam,
-                        dataType: "json",
-                        success: function (response) {
-                            if (response.Message != "SUCCESS") {
-                                alert(response.Message);
-                            }
-
-                            if (response.Message == "SUCCESS") {
-                                $("#gameplay").text("");
-                                $("#gameplay").append(`<p>${response.HumanRoundResult}</p>`)
-                                ReloadPlayers();
-                                ReloadDealerInSecondPhase();
-                                DrowButtonsEndRound();
-                            }
-                        },
-                        error: function (response) {
-                            ShowError(response);
-                        }
-                    });
-                }
+                var gameId = $("#gameid").val();
+                var transParam = { inGameId: gameId };
+                $.ajax({
+                    type: "GET",
+                    url: "/PlayerLogic/HumanRoundResult",
+                    data: transParam,
+                    dataType: "json",
+                    success: function (response) {
+                        $("#gameplay").text("");
+                        $("#gameplay").append(`<p>${response.RoundResult}</p>`)
+                        ReloadPlayers();
+                        ReloadDealerInSecondPhase();
+                        DrowButtonsEndRound();
+                    },
+                    error: function (response) {
+                        ShowError(response);
+                    }
+                });
             },
             error: function (response) {
                 ShowError(response);

@@ -24,13 +24,13 @@ namespace BlackJack.UI.Controllers
             try
             {
                 await _gameLogicService.RoundFirstPhase(inGameId);
-                return Json(new { Message = GameMessageHelper.Success });
+                return Ok(GameMessageHelper.Success);
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
         
@@ -41,13 +41,13 @@ namespace BlackJack.UI.Controllers
             {
                 bool humanBjAndDealerBjDanger = await _gameLogicService.IsHumanBjAndDealerBjDanger(inGameId);
                 bool canHumanTakeOneMoreCard = await _gameLogicService.CanHumanTakeOneMoreCard(inGameId);
-                return Json(new { Message = GameMessageHelper.Success, HumanBjAndDealerBjDanger = humanBjAndDealerBjDanger, CanHumanTakeOneMoreCard = canHumanTakeOneMoreCard });
+                return Ok(new { HumanBjAndDealerBjDanger = humanBjAndDealerBjDanger, CanHumanTakeOneMoreCard = canHumanTakeOneMoreCard });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
         
@@ -57,13 +57,13 @@ namespace BlackJack.UI.Controllers
             try
             {
                 await _gameLogicService.HumanBjAndDealerBjDangerContinueRound(inGameId);
-                return Json(new { Message = GameMessageHelper.Success });
+                return Ok(GameMessageHelper.Success);
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError );
             }
         }
         
@@ -74,13 +74,13 @@ namespace BlackJack.UI.Controllers
             {
                 await _gameLogicService.AddOneMoreCardToHuman(inGameId);
                 bool canHumanTakeOneMoreCard = await _gameLogicService.CanHumanTakeOneMoreCard(inGameId);
-                return Json(new { Message = GameMessageHelper.Success, CanHumanTakeOneMoreCard = canHumanTakeOneMoreCard });
+                return Ok(new { CanHumanTakeOneMoreCard = canHumanTakeOneMoreCard });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
         
@@ -90,13 +90,13 @@ namespace BlackJack.UI.Controllers
             try
             {
                 await _gameLogicService.RoundSecondPhase(inGameId);
-                return Json(new { Message = GameMessageHelper.Success });
+                return Ok(GameMessageHelper.Success);
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return Json(new { Message = GameMessageHelper.GameError });
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
     }

@@ -7,6 +7,7 @@ using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.Entities.Models;
 using BlackJack.ViewModels.ViewModels;
 using BlackJack.ViewModels.Enums;
+using AutoMapper;
 
 namespace BlackJack.BusinessLogic.Services
 {

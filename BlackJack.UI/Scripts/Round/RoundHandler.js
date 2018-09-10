@@ -251,7 +251,7 @@
     function GetPlayerText(player) {
         var text = `<p>Score: ${player.Score}</p>`;
         text = text + `<p>Bet: ${player.Bet}</p>`;
-        text = text + `<p>RoundScore: ${player.CardScore}</p>`;
+        text = text + `<p>RoundScore: ${player.RoundScore}</p>`;
         text = text + `<p>Cards:</p><ul>`;
 
         $.each(player.Cards, function (i, item) {
@@ -316,7 +316,7 @@
 
     function GetDealerInSecondPhaseText(player) {
         var text = `<p>Score: ${player.Score}</p>`;
-        text = text + `<p>RoundScore: ${player.CardScore}</p>`;
+        text = text + `<p>RoundScore: ${player.RoundScore}</p>`;
         text = text + `<p>Cards:</p><ul>`;
 
         $.each(player.Cards, function (i, item) {

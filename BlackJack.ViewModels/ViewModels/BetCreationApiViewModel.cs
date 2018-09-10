@@ -9,9 +9,7 @@ namespace BlackJack.ViewModels.ViewModels
     public class BetCreationApiViewModel
     {
         public int Bet { get; set; }
-
         public int HumanGamePlayerId { get; set; }
-
         public int InGameId { get; set; }
     }
 }

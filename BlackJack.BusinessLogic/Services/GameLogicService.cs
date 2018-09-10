@@ -232,18 +232,18 @@ namespace BlackJack.BusinessLogic.Services
             List<Card> shuffledCards = cards;
 
             Random random = new Random();
-            int card1;
-            int card2;
+            int cardFirst;
+            int cardSecond;
             Card glass;
 
             for (int i = 0; i < shuffledCards.Count; i++)
             {
-                card1 = random.Next(shuffledCards.Count);
-                card2 = random.Next(shuffledCards.Count);
+                cardFirst = random.Next(shuffledCards.Count);
+                cardSecond = random.Next(shuffledCards.Count);
 
-                glass = shuffledCards[card1];
-                shuffledCards[card1] = shuffledCards[card2];
-                shuffledCards[card2] = glass;
+                glass = shuffledCards[cardFirst];
+                shuffledCards[cardFirst] = shuffledCards[cardSecond];
+                shuffledCards[cardSecond] = glass;
             }
 
             return shuffledCards;

@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Optimization;
 using System.Web.Routing;
 using BlackJack.UI.Config;
+using BlackJack.BusinessLogic.Config;
 
 [assembly: OwinStartup(typeof(BlackJack.UI.Startup))]
 
@@ -14,6 +15,7 @@ namespace BlackJack.UI
     {
         public void Configuration(IAppBuilder app)
         {
+            AutoMapperConfig.Initialize();
             AutofacConfig.ConfigureContainer();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();

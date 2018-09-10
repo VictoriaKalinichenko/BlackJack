@@ -8,6 +8,7 @@ using BlackJack.Entities.Models;
 using BlackJack.ViewModels.Enums;
 using BlackJack.ViewModels.ViewModels;
 using NLog;
+using AutoMapper;
 
 namespace BlackJack.BusinessLogic.Services
 {
@@ -40,12 +41,8 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<GamePlayerViewModel> GetGamePlayer(int gamePlayerId)
         {
-            GamePlayerViewModel gamePlayerViewModel = new GamePlayerViewModel();
             GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
-            gamePlayerViewModel.Id = gamePlayer.Id;
-            gamePlayerViewModel.Bet = gamePlayer.Bet;
-            gamePlayerViewModel.Score = gamePlayer.Score;
-            gamePlayerViewModel.CardScore = gamePlayer.RoundScore;
+            GamePlayerViewModel gamePlayerViewModel = Mapper.Map<GamePlayer, GamePlayerViewModel>(gamePlayer);
             List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
             gamePlayerViewModel.Cards = _playerCardProvider.GetCardsStringList(playerCards);
             return gamePlayerViewModel;
@@ -53,10 +50,8 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<GamePlayerViewModel> GetDealerInFirstPhase(int gamePlayerId)
         {
-            GamePlayerViewModel gamePlayerViewModel = new GamePlayerViewModel();
             GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
-            gamePlayerViewModel.Id = gamePlayer.Id;
-            gamePlayerViewModel.Score = gamePlayer.Score;
+            GamePlayerViewModel gamePlayerViewModel = Mapper.Map<GamePlayer, GamePlayerViewModel>(gamePlayer);
             List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
             gamePlayerViewModel.Cards = new List<string>();
             gamePlayerViewModel.Cards.Add(_playerCardProvider.ConvertCardToString(playerCards[0].Card));
@@ -65,11 +60,8 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<GamePlayerViewModel> GetDealerInSecondPhase(int gamePlayerId)
         {
-            GamePlayerViewModel gamePlayerViewModel = new GamePlayerViewModel();
             GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
-            gamePlayerViewModel.Id = gamePlayer.Id;
-            gamePlayerViewModel.Score = gamePlayer.Score;
-            gamePlayerViewModel.CardScore = gamePlayer.RoundScore;
+            GamePlayerViewModel gamePlayerViewModel = Mapper.Map<GamePlayer, GamePlayerViewModel>(gamePlayer);
             List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
             gamePlayerViewModel.Cards = _playerCardProvider.GetCardsStringList(playerCards);
             return gamePlayerViewModel;

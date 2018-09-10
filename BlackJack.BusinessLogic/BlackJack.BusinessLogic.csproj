@@ -70,7 +70,6 @@
     <Compile Include="Helpers\CardValueHelper.cs" />
     <Compile Include="Helpers\GameMessageHelper.cs" />
     <Compile Include="Helpers\GameValueHelper.cs" />
-    <Compile Include="Helpers\PlayerTypeHelper.cs" />
     <Compile Include="Helpers\RoundResultHelper.cs" />
     <Compile Include="Helpers\StageHelper.cs" />
     <Compile Include="Helpers\BetValueHelper.cs" />

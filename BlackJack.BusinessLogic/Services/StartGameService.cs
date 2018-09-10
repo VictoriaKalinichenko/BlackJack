@@ -92,9 +92,8 @@ namespace BlackJack.BusinessLogic.Services
                 };
 
                 await _gamePlayerRepository.Create(gamePlayer);
-
-                string playerType = "";
-                message = $"{playerType}(Id={player.Id}, Name={player.Name}, Score={gamePlayer.Score}) is added to game";
+                
+                message = $"{gamePlayer.Player.PlayerType}(Id={player.Id}, Name={player.Name}, Score={gamePlayer.Score}) is added to game";
                 await _logRepository.Create(game.Id, message);
             }
 

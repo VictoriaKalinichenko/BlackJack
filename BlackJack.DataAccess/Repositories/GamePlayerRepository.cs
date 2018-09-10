@@ -39,13 +39,9 @@ namespace BlackJack.DataAccess.Repositories
 
         public async Task<GamePlayer> Get(int id)
         {
-            string sqlQuery = $@"SELECT Id, PlayerId, GameId, Score, Bet, RoundScore, BetPayCoefficient 
-                                 FROM GamePlayers 
-                                 WHERE Id = {id}";
-
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                GamePlayer gamePlayer = await db.QuerySingleOrDefaultAsync<GamePlayer>(sqlQuery);
+                GamePlayer gamePlayer = await db.GetAsync<GamePlayer>(id);
                 return gamePlayer;
             }
         }

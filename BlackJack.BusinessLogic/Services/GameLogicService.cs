@@ -133,8 +133,7 @@ namespace BlackJack.BusinessLogic.Services
 
             if (dealerBjDanger)
             {
-                string playerType = "";
-                string message = $"{playerType}(Id={dealer.Player.Id}, Name={dealer.Player.Name}) has BlackJackDanger. His first card is (Id={dealerFirstCard.Id}, Value={dealerFirstCard.CardName}, Name={dealerFirstCard.ToString()})";
+                string message = $"{dealer.Player.PlayerType}(Id={dealer.Player.Id}, Name={dealer.Player.Name}) has BlackJackDanger. His first card is (Id={dealerFirstCard.Id}, Value={dealerFirstCard.CardName}, Name={dealerFirstCard.ToString()})";
                 await _logRepository.Create(gamePlayers.First().GameId, message);
             }
 
@@ -148,15 +147,13 @@ namespace BlackJack.BusinessLogic.Services
 
                     if (gamePlayer.BetPayCoefficient == BetValueHelper.BetBjCoefficient)
                     {
-                        string playerType = "";
-                        string message = $"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})";
+                        string message = $"{gamePlayer.Player.PlayerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})";
                         await _logRepository.Create(gamePlayer.GameId, message);
                     }
 
                     if (gamePlayer.BetPayCoefficient == BetValueHelper.BetWinCoefficient)
                     {
-                        string playerType = "";
-                        string message = $"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}) with DealerBlackJackDanger. BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})";
+                        string message = $"{gamePlayer.Player.PlayerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}) with DealerBlackJackDanger. BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})";
                         await _logRepository.Create(gamePlayer.GameId, message);
                     }
                 }
@@ -197,9 +194,8 @@ namespace BlackJack.BusinessLogic.Services
             gamePlayer.RoundScore = _playerCardProvider.CardScoreCount(playerCards);
 
             await _gamePlayerRepository.Update(gamePlayer);
-
-            string playerType = "";
-            string message = $"Card(Id={card.Id}, Value={card.CardName}, Name={_playerCardProvider.ConvertCardToString(card)}) is added to {playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, RoundScore={gamePlayer.RoundScore})";
+            
+            string message = $"Card(Id={card.Id}, Value={card.CardName}, Name={_playerCardProvider.ConvertCardToString(card)}) is added to {gamePlayer.Player.PlayerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, RoundScore={gamePlayer.RoundScore})";
             await _logRepository.Create(gamePlayer.GameId, message);
         }
 

@@ -8,27 +8,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { DataService } from '../services/data.service';
-var HomepageComponent = /** @class */ (function () {
-    function HomepageComponent(dataService, router) {
-        this.dataService = dataService;
-        this.router = router;
+var GameComponent = /** @class */ (function () {
+    function GameComponent() {
     }
-    HomepageComponent.prototype.authUser = function (userName) {
-        this.dataService.SetUserName(userName);
-        this.router.navigate(['/user']);
+    GameComponent.prototype.ngOnInit = function () {
     };
-    HomepageComponent = __decorate([
+    GameComponent = __decorate([
         Component({
-            selector: 'app-homepage',
-            templateUrl: './homepage.component.html',
-            styleUrls: ['./homepage.component.css']
+            selector: 'app-game',
+            templateUrl: './game.component.html',
+            styleUrls: ['./game.component.css']
         }),
-        __metadata("design:paramtypes", [DataService,
-            Router])
-    ], HomepageComponent);
-    return HomepageComponent;
+        __metadata("design:paramtypes", [])
+    ], GameComponent);
+    return GameComponent;
 }());
-export { HomepageComponent };
-//# sourceMappingURL=homepage.component.js.map
+export { GameComponent };
+//# sourceMappingURL=game.component.js.map

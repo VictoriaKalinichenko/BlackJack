@@ -8,18 +8,29 @@ import { APP_BASE_HREF } from '@angular/common';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { StartpageComponent } from './startpage/startpage.component';
+import { AuthUserComponent } from './auth-user/auth-user.component';
 import { DataService } from './services/data.service';
+import { GameComponent } from './game/game.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomepageComponent },
-    { path: 'startpage', component: StartpageComponent }
+    {
+        path: 'user',
+        component: AuthUserComponent,
+        children: [
+            { path: '', component: StartpageComponent },
+            { path: 'game', component: StartpageComponent }
+        ]
+    }
 ];
 
 @NgModule({
   declarations: [
       AppComponent,
       HomepageComponent,
-      StartpageComponent
+      StartpageComponent,
+      AuthUserComponent,
+      GameComponent
   ],
   imports: [
       BrowserModule,
@@ -27,7 +38,7 @@ const appRoutes: Routes = [
       HttpClientModule,
       RouterModule.forRoot(
           appRoutes,
-          { enableTracing: true }
+          { useHash: true }
       )
   ],
     providers: [
@@ -37,7 +48,9 @@ const appRoutes: Routes = [
     bootstrap: [
         AppComponent,
         HomepageComponent,
-        StartpageComponent
+        StartpageComponent,
+        AuthUserComponent,
+        GameComponent
     ]
 })
 export class AppModule { }

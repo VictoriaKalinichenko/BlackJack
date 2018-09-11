@@ -13,10 +13,13 @@ var DataService = /** @class */ (function () {
     function DataService(http) {
         this.http = http;
     }
-    DataService.prototype.setUserName = function (userName) {
+    DataService.prototype.SetUserName = function (userName) {
         this.UserName = userName;
     };
-    DataService.prototype.postData = function () {
+    DataService.prototype.GetUserName = function () {
+        return this.UserName;
+    };
+    DataService.prototype.PostData = function () {
         var body = { UserName: this.UserName };
         return this.http.post('http://localhost:55953/StartGame/GetAuthorizedPlayer', body);
     };

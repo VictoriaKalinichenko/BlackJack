@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -10,10 +11,13 @@ import { DataService } from '../services/data.service';
 export class HomepageComponent {
     UserName: string;
 
-    constructor(private router: Router, private dataService: DataService) { }
+    constructor(
+        private dataService: DataService,
+        private router: Router
+    ) { }
 
     authUser(userName: string) {
-        this.dataService.setUserName(userName);
-        this.router.navigate(['/startpage']);
+        this.dataService.SetUserName(userName);
+        this.router.navigate(['/user']);
     }
 }

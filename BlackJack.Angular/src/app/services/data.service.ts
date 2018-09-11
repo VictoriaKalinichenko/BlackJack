@@ -9,11 +9,15 @@ export class DataService {
 
     constructor(private http: HttpClient) { }
 
-    setUserName(userName: string) {
+    SetUserName(userName: string) {
         this.UserName = userName;
     }
 
-    postData() {
+    GetUserName() {
+        return this.UserName;
+    }
+
+    PostData() {
         const body = { UserName: this.UserName };
         return this.http.post('http://localhost:55953/StartGame/GetAuthorizedPlayer', body);
     }

@@ -1,3 +1,22 @@
-<div class="jumbotron">
-    <h1>BlackJack</h1>
+<h2>Main page</h2>
+<hr />
+
+<div class="row row-flex">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 well">
+        <h3>Game resuming</h3>
+        <p>You can resume your last game</p>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 well">
+        <h3>Start new game</h3>
+        <div class="form-group">
+            <label class="control-label col-md-4">Amount of bots:</label>
+            <div class="col-md-8">
+                <input name="amountOfBots" class="form-control" type="number" value="0" min="0" max="5" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" (click)="StartNewGame(Player.PlayerId)">Start new game</button>
+        </div>
+    </div>
 </div>

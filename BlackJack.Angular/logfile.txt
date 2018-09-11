@@ -10,3 +10,21 @@
    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
    at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
    at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-11 14:37:00.4341|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-11 14:37:43.7951|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-11 15:26:51.7492|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.

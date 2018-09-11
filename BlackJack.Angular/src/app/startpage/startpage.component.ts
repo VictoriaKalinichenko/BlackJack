@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { AuthPlayerViewModel } from '../viewmodels/AuthPlayerViewModel';
 
@@ -7,13 +7,21 @@ import { AuthPlayerViewModel } from '../viewmodels/AuthPlayerViewModel';
   templateUrl: './startpage.component.html',
   styleUrls: ['./startpage.component.css']
 })
-export class StartpageComponent {
+export class StartpageComponent implements OnInit {
+    UserName: string;
     Player: AuthPlayerViewModel;
 
-    constructor(private dataService: DataService) { }
+    constructor (
+        private dataService: DataService
+    ) { }
 
-    authUser(userName: string) {
-        this.dataService.postData()
+    ngOnInit() {
+        this.UserName = this.dataService.GetUserName();
+        this.AuthUser(this.UserName);
+    }
+
+    AuthUser(userName: string) {
+        this.dataService.PostData()
             .subscribe(
                 (data: AuthPlayerViewModel) => {
                     this.Player = data;
@@ -22,5 +30,9 @@ export class StartpageComponent {
                     console.log(error);
                 }
             );
+    }
+
+    StartNewGame(playerId: number) {
+
     }
 }

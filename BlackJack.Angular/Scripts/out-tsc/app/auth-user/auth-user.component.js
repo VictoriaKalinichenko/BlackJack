@@ -8,27 +8,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
-var HomepageComponent = /** @class */ (function () {
-    function HomepageComponent(dataService, router) {
+var AuthUserComponent = /** @class */ (function () {
+    function AuthUserComponent(dataService) {
         this.dataService = dataService;
-        this.router = router;
     }
-    HomepageComponent.prototype.authUser = function (userName) {
-        this.dataService.SetUserName(userName);
-        this.router.navigate(['/user']);
+    AuthUserComponent.prototype.ngOnInit = function () {
+        this.UserName = this.dataService.GetUserName();
     };
-    HomepageComponent = __decorate([
+    AuthUserComponent = __decorate([
         Component({
-            selector: 'app-homepage',
-            templateUrl: './homepage.component.html',
-            styleUrls: ['./homepage.component.css']
+            selector: 'app-auth-user',
+            templateUrl: './auth-user.component.html',
+            styleUrls: ['./auth-user.component.css']
         }),
-        __metadata("design:paramtypes", [DataService,
-            Router])
-    ], HomepageComponent);
-    return HomepageComponent;
+        __metadata("design:paramtypes", [DataService])
+    ], AuthUserComponent);
+    return AuthUserComponent;
 }());
-export { HomepageComponent };
-//# sourceMappingURL=homepage.component.js.map
+export { AuthUserComponent };
+//# sourceMappingURL=auth-user.component.js.map

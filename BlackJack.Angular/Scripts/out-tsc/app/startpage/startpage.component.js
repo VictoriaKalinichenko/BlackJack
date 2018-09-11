@@ -13,14 +13,20 @@ var StartpageComponent = /** @class */ (function () {
     function StartpageComponent(dataService) {
         this.dataService = dataService;
     }
-    StartpageComponent.prototype.authUser = function (userName) {
+    StartpageComponent.prototype.ngOnInit = function () {
+        this.UserName = this.dataService.GetUserName();
+        this.AuthUser(this.UserName);
+    };
+    StartpageComponent.prototype.AuthUser = function (userName) {
         var _this = this;
-        this.dataService.postData()
+        this.dataService.PostData()
             .subscribe(function (data) {
             _this.Player = data;
         }, function (error) {
             console.log(error);
         });
+    };
+    StartpageComponent.prototype.StartNewGame = function (playerId) {
     };
     StartpageComponent = __decorate([
         Component({

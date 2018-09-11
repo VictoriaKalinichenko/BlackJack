@@ -221,6 +221,10 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="src\app\app.component.css" />
     <Content Include="src\app\app.component.html" />
+    <Content Include="src\app\auth-user\auth-user.component.css" />
+    <Content Include="src\app\auth-user\auth-user.component.html" />
+    <Content Include="src\app\game\game.component.css" />
+    <Content Include="src\app\game\game.component.html" />
     <Content Include="src\app\homepage\homepage.component.css" />
     <Content Include="src\app\homepage\homepage.component.html" />
     <Content Include="src\app\startpage\startpage.component.css" />
@@ -270,6 +274,10 @@
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\auth-user\auth-user.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\auth-user\auth-user.component.ts" />
+    <TypeScriptCompile Include="src\app\game\game.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\game\game.component.ts" />
     <TypeScriptCompile Include="src\app\services\data.service.spec.ts" />
     <TypeScriptCompile Include="src\app\services\data.service.ts" />
     <TypeScriptCompile Include="src\app\viewmodels\AuthPlayerViewModel.ts" />

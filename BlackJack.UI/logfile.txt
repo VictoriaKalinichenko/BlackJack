@@ -654,3 +654,47 @@
    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
    at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
    at BlackJack.UI.Controllers.LogController.<GetLogs>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\LogController.cs:line 30|Mapper already initialized. You must call Initialize once per application domain/process.
+2018-09-12 13:16:21.5437|ERROR|BlackJack.UI.Controllers.LogController|AutoMapper|Void set_Configuration(AutoMapper.IConfigurationProvider)|   at AutoMapper.Mapper.set_Configuration(IConfigurationProvider value)
+   at AutoMapper.Mapper.Initialize(Action`1 config)
+   at BlackJack.BusinessLogic.Services.LogService.<GetAll>d__2.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\LogService.cs:line 22
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.LogController.<GetLogs>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\LogController.cs:line 30|Mapper already initialized. You must call Initialize once per application domain/process.
+2018-09-12 13:16:25.5197|ERROR|BlackJack.UI.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<MainPage>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 55|Object reference not set to an instance of an object.
+2018-09-12 13:16:26.6909|ERROR|BlackJack.UI.Controllers.LogController|AutoMapper|Void set_Configuration(AutoMapper.IConfigurationProvider)|   at AutoMapper.Mapper.set_Configuration(IConfigurationProvider value)
+   at AutoMapper.Mapper.Initialize(Action`1 config)
+   at BlackJack.BusinessLogic.Services.LogService.<GetAll>d__2.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\LogService.cs:line 22
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.LogController.<GetLogs>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\LogController.cs:line 30|Mapper already initialized. You must call Initialize once per application domain/process.
+2018-09-12 13:16:27.5995|ERROR|BlackJack.UI.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartGameController.<MainPage>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartGameController.cs:line 55|Object reference not set to an instance of an object.
+2018-09-12 13:16:38.8270|ERROR|BlackJack.UI.Controllers.LogController|AutoMapper|Void set_Configuration(AutoMapper.IConfigurationProvider)|   at AutoMapper.Mapper.set_Configuration(IConfigurationProvider value)
+   at AutoMapper.Mapper.Initialize(Action`1 config)
+   at BlackJack.BusinessLogic.Services.LogService.<GetAll>d__2.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\LogService.cs:line 22
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.LogController.<GetLogs>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\LogController.cs:line 30|Mapper already initialized. You must call Initialize once per application domain/process.
+2018-09-12 13:16:48.8514|ERROR|BlackJack.UI.Controllers.LogController|AutoMapper|Void set_Configuration(AutoMapper.IConfigurationProvider)|   at AutoMapper.Mapper.set_Configuration(IConfigurationProvider value)
+   at AutoMapper.Mapper.Initialize(Action`1 config)
+   at BlackJack.BusinessLogic.Services.LogService.<GetAll>d__2.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\LogService.cs:line 22
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.LogController.<GetLogs>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\LogController.cs:line 30|Mapper already initialized. You must call Initialize once per application domain/process.

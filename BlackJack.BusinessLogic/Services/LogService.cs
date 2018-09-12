@@ -19,7 +19,6 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<IEnumerable<LogViewModel>> GetAll()
         {
-            Mapper.Initialize(config => config.CreateMap<Log, LogViewModel>());
             IEnumerable<Log> logs = await _logRepository.GetAll();
             IEnumerable<LogViewModel> logViewModels = Mapper.Map<IEnumerable<Log>, IEnumerable<LogViewModel>>(logs);
             return logViewModels;

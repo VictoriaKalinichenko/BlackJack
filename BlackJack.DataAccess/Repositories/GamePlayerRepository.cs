@@ -23,7 +23,7 @@ namespace BlackJack.DataAccess.Repositories
         {
             string sqlQuery = $@"SELECT * FROM GamePlayers AS A 
                                  INNER JOIN Players AS B ON A.PlayerId = B.Id
-                                 WHERE A.GameId = {gameId}";
+                                 WHERE A.GameId = @gameId";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
@@ -31,7 +31,9 @@ namespace BlackJack.DataAccess.Repositories
                  {
                      gamePlayer.Player = player;
                      return gamePlayer;
-                 });
+                 },
+                 new { gameId },
+                 null);
 
                 return gamePlayers;
             }
@@ -49,12 +51,12 @@ namespace BlackJack.DataAccess.Repositories
         public async Task<int> GetGameIdByPlayerId(int id)
         {
             string sqlQuery = $@"SELECT TOP (1) GameId FROM GamePlayers 
-                                 WHERE PlayerId = {id}
+                                 WHERE PlayerId = @id
                                  ORDER BY CreationDate DESC";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                int gameId = await db.QueryFirstOrDefaultAsync<int>(sqlQuery);
+                int gameId = await db.QueryFirstOrDefaultAsync<int>(sqlQuery, new { id });
                 return gameId;
             }
         }
@@ -88,11 +90,11 @@ namespace BlackJack.DataAccess.Repositories
         public async Task DeleteByGameId(int gameId)
         {
             string sqlQuery = $@"DELETE FROM GamePlayers 
-                                 WHERE GameId = {gameId}";
+                                 WHERE GameId = @gameId";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await db.ExecuteAsync(sqlQuery);
+                await db.ExecuteAsync(sqlQuery, new { gameId });
             }
         }
     }

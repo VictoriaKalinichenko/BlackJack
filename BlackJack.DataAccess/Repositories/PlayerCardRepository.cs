@@ -23,7 +23,7 @@ namespace BlackJack.DataAccess.Repositories
         {
             string sqlQuery = $@"SELECT * FROM PlayerCards AS A
                                  INNER JOIN Cards AS B ON A.CardId = B.Id
-                                 WHERE A.GamePlayerId = {gamePlayerId}";
+                                 WHERE A.GamePlayerId = @gamePlayerId";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
@@ -31,7 +31,9 @@ namespace BlackJack.DataAccess.Repositories
                 {
                     playerCard.Card = card;
                     return playerCard;
-                });
+                },
+                new { gamePlayerId },
+                null);
                 return playerCards;
             }
         }
@@ -39,12 +41,12 @@ namespace BlackJack.DataAccess.Repositories
         public async Task<int> GetCountByGamePlayerId(int gamePlayerId)
         {
             string sqlQuery = $@"SELECT COUNT(GamePlayerId) FROM PlayerCards 
-                                 WHERE GamePlayerId = {gamePlayerId}
+                                 WHERE GamePlayerId = @gamePlayerId
                                  GROUP BY GamePlayerId";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                int playerCardsCount = await db.QuerySingleOrDefaultAsync<int>(sqlQuery);
+                int playerCardsCount = await db.QuerySingleOrDefaultAsync<int>(sqlQuery, new { gamePlayerId });
                 return playerCardsCount;
             }
         }
@@ -71,11 +73,11 @@ namespace BlackJack.DataAccess.Repositories
         public async Task DeleteByGamePlayerId(int gamePlayerId)
         {
             string sqlQuery = $@"DELETE FROM PlayerCards 
-                                 WHERE GamePlayerId = {gamePlayerId}";
+                                 WHERE GamePlayerId = @gamePlayerId";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await db.ExecuteAsync(sqlQuery);
+                await db.ExecuteAsync(sqlQuery, new { gamePlayerId });
             }
         }
     }

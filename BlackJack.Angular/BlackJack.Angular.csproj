@@ -286,6 +286,7 @@
     <TypeScriptCompile Include="src\app\startpage\startpage.component.spec.ts" />
     <TypeScriptCompile Include="src\app\startpage\startpage.component.ts" />
     <TypeScriptCompile Include="src\app\viewmodels\GameIdViewModel.ts" />
+    <TypeScriptCompile Include="src\app\viewmodels\GameViewModel.ts" />
     <TypeScriptCompile Include="src\app\viewmodels\PlayerViewModel.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />

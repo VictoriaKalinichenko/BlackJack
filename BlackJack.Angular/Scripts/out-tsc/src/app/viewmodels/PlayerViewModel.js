@@ -10,7 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { JsonProperty } from 'json-typescript-mapper';
 var PlayerViewModel = /** @class */ (function () {
     function PlayerViewModel() {
-        this.Cards = [];
+        this.GamePlayerId = void 0;
+        this.Name = void 0;
+        this.Score = void 0;
+        this.Bet = void 0;
+        this.RoundScore = void 0;
+        this.Cards = void 0;
     }
     __decorate([
         JsonProperty('Id'),

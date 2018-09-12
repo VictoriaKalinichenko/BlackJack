@@ -7,36 +7,37 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
 import { JsonProperty } from 'json-typescript-mapper';
-var PlayerViewModel = /** @class */ (function () {
-    function PlayerViewModel() {
-        this.Cards = [];
+var GameViewModel = /** @class */ (function () {
+    function GameViewModel() {
+        this.GameId = void 0;
+        this.Stage = void 0;
+        this.Human = void 0;
+        this.Dealer = void 0;
+        this.Bots = void 0;
     }
     __decorate([
         JsonProperty('Id'),
         __metadata("design:type", Number)
-    ], PlayerViewModel.prototype, "GamePlayerId", void 0);
+    ], GameViewModel.prototype, "GameId", void 0);
     __decorate([
-        JsonProperty('Name'),
-        __metadata("design:type", String)
-    ], PlayerViewModel.prototype, "Name", void 0);
-    __decorate([
-        JsonProperty('Score'),
+        JsonProperty('Stage'),
         __metadata("design:type", Number)
-    ], PlayerViewModel.prototype, "Score", void 0);
+    ], GameViewModel.prototype, "Stage", void 0);
     __decorate([
-        JsonProperty('Bet'),
-        __metadata("design:type", Number)
-    ], PlayerViewModel.prototype, "Bet", void 0);
+        JsonProperty({ clazz: PlayerViewModel, name: 'Human' }),
+        __metadata("design:type", PlayerViewModel)
+    ], GameViewModel.prototype, "Human", void 0);
     __decorate([
-        JsonProperty('RoundScore'),
-        __metadata("design:type", Number)
-    ], PlayerViewModel.prototype, "RoundScore", void 0);
+        JsonProperty({ clazz: PlayerViewModel, name: 'Dealer' }),
+        __metadata("design:type", PlayerViewModel)
+    ], GameViewModel.prototype, "Dealer", void 0);
     __decorate([
-        JsonProperty('Cards'),
+        JsonProperty({ clazz: PlayerViewModel, name: 'Bots' }),
         __metadata("design:type", Array)
-    ], PlayerViewModel.prototype, "Cards", void 0);
-    return PlayerViewModel;
+    ], GameViewModel.prototype, "Bots", void 0);
+    return GameViewModel;
 }());
-export { PlayerViewModel };
-//# sourceMappingURL=PlayerViewModel.js.map
+export { GameViewModel };
+//# sourceMappingURL=GameViewModel.js.map

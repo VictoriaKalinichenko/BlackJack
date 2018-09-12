@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GameViewModel } from '../viewmodels/GameViewModel';
+import { deserialize } from 'json-typescript-mapper';
 
 import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
 import { DataService } from '../services/data.service';
@@ -11,7 +13,7 @@ import { DataService } from '../services/data.service';
 })
 export class GameComponent implements OnInit {
     GameId: number;
-    Human: PlayerViewModel = new PlayerViewModel();
+    GameViewModel: GameViewModel;
 
     constructor(
         private route: ActivatedRoute,
@@ -20,18 +22,18 @@ export class GameComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.GameId = params['Id']
+            this.GameId = params['Id'];
+
+            this.dataService.GetGame(this.GameId)
+                .subscribe(
+                (data) => {
+                    this.GameViewModel = deserialize(GameViewModel, data);
+                },
+                (error) => {
+                    console.log(error);
+                }
+                );
         });
-
-        this.dataService.GetGame(this.GameId)
-            .subscribe(
-            (data) => {
-                this.Human.Name = data["Bots"]["1"]["Name"];
-            },
-            (error) => {
-
-            }
-        );
     }
 
 }

@@ -9,36 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GameViewModel } from '../viewmodels/GameViewModel';
-import { deserialize } from 'json-typescript-mapper';
 import { DataService } from '../services/data.service';
-var GameComponent = /** @class */ (function () {
-    function GameComponent(route, dataService) {
-        this.route = route;
+var AuthUserComponent = /** @class */ (function () {
+    function AuthUserComponent(dataService, route) {
         this.dataService = dataService;
+        this.route = route;
     }
-    GameComponent.prototype.ngOnInit = function () {
+    AuthUserComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
-            _this.GameId = params['Id'];
-            _this.dataService.GetGame(_this.GameId)
-                .subscribe(function (data) {
-                _this.GameViewModel = deserialize(GameViewModel, data);
-            }, function (error) {
-                console.log(error);
-            });
+            _this.UserName = params['UserName'];
         });
+        this.dataService.SetUserName(this.UserName);
     };
-    GameComponent = __decorate([
+    AuthUserComponent = __decorate([
         Component({
-            selector: 'app-game',
-            templateUrl: './game.component.html',
-            styleUrls: ['./game.component.css']
+            selector: 'app-auth-user',
+            templateUrl: './auth-user.component.html',
+            styleUrls: ['./auth-user.component.css']
         }),
-        __metadata("design:paramtypes", [ActivatedRoute,
-            DataService])
-    ], GameComponent);
-    return GameComponent;
+        __metadata("design:paramtypes", [DataService,
+            ActivatedRoute])
+    ], AuthUserComponent);
+    return AuthUserComponent;
 }());
-export { GameComponent };
-//# sourceMappingURL=game.component.js.map
+export { AuthUserComponent };
+//# sourceMappingURL=auth-user.component.js.map

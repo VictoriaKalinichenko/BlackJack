@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { GameViewModel } from '../viewmodels/GameViewModel';
+import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
+
 @Injectable({
   providedIn: 'root'
 })

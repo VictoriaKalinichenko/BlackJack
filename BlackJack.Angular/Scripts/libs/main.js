@@ -262,7 +262,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  {{Human.Name}}\n</p>\n"
+module.exports = "<p>\r\n    {{GameViewModel.GameId}}\r\n</p>\r\n<p>\r\n    {{GameViewModel.Stage}}\r\n</p>\r\n<p>\r\n    {{GameViewModel.Human.GamePlayerId}}\r\n</p>\r\n<p>\r\n    {{GameViewModel.Human.Name}}\r\n</p>\r\n<p>\r\n    {{GameViewModel.Human.Score}}\r\n</p>\r\n<p>\r\n    {{GameViewModel.Dealer.GamePlayerId}}\r\n</p>\r\n<p>\r\n    {{GameViewModel.Dealer.Name}}\r\n</p>\r\n<p>\r\n    {{GameViewModel.Dealer.Score}}\r\n</p>\r\n<div *ngFor=\"let bot of GameViewModel.Bots\">\r\n    <p>\r\n        {{bot.GamePlayerId}}\r\n    </p>\r\n    <p>\r\n        {{bot.Name}}\r\n    </p>\r\n    <p>\r\n        {{bot.Score}}\r\n    </p>\r\n</div>"
 
 /***/ }),
 
@@ -278,8 +278,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameComponent", function() { return GameComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../viewmodels/PlayerViewModel */ "./src/app/viewmodels/PlayerViewModel.ts");
-/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
+/* harmony import */ var _viewmodels_GameViewModel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../viewmodels/GameViewModel */ "./src/app/viewmodels/GameViewModel.ts");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! json-typescript-mapper */ "./node_modules/json-typescript-mapper/index.js");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -293,21 +295,22 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var GameComponent = /** @class */ (function () {
     function GameComponent(route, dataService) {
         this.route = route;
         this.dataService = dataService;
-        this.Human = new _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"]();
     }
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.GameId = params['Id'];
-        });
-        this.dataService.GetGame(this.GameId)
-            .subscribe(function (data) {
-            _this.Human.Name = data["Bots"]["1"]["Name"];
-        }, function (error) {
+            _this.dataService.GetGame(_this.GameId)
+                .subscribe(function (data) {
+                _this.GameViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_3__["deserialize"])(_viewmodels_GameViewModel__WEBPACK_IMPORTED_MODULE_2__["GameViewModel"], data);
+            }, function (error) {
+                console.log(error);
+            });
         });
     };
     GameComponent = __decorate([
@@ -317,7 +320,7 @@ var GameComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./game.component.css */ "./src/app/game/game.component.css")]
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
-            _services_data_service__WEBPACK_IMPORTED_MODULE_3__["DataService"]])
+            _services_data_service__WEBPACK_IMPORTED_MODULE_4__["DataService"]])
     ], GameComponent);
     return GameComponent;
 }());
@@ -580,6 +583,65 @@ var AuthPlayerViewModel = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/viewmodels/GameViewModel.ts":
+/*!*********************************************!*\
+  !*** ./src/app/viewmodels/GameViewModel.ts ***!
+  \*********************************************/
+/*! exports provided: GameViewModel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameViewModel", function() { return GameViewModel; });
+/* harmony import */ var _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../viewmodels/PlayerViewModel */ "./src/app/viewmodels/PlayerViewModel.ts");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! json-typescript-mapper */ "./node_modules/json-typescript-mapper/index.js");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var GameViewModel = /** @class */ (function () {
+    function GameViewModel() {
+        this.GameId = void 0;
+        this.Stage = void 0;
+        this.Human = void 0;
+        this.Dealer = void 0;
+        this.Bots = void 0;
+    }
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["JsonProperty"])('Id'),
+        __metadata("design:type", Number)
+    ], GameViewModel.prototype, "GameId", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["JsonProperty"])('Stage'),
+        __metadata("design:type", Number)
+    ], GameViewModel.prototype, "Stage", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["JsonProperty"])({ clazz: _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_0__["PlayerViewModel"], name: 'Human' }),
+        __metadata("design:type", _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_0__["PlayerViewModel"])
+    ], GameViewModel.prototype, "Human", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["JsonProperty"])({ clazz: _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_0__["PlayerViewModel"], name: 'Dealer' }),
+        __metadata("design:type", _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_0__["PlayerViewModel"])
+    ], GameViewModel.prototype, "Dealer", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["JsonProperty"])({ clazz: _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_0__["PlayerViewModel"], name: 'Bots' }),
+        __metadata("design:type", Array)
+    ], GameViewModel.prototype, "Bots", void 0);
+    return GameViewModel;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/viewmodels/PlayerViewModel.ts":
 /*!***********************************************!*\
   !*** ./src/app/viewmodels/PlayerViewModel.ts ***!
@@ -590,9 +652,51 @@ var AuthPlayerViewModel = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlayerViewModel", function() { return PlayerViewModel; });
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! json-typescript-mapper */ "./node_modules/json-typescript-mapper/index.js");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 var PlayerViewModel = /** @class */ (function () {
     function PlayerViewModel() {
+        this.GamePlayerId = void 0;
+        this.Name = void 0;
+        this.Score = void 0;
+        this.Bet = void 0;
+        this.RoundScore = void 0;
+        this.Cards = void 0;
     }
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Id'),
+        __metadata("design:type", Number)
+    ], PlayerViewModel.prototype, "GamePlayerId", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Name'),
+        __metadata("design:type", String)
+    ], PlayerViewModel.prototype, "Name", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Score'),
+        __metadata("design:type", Number)
+    ], PlayerViewModel.prototype, "Score", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Bet'),
+        __metadata("design:type", Number)
+    ], PlayerViewModel.prototype, "Bet", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('RoundScore'),
+        __metadata("design:type", Number)
+    ], PlayerViewModel.prototype, "RoundScore", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Cards'),
+        __metadata("design:type", Array)
+    ], PlayerViewModel.prototype, "Cards", void 0);
     return PlayerViewModel;
 }());
 

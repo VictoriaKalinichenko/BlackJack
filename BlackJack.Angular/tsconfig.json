@@ -1,8 +1,5 @@
 {
   "compileOnSave": false,
-  "include": [
-    "./src"
-  ],
   "compilerOptions": {
     "baseUrl": "src",
     "outDir": "./scripts/out-tsc",
@@ -20,5 +17,10 @@
       "es2017",
       "dom"
     ]
-  }
+  },
+  "include": [
+    "src/**/*",
+    "./src",
+    "node_modules/json-typescript-mapper/libs/utils.ts"
+  ]
 }

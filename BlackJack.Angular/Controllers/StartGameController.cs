@@ -43,7 +43,7 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 int gameId = await _startGameService.CreateGame(gameCreationViewModel.PlayerId, gameCreationViewModel.AmountOfBots);
-                return Ok(gameId);
+                return Ok(new { GameId = gameId });
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 int gameId = await _startGameService.ResumeGame(playerId);
-                return Ok(gameId);
+                return Ok(new { GameId = gameId });
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace BlackJack.Angular.Controllers
             }
         }
 
-        [Route("GetGame"), HttpPost]
+        [Route("GetGame"), HttpGet]
         public async Task<IHttpActionResult> GetGame(int gameId)
         {
             try

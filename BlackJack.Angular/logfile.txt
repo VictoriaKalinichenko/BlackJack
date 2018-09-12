@@ -28,3 +28,71 @@
    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
    at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
    at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-11 15:59:08.7111|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-11 16:24:00.4375|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-11 16:24:41.2587|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-11 16:31:49.3484|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-11 16:32:02.7630|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-11 16:38:07.0081|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 56
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 29|Object reference not set to an instance of an object.
+2018-09-12 09:58:03.9584|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<CreateGame>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 97
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<CreateNewGame>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 45|Object reference not set to an instance of an object.
+2018-09-12 10:01:21.8406|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<CreateGame>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 97
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<CreateNewGame>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 45|Object reference not set to an instance of an object.
+2018-09-12 10:02:33.4454|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<CreateGame>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 97
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<CreateNewGame>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 45|Object reference not set to an instance of an object.
+2018-09-12 10:08:45.0464|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<CreateGame>d__8.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<CreateNewGame>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 45|Object reference not set to an instance of an object.
+2018-09-12 12:28:21.4807|ERROR|BlackJack.Angular.Controllers.StartGameController|AutoMapper|AutoMapper.IMapper get_Instance()|   at AutoMapper.Mapper.get_Instance()
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source)
+   at BlackJack.BusinessLogic.Services.StartGameService.<GetGame>d__10.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 114
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<GetGame>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 77|Mapper not initialized. Call Initialize with appropriate configuration. If you are trying to use mapper instances through a container or otherwise, make sure you do not have any calls to the static Mapper.Map methods, and if you're using ProjectTo or UseAsDataSource extension methods, make sure you pass in the appropriate IConfigurationProvider instance.

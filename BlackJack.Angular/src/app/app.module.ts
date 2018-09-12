@@ -15,11 +15,11 @@ import { GameComponent } from './game/game.component';
 const appRoutes: Routes = [
     { path: '', component: HomepageComponent },
     {
-        path: 'user',
+        path: 'user/:UserName',
         component: AuthUserComponent,
         children: [
             { path: '', component: StartpageComponent },
-            { path: 'game', component: StartpageComponent }
+            { path: 'game/:Id', component: GameComponent }
         ]
     }
 ];

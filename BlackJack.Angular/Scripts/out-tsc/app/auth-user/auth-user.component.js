@@ -8,13 +8,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../services/data.service';
 var AuthUserComponent = /** @class */ (function () {
-    function AuthUserComponent(dataService) {
+    function AuthUserComponent(dataService, route) {
         this.dataService = dataService;
+        this.route = route;
     }
     AuthUserComponent.prototype.ngOnInit = function () {
-        this.UserName = this.dataService.GetUserName();
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.UserName = params['UserName'];
+        });
+        this.dataService.SetUserName(this.UserName);
     };
     AuthUserComponent = __decorate([
         Component({
@@ -22,7 +28,8 @@ var AuthUserComponent = /** @class */ (function () {
             templateUrl: './auth-user.component.html',
             styleUrls: ['./auth-user.component.css']
         }),
-        __metadata("design:paramtypes", [DataService])
+        __metadata("design:paramtypes", [DataService,
+            ActivatedRoute])
     ], AuthUserComponent);
     return AuthUserComponent;
 }());

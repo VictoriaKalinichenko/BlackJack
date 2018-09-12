@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using BlackJack.Angular.Config;
+using BlackJack.BusinessLogic.Config;
 
 namespace BlackJack.Angular
 {
@@ -10,6 +11,7 @@ namespace BlackJack.Angular
     {
         protected void Application_Start()
         {
+            AutoMapperConfig.Initialize();
             AutofacConfig.ConfigureContainer();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

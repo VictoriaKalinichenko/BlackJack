@@ -19,11 +19,11 @@ import { GameComponent } from './game/game.component';
 var appRoutes = [
     { path: '', component: HomepageComponent },
     {
-        path: 'user',
+        path: 'user/:UserName',
         component: AuthUserComponent,
         children: [
             { path: '', component: StartpageComponent },
-            { path: 'game', component: StartpageComponent }
+            { path: 'game/:Id', component: GameComponent }
         ]
     }
 ];

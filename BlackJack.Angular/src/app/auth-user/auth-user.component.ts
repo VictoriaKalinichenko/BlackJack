@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { DataService } from '../services/data.service';
 
@@ -10,9 +11,16 @@ import { DataService } from '../services/data.service';
 export class AuthUserComponent implements OnInit {
     UserName: string;
 
-    constructor(private dataService: DataService) { }
+    constructor(
+        private dataService: DataService,
+        private route: ActivatedRoute
+    ) { }
 
     ngOnInit() {
-        this.UserName = this.dataService.GetUserName();
+        this.route.params.subscribe(params => {
+            this.UserName = params['UserName']
+        });
+
+        this.dataService.SetUserName(this.UserName);
     }
 }

@@ -8,10 +8,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
+import { DataService } from '../services/data.service';
 var GameComponent = /** @class */ (function () {
-    function GameComponent() {
+    function GameComponent(route, dataService) {
+        this.route = route;
+        this.dataService = dataService;
+        this.Human = new PlayerViewModel();
     }
     GameComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.GameId = params['Id'];
+        });
+        this.dataService.GetGame(this.GameId)
+            .subscribe(function (data) {
+            _this.Human.Name = data["Bots"]["1"]["Name"];
+        }, function (error) {
+        });
     };
     GameComponent = __decorate([
         Component({
@@ -19,7 +34,8 @@ var GameComponent = /** @class */ (function () {
             templateUrl: './game.component.html',
             styleUrls: ['./game.component.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [ActivatedRoute,
+            DataService])
     ], GameComponent);
     return GameComponent;
 }());

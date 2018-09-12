@@ -123,11 +123,11 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var appRoutes = [
     { path: '', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"] },
     {
-        path: 'user',
+        path: 'user/:UserName',
         component: _auth_user_auth_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthUserComponent"],
         children: [
             { path: '', component: _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"] },
-            { path: 'game', component: _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"] }
+            { path: 'game/:Id', component: _game_game_component__WEBPACK_IMPORTED_MODULE_11__["GameComponent"] }
         ]
     }
 ];
@@ -187,7 +187,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default\">\r\n    <div class=\"container\">\r\n        <div class=\"navbar-header\">\r\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#myNavbar\">\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n            </button>\r\n            <a class=\"navbar-brand\" [routerLink]=\"['/user']\">\r\n                Home\r\n            </a>\r\n        </div>\r\n\r\n        <div class=\"collapse navbar-collapse\" id=\"myNavbar\">\r\n            <ul class=\"nav navbar-nav\">\r\n                <li class=\"navbar-text\">\r\n                    <b>Log in as: {{UserName}}</b>\r\n                </li>\r\n                <li class=\"nav-item\">\r\n                    <a routerLink=\"/\">\r\n                        Log out\r\n                    </a>\r\n                </li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</nav>\r\n<router-outlet></router-outlet>  "
+module.exports = "<nav class=\"navbar navbar-default\">\r\n    <div class=\"container\">\r\n        <div class=\"navbar-header\">\r\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#myNavbar\">\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n            </button>\r\n            <a class=\"navbar-brand\" [routerLink]=\"['/user', UserName]\">\r\n                Home\r\n            </a>\r\n        </div>\r\n\r\n        <div class=\"collapse navbar-collapse\" id=\"myNavbar\">\r\n            <ul class=\"nav navbar-nav\">\r\n                <li class=\"navbar-text\">\r\n                    <b>Log in as: {{UserName}}</b>\r\n                </li>\r\n                <li class=\"nav-item\">\r\n                    <a routerLink=\"/\">\r\n                        Log out\r\n                    </a>\r\n                </li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</nav>\r\n<router-outlet></router-outlet>  "
 
 /***/ }),
 
@@ -202,7 +202,8 @@ module.exports = "<nav class=\"navbar navbar-default\">\r\n    <div class=\"cont
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthUserComponent", function() { return AuthUserComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -214,12 +215,18 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var AuthUserComponent = /** @class */ (function () {
-    function AuthUserComponent(dataService) {
+    function AuthUserComponent(dataService, route) {
         this.dataService = dataService;
+        this.route = route;
     }
     AuthUserComponent.prototype.ngOnInit = function () {
-        this.UserName = this.dataService.GetUserName();
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.UserName = params['UserName'];
+        });
+        this.dataService.SetUserName(this.UserName);
     };
     AuthUserComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -227,7 +234,8 @@ var AuthUserComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./auth-user.component.html */ "./src/app/auth-user/auth-user.component.html"),
             styles: [__webpack_require__(/*! ./auth-user.component.css */ "./src/app/auth-user/auth-user.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"]])
+        __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
     ], AuthUserComponent);
     return AuthUserComponent;
 }());
@@ -254,7 +262,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  game works!\n</p>\n"
+module.exports = "<p>\n  {{Human.Name}}\n</p>\n"
 
 /***/ }),
 
@@ -269,6 +277,9 @@ module.exports = "<p>\n  game works!\n</p>\n"
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameComponent", function() { return GameComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../viewmodels/PlayerViewModel */ "./src/app/viewmodels/PlayerViewModel.ts");
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -279,10 +290,25 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
+
 var GameComponent = /** @class */ (function () {
-    function GameComponent() {
+    function GameComponent(route, dataService) {
+        this.route = route;
+        this.dataService = dataService;
+        this.Human = new _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"]();
     }
     GameComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.GameId = params['Id'];
+        });
+        this.dataService.GetGame(this.GameId)
+            .subscribe(function (data) {
+            _this.Human.Name = data["Bots"]["1"]["Name"];
+        }, function (error) {
+        });
     };
     GameComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -290,7 +316,8 @@ var GameComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./game.component.html */ "./src/app/game/game.component.html"),
             styles: [__webpack_require__(/*! ./game.component.css */ "./src/app/game/game.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
+            _services_data_service__WEBPACK_IMPORTED_MODULE_3__["DataService"]])
     ], GameComponent);
     return GameComponent;
 }());
@@ -317,7 +344,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\r\n    <h1>BlackJack</h1>\r\n\r\n    <div class=\"form-group\">\r\n        <label>User name: </label>\r\n        <input class=\"form-control\" name=\"name\" [(ngModel)]=\"userName\" #name=\"ngModel\" required />\r\n        <div [hidden]=\"name.valid || name.untouched\" class=\"alert alert-danger\">\r\n            Name is not entered\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n        <button class=\"btn btn-primary\" (click)=\"authUser(userName)\">Enter</button>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"jumbotron\">\r\n    <h1>BlackJack</h1>\r\n\r\n    <div class=\"form-group\">\r\n        <label>User name: </label>\r\n        <input class=\"form-control\" name=\"name\" [(ngModel)]=\"UserName\" #name=\"ngModel\" required />\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n        <button [disabled]=\"name.invalid\" class=\"btn btn-primary\" (click)=\"AuthUser()\">Enter</button>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -333,7 +360,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomepageComponent", function() { return HomepageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -345,15 +371,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
-
 var HomepageComponent = /** @class */ (function () {
-    function HomepageComponent(dataService, router) {
-        this.dataService = dataService;
+    function HomepageComponent(router) {
         this.router = router;
     }
-    HomepageComponent.prototype.authUser = function (userName) {
-        this.dataService.SetUserName(userName);
-        this.router.navigate(['/user']);
+    HomepageComponent.prototype.AuthUser = function () {
+        this.router.navigate(['/user', this.UserName]);
     };
     HomepageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -361,8 +384,7 @@ var HomepageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./homepage.component.html */ "./src/app/homepage/homepage.component.html"),
             styles: [__webpack_require__(/*! ./homepage.component.css */ "./src/app/homepage/homepage.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], HomepageComponent);
     return HomepageComponent;
 }());
@@ -404,9 +426,19 @@ var DataService = /** @class */ (function () {
     DataService.prototype.GetUserName = function () {
         return this.UserName;
     };
-    DataService.prototype.PostData = function () {
+    DataService.prototype.GetAuthorizedPlayer = function () {
         var body = { UserName: this.UserName };
         return this.http.post('http://localhost:55953/StartGame/GetAuthorizedPlayer', body);
+    };
+    DataService.prototype.CreateNewGame = function (playerId, amountOfBots) {
+        var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
+        return this.http.post('http://localhost:55953/StartGame/CreateNewGame', body);
+    };
+    DataService.prototype.ResumeGame = function (playerId) {
+        return this.http.get('http://localhost:55953/StartGame/ResumeGame?playerId=' + playerId);
+    };
+    DataService.prototype.GetGame = function (gameId) {
+        return this.http.get('http://localhost:55953/StartGame/GetGame?gameId=' + gameId);
     };
     DataService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -439,7 +471,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row row-flex\">\r\n    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Game resuming</h3>\r\n        <p>You can resume your last game</p>\r\n    </div>\r\n    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Start new game</h3>\r\n        <div class=\"form-group\">\r\n            <label class=\"control-label col-md-4\">Amount of bots:</label>\r\n            <div class=\"col-md-8\">\r\n                <input name=\"amountOfBots\" class=\"form-control\" type=\"number\" value=\"0\" min=\"0\" max=\"5\" />\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"form-group\">\r\n            <button class=\"btn btn-primary\" (click)=\"StartNewGame(Player.PlayerId)\">Start new game</button>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row\">\r\n    <div *ngIf=\"Player.ResumeGame\" class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Game resuming</h3>\r\n        <p>You can resume your last game</p>\r\n        <div class=\"form-group\">\r\n            <a class=\"btn btn-primary\" (click)=\"ResumeGame()\">Resume game</a>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Start new game</h3>\r\n        <label class=\"control-label col-md-4\">Amount of bots:</label>\r\n        <div class=\"col-md-8\">\r\n            <input name=\"amountOfBots\" [(ngModel)]=\"AmountOfBots\" class=\"form-control\"\r\n                   type=\"number\" value=\"0\" min=\"0\" max=\"5\"\r\n                   #amountOfBots=\"ngModel\" pattern=\"[0-5]\" />\r\n            <div [hidden]=\"amountOfBots.valid\" class=\"alert alert-danger\">\r\n                Amount of bots must be more than or equals to 0 and less than or equals to 5.\r\n            </div>\r\n            <br />\r\n            <button [disabled]=\"amountOfBots.invalid\" class=\"btn btn-primary\" (click)=\"StartNewGame()\">Start new game</button>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -454,7 +486,9 @@ module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row row-flex\
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StartpageComponent", function() { return StartpageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
+/* harmony import */ var _viewmodels_AuthPlayerViewModel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../viewmodels/AuthPlayerViewModel */ "./src/app/viewmodels/AuthPlayerViewModel.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -466,9 +500,14 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var StartpageComponent = /** @class */ (function () {
-    function StartpageComponent(dataService) {
+    function StartpageComponent(dataService, router) {
         this.dataService = dataService;
+        this.router = router;
+        this.Player = new _viewmodels_AuthPlayerViewModel__WEBPACK_IMPORTED_MODULE_3__["AuthPlayerViewModel"]();
+        this.AmountOfBots = 0;
     }
     StartpageComponent.prototype.ngOnInit = function () {
         this.UserName = this.dataService.GetUserName();
@@ -476,14 +515,34 @@ var StartpageComponent = /** @class */ (function () {
     };
     StartpageComponent.prototype.AuthUser = function (userName) {
         var _this = this;
-        this.dataService.PostData()
+        this.dataService.GetAuthorizedPlayer()
             .subscribe(function (data) {
-            _this.Player = data;
+            _this.Player.Name = data.Name;
+            _this.Player.PlayerId = data.PlayerId;
+            _this.Player.ResumeGame = data.ResumeGame;
         }, function (error) {
             console.log(error);
         });
     };
-    StartpageComponent.prototype.StartNewGame = function (playerId) {
+    StartpageComponent.prototype.StartNewGame = function () {
+        var _this = this;
+        this.dataService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
+            .subscribe(function (data) {
+            _this.GameId = data.GameId;
+            _this.router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    StartpageComponent.prototype.ResumeGame = function () {
+        var _this = this;
+        this.dataService.ResumeGame(this.Player.PlayerId)
+            .subscribe(function (data) {
+            _this.GameId = data.GameId;
+            _this.router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
+        }, function (error) {
+            console.log(error);
+        });
     };
     StartpageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -491,9 +550,50 @@ var StartpageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./startpage.component.html */ "./src/app/startpage/startpage.component.html"),
             styles: [__webpack_require__(/*! ./startpage.component.css */ "./src/app/startpage/startpage.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"]])
+        __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], StartpageComponent);
     return StartpageComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/viewmodels/AuthPlayerViewModel.ts":
+/*!***************************************************!*\
+  !*** ./src/app/viewmodels/AuthPlayerViewModel.ts ***!
+  \***************************************************/
+/*! exports provided: AuthPlayerViewModel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthPlayerViewModel", function() { return AuthPlayerViewModel; });
+var AuthPlayerViewModel = /** @class */ (function () {
+    function AuthPlayerViewModel() {
+    }
+    return AuthPlayerViewModel;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/viewmodels/PlayerViewModel.ts":
+/*!***********************************************!*\
+  !*** ./src/app/viewmodels/PlayerViewModel.ts ***!
+  \***********************************************/
+/*! exports provided: PlayerViewModel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlayerViewModel", function() { return PlayerViewModel; });
+var PlayerViewModel = /** @class */ (function () {
+    function PlayerViewModel() {
+    }
+    return PlayerViewModel;
 }());
 
 

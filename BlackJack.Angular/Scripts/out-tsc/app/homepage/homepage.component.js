@@ -9,15 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataService } from '../services/data.service';
 var HomepageComponent = /** @class */ (function () {
-    function HomepageComponent(dataService, router) {
-        this.dataService = dataService;
+    function HomepageComponent(router) {
         this.router = router;
     }
-    HomepageComponent.prototype.authUser = function (userName) {
-        this.dataService.SetUserName(userName);
-        this.router.navigate(['/user']);
+    HomepageComponent.prototype.AuthUser = function () {
+        this.router.navigate(['/user', this.UserName]);
     };
     HomepageComponent = __decorate([
         Component({
@@ -25,8 +22,7 @@ var HomepageComponent = /** @class */ (function () {
             templateUrl: './homepage.component.html',
             styleUrls: ['./homepage.component.css']
         }),
-        __metadata("design:paramtypes", [DataService,
-            Router])
+        __metadata("design:paramtypes", [Router])
     ], HomepageComponent);
     return HomepageComponent;
 }());

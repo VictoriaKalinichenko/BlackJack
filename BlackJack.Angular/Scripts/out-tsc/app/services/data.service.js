@@ -19,9 +19,19 @@ var DataService = /** @class */ (function () {
     DataService.prototype.GetUserName = function () {
         return this.UserName;
     };
-    DataService.prototype.PostData = function () {
+    DataService.prototype.GetAuthorizedPlayer = function () {
         var body = { UserName: this.UserName };
         return this.http.post('http://localhost:55953/StartGame/GetAuthorizedPlayer', body);
+    };
+    DataService.prototype.CreateNewGame = function (playerId, amountOfBots) {
+        var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
+        return this.http.post('http://localhost:55953/StartGame/CreateNewGame', body);
+    };
+    DataService.prototype.ResumeGame = function (playerId) {
+        return this.http.get('http://localhost:55953/StartGame/ResumeGame?playerId=' + playerId);
+    };
+    DataService.prototype.GetGame = function (gameId) {
+        return this.http.get('http://localhost:55953/StartGame/GetGame?gameId=' + gameId);
     };
     DataService = __decorate([
         Injectable({

@@ -39,7 +39,7 @@ namespace BlackJack.BusinessLogic.Providers
                 return betPayCoefficient;
             }
 
-            if (PlayerEndedTheRound(bet))
+            if (bet == BetValueHelper.BetZero)
             {
                 return BetValueHelper.BetDefaultCoefficient;
             }
@@ -151,16 +151,6 @@ namespace BlackJack.BusinessLogic.Providers
         {
             bool result = false;
             if (!PlayerLossing(playerScore) && (playerScore > dealerScore || PlayerLossing(dealerScore)))
-            {
-                result = true;
-            }
-            return result;
-        }
-
-        private bool PlayerEndedTheRound(int bet)
-        {
-            bool result = false;
-            if (bet == BetValueHelper.BetZero)
             {
                 result = true;
             }

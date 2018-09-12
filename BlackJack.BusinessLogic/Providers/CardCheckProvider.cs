@@ -32,29 +32,18 @@ namespace BlackJack.BusinessLogic.Providers
             return coef;
         }
 
-        public float RoundSecondPhaseResult(int bet, int score, int amountOfCards, int dealerScore, int dealerAmountOfCards, float betPayCoefficient)
+        public float RoundSecondPhaseResult(int score, int amountOfCards, int dealerScore, int dealerAmountOfCards, float betPayCoefficient)
         {
+            float coef = BetValueHelper.BetLoseCoefficient;
+
             if (betPayCoefficient == BetValueHelper.BetWinCoefficient)
             {
                 return betPayCoefficient;
             }
 
-            if (bet == BetValueHelper.BetZero)
-            {
-                return BetValueHelper.BetDefaultCoefficient;
-            }
-
-            float coef = BetValueHelper.BetLoseCoefficient;
-
             if (PlayerBj(score, amountOfCards) && !PlayerBj(dealerScore, dealerAmountOfCards))
             {
-                coef = BetValueHelper.BetBjCoefficient;
-                return coef;
-            }
-
-            if (PlayerLossing(score))
-            {
-                coef = BetValueHelper.BetLoseCoefficient;
+                return BetValueHelper.BetBjCoefficient;
             }
 
             if (PlayerScoreEqualsDealerScore(score, dealerScore))
@@ -92,7 +81,7 @@ namespace BlackJack.BusinessLogic.Providers
 
         public string HumanRoundResult(float betPayCoefficient)
         {
-            string humanRoundResult = string.Empty;
+            string humanRoundResult = RoundResultHelper.Lose;
 
             if (betPayCoefficient == BetValueHelper.BetBjCoefficient)
             {
@@ -107,11 +96,6 @@ namespace BlackJack.BusinessLogic.Providers
             if (betPayCoefficient == BetValueHelper.BetZeroCoefficient)
             {
                 humanRoundResult = RoundResultHelper.ReturnBet;
-            }
-
-            if (betPayCoefficient == BetValueHelper.BetLoseCoefficient)
-            {
-                humanRoundResult = RoundResultHelper.Lose;
             }
 
             return humanRoundResult;

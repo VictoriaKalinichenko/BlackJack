@@ -6,7 +6,7 @@
 
         float RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger);
 
-        float RoundSecondPhaseResult(int bet, int score, int amountOfCards, int dealerScore, int dealerAmountOfCards, float betPayCoefficient);
+        float RoundSecondPhaseResult(int score, int amountOfCards, int dealerScore, int dealerAmountOfCards, float betPayCoefficient);
 
         bool HumanPlayerHasEnoughCards(int score);
 

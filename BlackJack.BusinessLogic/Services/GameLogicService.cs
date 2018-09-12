@@ -181,7 +181,7 @@ namespace BlackJack.BusinessLogic.Services
                 if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer))
                 {
                     int playerCardsCount = await _playerCardRepository.GetCountByGamePlayerId(gamePlayer.Id);
-                    gamePlayer.BetPayCoefficient = _cardCheckProvider.RoundSecondPhaseResult(gamePlayer.Bet, gamePlayer.RoundScore, playerCardsCount, dealer.RoundScore, dealerPlayerCardsCount, gamePlayer.BetPayCoefficient);
+                    gamePlayer.BetPayCoefficient = _cardCheckProvider.RoundSecondPhaseResult(gamePlayer.RoundScore, playerCardsCount, dealer.RoundScore, dealerPlayerCardsCount, gamePlayer.BetPayCoefficient);
                     await _gamePlayerRepository.Update(gamePlayer);
                 }
             }

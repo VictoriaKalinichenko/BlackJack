@@ -33,7 +33,7 @@ namespace BlackJack.BusinessLogic.Providers
                     gamePlayer.Bet = bet;
                 }
 
-                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer) && !((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human))
+                if (((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Bot))
                 {
                     gamePlayer.Bet = BetGenerate(gamePlayer.Score);
                 }

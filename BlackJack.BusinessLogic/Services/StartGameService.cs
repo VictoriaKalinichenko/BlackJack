@@ -76,7 +76,7 @@ namespace BlackJack.BusinessLogic.Services
 
             Game game = new Game();
             game = await _gameRepository.Create(game);
-            string message = $"Game(Id={game.Id}, Stage={game.Stage}) is created";
+            string message = LogMessageHelper.GameCreated(game.Id, game.Stage);
             await _logRepository.Create(game.Id, message);
 
             List<Player> players = await CreatePlayerList(playerId, amountOfBots);
@@ -94,7 +94,7 @@ namespace BlackJack.BusinessLogic.Services
 
                 await _gamePlayerRepository.Create(gamePlayer);
                 
-                message = $"{player.PlayerType}(Id={player.Id}, Name={player.Name}, Score={gamePlayer.Score}) is added to game";
+                message = LogMessageHelper.PlayerAddedToGame(player.PlayerType.ToString(), player.Id, player.Name, gamePlayer.Score);
                 await _logRepository.Create(game.Id, message);
             }
 

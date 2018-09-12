@@ -43,7 +43,7 @@ namespace BlackJack.BusinessLogic.Providers
                     gamePlayer.Score = gamePlayer.Score - gamePlayer.Bet;
                     await _gamePlayerRepository.Update(gamePlayer);
                     
-                    string message = $"{gamePlayer.Player.PlayerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) created the bet(={gamePlayer.Bet})";
+                    string message = LogMessageHelper.BetCreated(gamePlayer.Player.PlayerType.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.Score, gamePlayer.Bet);
                     await _logRepository.Create(inGamePlayers.First().GameId, message);
                 }
             }

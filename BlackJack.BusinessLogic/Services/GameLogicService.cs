@@ -41,7 +41,7 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task RoundFirstPhase(int gameId)
         {
-            string message = "New round is started";
+            string message = LogMessageHelper.NewRoundStarted();
             await _logRepository.Create(gameId, message);
 
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
@@ -54,7 +54,7 @@ namespace BlackJack.BusinessLogic.Services
             game.Stage = StageHelper.FirstCardsDistribution;
             await _gameRepository.Update(game);
 
-            message = $"Stage is changed (Stage={game.Stage})";
+            message = LogMessageHelper.GameStageChanged(game.Stage);
             await _logRepository.Create(game.Id, message);
         }
 
@@ -111,7 +111,7 @@ namespace BlackJack.BusinessLogic.Services
             game.Stage = StageHelper.SecondCardsDistribution;
             await _gameRepository.Update(game);
 
-            string message = $"Stage is changed (Stage={game.Stage})";
+            string message = LogMessageHelper.GameStageChanged(game.Stage);
             await _logRepository.Create(game.Id, message);
         }
         
@@ -133,7 +133,7 @@ namespace BlackJack.BusinessLogic.Services
 
             if (dealerBjDanger)
             {
-                string message = $"{dealer.Player.PlayerType}(Id={dealer.Player.Id}, Name={dealer.Player.Name}) has BlackJackDanger. His first card is (Id={dealerFirstCard.Id}, Value={dealerFirstCard.CardName}, Name={dealerFirstCard.ToString()})";
+                string message = LogMessageHelper.DealerBlackJackDanger(dealer.Id, dealer.Player.Name, dealerFirstCard.Id, dealerFirstCard.CardName, _playerCardProvider.ConvertCardToString(dealerFirstCard));
                 await _logRepository.Create(gamePlayers.First().GameId, message);
             }
 
@@ -147,13 +147,13 @@ namespace BlackJack.BusinessLogic.Services
 
                     if (gamePlayer.BetPayCoefficient == BetValueHelper.BetBjCoefficient)
                     {
-                        string message = $"{gamePlayer.Player.PlayerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})";
+                        string message = LogMessageHelper.PlayerBlackJack(gamePlayer.Player.PlayerType.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient);
                         await _logRepository.Create(gamePlayer.GameId, message);
                     }
 
                     if (gamePlayer.BetPayCoefficient == BetValueHelper.BetWinCoefficient)
                     {
-                        string message = $"{gamePlayer.Player.PlayerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}) with DealerBlackJackDanger. BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})";
+                        string message = LogMessageHelper.PlayerBlackJackAndDealerBlackJackDanger(gamePlayer.Player.PlayerType.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient);
                         await _logRepository.Create(gamePlayer.GameId, message);
                     }
                 }
@@ -194,8 +194,8 @@ namespace BlackJack.BusinessLogic.Services
             gamePlayer.RoundScore = _playerCardProvider.CardScoreCount(playerCards);
 
             await _gamePlayerRepository.Update(gamePlayer);
-            
-            string message = $"Card(Id={card.Id}, Value={card.CardName}, Name={_playerCardProvider.ConvertCardToString(card)}) is added to {gamePlayer.Player.PlayerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, RoundScore={gamePlayer.RoundScore})";
+
+            string message = LogMessageHelper.CardAdded(card.Id, card.CardName, _playerCardProvider.ConvertCardToString(card), gamePlayer.Player.PlayerType.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore);
             await _logRepository.Create(gamePlayer.GameId, message);
         }
 

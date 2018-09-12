@@ -97,7 +97,7 @@ namespace BlackJack.BusinessLogic.Services
             game.Stage = StageHelper.RoundStart;
             await _gameRepository.Update(game);
 
-            string message = $"Stage is changed (Stage={game.Stage})";
+            string message = LogMessageHelper.GameStageChanged(game.Stage);
             await _logRepository.Create(game.Id, message);
 
             return outGameId;

@@ -62,8 +62,7 @@ namespace BlackJack.BusinessLogic.Services
         {
             bool humanBjAndDealerBjDanger = false;
 
-            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).First();
+            GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerByGameId(gameId, (int)PlayerType.Human);
             if (human.BetPayCoefficient == BetValueHelper.BetWinCoefficient)
             {
                 humanBjAndDealerBjDanger = true;
@@ -74,8 +73,7 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task HumanBjAndDealerBjDangerContinueRound(int gameId)
         {
-            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).FirstOrDefault();
+            GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerByGameId(gameId, (int)PlayerType.Human);
             human.BetPayCoefficient = BetValueHelper.BetDefaultCoefficient;
             await _gamePlayerRepository.Update(human);
         }
@@ -83,7 +81,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task AddOneMoreCardToHuman(int gameId)
         {
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).FirstOrDefault();
+            GamePlayer human = gamePlayers.Where(m => m.Player.PlayerType == (int)PlayerType.Human).First();
             List<Card> deck = await ResumeDeck(gamePlayers);
 
             await AddingCardToPlayer(human, deck);
@@ -91,8 +89,7 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<bool> CanHumanTakeOneMoreCard(int gameId)
         {
-            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).FirstOrDefault();
+            GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerByGameId(gameId, (int)PlayerType.Human);
 
             bool canHumanTakeOneMoreCard = false;
             canHumanTakeOneMoreCard = !_cardCheckProvider.HumanPlayerHasEnoughCards(human.RoundScore);
@@ -126,7 +123,7 @@ namespace BlackJack.BusinessLogic.Services
 
         private async Task FirstCardCheck(IEnumerable<GamePlayer> gamePlayers)
         {
-            GamePlayer dealer = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Dealer).First();
+            GamePlayer dealer = gamePlayers.Where(m => (int)m.Player.PlayerType == (int)PlayerType.Dealer).First();
             List<PlayerCard> dealerPlayerCards = (await _playerCardRepository.GetByGamePlayerId(dealer.Id)).ToList();
             Card dealerFirstCard = dealerPlayerCards[0].Card;
             bool dealerBjDanger = _cardCheckProvider.DealerBjDanger(dealerFirstCard.CardName);
@@ -173,7 +170,7 @@ namespace BlackJack.BusinessLogic.Services
 
         private async Task SecondCardCheck(IEnumerable<GamePlayer> gamePlayers)
         {
-            GamePlayer dealer = gamePlayers.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Dealer).FirstOrDefault();
+            GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerByGameId(gamePlayers.First().GameId, (int)PlayerType.Dealer);
             int dealerPlayerCardsCount = await _playerCardRepository.GetCountByGamePlayerId(dealer.Id);
 
             foreach (GamePlayer gamePlayer in gamePlayers)

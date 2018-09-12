@@ -44,7 +44,6 @@ namespace BlackJack.BusinessLogic.Services
             {
                 human = await CreatePlayer(name, PlayerType.Human);
             }
-
             return human.Name;
         }
 

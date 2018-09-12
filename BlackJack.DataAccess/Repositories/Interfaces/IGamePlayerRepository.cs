@@ -12,6 +12,8 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 
         Task<int> GetGameIdByPlayerId(int id);
 
+        Task<GamePlayer> GetSpecificPlayerByGameId(int gameId, int playerType);
+
         Task<GamePlayer> Create(GamePlayer gamePlayer);
 
         Task Update(GamePlayer gamePlayer);

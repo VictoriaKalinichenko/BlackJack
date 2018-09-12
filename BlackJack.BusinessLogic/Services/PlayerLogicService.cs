@@ -105,8 +105,7 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<string> HumanRoundResult(int gameId)
         {
-            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
-            GamePlayer human = gamePlayers.Where(g => (PlayerType)g.Player.PlayerType == PlayerType.Human).FirstOrDefault();
+            GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerByGameId(gameId, (int)PlayerType.Human);
 
             string humanRoundResult;
             humanRoundResult = _cardCheckProvider.HumanRoundResult(human.BetPayCoefficient);
@@ -116,19 +115,17 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<string> IsGameOver(int gameId)
         {
             string isGameOver = string.Empty;
-            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+            GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerByGameId(gameId, (int)PlayerType.Human);
+            GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerByGameId(gameId, (int)PlayerType.Dealer);
 
-            foreach (GamePlayer gamePlayer in gamePlayers)
+            if (dealer.Score <= GameValueHelper.ZeroScore)
             {
-                if (((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer) && IsZeroScore(gamePlayer))
-                {
-                    isGameOver = GameMessageHelper.DealerIsLoser;
-                }
+                isGameOver = GameMessageHelper.DealerIsLoser;
+            }
 
-                if (((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human) && IsZeroScore(gamePlayer))
-                {
-                    isGameOver = GameMessageHelper.DealerIsWinner;
-                }
+            if (human.Score <= GameValueHelper.ZeroScore)
+            {
+                isGameOver = GameMessageHelper.DealerIsWinner;
             }
 
             return isGameOver;
@@ -176,23 +173,11 @@ namespace BlackJack.BusinessLogic.Services
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer) && !((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human) && IsZeroScore(gamePlayer))
+                if (((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Bot) && gamePlayer.Score <= GameValueHelper.ZeroScore)
                 {
                     await _gamePlayerRepository.Delete(gamePlayer.Id);
                 }
             }
-        }
-
-        private bool IsZeroScore(GamePlayer gamePlayer)
-        {
-            bool result = false;
-
-            if (gamePlayer.Score <= GameValueHelper.ZeroScore)
-            {
-                result = true;
-            }
-
-            return result;
         }
     }
 }

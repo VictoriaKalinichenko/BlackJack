@@ -28,12 +28,12 @@ namespace BlackJack.DataAccess.Repositories
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
                 var gamePlayers = await db.QueryAsync<GamePlayer, Player, GamePlayer>(sqlQuery, (gamePlayer, player) =>
-                 {
+                {
                      gamePlayer.Player = player;
                      return gamePlayer;
-                 },
-                 new { gameId },
-                 null);
+                },
+                new { gameId },
+                null);
 
                 return gamePlayers;
             }
@@ -58,6 +58,20 @@ namespace BlackJack.DataAccess.Repositories
             {
                 int gameId = await db.QueryFirstOrDefaultAsync<int>(sqlQuery, new { id });
                 return gameId;
+            }
+        }
+
+        public async Task<GamePlayer> GetSpecificPlayerByGameId(int gameId, int playerType)
+        {
+            string sqlQuery = $@"SELECT A.Id, PlayerId, GameId, Score, RoundScore, BetPayCoefficient, Bet, A.CreationDate
+                                 FROM GamePlayers AS A 
+                                 INNER JOIN Players AS B ON A.PlayerId = B.Id
+                                 WHERE A.GameId = @gameId AND B.PlayerType = @playerType";
+
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                GamePlayer player = await db.QueryFirstOrDefaultAsync<GamePlayer>(sqlQuery, new { gameId = gameId, playerType = playerType });
+                return player;
             }
         }
 

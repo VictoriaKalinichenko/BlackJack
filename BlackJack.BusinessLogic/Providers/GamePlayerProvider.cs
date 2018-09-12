@@ -51,8 +51,7 @@ namespace BlackJack.BusinessLogic.Providers
 
         public async Task RoundBetPayments(IEnumerable<GamePlayer> players)
         {
-            GamePlayer human = players.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Human).FirstOrDefault();
-            GamePlayer dealer = players.Where(m => (PlayerType)m.Player.PlayerType == PlayerType.Dealer).FirstOrDefault();
+            GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerByGameId(players.First().GameId, (int)PlayerType.Dealer);
 
             foreach (GamePlayer player in players)
             {

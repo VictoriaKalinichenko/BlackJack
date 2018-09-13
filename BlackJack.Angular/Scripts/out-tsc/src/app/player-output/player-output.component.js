@@ -9,34 +9,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
-import { deserialize } from 'json-typescript-mapper';
-import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
-import { DataService } from '../services/data.service';
 var PlayerOutputComponent = /** @class */ (function () {
-    function PlayerOutputComponent(dataService) {
-        this.dataService = dataService;
+    function PlayerOutputComponent() {
         this.RoundStart = true;
     }
     Object.defineProperty(PlayerOutputComponent.prototype, "GameStage", {
         set: function (stage) {
-            var _this = this;
-            if (stage != 0) {
-                this.RoundStart = false;
-                this.dataService.GetGamePlayer(this.PlayerViewModel.GamePlayerId)
-                    .subscribe(function (data) {
-                    _this.PlayerViewModel = deserialize(PlayerViewModel, data);
-                }, function (error) {
-                    console.log(error);
-                });
-            }
+            this.RoundStart = (stage == 0);
         },
         enumerable: true,
         configurable: true
     });
     __decorate([
         Input(),
-        __metadata("design:type", PlayerViewModel)
-    ], PlayerOutputComponent.prototype, "PlayerViewModel", void 0);
+        __metadata("design:type", Number)
+    ], PlayerOutputComponent.prototype, "Score", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PlayerOutputComponent.prototype, "RoundScore", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PlayerOutputComponent.prototype, "Bet", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], PlayerOutputComponent.prototype, "Cards", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Number),
@@ -48,7 +47,7 @@ var PlayerOutputComponent = /** @class */ (function () {
             templateUrl: './player-output.component.html',
             styleUrls: ['./player-output.component.css']
         }),
-        __metadata("design:paramtypes", [DataService])
+        __metadata("design:paramtypes", [])
     ], PlayerOutputComponent);
     return PlayerOutputComponent;
 }());

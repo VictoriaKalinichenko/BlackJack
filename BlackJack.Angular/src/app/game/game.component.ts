@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { deserialize } from 'json-typescript-mapper';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { GameViewModel } from '../viewmodels/GameViewModel';
 import { DataService } from '../services/data.service';
+import { deserialize } from 'json-typescript-mapper';
 import { forEach } from '@angular/router/src/utils/collection';
+import { GameViewModel } from '../viewmodels/GameViewModel';
+import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
 
 @Component({
   selector: 'app-game',
@@ -19,7 +20,6 @@ export class GameComponent implements OnInit {
     TakeCard: boolean = false;
     BjDangerChoice: boolean = false;
     EndRound: boolean = false;
-    NewGame: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -39,7 +39,17 @@ export class GameComponent implements OnInit {
         }
 
         if (this.GameViewModel.Stage == 1) {
-            this.GamePlayTakeCard();
+            this.HumanUpdate();
+            this.BotsUpdate();
+            this.DealerFirstPhaseUpdate();
+            this.FirstPhaseGamePlay();
+        }
+
+        if (this.GameViewModel.Stage == 2) {
+            this.HumanUpdate();
+            this.BotsUpdate();
+            this.DealerSecondPhaseUpdate();
+            this.GamePlayEndRound();
         }
     }
 
@@ -57,15 +67,155 @@ export class GameComponent implements OnInit {
     }
 
     OnBetsCreation() {
-        this.dataService.RoundStart(this.GameId)
+        this.FirstPhase();
+    }
+
+    OnBjDangerChoice(takeAward: boolean) {
+        if (!takeAward) {
+            this.dataService.HumanBjAndDealerBjDangerContinueRound(this.GameId)
+                .subscribe(
+                    (error) => {
+                        console.log(error);
+                    }
+                );
+        }
+
+        this.SecondPhase();
+    }
+
+    OnTakingCard(takeCard: boolean) {
+        if (takeCard) {
+            this.dataService.AddOneMoreCardToHuman(this.GameId)
+                .subscribe(
+                    (data) => {
+                        this.HumanUpdate();
+                        this.GamePlayInitializer();
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
+        }
+
+        if (!takeCard) {
+            this.SecondPhase();
+        } 
+    }
+
+    FirstPhaseGamePlay() {
+        this.dataService.FirstPhaseGamePlay(this.GameId)
             .subscribe(
                 (data) => {
-                    this.GetGame();
+                    this.HumanUpdate();
+                    this.BotsUpdate();
+                    this.DealerFirstPhaseUpdate();
+
+                    if (data["HumanBjAndDealerBjDanger"]) {
+                        this.GamePlayBjDangerChoice();
+                    }
+                    if (data["CanHumanTakeOneMoreCard"]) {
+                        this.GamePlayTakeCard();
+                    }
+                    if (!(data["HumanBjAndDealerBjDanger"]) && !(data["CanHumanTakeOneMoreCard"])) {
+                        this.SecondPhase();
+                    }
                 },
                 (error) => {
                     console.log(error);
                 }
-            )
+            );
+    }
+
+    FirstPhase() {
+        this.dataService.RoundStart(this.GameId)
+            .subscribe(
+                (data) => {
+                    this.HumanUpdate();
+                    this.BotsUpdate();
+                    this.DealerFirstPhaseUpdate();
+                    this.GameViewModel.Stage = 1;
+                    this.GamePlayInitializer();
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
+
+    SecondPhase() {
+        this.dataService.SecondPhase(this.GameId)
+            .subscribe(
+                (data) => {
+                    this.HumanUpdate();
+                    this.BotsUpdate();
+                    this.DealerSecondPhaseUpdate();
+                    this.GameViewModel.Stage = 2;
+                    this.GamePlayInitializer();
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
+
+    HumanUpdate() {
+        this.dataService.GetGamePlayer(this.GameViewModel.Human.GamePlayerId)
+            .subscribe(
+                (data) => {
+                    let name: string = this.GameViewModel.Human.Name;
+                    this.GameViewModel.Human = deserialize(PlayerViewModel, data);
+                    this.GameViewModel.Human.Name = name;
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
+
+    DealerFirstPhaseUpdate() {
+        this.dataService.GetDealerFirstPhase(this.GameViewModel.Dealer.GamePlayerId)
+            .subscribe(
+                (data) => {
+                    let name: string = this.GameViewModel.Dealer.Name;
+                    this.GameViewModel.Dealer = deserialize(PlayerViewModel, data);
+                    this.GameViewModel.Dealer.Name = name;
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
+
+    DealerSecondPhaseUpdate() {
+        this.dataService.GetDealerSecondPhase(this.GameViewModel.Dealer.GamePlayerId)
+            .subscribe(
+                (data) => {
+                    let name: string = this.GameViewModel.Dealer.Name;
+                    this.GameViewModel.Dealer = deserialize(PlayerViewModel, data);
+                    this.GameViewModel.Dealer.Name = name;
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
+
+    BotsUpdate() {
+        this.GameViewModel.Bots.forEach(bot => {
+            this.dataService.GetGamePlayer(bot.GamePlayerId)
+                .subscribe(
+                    (data) => {
+                        let inBot = deserialize(PlayerViewModel, data);
+                        bot.Bet = inBot.Bet;
+                        bot.Score = inBot.Score;
+                        bot.RoundScore = inBot.RoundScore;
+                        bot.Cards = inBot.Cards;
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
+        });
     }
 
     GamePlayBetInput() {
@@ -73,7 +223,6 @@ export class GameComponent implements OnInit {
         this.TakeCard = false;
         this.BjDangerChoice = false;
         this.EndRound = false;
-        this.NewGame = false;
     }
 
     GamePlayTakeCard() {
@@ -81,7 +230,6 @@ export class GameComponent implements OnInit {
         this.TakeCard = true;
         this.BjDangerChoice = false;
         this.EndRound = false;
-        this.NewGame = false;
     }
 
     GamePlayBjDangerChoice() {
@@ -89,7 +237,6 @@ export class GameComponent implements OnInit {
         this.TakeCard = false;
         this.BjDangerChoice = true;
         this.EndRound = false;
-        this.NewGame = false;
     }
 
     GamePlayEndRound() {
@@ -97,14 +244,9 @@ export class GameComponent implements OnInit {
         this.TakeCard = false;
         this.BjDangerChoice = false;
         this.EndRound = true;
-        this.NewGame = false;
     }
 
-    GamePlayNewGame() {
-        this.BetInput = false;
-        this.TakeCard = false;
-        this.BjDangerChoice = false;
-        this.EndRound = false;
-        this.NewGame = true;
+    Reload() {
+        this.GetGame();
     }
 }

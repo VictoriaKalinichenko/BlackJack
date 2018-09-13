@@ -9,37 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
-import { deserialize } from 'json-typescript-mapper';
-import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
-import { DataService } from '../services/data.service';
 var DealerOutputComponent = /** @class */ (function () {
-    function DealerOutputComponent(dataService) {
-        this.dataService = dataService;
+    function DealerOutputComponent() {
         this.RoundFirstPhase = false;
         this.RoundSecondPhase = false;
     }
     Object.defineProperty(DealerOutputComponent.prototype, "GameStage", {
         set: function (stage) {
-            var _this = this;
             if (stage == 1) {
                 this.RoundFirstPhase = true;
                 this.RoundSecondPhase = false;
-                this.dataService.GetDealerFirstPhase(this.PlayerViewModel.GamePlayerId)
-                    .subscribe(function (data) {
-                    _this.PlayerViewModel = deserialize(PlayerViewModel, data);
-                }, function (error) {
-                    console.log(error);
-                });
             }
             if (stage == 2) {
                 this.RoundFirstPhase = false;
                 this.RoundSecondPhase = true;
-                this.dataService.GetDealerSecondPhase(this.PlayerViewModel.GamePlayerId)
-                    .subscribe(function (data) {
-                    _this.PlayerViewModel = deserialize(PlayerViewModel, data);
-                }, function (error) {
-                    console.log(error);
-                });
+            }
+            if (stage == 0) {
+                this.RoundFirstPhase = false;
+                this.RoundSecondPhase = false;
             }
         },
         enumerable: true,
@@ -47,8 +34,16 @@ var DealerOutputComponent = /** @class */ (function () {
     });
     __decorate([
         Input(),
-        __metadata("design:type", PlayerViewModel)
-    ], DealerOutputComponent.prototype, "PlayerViewModel", void 0);
+        __metadata("design:type", Number)
+    ], DealerOutputComponent.prototype, "Score", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], DealerOutputComponent.prototype, "RoundScore", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], DealerOutputComponent.prototype, "Cards", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Number),
@@ -60,7 +55,7 @@ var DealerOutputComponent = /** @class */ (function () {
             templateUrl: './dealer-output.component.html',
             styleUrls: ['./dealer-output.component.css']
         }),
-        __metadata("design:paramtypes", [DataService])
+        __metadata("design:paramtypes", [])
     ], DealerOutputComponent);
     return DealerOutputComponent;
 }());

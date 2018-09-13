@@ -49,6 +49,24 @@ var DataService = /** @class */ (function () {
     DataService.prototype.RoundStart = function (gameId) {
         return this.http.get('http://localhost:55953/GameLogic/RoundStart?inGameId=' + gameId);
     };
+    DataService.prototype.FirstPhaseGamePlay = function (gameId) {
+        return this.http.get('http://localhost:55953/GameLogic/FirstPhaseGamePlay?inGameId=' + gameId);
+    };
+    DataService.prototype.SecondPhase = function (gameId) {
+        return this.http.get('http://localhost:55953/GameLogic/SecondPhase?inGameId=' + gameId);
+    };
+    DataService.prototype.HumanBjAndDealerBjDangerContinueRound = function (gameId) {
+        return this.http.get('http://localhost:55953/GameLogic/HumanBjAndDealerBjDangerContinueRound?inGameId=' + gameId);
+    };
+    DataService.prototype.AddOneMoreCardToHuman = function (gameId) {
+        return this.http.get('http://localhost:55953/GameLogic/AddOneMoreCardToHuman?inGameId=' + gameId);
+    };
+    DataService.prototype.HumanRoundResult = function (gameId) {
+        return this.http.get('http://localhost:55953/PlayerLogic/HumanRoundResult?inGameId=' + gameId);
+    };
+    DataService.prototype.UpdateGamePlayersForNewRound = function (gameId) {
+        return this.http.get('http://localhost:55953/PlayerLogic/UpdateGamePlayersForNewRound?inGameId=' + gameId);
+    };
     DataService = __decorate([
         Injectable({
             providedIn: 'root'

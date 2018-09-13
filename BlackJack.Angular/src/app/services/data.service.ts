@@ -58,4 +58,28 @@ export class DataService {
     RoundStart(gameId: number) {
         return this.http.get('http://localhost:55953/GameLogic/RoundStart?inGameId=' + gameId);
     }
+
+    FirstPhaseGamePlay(gameId: number) {
+        return this.http.get('http://localhost:55953/GameLogic/FirstPhaseGamePlay?inGameId=' + gameId);
+    }
+
+    SecondPhase(gameId: number) {
+        return this.http.get('http://localhost:55953/GameLogic/SecondPhase?inGameId=' + gameId);
+    }
+
+    HumanBjAndDealerBjDangerContinueRound(gameId: number) {
+        return this.http.get('http://localhost:55953/GameLogic/HumanBjAndDealerBjDangerContinueRound?inGameId=' + gameId);
+    }
+    
+    AddOneMoreCardToHuman(gameId: number) {
+        return this.http.get('http://localhost:55953/GameLogic/AddOneMoreCardToHuman?inGameId=' + gameId);
+    }
+
+    HumanRoundResult(gameId: number) {
+        return this.http.get('http://localhost:55953/PlayerLogic/HumanRoundResult?inGameId=' + gameId);
+    }
+
+    UpdateGamePlayersForNewRound(gameId: number) {
+        return this.http.get('http://localhost:55953/PlayerLogic/UpdateGamePlayersForNewRound?inGameId=' + gameId);
+    }
 }

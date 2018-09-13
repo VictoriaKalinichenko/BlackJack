@@ -7,12 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 var BjDangerChoiceComponent = /** @class */ (function () {
     function BjDangerChoiceComponent() {
+        this.TakeAward = new EventEmitter();
     }
-    BjDangerChoiceComponent.prototype.ngOnInit = function () {
+    BjDangerChoiceComponent.prototype.OnContinue = function (takeAward) {
+        this.TakeAward.emit(takeAward);
     };
+    __decorate([
+        Output(),
+        __metadata("design:type", Object)
+    ], BjDangerChoiceComponent.prototype, "TakeAward", void 0);
     BjDangerChoiceComponent = __decorate([
         Component({
             selector: 'app-bj-danger-choice',

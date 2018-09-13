@@ -1,3 +1,9 @@
-<p>
-  end-round works!
-</p>
+<div *ngIf="IsEndRound">
+    <p>{{RoundResult}}</p>
+    <button class="btn btn-primary" (click)="EndRound()">End round</button>
+</div>
+
+<div *ngIf="IsGameOver">
+    <p>{{GameOver}}</p>
+    <button class="btn btn-primary" (click)="StartNewGame()">End round</button>
+</div>

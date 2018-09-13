@@ -7,27 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component, Output, EventEmitter } from '@angular/core';
-var TakeCardComponent = /** @class */ (function () {
-    function TakeCardComponent() {
-        this.TakeCard = new EventEmitter();
+import { Component } from '@angular/core';
+var NewGameComponent = /** @class */ (function () {
+    function NewGameComponent() {
     }
-    TakeCardComponent.prototype.OnContinue = function (takeCard) {
-        this.TakeCard.emit(takeCard);
+    NewGameComponent.prototype.ngOnInit = function () {
     };
-    __decorate([
-        Output(),
-        __metadata("design:type", Object)
-    ], TakeCardComponent.prototype, "TakeCard", void 0);
-    TakeCardComponent = __decorate([
+    NewGameComponent = __decorate([
         Component({
-            selector: 'app-take-card',
-            templateUrl: './take-card.component.html',
-            styleUrls: ['./take-card.component.css']
+            selector: 'app-new-game',
+            templateUrl: './new-game.component.html',
+            styleUrls: ['./new-game.component.css']
         }),
         __metadata("design:paramtypes", [])
-    ], TakeCardComponent);
-    return TakeCardComponent;
+    ], NewGameComponent);
+    return NewGameComponent;
 }());
-export { TakeCardComponent };
-//# sourceMappingURL=take-card.component.js.map
+export { NewGameComponent };
+//# sourceMappingURL=new-game.component.js.map

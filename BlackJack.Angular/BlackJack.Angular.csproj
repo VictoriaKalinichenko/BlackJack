@@ -241,6 +241,8 @@
     <Content Include="src\app\player-output\player-output.component.html" />
     <Content Include="src\app\startpage\startpage.component.css" />
     <Content Include="src\app\startpage\startpage.component.html" />
+    <Content Include="src\app\take-card\take-card.component.css" />
+    <Content Include="src\app\take-card\take-card.component.html" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\index.html" />
     <Content Include="src\karma.conf.js" />
@@ -302,6 +304,8 @@
     <TypeScriptCompile Include="src\app\player-output\player-output.component.ts" />
     <TypeScriptCompile Include="src\app\services\data.service.spec.ts" />
     <TypeScriptCompile Include="src\app\services\data.service.ts" />
+    <TypeScriptCompile Include="src\app\take-card\take-card.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\take-card\take-card.component.ts" />
     <TypeScriptCompile Include="src\app\viewmodels\AuthPlayerViewModel.ts" />
     <TypeScriptCompile Include="src\app\homepage\homepage.component.spec.ts" />
     <TypeScriptCompile Include="src\app\homepage\homepage.component.ts" />

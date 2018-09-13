@@ -1,16 +1,16 @@
-<p>Score: {{PlayerViewModel.Score}}</p>
+<p>Score: {{Score}}</p>
 
 <div *ngIf="RoundFirstPhase">
     <p>Card:</p>
     <ul>
-        <li *ngFor="let card of PlayerViewModel.Cards">{{card}}</li>
+        <li *ngFor="let card of Cards">{{card}}</li>
     </ul>
 </div>
 
 <div *ngIf="RoundSecondPhase">
-    <p>CardScore: {{PlayerViewModel.RoundScore}}</p>
+    <p>CardScore: {{RoundScore}}</p>
     <p>Cards:</p>
     <ul>
-        <li *ngFor="let card of PlayerViewModel.Cards">{{card}}</li>
+        <li *ngFor="let card of Cards">{{card}}</li>
     </ul>
 </div>

@@ -379,20 +379,6 @@
         $("#gameplay").append(dontTakeButton);
     }
 
-    function DrowButtonsStartNewRound() {
-        var startNewRoundButton = $('<input/>', {
-            type: "button",
-            id: "startnewround",
-            value: "Start new round",
-            class: "btn btn-primary",
-            click: function () {
-                OnStartNewRound();
-            }
-        });
-
-        $("#gameplay").append(startNewRoundButton);
-    }
-
     function DrowButtonsEndRound() {
         var endRoundButton = $('<input/>', {
             type: "button",

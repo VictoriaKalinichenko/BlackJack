@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
-import { deserialize } from 'json-typescript-mapper';
-import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
-import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-player-output',
@@ -10,27 +7,17 @@ import { DataService } from '../services/data.service';
   styleUrls: ['./player-output.component.css']
 })
 export class PlayerOutputComponent {
-    @Input() PlayerViewModel: PlayerViewModel;
+    @Input() Score: number;
+    @Input() RoundScore: number;
+    @Input() Bet: number;
+    @Input() Cards: string[];
 
     RoundStart: boolean = true;
 
-    constructor(
-        private dataService: DataService
-    ) { }
+    constructor() { }
 
     @Input()
     set GameStage (stage: number) {
-        if (stage != 0) {
-            this.RoundStart = false;
-            this.dataService.GetGamePlayer(this.PlayerViewModel.GamePlayerId)
-                .subscribe(
-                (data) => {
-                    this.PlayerViewModel = deserialize(PlayerViewModel, data);
-                },
-                (error) => {
-                    console.log(error);
-                }
-            );
-        }
+        this.RoundStart = (stage == 0);
     }
 }

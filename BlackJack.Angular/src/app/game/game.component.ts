@@ -14,7 +14,12 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class GameComponent implements OnInit {
     GameId: number;
     GameViewModel: GameViewModel;
-    GamePlayTypeId: number;
+
+    BetInput: boolean = false;
+    TakeCard: boolean = false;
+    BjDangerChoice: boolean = false;
+    EndRound: boolean = false;
+    NewGame: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -24,15 +29,26 @@ export class GameComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.GameId = params['Id'];
-            this.GameInitializer();
+            this.GetGame();
         });
     }
 
-    GameInitializer() {
+    GamePlayInitializer() {
+        if (this.GameViewModel.Stage == 0) {
+            this.GamePlayBetInput();
+        }
+
+        if (this.GameViewModel.Stage == 1) {
+            this.GamePlayTakeCard();
+        }
+    }
+
+    GetGame() {
         this.dataService.GetGame(this.GameId)
             .subscribe(
                 (data) => {
                     this.GameViewModel = deserialize(GameViewModel, data);
+                    this.GamePlayInitializer();
                 },
                 (error) => {
                     console.log(error);
@@ -40,5 +56,55 @@ export class GameComponent implements OnInit {
             );
     }
 
+    OnBetsCreation() {
+        this.dataService.RoundStart(this.GameId)
+            .subscribe(
+                (data) => {
+                    this.GetGame();
+                },
+                (error) => {
+                    console.log(error);
+                }
+            )
+    }
 
+    GamePlayBetInput() {
+        this.BetInput = true;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = false;
+    }
+
+    GamePlayTakeCard() {
+        this.BetInput = false;
+        this.TakeCard = true;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = false;
+    }
+
+    GamePlayBjDangerChoice() {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = true;
+        this.EndRound = false;
+        this.NewGame = false;
+    }
+
+    GamePlayEndRound() {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = true;
+        this.NewGame = false;
+    }
+
+    GamePlayNewGame() {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = true;
+    }
 }

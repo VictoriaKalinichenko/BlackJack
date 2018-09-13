@@ -233,8 +233,6 @@
     <Content Include="src\app\dealer-output\dealer-output.component.html" />
     <Content Include="src\app\end-round\end-round.component.css" />
     <Content Include="src\app\end-round\end-round.component.html" />
-    <Content Include="src\app\gameplay\gameplay.component.css" />
-    <Content Include="src\app\gameplay\gameplay.component.html" />
     <Content Include="src\app\game\game.component.css" />
     <Content Include="src\app\game\game.component.html" />
     <Content Include="src\app\homepage\homepage.component.css" />
@@ -298,8 +296,6 @@
     <TypeScriptCompile Include="src\app\dealer-output\dealer-output.component.ts" />
     <TypeScriptCompile Include="src\app\end-round\end-round.component.spec.ts" />
     <TypeScriptCompile Include="src\app\end-round\end-round.component.ts" />
-    <TypeScriptCompile Include="src\app\gameplay\gameplay.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\gameplay\gameplay.component.ts" />
     <TypeScriptCompile Include="src\app\game\game.component.spec.ts" />
     <TypeScriptCompile Include="src\app\game\game.component.ts" />
     <TypeScriptCompile Include="src\app\player-output\player-output.component.spec.ts" />
@@ -314,6 +310,7 @@
     <TypeScriptCompile Include="src\app\viewmodels\GameIdViewModel.ts" />
     <TypeScriptCompile Include="src\app\viewmodels\GameViewModel.ts" />
     <TypeScriptCompile Include="src\app\viewmodels\PlayerViewModel.ts" />
+    <TypeScriptCompile Include="src\app\viewmodels\MessageViewModel.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />

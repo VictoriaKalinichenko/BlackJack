@@ -18,6 +18,10 @@ import { DataService } from './services/data.service';
 import { GameComponent } from './game/game.component';
 import { PlayerOutputComponent } from './player-output/player-output.component';
 import { DealerOutputComponent } from './dealer-output/dealer-output.component';
+import { BetInputComponent } from './bet-input/bet-input.component';
+import { TakeCardComponent } from './take-card/take-card.component';
+import { BjDangerChoiceComponent } from './bj-danger-choice/bj-danger-choice.component';
+import { EndRoundComponent } from './end-round/end-round.component';
 var appRoutes = [
     { path: '', component: HomepageComponent },
     {
@@ -41,7 +45,11 @@ var AppModule = /** @class */ (function () {
                 AuthUserComponent,
                 GameComponent,
                 PlayerOutputComponent,
-                DealerOutputComponent
+                DealerOutputComponent,
+                BetInputComponent,
+                TakeCardComponent,
+                BjDangerChoiceComponent,
+                EndRoundComponent
             ],
             imports: [
                 BrowserModule,

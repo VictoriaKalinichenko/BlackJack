@@ -104,12 +104,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _game_game_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./game/game.component */ "./src/app/game/game.component.ts");
 /* harmony import */ var _player_output_player_output_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./player-output/player-output.component */ "./src/app/player-output/player-output.component.ts");
 /* harmony import */ var _dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./dealer-output/dealer-output.component */ "./src/app/dealer-output/dealer-output.component.ts");
+/* harmony import */ var _bet_input_bet_input_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./bet-input/bet-input.component */ "./src/app/bet-input/bet-input.component.ts");
+/* harmony import */ var _take_card_take_card_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./take-card/take-card.component */ "./src/app/take-card/take-card.component.ts");
+/* harmony import */ var _bj_danger_choice_bj_danger_choice_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./bj-danger-choice/bj-danger-choice.component */ "./src/app/bj-danger-choice/bj-danger-choice.component.ts");
+/* harmony import */ var _end_round_end_round_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./end-round/end-round.component */ "./src/app/end-round/end-round.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
+
 
 
 
@@ -147,7 +155,11 @@ var AppModule = /** @class */ (function () {
                 _auth_user_auth_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthUserComponent"],
                 _game_game_component__WEBPACK_IMPORTED_MODULE_11__["GameComponent"],
                 _player_output_player_output_component__WEBPACK_IMPORTED_MODULE_12__["PlayerOutputComponent"],
-                _dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_13__["DealerOutputComponent"]
+                _dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_13__["DealerOutputComponent"],
+                _bet_input_bet_input_component__WEBPACK_IMPORTED_MODULE_14__["BetInputComponent"],
+                _take_card_take_card_component__WEBPACK_IMPORTED_MODULE_15__["TakeCardComponent"],
+                _bj_danger_choice_bj_danger_choice_component__WEBPACK_IMPORTED_MODULE_16__["BjDangerChoiceComponent"],
+                _end_round_end_round_component__WEBPACK_IMPORTED_MODULE_17__["EndRoundComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -251,6 +263,175 @@ var AuthUserComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/bet-input/bet-input.component.css":
+/*!***************************************************!*\
+  !*** ./src/app/bet-input/bet-input.component.css ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/bet-input/bet-input.component.html":
+/*!****************************************************!*\
+  !*** ./src/app/bet-input/bet-input.component.html ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<label class=\"control-label\">Enter your bet: </label>\r\n<input [(ngModel)]=\"Bet\" type=\"number\" \r\n       class=\"form-control\" step=\"50\" min=\"50\" value=\"50\" max={{Score}}  />\r\n<br />\r\n<div *ngIf=\"ValidationError\">\r\n    <div class=\"alert alert-danger\">{{ValidationMessage.Message}}</div>\r\n    <br />\r\n</div>\r\n<button class=\"btn btn-primary\" (click)=\"EnterBet()\">Enter</button>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/bet-input/bet-input.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/bet-input/bet-input.component.ts ***!
+  \**************************************************/
+/*! exports provided: BetInputComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BetInputComponent", function() { return BetInputComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
+/* harmony import */ var _viewmodels_MessageViewModel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../viewmodels/MessageViewModel */ "./src/app/viewmodels/MessageViewModel.ts");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! json-typescript-mapper */ "./node_modules/json-typescript-mapper/index.js");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_3__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var BetInputComponent = /** @class */ (function () {
+    function BetInputComponent(dataService) {
+        this.dataService = dataService;
+        this.ValidationError = false;
+        this.Bet = 50;
+        this.BetOut = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+    }
+    BetInputComponent.prototype.EnterBet = function () {
+        var _this = this;
+        this.dataService.BetsCreation(this.GameId, this.HumanGamePlayerId, this.Bet)
+            .subscribe(function (data) {
+            _this.ValidationMessage = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_3__["deserialize"])(_viewmodels_MessageViewModel__WEBPACK_IMPORTED_MODULE_2__["MessageViewModel"], data);
+            _this.OnValidate();
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    BetInputComponent.prototype.OnValidate = function () {
+        if (this.ValidationMessage.Message != "") {
+            this.ValidationError = true;
+        }
+        if (this.ValidationMessage.Message == "") {
+            this.BetOut.emit();
+        }
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], BetInputComponent.prototype, "Score", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], BetInputComponent.prototype, "GameId", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], BetInputComponent.prototype, "HumanGamePlayerId", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", Object)
+    ], BetInputComponent.prototype, "BetOut", void 0);
+    BetInputComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-bet-input',
+            template: __webpack_require__(/*! ./bet-input.component.html */ "./src/app/bet-input/bet-input.component.html"),
+            styles: [__webpack_require__(/*! ./bet-input.component.css */ "./src/app/bet-input/bet-input.component.css")]
+        }),
+        __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"]])
+    ], BetInputComponent);
+    return BetInputComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/bj-danger-choice/bj-danger-choice.component.css":
+/*!*****************************************************************!*\
+  !*** ./src/app/bj-danger-choice/bj-danger-choice.component.css ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/bj-danger-choice/bj-danger-choice.component.html":
+/*!******************************************************************!*\
+  !*** ./src/app/bj-danger-choice/bj-danger-choice.component.html ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  bj-danger-choice works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/bj-danger-choice/bj-danger-choice.component.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/bj-danger-choice/bj-danger-choice.component.ts ***!
+  \****************************************************************/
+/*! exports provided: BjDangerChoiceComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BjDangerChoiceComponent", function() { return BjDangerChoiceComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var BjDangerChoiceComponent = /** @class */ (function () {
+    function BjDangerChoiceComponent() {
+    }
+    BjDangerChoiceComponent.prototype.ngOnInit = function () {
+    };
+    BjDangerChoiceComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-bj-danger-choice',
+            template: __webpack_require__(/*! ./bj-danger-choice.component.html */ "./src/app/bj-danger-choice/bj-danger-choice.component.html"),
+            styles: [__webpack_require__(/*! ./bj-danger-choice.component.css */ "./src/app/bj-danger-choice/bj-danger-choice.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], BjDangerChoiceComponent);
+    return BjDangerChoiceComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/dealer-output/dealer-output.component.css":
 /*!***********************************************************!*\
   !*** ./src/app/dealer-output/dealer-output.component.css ***!
@@ -269,7 +450,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>Score: {{PlayerViewModel.Score}}</p>\r\n\r\n<div *ngIf=\"RoundFirstPhase\">\r\n    <p>Card:</p>\r\n    <ul>\r\n        <li *ngFor=\"let card of PlayerViewModel.Cards\">{{card}}</li>\r\n    </ul>\r\n</div>"
+module.exports = "<p>Score: {{PlayerViewModel.Score}}</p>\r\n\r\n<div *ngIf=\"RoundFirstPhase\">\r\n    <p>Card:</p>\r\n    <ul>\r\n        <li *ngFor=\"let card of PlayerViewModel.Cards\">{{card}}</li>\r\n    </ul>\r\n</div>\r\n\r\n<div *ngIf=\"RoundSecondPhase\">\r\n    <p>CardScore: {{PlayerViewModel.RoundScore}}</p>\r\n    <p>Cards:</p>\r\n    <ul>\r\n        <li *ngFor=\"let card of PlayerViewModel.Cards\">{{card}}</li>\r\n    </ul>\r\n</div>"
 
 /***/ }),
 
@@ -359,6 +540,69 @@ var DealerOutputComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/end-round/end-round.component.css":
+/*!***************************************************!*\
+  !*** ./src/app/end-round/end-round.component.css ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/end-round/end-round.component.html":
+/*!****************************************************!*\
+  !*** ./src/app/end-round/end-round.component.html ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  end-round works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/end-round/end-round.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/end-round/end-round.component.ts ***!
+  \**************************************************/
+/*! exports provided: EndRoundComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EndRoundComponent", function() { return EndRoundComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var EndRoundComponent = /** @class */ (function () {
+    function EndRoundComponent() {
+    }
+    EndRoundComponent.prototype.ngOnInit = function () {
+    };
+    EndRoundComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-end-round',
+            template: __webpack_require__(/*! ./end-round.component.html */ "./src/app/end-round/end-round.component.html"),
+            styles: [__webpack_require__(/*! ./end-round.component.css */ "./src/app/end-round/end-round.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], EndRoundComponent);
+    return EndRoundComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/game/game.component.css":
 /*!*****************************************!*\
   !*** ./src/app/game/game.component.css ***!
@@ -377,7 +621,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n        <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n        <p>Name: {{GameViewModel.Dealer.Name}}</p>\r\n        <app-dealer-output [PlayerViewModel]=\"GameViewModel.Dealer\" [GameStage]=\"GameViewModel.Stage\"></app-dealer-output>\r\n    </div>\r\n\r\n    <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <h4><span class=\"label label-primary\">Human</span></h4>\r\n                <p>Name: {{GameViewModel.Human.Name}}</p>\r\n                <app-player-output [PlayerViewModel]=\"GameViewModel.Human\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n            </div>\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <label class=\"control-label\">Enter your bet: </label>\r\n                <input type=\"number\" class=\"form-control\" step=\"50\" min=\"1\" value=\"50\" max={{GameViewModel.Human.Score}} />\r\n                <br />\r\n                <input type=\"submit\" class=\"btn btn-primary\" value=\"Enter\" />\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of GameViewModel.Bots\" class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n        <h4><span class=\"label label-default\">Bot</span></h4>\r\n        <p>Name: {{bot.Name}}</p>\r\n        <app-player-output [PlayerViewModel]=\"bot\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n        <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n        <p>Name: {{GameViewModel.Dealer.Name}}</p>\r\n        <app-dealer-output [PlayerViewModel]=\"GameViewModel.Dealer\" [GameStage]=\"GameViewModel.Stage\"></app-dealer-output>\r\n    </div>\r\n\r\n    <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <h4><span class=\"label label-primary\">Human</span></h4>\r\n                <p>Name: {{GameViewModel.Human.Name}}</p>\r\n                <app-player-output [PlayerViewModel]=\"GameViewModel.Human\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n            </div>\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <div *ngIf=\"BetInput\">\r\n                    <app-bet-input [Score]=\"GameViewModel.Human.Score\" [GameId]=\"GameId\" [HumanGamePlayerId]=\"GameViewModel.Human.GamePlayerId\" (BetOut)=\"OnBetsCreation()\"></app-bet-input>\r\n                </div>\r\n                <div *ngIf=\"TakeCard\">\r\n                    <button class=\"btn btn-danger\" (click)=\"GamePlayBetInput()\">TakeCard</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of GameViewModel.Bots\" class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n        <h4><span class=\"label label-default\">Bot</span></h4>\r\n        <p>Name: {{bot.Name}}</p>\r\n        <app-player-output [PlayerViewModel]=\"bot\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -415,22 +659,80 @@ var GameComponent = /** @class */ (function () {
     function GameComponent(route, dataService) {
         this.route = route;
         this.dataService = dataService;
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = false;
     }
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.GameId = params['Id'];
-            _this.GameInitializer();
+            _this.GetGame();
         });
     };
-    GameComponent.prototype.GameInitializer = function () {
+    GameComponent.prototype.GamePlayInitializer = function () {
+        if (this.GameViewModel.Stage == 0) {
+            this.GamePlayBetInput();
+        }
+        if (this.GameViewModel.Stage == 1) {
+            this.GamePlayTakeCard();
+        }
+    };
+    GameComponent.prototype.GetGame = function () {
         var _this = this;
         this.dataService.GetGame(this.GameId)
             .subscribe(function (data) {
             _this.GameViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_viewmodels_GameViewModel__WEBPACK_IMPORTED_MODULE_3__["GameViewModel"], data);
+            _this.GamePlayInitializer();
         }, function (error) {
             console.log(error);
         });
+    };
+    GameComponent.prototype.OnBetsCreation = function () {
+        var _this = this;
+        this.dataService.RoundStart(this.GameId)
+            .subscribe(function (data) {
+            _this.GetGame();
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    GameComponent.prototype.GamePlayBetInput = function () {
+        this.BetInput = true;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = false;
+    };
+    GameComponent.prototype.GamePlayTakeCard = function () {
+        this.BetInput = false;
+        this.TakeCard = true;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = false;
+    };
+    GameComponent.prototype.GamePlayBjDangerChoice = function () {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = true;
+        this.EndRound = false;
+        this.NewGame = false;
+    };
+    GameComponent.prototype.GamePlayEndRound = function () {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = true;
+        this.NewGame = false;
+    };
+    GameComponent.prototype.GamePlayNewGame = function () {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = true;
     };
     GameComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -667,6 +969,13 @@ var DataService = /** @class */ (function () {
     DataService.prototype.GetDealerSecondPhase = function (gamePlayerId) {
         return this.http.get('http://localhost:55953/PlayerLogic/GetDealerInSecondPhase?gamePlayerId=' + gamePlayerId);
     };
+    DataService.prototype.BetsCreation = function (gameId, humanGamePlayerId, bet) {
+        var body = { InGameId: gameId, Bet: bet, HumanGamePlayerId: humanGamePlayerId };
+        return this.http.post('http://localhost:55953/PlayerLogic/BetsCreation', body);
+    };
+    DataService.prototype.RoundStart = function (gameId) {
+        return this.http.get('http://localhost:55953/GameLogic/RoundStart?inGameId=' + gameId);
+    };
     DataService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
@@ -787,6 +1096,69 @@ var StartpageComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/take-card/take-card.component.css":
+/*!***************************************************!*\
+  !*** ./src/app/take-card/take-card.component.css ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/take-card/take-card.component.html":
+/*!****************************************************!*\
+  !*** ./src/app/take-card/take-card.component.html ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  take-card works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/take-card/take-card.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/take-card/take-card.component.ts ***!
+  \**************************************************/
+/*! exports provided: TakeCardComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TakeCardComponent", function() { return TakeCardComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var TakeCardComponent = /** @class */ (function () {
+    function TakeCardComponent() {
+    }
+    TakeCardComponent.prototype.ngOnInit = function () {
+    };
+    TakeCardComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-take-card',
+            template: __webpack_require__(/*! ./take-card.component.html */ "./src/app/take-card/take-card.component.html"),
+            styles: [__webpack_require__(/*! ./take-card.component.css */ "./src/app/take-card/take-card.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], TakeCardComponent);
+    return TakeCardComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/viewmodels/AuthPlayerViewModel.ts":
 /*!***************************************************!*\
   !*** ./src/app/viewmodels/AuthPlayerViewModel.ts ***!
@@ -860,6 +1232,43 @@ var GameViewModel = /** @class */ (function () {
         __metadata("design:type", Array)
     ], GameViewModel.prototype, "Bots", void 0);
     return GameViewModel;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/viewmodels/MessageViewModel.ts":
+/*!************************************************!*\
+  !*** ./src/app/viewmodels/MessageViewModel.ts ***!
+  \************************************************/
+/*! exports provided: MessageViewModel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageViewModel", function() { return MessageViewModel; });
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! json-typescript-mapper */ "./node_modules/json-typescript-mapper/index.js");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var MessageViewModel = /** @class */ (function () {
+    function MessageViewModel() {
+        this.Message = void 0;
+    }
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Message'),
+        __metadata("design:type", String)
+    ], MessageViewModel.prototype, "Message", void 0);
+    return MessageViewModel;
 }());
 
 

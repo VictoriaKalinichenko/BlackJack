@@ -16,22 +16,80 @@ var GameComponent = /** @class */ (function () {
     function GameComponent(route, dataService) {
         this.route = route;
         this.dataService = dataService;
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = false;
     }
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.GameId = params['Id'];
-            _this.GameInitializer();
+            _this.GetGame();
         });
     };
-    GameComponent.prototype.GameInitializer = function () {
+    GameComponent.prototype.GamePlayInitializer = function () {
+        if (this.GameViewModel.Stage == 0) {
+            this.GamePlayBetInput();
+        }
+        if (this.GameViewModel.Stage == 1) {
+            this.GamePlayTakeCard();
+        }
+    };
+    GameComponent.prototype.GetGame = function () {
         var _this = this;
         this.dataService.GetGame(this.GameId)
             .subscribe(function (data) {
             _this.GameViewModel = deserialize(GameViewModel, data);
+            _this.GamePlayInitializer();
         }, function (error) {
             console.log(error);
         });
+    };
+    GameComponent.prototype.OnBetsCreation = function () {
+        var _this = this;
+        this.dataService.RoundStart(this.GameId)
+            .subscribe(function (data) {
+            _this.GetGame();
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    GameComponent.prototype.GamePlayBetInput = function () {
+        this.BetInput = true;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = false;
+    };
+    GameComponent.prototype.GamePlayTakeCard = function () {
+        this.BetInput = false;
+        this.TakeCard = true;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = false;
+    };
+    GameComponent.prototype.GamePlayBjDangerChoice = function () {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = true;
+        this.EndRound = false;
+        this.NewGame = false;
+    };
+    GameComponent.prototype.GamePlayEndRound = function () {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = true;
+        this.NewGame = false;
+    };
+    GameComponent.prototype.GamePlayNewGame = function () {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BjDangerChoice = false;
+        this.EndRound = false;
+        this.NewGame = true;
     };
     GameComponent = __decorate([
         Component({

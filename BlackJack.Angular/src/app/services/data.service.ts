@@ -49,4 +49,13 @@ export class DataService {
     GetDealerSecondPhase(gamePlayerId: number) {
         return this.http.get('http://localhost:55953/PlayerLogic/GetDealerInSecondPhase?gamePlayerId=' + gamePlayerId);
     }
+
+    BetsCreation(gameId: number, humanGamePlayerId: number, bet: number) {
+        const body = { InGameId: gameId, Bet: bet, HumanGamePlayerId: humanGamePlayerId };
+        return this.http.post('http://localhost:55953/PlayerLogic/BetsCreation', body);
+    }
+
+    RoundStart(gameId: number) {
+        return this.http.get('http://localhost:55953/GameLogic/RoundStart?inGameId=' + gameId);
+    }
 }

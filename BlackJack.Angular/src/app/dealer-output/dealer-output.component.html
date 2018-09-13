@@ -6,3 +6,11 @@
         <li *ngFor="let card of PlayerViewModel.Cards">{{card}}</li>
     </ul>
 </div>
+
+<div *ngIf="RoundSecondPhase">
+    <p>CardScore: {{PlayerViewModel.RoundScore}}</p>
+    <p>Cards:</p>
+    <ul>
+        <li *ngFor="let card of PlayerViewModel.Cards">{{card}}</li>
+    </ul>
+</div>

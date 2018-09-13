@@ -14,6 +14,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class GameComponent implements OnInit {
     GameId: number;
     GameViewModel: GameViewModel;
+    GamePlayTypeId: number;
 
     constructor(
         private route: ActivatedRoute,
@@ -23,17 +24,21 @@ export class GameComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.GameId = params['Id'];
+            this.GameInitializer();
+        });
+    }
 
-            this.dataService.GetGame(this.GameId)
-                .subscribe(
+    GameInitializer() {
+        this.dataService.GetGame(this.GameId)
+            .subscribe(
                 (data) => {
                     this.GameViewModel = deserialize(GameViewModel, data);
                 },
                 (error) => {
                     console.log(error);
                 }
-                );
-        });
+            );
     }
+
 
 }

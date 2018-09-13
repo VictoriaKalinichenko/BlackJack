@@ -21,17 +21,16 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.GameId = params['Id'];
-            _this.dataService.GetGame(_this.GameId)
-                .subscribe(function (data) {
-                _this.GameViewModel = deserialize(GameViewModel, data);
-                _this.GameViewModel.Human.PlayerType = "Human";
-                _this.GameViewModel.Dealer.PlayerType = "Dealer";
-                _this.GameViewModel.Bots.forEach(function (bot) {
-                    bot.PlayerType = "Bot";
-                });
-            }, function (error) {
-                console.log(error);
-            });
+            _this.GameInitializer();
+        });
+    };
+    GameComponent.prototype.GameInitializer = function () {
+        var _this = this;
+        this.dataService.GetGame(this.GameId)
+            .subscribe(function (data) {
+            _this.GameViewModel = deserialize(GameViewModel, data);
+        }, function (error) {
+            console.log(error);
         });
     };
     GameComponent = __decorate([

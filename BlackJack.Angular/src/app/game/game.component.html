@@ -1,28 +1,31 @@
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
-    <h4><span class="label label-danger">Dealer</span></h4>
-    <p>Name: {{GameViewModel.Dealer.Name}}</p>
-    <app-dealer-output [PlayerViewModel]="GameViewModel.Dealer" [GameStage]="GameViewModel.Stage"></app-dealer-output>
-</div>
+<div class="row row-flex">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
+        <h4><span class="label label-danger">Dealer</span></h4>
+        <p>Name: {{GameViewModel.Dealer.Name}}</p>
+        <app-dealer-output [PlayerViewModel]="GameViewModel.Dealer" [GameStage]="GameViewModel.Stage"></app-dealer-output>
+    </div>
 
-<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 well">
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <h4><span class="label label-primary">Human</span></h4>
-            <p>Name: {{GameViewModel.Human.Name}}</p>
-            <app-player-output [PlayerViewModel]="GameViewModel.Human" [GameStage]="GameViewModel.Stage"></app-player-output>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 well">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <h4><span class="label label-primary">Human</span></h4>
+                <p>Name: {{GameViewModel.Human.Name}}</p>
+                <app-player-output [PlayerViewModel]="GameViewModel.Human" [GameStage]="GameViewModel.Stage"></app-player-output>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label">Enter your bet: </label>
+                <input type="number" class="form-control" step="50" min="1" value="50" max={{GameViewModel.Human.Score}} />
+                <br />
+                <input type="submit" class="btn btn-primary" value="Enter" />
+            </div>
         </div>
     </div>
 </div>
 
 <div class="row row-flex">
-    <div *ngFor="let bot of GameViewModel.Bots">
-        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 well">
-            <h4><span class="label label-default">Bot</span></h4>
-            <p>Name: {{bot.Name}}</p>
-            <app-player-output [PlayerViewModel]="bot" [GameStage]="GameViewModel.Stage"></app-player-output>
-        </div>
+    <div *ngFor="let bot of GameViewModel.Bots" class="col-lg-2 col-md-4 col-sm-4 col-xs-6 well">
+        <h4><span class="label label-default">Bot</span></h4>
+        <p>Name: {{bot.Name}}</p>
+        <app-player-output [PlayerViewModel]="bot" [GameStage]="GameViewModel.Stage"></app-player-output>
     </div>
 </div>

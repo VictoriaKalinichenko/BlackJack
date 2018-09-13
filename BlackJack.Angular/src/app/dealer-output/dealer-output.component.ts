@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 import { deserialize } from 'json-typescript-mapper';
 import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
@@ -9,9 +9,8 @@ import { DataService } from '../services/data.service';
     templateUrl: './dealer-output.component.html',
     styleUrls: ['./dealer-output.component.css']
 })
-export class DealerOutputComponent implements OnInit {
+export class DealerOutputComponent {
     @Input() PlayerViewModel: PlayerViewModel;
-    @Input() GameStage: number;
     
     RoundFirstPhase: boolean = false;
     RoundSecondPhase: boolean = false;
@@ -20,8 +19,9 @@ export class DealerOutputComponent implements OnInit {
         private dataService: DataService
     ) { }
 
-    ngOnInit() {
-        if (this.GameStage == 1) {
+    @Input()
+    set GameStage(stage: number) {
+        if (stage == 1) {
             this.RoundFirstPhase = true;
             this.RoundSecondPhase = false;
             this.dataService.GetDealerFirstPhase(this.PlayerViewModel.GamePlayerId)
@@ -35,7 +35,7 @@ export class DealerOutputComponent implements OnInit {
                 );
         }
 
-        if (this.GameStage == 2) {
+        if (stage == 2) {
             this.RoundFirstPhase = false;
             this.RoundSecondPhase = true;
             this.dataService.GetDealerSecondPhase(this.PlayerViewModel.GamePlayerId)

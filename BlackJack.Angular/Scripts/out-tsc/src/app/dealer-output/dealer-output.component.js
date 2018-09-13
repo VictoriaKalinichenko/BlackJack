@@ -18,37 +18,42 @@ var DealerOutputComponent = /** @class */ (function () {
         this.RoundFirstPhase = false;
         this.RoundSecondPhase = false;
     }
-    DealerOutputComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        if (this.GameStage == 1) {
-            this.RoundFirstPhase = true;
-            this.RoundSecondPhase = false;
-            this.dataService.GetDealerFirstPhase(this.PlayerViewModel.GamePlayerId)
-                .subscribe(function (data) {
-                _this.PlayerViewModel = deserialize(PlayerViewModel, data);
-            }, function (error) {
-                console.log(error);
-            });
-        }
-        if (this.GameStage == 2) {
-            this.RoundFirstPhase = false;
-            this.RoundSecondPhase = true;
-            this.dataService.GetDealerSecondPhase(this.PlayerViewModel.GamePlayerId)
-                .subscribe(function (data) {
-                _this.PlayerViewModel = deserialize(PlayerViewModel, data);
-            }, function (error) {
-                console.log(error);
-            });
-        }
-    };
+    Object.defineProperty(DealerOutputComponent.prototype, "GameStage", {
+        set: function (stage) {
+            var _this = this;
+            if (stage == 1) {
+                this.RoundFirstPhase = true;
+                this.RoundSecondPhase = false;
+                this.dataService.GetDealerFirstPhase(this.PlayerViewModel.GamePlayerId)
+                    .subscribe(function (data) {
+                    _this.PlayerViewModel = deserialize(PlayerViewModel, data);
+                }, function (error) {
+                    console.log(error);
+                });
+            }
+            if (stage == 2) {
+                this.RoundFirstPhase = false;
+                this.RoundSecondPhase = true;
+                this.dataService.GetDealerSecondPhase(this.PlayerViewModel.GamePlayerId)
+                    .subscribe(function (data) {
+                    _this.PlayerViewModel = deserialize(PlayerViewModel, data);
+                }, function (error) {
+                    console.log(error);
+                });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         Input(),
         __metadata("design:type", PlayerViewModel)
     ], DealerOutputComponent.prototype, "PlayerViewModel", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", Number)
-    ], DealerOutputComponent.prototype, "GameStage", void 0);
+        __metadata("design:type", Number),
+        __metadata("design:paramtypes", [Number])
+    ], DealerOutputComponent.prototype, "GameStage", null);
     DealerOutputComponent = __decorate([
         Component({
             selector: 'app-dealer-output',

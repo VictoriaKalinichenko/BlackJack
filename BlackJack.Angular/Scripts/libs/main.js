@@ -308,37 +308,42 @@ var DealerOutputComponent = /** @class */ (function () {
         this.RoundFirstPhase = false;
         this.RoundSecondPhase = false;
     }
-    DealerOutputComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        if (this.GameStage == 1) {
-            this.RoundFirstPhase = true;
-            this.RoundSecondPhase = false;
-            this.dataService.GetDealerFirstPhase(this.PlayerViewModel.GamePlayerId)
-                .subscribe(function (data) {
-                _this.PlayerViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(_viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"], data);
-            }, function (error) {
-                console.log(error);
-            });
-        }
-        if (this.GameStage == 2) {
-            this.RoundFirstPhase = false;
-            this.RoundSecondPhase = true;
-            this.dataService.GetDealerSecondPhase(this.PlayerViewModel.GamePlayerId)
-                .subscribe(function (data) {
-                _this.PlayerViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(_viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"], data);
-            }, function (error) {
-                console.log(error);
-            });
-        }
-    };
+    Object.defineProperty(DealerOutputComponent.prototype, "GameStage", {
+        set: function (stage) {
+            var _this = this;
+            if (stage == 1) {
+                this.RoundFirstPhase = true;
+                this.RoundSecondPhase = false;
+                this.dataService.GetDealerFirstPhase(this.PlayerViewModel.GamePlayerId)
+                    .subscribe(function (data) {
+                    _this.PlayerViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(_viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"], data);
+                }, function (error) {
+                    console.log(error);
+                });
+            }
+            if (stage == 2) {
+                this.RoundFirstPhase = false;
+                this.RoundSecondPhase = true;
+                this.dataService.GetDealerSecondPhase(this.PlayerViewModel.GamePlayerId)
+                    .subscribe(function (data) {
+                    _this.PlayerViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(_viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"], data);
+                }, function (error) {
+                    console.log(error);
+                });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"])
     ], DealerOutputComponent.prototype, "PlayerViewModel", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number)
-    ], DealerOutputComponent.prototype, "GameStage", void 0);
+        __metadata("design:type", Number),
+        __metadata("design:paramtypes", [Number])
+    ], DealerOutputComponent.prototype, "GameStage", null);
     DealerOutputComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-dealer-output',
@@ -372,7 +377,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n    <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n    <p>Name: {{GameViewModel.Dealer.Name}}</p>\r\n    <app-dealer-output [PlayerViewModel]=\"GameViewModel.Dealer\" [GameStage]=\"GameViewModel.Stage\"></app-dealer-output>\r\n</div>\r\n\r\n<div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n    <div class=\"row\">\r\n        <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n            <h4><span class=\"label label-primary\">Human</span></h4>\r\n            <p>Name: {{GameViewModel.Human.Name}}</p>\r\n            <app-player-output [PlayerViewModel]=\"GameViewModel.Human\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n        </div>\r\n        <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of GameViewModel.Bots\">\r\n        <div class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n            <h4><span class=\"label label-default\">Bot</span></h4>\r\n            <p>Name: {{bot.Name}}</p>\r\n            <app-player-output [PlayerViewModel]=\"bot\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n        <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n        <p>Name: {{GameViewModel.Dealer.Name}}</p>\r\n        <app-dealer-output [PlayerViewModel]=\"GameViewModel.Dealer\" [GameStage]=\"GameViewModel.Stage\"></app-dealer-output>\r\n    </div>\r\n\r\n    <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <h4><span class=\"label label-primary\">Human</span></h4>\r\n                <p>Name: {{GameViewModel.Human.Name}}</p>\r\n                <app-player-output [PlayerViewModel]=\"GameViewModel.Human\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n            </div>\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <label class=\"control-label\">Enter your bet: </label>\r\n                <input type=\"number\" class=\"form-control\" step=\"50\" min=\"1\" value=\"50\" max={{GameViewModel.Human.Score}} />\r\n                <br />\r\n                <input type=\"submit\" class=\"btn btn-primary\" value=\"Enter\" />\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of GameViewModel.Bots\" class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n        <h4><span class=\"label label-default\">Bot</span></h4>\r\n        <p>Name: {{bot.Name}}</p>\r\n        <app-player-output [PlayerViewModel]=\"bot\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -415,17 +420,16 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.GameId = params['Id'];
-            _this.dataService.GetGame(_this.GameId)
-                .subscribe(function (data) {
-                _this.GameViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_viewmodels_GameViewModel__WEBPACK_IMPORTED_MODULE_3__["GameViewModel"], data);
-                _this.GameViewModel.Human.PlayerType = "Human";
-                _this.GameViewModel.Dealer.PlayerType = "Dealer";
-                _this.GameViewModel.Bots.forEach(function (bot) {
-                    bot.PlayerType = "Bot";
-                });
-            }, function (error) {
-                console.log(error);
-            });
+            _this.GameInitializer();
+        });
+    };
+    GameComponent.prototype.GameInitializer = function () {
+        var _this = this;
+        this.dataService.GetGame(this.GameId)
+            .subscribe(function (data) {
+            _this.GameViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_viewmodels_GameViewModel__WEBPACK_IMPORTED_MODULE_3__["GameViewModel"], data);
+        }, function (error) {
+            console.log(error);
         });
     };
     GameComponent = __decorate([
@@ -567,26 +571,31 @@ var PlayerOutputComponent = /** @class */ (function () {
         this.dataService = dataService;
         this.RoundStart = true;
     }
-    PlayerOutputComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        if (this.GameStage != 0) {
-            this.RoundStart = false;
-            this.dataService.GetGamePlayer(this.PlayerViewModel.GamePlayerId)
-                .subscribe(function (data) {
-                _this.PlayerViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(_viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"], data);
-            }, function (error) {
-                console.log(error);
-            });
-        }
-    };
+    Object.defineProperty(PlayerOutputComponent.prototype, "GameStage", {
+        set: function (stage) {
+            var _this = this;
+            if (stage != 0) {
+                this.RoundStart = false;
+                this.dataService.GetGamePlayer(this.PlayerViewModel.GamePlayerId)
+                    .subscribe(function (data) {
+                    _this.PlayerViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(_viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"], data);
+                }, function (error) {
+                    console.log(error);
+                });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"])
     ], PlayerOutputComponent.prototype, "PlayerViewModel", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number)
-    ], PlayerOutputComponent.prototype, "GameStage", void 0);
+        __metadata("design:type", Number),
+        __metadata("design:paramtypes", [Number])
+    ], PlayerOutputComponent.prototype, "GameStage", null);
     PlayerOutputComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-player-output',
@@ -689,7 +698,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row\">\r\n    <div *ngIf=\"Player.ResumeGame\" class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Game resuming</h3>\r\n        <p>You can resume your last game</p>\r\n        <div class=\"form-group\">\r\n            <a class=\"btn btn-primary\" (click)=\"ResumeGame()\">Resume game</a>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Start new game</h3>\r\n        <label class=\"control-label col-md-4\">Amount of bots:</label>\r\n        <div class=\"col-md-8\">\r\n            <input name=\"amountOfBots\" [(ngModel)]=\"AmountOfBots\" class=\"form-control\"\r\n                   type=\"number\" value=\"0\" min=\"0\" max=\"5\"\r\n                   #amountOfBots=\"ngModel\" pattern=\"[0-5]\" />\r\n            <div [hidden]=\"amountOfBots.valid\" class=\"alert alert-danger\">\r\n                Amount of bots must be more than or equals to 0 and less than or equals to 5.\r\n            </div>\r\n            <br />\r\n            <button [disabled]=\"amountOfBots.invalid\" class=\"btn btn-primary\" (click)=\"StartNewGame()\">Start new game</button>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngIf=\"Player.ResumeGame\" class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Game resuming</h3>\r\n        <p>You can resume your last game</p>\r\n        <div class=\"form-group\">\r\n            <a class=\"btn btn-primary\" (click)=\"ResumeGame()\">Resume game</a>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Start new game</h3>\r\n        <label class=\"control-label col-md-4\">Amount of bots:</label>\r\n        <div class=\"col-md-8\">\r\n            <input name=\"amountOfBots\" [(ngModel)]=\"AmountOfBots\" class=\"form-control\"\r\n                   type=\"number\" value=\"0\" min=\"0\" max=\"5\"\r\n                   #amountOfBots=\"ngModel\" pattern=\"[0-5]\" />\r\n            <div [hidden]=\"amountOfBots.valid\" class=\"alert alert-danger\">\r\n                Amount of bots must be more than or equals to 0 and less than or equals to 5.\r\n            </div>\r\n            <br />\r\n            <button [disabled]=\"amountOfBots.invalid\" class=\"btn btn-primary\" (click)=\"StartNewGame()\">Start new game</button>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 

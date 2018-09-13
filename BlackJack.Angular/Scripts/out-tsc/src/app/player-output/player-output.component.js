@@ -17,26 +17,31 @@ var PlayerOutputComponent = /** @class */ (function () {
         this.dataService = dataService;
         this.RoundStart = true;
     }
-    PlayerOutputComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        if (this.GameStage != 0) {
-            this.RoundStart = false;
-            this.dataService.GetGamePlayer(this.PlayerViewModel.GamePlayerId)
-                .subscribe(function (data) {
-                _this.PlayerViewModel = deserialize(PlayerViewModel, data);
-            }, function (error) {
-                console.log(error);
-            });
-        }
-    };
+    Object.defineProperty(PlayerOutputComponent.prototype, "GameStage", {
+        set: function (stage) {
+            var _this = this;
+            if (stage != 0) {
+                this.RoundStart = false;
+                this.dataService.GetGamePlayer(this.PlayerViewModel.GamePlayerId)
+                    .subscribe(function (data) {
+                    _this.PlayerViewModel = deserialize(PlayerViewModel, data);
+                }, function (error) {
+                    console.log(error);
+                });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         Input(),
         __metadata("design:type", PlayerViewModel)
     ], PlayerOutputComponent.prototype, "PlayerViewModel", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", Number)
-    ], PlayerOutputComponent.prototype, "GameStage", void 0);
+        __metadata("design:type", Number),
+        __metadata("design:paramtypes", [Number])
+    ], PlayerOutputComponent.prototype, "GameStage", null);
     PlayerOutputComponent = __decorate([
         Component({
             selector: 'app-player-output',

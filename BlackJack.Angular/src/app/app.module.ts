@@ -11,7 +11,7 @@ import { StartpageComponent } from './startpage/startpage.component';
 import { AuthUserComponent } from './auth-user/auth-user.component';
 import { DataService } from './services/data.service';
 import { GameComponent } from './game/game.component';
-import { PlayerRoundStartComponent } from './player-round-start/player-round-start.component';
+import { PlayerOutputComponent } from './player-output/player-output.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomepageComponent },
@@ -32,7 +32,7 @@ const appRoutes: Routes = [
       StartpageComponent,
       AuthUserComponent,
       GameComponent,
-      PlayerRoundStartComponent
+      PlayerOutputComponent
   ],
   imports: [
       BrowserModule,
@@ -52,7 +52,8 @@ const appRoutes: Routes = [
         HomepageComponent,
         StartpageComponent,
         AuthUserComponent,
-        GameComponent
+        GameComponent,
+        PlayerOutputComponent
     ]
 })
 export class AppModule { }

@@ -9,8 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GameViewModel } from '../viewmodels/GameViewModel';
 import { deserialize } from 'json-typescript-mapper';
+import { GameViewModel } from '../viewmodels/GameViewModel';
 import { DataService } from '../services/data.service';
 var GameComponent = /** @class */ (function () {
     function GameComponent(route, dataService) {
@@ -24,6 +24,11 @@ var GameComponent = /** @class */ (function () {
             _this.dataService.GetGame(_this.GameId)
                 .subscribe(function (data) {
                 _this.GameViewModel = deserialize(GameViewModel, data);
+                _this.GameViewModel.Human.PlayerType = "Human";
+                _this.GameViewModel.Dealer.PlayerType = "Dealer";
+                _this.GameViewModel.Bots.forEach(function (bot) {
+                    bot.PlayerType = "Bot";
+                });
             }, function (error) {
                 console.log(error);
             });

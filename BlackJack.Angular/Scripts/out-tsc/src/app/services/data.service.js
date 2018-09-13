@@ -33,6 +33,9 @@ var DataService = /** @class */ (function () {
     DataService.prototype.GetGame = function (gameId) {
         return this.http.get('http://localhost:55953/StartGame/GetGame?gameId=' + gameId);
     };
+    DataService.prototype.GetGamePlayer = function (gamePlayerId) {
+        return this.http.get('http://localhost:55953/PlayerLogic/GetPlayer?gamePlayerId=' + gamePlayerId);
+    };
     DataService = __decorate([
         Injectable({
             providedIn: 'root'

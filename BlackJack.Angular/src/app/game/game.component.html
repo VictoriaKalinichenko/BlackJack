@@ -1,35 +1,4 @@
-<p>
-    {{GameViewModel.GameId}}
-</p>
-<p>
-    {{GameViewModel.Stage}}
-</p>
-<p>
-    {{GameViewModel.Human.GamePlayerId}}
-</p>
-<p>
-    {{GameViewModel.Human.Name}}
-</p>
-<p>
-    {{GameViewModel.Human.Score}}
-</p>
-<p>
-    {{GameViewModel.Dealer.GamePlayerId}}
-</p>
-<p>
-    {{GameViewModel.Dealer.Name}}
-</p>
-<p>
-    {{GameViewModel.Dealer.Score}}
-</p>
+<app-player-output [PlayerViewModel]="GameViewModel.Human" [GameStage]="GameViewModel.Stage"></app-player-output>
 <div *ngFor="let bot of GameViewModel.Bots">
-    <p>
-        {{bot.GamePlayerId}}
-    </p>
-    <p>
-        {{bot.Name}}
-    </p>
-    <p>
-        {{bot.Score}}
-    </p>
+
 </div>

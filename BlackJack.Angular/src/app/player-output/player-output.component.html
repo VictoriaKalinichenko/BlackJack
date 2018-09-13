@@ -1,0 +1,12 @@
+<h4><span class="label label-danger">{{PlayerViewModel.PlayerType}}</span></h4>
+<p>Name: {{PlayerViewModel.Name}}</p>
+<p>Score: {{PlayerViewModel.Score}}</p>
+
+<div *ngIf="!RoundStart">
+    <p>Bet: {{PlayerViewModel.Bet}}</p>
+    <p>CardScore: {{PlayerViewModel.RoundScore}}</p>
+    <p>Cards:</p>
+    <ul>
+        <li *ngFor="let card of PlayerViewModel.Cards">{{card}}</li>
+    </ul>
+</div>

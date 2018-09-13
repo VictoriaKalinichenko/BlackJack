@@ -180,6 +180,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Config\AutofacConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PlayerLogicController.cs" />
     <Compile Include="Controllers\StartGameController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -227,6 +228,8 @@
     <Content Include="src\app\game\game.component.html" />
     <Content Include="src\app\homepage\homepage.component.css" />
     <Content Include="src\app\homepage\homepage.component.html" />
+    <Content Include="src\app\player-output\player-output.component.css" />
+    <Content Include="src\app\player-output\player-output.component.html" />
     <Content Include="src\app\startpage\startpage.component.css" />
     <Content Include="src\app\startpage\startpage.component.html" />
     <Content Include="src\favicon.ico" />
@@ -278,6 +281,8 @@
     <TypeScriptCompile Include="src\app\auth-user\auth-user.component.ts" />
     <TypeScriptCompile Include="src\app\game\game.component.spec.ts" />
     <TypeScriptCompile Include="src\app\game\game.component.ts" />
+    <TypeScriptCompile Include="src\app\player-output\player-output.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\player-output\player-output.component.ts" />
     <TypeScriptCompile Include="src\app\services\data.service.spec.ts" />
     <TypeScriptCompile Include="src\app\services\data.service.ts" />
     <TypeScriptCompile Include="src\app\viewmodels\AuthPlayerViewModel.ts" />

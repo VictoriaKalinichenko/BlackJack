@@ -16,6 +16,7 @@ import { StartpageComponent } from './startpage/startpage.component';
 import { AuthUserComponent } from './auth-user/auth-user.component';
 import { DataService } from './services/data.service';
 import { GameComponent } from './game/game.component';
+import { PlayerOutputComponent } from './player-output/player-output.component';
 var appRoutes = [
     { path: '', component: HomepageComponent },
     {
@@ -37,7 +38,8 @@ var AppModule = /** @class */ (function () {
                 HomepageComponent,
                 StartpageComponent,
                 AuthUserComponent,
-                GameComponent
+                GameComponent,
+                PlayerOutputComponent
             ],
             imports: [
                 BrowserModule,
@@ -54,7 +56,8 @@ var AppModule = /** @class */ (function () {
                 HomepageComponent,
                 StartpageComponent,
                 AuthUserComponent,
-                GameComponent
+                GameComponent,
+                PlayerOutputComponent
             ]
         })
     ], AppModule);

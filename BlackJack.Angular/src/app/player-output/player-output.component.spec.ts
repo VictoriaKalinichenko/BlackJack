@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlayerRoundStartComponent } from './player-round-start.component';
+import { PlayerOutputComponent } from './player-output.component';
 
-describe('PlayerRoundStartComponent', () => {
-  let component: PlayerRoundStartComponent;
-  let fixture: ComponentFixture<PlayerRoundStartComponent>;
+describe('PlayerOutputComponent', () => {
+  let component: PlayerOutputComponent;
+  let fixture: ComponentFixture<PlayerOutputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlayerRoundStartComponent ]
+      declarations: [ PlayerOutputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlayerRoundStartComponent);
+    fixture = TestBed.createComponent(PlayerOutputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -37,4 +37,8 @@ export class DataService {
     GetGame(gameId: number) {
         return this.http.get('http://localhost:55953/StartGame/GetGame?gameId=' + gameId);
     }
+
+    GetGamePlayer(gamePlayerId: number) {
+        return this.http.get('http://localhost:55953/PlayerLogic/GetPlayer?gamePlayerId=' + gamePlayerId);
+    }
 }

@@ -1,4 +1,21 @@
-<app-player-output [PlayerViewModel]="GameViewModel.Human" [GameStage]="GameViewModel.Stage"></app-player-output>
-<div *ngFor="let bot of GameViewModel.Bots">
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
 
+</div>
+
+<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 well">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <app-player-output [PlayerViewModel]="GameViewModel.Human" [GameStage]="GameViewModel.Stage"></app-player-output>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        </div>
+    </div>
+</div>
+
+<div class="row row-flex">
+    <div *ngFor="let bot of GameViewModel.Bots">
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 well">
+            <app-player-output [PlayerViewModel]="bot" [GameStage]="GameViewModel.Stage"></app-player-output>
+        </div>
+    </div>
 </div>

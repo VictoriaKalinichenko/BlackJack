@@ -224,6 +224,8 @@
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\auth-user\auth-user.component.css" />
     <Content Include="src\app\auth-user\auth-user.component.html" />
+    <Content Include="src\app\dealer-output\dealer-output.component.css" />
+    <Content Include="src\app\dealer-output\dealer-output.component.html" />
     <Content Include="src\app\game\game.component.css" />
     <Content Include="src\app\game\game.component.html" />
     <Content Include="src\app\homepage\homepage.component.css" />
@@ -279,6 +281,8 @@
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\app\auth-user\auth-user.component.spec.ts" />
     <TypeScriptCompile Include="src\app\auth-user\auth-user.component.ts" />
+    <TypeScriptCompile Include="src\app\dealer-output\dealer-output.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\dealer-output\dealer-output.component.ts" />
     <TypeScriptCompile Include="src\app\game\game.component.spec.ts" />
     <TypeScriptCompile Include="src\app\game\game.component.ts" />
     <TypeScriptCompile Include="src\app\player-output\player-output.component.spec.ts" />

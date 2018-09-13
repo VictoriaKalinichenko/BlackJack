@@ -12,6 +12,7 @@ import { AuthUserComponent } from './auth-user/auth-user.component';
 import { DataService } from './services/data.service';
 import { GameComponent } from './game/game.component';
 import { PlayerOutputComponent } from './player-output/player-output.component';
+import { DealerOutputComponent } from './dealer-output/dealer-output.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomepageComponent },
@@ -32,7 +33,8 @@ const appRoutes: Routes = [
       StartpageComponent,
       AuthUserComponent,
       GameComponent,
-      PlayerOutputComponent
+      PlayerOutputComponent,
+      DealerOutputComponent
   ],
   imports: [
       BrowserModule,

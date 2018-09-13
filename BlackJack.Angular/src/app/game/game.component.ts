@@ -28,12 +28,6 @@ export class GameComponent implements OnInit {
                 .subscribe(
                 (data) => {
                     this.GameViewModel = deserialize(GameViewModel, data);
-                    this.GameViewModel.Human.PlayerType = "Human";
-                    this.GameViewModel.Dealer.PlayerType = "Dealer";
-
-                    this.GameViewModel.Bots.forEach(bot => {
-                        bot.PlayerType = "Bot";
-                    });
                 },
                 (error) => {
                     console.log(error);

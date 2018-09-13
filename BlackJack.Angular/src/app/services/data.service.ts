@@ -41,4 +41,12 @@ export class DataService {
     GetGamePlayer(gamePlayerId: number) {
         return this.http.get('http://localhost:55953/PlayerLogic/GetPlayer?gamePlayerId=' + gamePlayerId);
     }
+
+    GetDealerFirstPhase(gamePlayerId: number) {
+        return this.http.get('http://localhost:55953/PlayerLogic/GetDealerInFirstPhase?gamePlayerId=' + gamePlayerId);
+    }
+
+    GetDealerSecondPhase(gamePlayerId: number) {
+        return this.http.get('http://localhost:55953/PlayerLogic/GetDealerInSecondPhase?gamePlayerId=' + gamePlayerId);
+    }
 }

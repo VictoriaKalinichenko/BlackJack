@@ -36,6 +36,12 @@ var DataService = /** @class */ (function () {
     DataService.prototype.GetGamePlayer = function (gamePlayerId) {
         return this.http.get('http://localhost:55953/PlayerLogic/GetPlayer?gamePlayerId=' + gamePlayerId);
     };
+    DataService.prototype.GetDealerFirstPhase = function (gamePlayerId) {
+        return this.http.get('http://localhost:55953/PlayerLogic/GetDealerInFirstPhase?gamePlayerId=' + gamePlayerId);
+    };
+    DataService.prototype.GetDealerSecondPhase = function (gamePlayerId) {
+        return this.http.get('http://localhost:55953/PlayerLogic/GetDealerInSecondPhase?gamePlayerId=' + gamePlayerId);
+    };
     DataService = __decorate([
         Injectable({
             providedIn: 'root'

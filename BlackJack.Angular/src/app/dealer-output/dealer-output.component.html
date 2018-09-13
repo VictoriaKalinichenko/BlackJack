@@ -1,3 +1,8 @@
-<p>
-  dealer-output works!
-</p>
+<p>Score: {{PlayerViewModel.Score}}</p>
+
+<div *ngIf="RoundFirstPhase">
+    <p>Card:</p>
+    <ul>
+        <li *ngFor="let card of PlayerViewModel.Cards">{{card}}</li>
+    </ul>
+</div>

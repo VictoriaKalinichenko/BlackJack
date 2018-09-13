@@ -6,8 +6,6 @@ export class PlayerViewModel {
 
     @JsonProperty('Name')
     Name: string;
-    
-    PlayerType: string;
 
     @JsonProperty('Score')
     Score: number;

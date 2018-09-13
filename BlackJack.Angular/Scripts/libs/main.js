@@ -103,12 +103,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./services/data.service */ "./src/app/services/data.service.ts");
 /* harmony import */ var _game_game_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./game/game.component */ "./src/app/game/game.component.ts");
 /* harmony import */ var _player_output_player_output_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./player-output/player-output.component */ "./src/app/player-output/player-output.component.ts");
+/* harmony import */ var _dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./dealer-output/dealer-output.component */ "./src/app/dealer-output/dealer-output.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -144,7 +146,8 @@ var AppModule = /** @class */ (function () {
                 _startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"],
                 _auth_user_auth_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthUserComponent"],
                 _game_game_component__WEBPACK_IMPORTED_MODULE_11__["GameComponent"],
-                _player_output_player_output_component__WEBPACK_IMPORTED_MODULE_12__["PlayerOutputComponent"]
+                _player_output_player_output_component__WEBPACK_IMPORTED_MODULE_12__["PlayerOutputComponent"],
+                _dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_13__["DealerOutputComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -248,6 +251,109 @@ var AuthUserComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/dealer-output/dealer-output.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/dealer-output/dealer-output.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/dealer-output/dealer-output.component.html":
+/*!************************************************************!*\
+  !*** ./src/app/dealer-output/dealer-output.component.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>Score: {{PlayerViewModel.Score}}</p>\r\n\r\n<div *ngIf=\"RoundFirstPhase\">\r\n    <p>Card:</p>\r\n    <ul>\r\n        <li *ngFor=\"let card of PlayerViewModel.Cards\">{{card}}</li>\r\n    </ul>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/dealer-output/dealer-output.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/dealer-output/dealer-output.component.ts ***!
+  \**********************************************************/
+/*! exports provided: DealerOutputComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DealerOutputComponent", function() { return DealerOutputComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! json-typescript-mapper */ "./node_modules/json-typescript-mapper/index.js");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../viewmodels/PlayerViewModel */ "./src/app/viewmodels/PlayerViewModel.ts");
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var DealerOutputComponent = /** @class */ (function () {
+    function DealerOutputComponent(dataService) {
+        this.dataService = dataService;
+        this.RoundFirstPhase = false;
+        this.RoundSecondPhase = false;
+    }
+    DealerOutputComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.GameStage == 1) {
+            this.RoundFirstPhase = true;
+            this.RoundSecondPhase = false;
+            this.dataService.GetDealerFirstPhase(this.PlayerViewModel.GamePlayerId)
+                .subscribe(function (data) {
+                _this.PlayerViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(_viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"], data);
+            }, function (error) {
+                console.log(error);
+            });
+        }
+        if (this.GameStage == 2) {
+            this.RoundFirstPhase = false;
+            this.RoundSecondPhase = true;
+            this.dataService.GetDealerSecondPhase(this.PlayerViewModel.GamePlayerId)
+                .subscribe(function (data) {
+                _this.PlayerViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(_viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"], data);
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", _viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"])
+    ], DealerOutputComponent.prototype, "PlayerViewModel", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], DealerOutputComponent.prototype, "GameStage", void 0);
+    DealerOutputComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-dealer-output',
+            template: __webpack_require__(/*! ./dealer-output.component.html */ "./src/app/dealer-output/dealer-output.component.html"),
+            styles: [__webpack_require__(/*! ./dealer-output.component.css */ "./src/app/dealer-output/dealer-output.component.css")]
+        }),
+        __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_3__["DataService"]])
+    ], DealerOutputComponent);
+    return DealerOutputComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/game/game.component.css":
 /*!*****************************************!*\
   !*** ./src/app/game/game.component.css ***!
@@ -266,7 +372,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-player-output [PlayerViewModel]=\"GameViewModel.Human\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n<div *ngFor=\"let bot of GameViewModel.Bots\">\r\n\r\n</div>"
+module.exports = "<div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n    <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n    <p>Name: {{GameViewModel.Dealer.Name}}</p>\r\n    <app-dealer-output [PlayerViewModel]=\"GameViewModel.Dealer\" [GameStage]=\"GameViewModel.Stage\"></app-dealer-output>\r\n</div>\r\n\r\n<div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n    <div class=\"row\">\r\n        <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n            <h4><span class=\"label label-primary\">Human</span></h4>\r\n            <p>Name: {{GameViewModel.Human.Name}}</p>\r\n            <app-player-output [PlayerViewModel]=\"GameViewModel.Human\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n        </div>\r\n        <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of GameViewModel.Bots\">\r\n        <div class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n            <h4><span class=\"label label-default\">Bot</span></h4>\r\n            <p>Name: {{bot.Name}}</p>\r\n            <app-player-output [PlayerViewModel]=\"bot\" [GameStage]=\"GameViewModel.Stage\"></app-player-output>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -423,7 +529,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h4><span class=\"label label-danger\">{{PlayerViewModel.PlayerType}}</span></h4>\r\n<p>Name: {{PlayerViewModel.Name}}</p>\r\n<p>Score: {{PlayerViewModel.Score}}</p>\r\n\r\n<div *ngIf=\"!RoundStart\">\r\n    <p>Bet: {{PlayerViewModel.Bet}}</p>\r\n    <p>CardScore: {{PlayerViewModel.RoundScore}}</p>\r\n    <p>Cards:</p>\r\n    <ul>\r\n        <li *ngFor=\"let card of PlayerViewModel.Cards\">{{card}}</li>\r\n    </ul>\r\n</div>"
+module.exports = "<p>Score: {{PlayerViewModel.Score}}</p>\r\n\r\n<div *ngIf=\"!RoundStart\">\r\n    <p>Bet: {{PlayerViewModel.Bet}}</p>\r\n    <p>CardScore: {{PlayerViewModel.RoundScore}}</p>\r\n    <p>Cards:</p>\r\n    <ul>\r\n        <li *ngFor=\"let card of PlayerViewModel.Cards\">{{card}}</li>\r\n    </ul>\r\n</div>"
 
 /***/ }),
 
@@ -467,9 +573,7 @@ var PlayerOutputComponent = /** @class */ (function () {
             this.RoundStart = false;
             this.dataService.GetGamePlayer(this.PlayerViewModel.GamePlayerId)
                 .subscribe(function (data) {
-                var name = _this.PlayerViewModel.Name;
                 _this.PlayerViewModel = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(_viewmodels_PlayerViewModel__WEBPACK_IMPORTED_MODULE_2__["PlayerViewModel"], data);
-                _this.PlayerViewModel.Name = name;
             }, function (error) {
                 console.log(error);
             });
@@ -547,6 +651,12 @@ var DataService = /** @class */ (function () {
     };
     DataService.prototype.GetGamePlayer = function (gamePlayerId) {
         return this.http.get('http://localhost:55953/PlayerLogic/GetPlayer?gamePlayerId=' + gamePlayerId);
+    };
+    DataService.prototype.GetDealerFirstPhase = function (gamePlayerId) {
+        return this.http.get('http://localhost:55953/PlayerLogic/GetDealerInFirstPhase?gamePlayerId=' + gamePlayerId);
+    };
+    DataService.prototype.GetDealerSecondPhase = function (gamePlayerId) {
+        return this.http.get('http://localhost:55953/PlayerLogic/GetDealerInSecondPhase?gamePlayerId=' + gamePlayerId);
     };
     DataService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

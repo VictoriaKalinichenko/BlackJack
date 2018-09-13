@@ -12,16 +12,28 @@ import { Input } from '@angular/core';
 import { deserialize } from 'json-typescript-mapper';
 import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
 import { DataService } from '../services/data.service';
-var PlayerOutputComponent = /** @class */ (function () {
-    function PlayerOutputComponent(dataService) {
+var DealerOutputComponent = /** @class */ (function () {
+    function DealerOutputComponent(dataService) {
         this.dataService = dataService;
-        this.RoundStart = true;
+        this.RoundFirstPhase = false;
+        this.RoundSecondPhase = false;
     }
-    PlayerOutputComponent.prototype.ngOnInit = function () {
+    DealerOutputComponent.prototype.ngOnInit = function () {
         var _this = this;
-        if (this.GameStage != 0) {
-            this.RoundStart = false;
-            this.dataService.GetGamePlayer(this.PlayerViewModel.GamePlayerId)
+        if (this.GameStage == 1) {
+            this.RoundFirstPhase = true;
+            this.RoundSecondPhase = false;
+            this.dataService.GetDealerFirstPhase(this.PlayerViewModel.GamePlayerId)
+                .subscribe(function (data) {
+                _this.PlayerViewModel = deserialize(PlayerViewModel, data);
+            }, function (error) {
+                console.log(error);
+            });
+        }
+        if (this.GameStage == 2) {
+            this.RoundFirstPhase = false;
+            this.RoundSecondPhase = true;
+            this.dataService.GetDealerSecondPhase(this.PlayerViewModel.GamePlayerId)
                 .subscribe(function (data) {
                 _this.PlayerViewModel = deserialize(PlayerViewModel, data);
             }, function (error) {
@@ -32,20 +44,20 @@ var PlayerOutputComponent = /** @class */ (function () {
     __decorate([
         Input(),
         __metadata("design:type", PlayerViewModel)
-    ], PlayerOutputComponent.prototype, "PlayerViewModel", void 0);
+    ], DealerOutputComponent.prototype, "PlayerViewModel", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Number)
-    ], PlayerOutputComponent.prototype, "GameStage", void 0);
-    PlayerOutputComponent = __decorate([
+    ], DealerOutputComponent.prototype, "GameStage", void 0);
+    DealerOutputComponent = __decorate([
         Component({
-            selector: 'app-player-output',
-            templateUrl: './player-output.component.html',
-            styleUrls: ['./player-output.component.css']
+            selector: 'app-dealer-output',
+            templateUrl: './dealer-output.component.html',
+            styleUrls: ['./dealer-output.component.css']
         }),
         __metadata("design:paramtypes", [DataService])
-    ], PlayerOutputComponent);
-    return PlayerOutputComponent;
+    ], DealerOutputComponent);
+    return DealerOutputComponent;
 }());
-export { PlayerOutputComponent };
-//# sourceMappingURL=player-output.component.js.map
+export { DealerOutputComponent };
+//# sourceMappingURL=dealer-output.component.js.map

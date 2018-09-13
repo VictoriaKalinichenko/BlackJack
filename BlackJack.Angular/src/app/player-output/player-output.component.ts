@@ -25,9 +25,7 @@ export class PlayerOutputComponent implements OnInit {
             this.dataService.GetGamePlayer(this.PlayerViewModel.GamePlayerId)
                 .subscribe(
                 (data) => {
-                    let name: string = this.PlayerViewModel.Name;
                     this.PlayerViewModel = deserialize(PlayerViewModel, data);
-                    this.PlayerViewModel.Name = name;
                 },
                 (error) => {
                     console.log(error);

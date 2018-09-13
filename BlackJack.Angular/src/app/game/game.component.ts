@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GameViewModel } from '../viewmodels/GameViewModel';
 import { deserialize } from 'json-typescript-mapper';
 
-import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
+import { GameViewModel } from '../viewmodels/GameViewModel';
 import { DataService } from '../services/data.service';
 
 @Component({

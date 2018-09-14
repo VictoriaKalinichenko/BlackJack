@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -18,23 +18,38 @@ export class HttpService {
     }
 
     ResumeGame(playerId: number) {
-        return this.http.get('StartGame/ResumeGame?playerId=' + playerId);
+        const options = playerId ?
+            { params: new HttpParams().set('playerId', playerId.toString()) } : {};
+
+        return this.http.get('StartGame/ResumeGame', options);
     }
 
     GetGame(gameId: number) {
-        return this.http.get('StartGame/GetGame?gameId=' + gameId);
+        const options = gameId ?
+            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
+
+        return this.http.get('StartGame/GetGame', options);
     }
 
     GetGamePlayer(gamePlayerId: number) {
-        return this.http.get('PlayerLogic/GetPlayer?gamePlayerId=' + gamePlayerId);
+        const options = gamePlayerId ?
+            { params: new HttpParams().set('gamePlayerId', gamePlayerId.toString()) } : {};
+
+        return this.http.get('PlayerLogic/GetPlayer', options);
     }
 
     GetDealerFirstPhase(gamePlayerId: number) {
-        return this.http.get('PlayerLogic/GetDealerInFirstPhase?gamePlayerId=' + gamePlayerId);
+        const options = gamePlayerId ?
+            { params: new HttpParams().set('gamePlayerId', gamePlayerId.toString()) } : {};
+
+        return this.http.get('PlayerLogic/GetDealerInFirstPhase', options);
     }
 
     GetDealerSecondPhase(gamePlayerId: number) {
-        return this.http.get('PlayerLogic/GetDealerInSecondPhase?gamePlayerId=' + gamePlayerId);
+        const options = gamePlayerId ?
+            { params: new HttpParams().set('gamePlayerId', gamePlayerId.toString()) } : {};
+
+        return this.http.get('PlayerLogic/GetDealerInSecondPhase', options);
     }
 
     BetsCreation(gameId: number, humanGamePlayerId: number, bet: number) {
@@ -43,30 +58,51 @@ export class HttpService {
     }
 
     RoundStart(gameId: number) {
-        return this.http.get('GameLogic/RoundStart?inGameId=' + gameId);
+        const options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+
+        return this.http.get('GameLogic/RoundStart', options);
     }
 
     FirstPhaseGamePlay(gameId: number) {
-        return this.http.get('GameLogic/FirstPhaseGamePlay?inGameId=' + gameId);
+        const options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+
+        return this.http.get('GameLogic/FirstPhaseGamePlay', options);
     }
 
     SecondPhase(gameId: number) {
-        return this.http.get('GameLogic/SecondPhase?inGameId=' + gameId);
+        const options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+
+        return this.http.get('GameLogic/SecondPhase', options);
     }
 
     BlackJackDangerContinueRound(gameId: number) {
-        return this.http.get('GameLogic/BlackJackDangerContinueRound?inGameId=' + gameId);
+        const options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+
+        return this.http.get('GameLogic/BlackJackDangerContinueRound', options);
     }
 
     AddOneMoreCardToHuman(gameId: number) {
-        return this.http.get('GameLogic/AddOneMoreCardToHuman?inGameId=' + gameId);
+        const options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+
+        return this.http.get('GameLogic/AddOneMoreCardToHuman', options);
     }
 
     HumanRoundResult(gameId: number) {
-        return this.http.get('PlayerLogic/HumanRoundResult?inGameId=' + gameId);
+        const options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+
+        return this.http.get('PlayerLogic/HumanRoundResult', options);
     }
 
     UpdateGamePlayersForNewRound(gameId: number) {
-        return this.http.get('PlayerLogic/UpdateGamePlayersForNewRound?inGameId=' + gameId);
+        const options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+
+        return this.http.get('PlayerLogic/UpdateGamePlayersForNewRound', options);
     }
 }

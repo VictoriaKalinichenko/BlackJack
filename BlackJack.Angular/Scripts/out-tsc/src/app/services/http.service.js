@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 var HttpService = /** @class */ (function () {
     function HttpService(http) {
         this.http = http;
@@ -22,44 +22,68 @@ var HttpService = /** @class */ (function () {
         return this.http.post('StartGame/CreateNewGame', body);
     };
     HttpService.prototype.ResumeGame = function (playerId) {
-        return this.http.get('StartGame/ResumeGame?playerId=' + playerId);
+        var options = playerId ?
+            { params: new HttpParams().set('playerId', playerId.toString()) } : {};
+        return this.http.get('StartGame/ResumeGame', options);
     };
     HttpService.prototype.GetGame = function (gameId) {
-        return this.http.get('StartGame/GetGame?gameId=' + gameId);
+        var options = gameId ?
+            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
+        return this.http.get('StartGame/GetGame', options);
     };
     HttpService.prototype.GetGamePlayer = function (gamePlayerId) {
-        return this.http.get('PlayerLogic/GetPlayer?gamePlayerId=' + gamePlayerId);
+        var options = gamePlayerId ?
+            { params: new HttpParams().set('gamePlayerId', gamePlayerId.toString()) } : {};
+        return this.http.get('PlayerLogic/GetPlayer', options);
     };
     HttpService.prototype.GetDealerFirstPhase = function (gamePlayerId) {
-        return this.http.get('PlayerLogic/GetDealerInFirstPhase?gamePlayerId=' + gamePlayerId);
+        var options = gamePlayerId ?
+            { params: new HttpParams().set('gamePlayerId', gamePlayerId.toString()) } : {};
+        return this.http.get('PlayerLogic/GetDealerInFirstPhase', options);
     };
     HttpService.prototype.GetDealerSecondPhase = function (gamePlayerId) {
-        return this.http.get('PlayerLogic/GetDealerInSecondPhase?gamePlayerId=' + gamePlayerId);
+        var options = gamePlayerId ?
+            { params: new HttpParams().set('gamePlayerId', gamePlayerId.toString()) } : {};
+        return this.http.get('PlayerLogic/GetDealerInSecondPhase', options);
     };
     HttpService.prototype.BetsCreation = function (gameId, humanGamePlayerId, bet) {
         var body = { InGameId: gameId, Bet: bet, HumanGamePlayerId: humanGamePlayerId };
         return this.http.post('PlayerLogic/BetsCreation', body);
     };
     HttpService.prototype.RoundStart = function (gameId) {
-        return this.http.get('GameLogic/RoundStart?inGameId=' + gameId);
+        var options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+        return this.http.get('GameLogic/RoundStart', options);
     };
     HttpService.prototype.FirstPhaseGamePlay = function (gameId) {
-        return this.http.get('GameLogic/FirstPhaseGamePlay?inGameId=' + gameId);
+        var options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+        return this.http.get('GameLogic/FirstPhaseGamePlay', options);
     };
     HttpService.prototype.SecondPhase = function (gameId) {
-        return this.http.get('GameLogic/SecondPhase?inGameId=' + gameId);
+        var options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+        return this.http.get('GameLogic/SecondPhase', options);
     };
     HttpService.prototype.BlackJackDangerContinueRound = function (gameId) {
-        return this.http.get('GameLogic/BlackJackDangerContinueRound?inGameId=' + gameId);
+        var options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+        return this.http.get('GameLogic/BlackJackDangerContinueRound', options);
     };
     HttpService.prototype.AddOneMoreCardToHuman = function (gameId) {
-        return this.http.get('GameLogic/AddOneMoreCardToHuman?inGameId=' + gameId);
+        var options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+        return this.http.get('GameLogic/AddOneMoreCardToHuman', options);
     };
     HttpService.prototype.HumanRoundResult = function (gameId) {
-        return this.http.get('PlayerLogic/HumanRoundResult?inGameId=' + gameId);
+        var options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+        return this.http.get('PlayerLogic/HumanRoundResult', options);
     };
     HttpService.prototype.UpdateGamePlayersForNewRound = function (gameId) {
-        return this.http.get('PlayerLogic/UpdateGamePlayersForNewRound?inGameId=' + gameId);
+        var options = gameId ?
+            { params: new HttpParams().set('inGameId', gameId.toString()) } : {};
+        return this.http.get('PlayerLogic/UpdateGamePlayersForNewRound', options);
     };
     HttpService = __decorate([
         Injectable({

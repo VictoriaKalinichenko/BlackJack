@@ -12,15 +12,15 @@ export class AuthUserComponent implements OnInit {
     UserName: string;
 
     constructor(
-        private dataService: DataService,
-        private route: ActivatedRoute
+        private _dataService: DataService,
+        private _route: ActivatedRoute
     ) { }
 
     ngOnInit() {
-        this.route.params.subscribe(params => {
+        this._route.params.subscribe(params => {
             this.UserName = params['UserName']
         });
 
-        this.dataService.SetUserName(this.UserName);
+        this._dataService.SetUserName(this.UserName);
     }
 }

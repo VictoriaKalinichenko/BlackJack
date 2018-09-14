@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../services/data.service';
+import { ErrorService } from '../services/error.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,44 +18,49 @@ export class EndRoundComponent implements OnInit {
     IsGameOver: boolean = false;
 
     constructor(
-        private dataService: DataService,
-        private router: Router
+        private _dataService: DataService,
+        private _errorService: ErrorService,
+        private _router: Router
     ) { }
 
     ngOnInit() {
-        this.dataService.HumanRoundResult(this.GameId)
+        this._dataService.HumanRoundResult(this.GameId)
             .subscribe(
             (data) => {
                 this.RoundResult = data["RoundResult"];
             },
             (error) => {
                 console.log(error);
+                this._errorService.SetError(error["error"]["Message"]);
+                this._router.navigate(['/error']);
             }
         )
     }
 
     EndRound() {
-        this.dataService.UpdateGamePlayersForNewRound(this.GameId)
+        this._dataService.UpdateGamePlayersForNewRound(this.GameId)
             .subscribe(
-                (data) => {
-                    if (data["IsGameOver"] != "") {
-                        this.IsGameOver = true;
-                        this.IsEndRound = false;
+            (data) => {
+                if (data["IsGameOver"] != "") {
+                    this.IsGameOver = true;
+                    this.IsEndRound = false;
 
-                        this.GameOver = data["IsGameOver"];
-                    }
-
-                    if (data["IsGameOver"] == "") {
-                        this.Reload.emit();
-                    }
-                },
-                (error) => {
-                    console.log(error);
+                    this.GameOver = data["IsGameOver"];
                 }
+
+                if (data["IsGameOver"] == "") {
+                    this.Reload.emit();
+                }
+            },
+            (error) => {
+                console.log(error);
+                this._errorService.SetError(error["error"]["Message"]);
+                this._router.navigate(['/error']);
+            }
             )
     }
 
     StartNewGame() {
-        this.router.navigate(['/user/' + this.UserName]);
+        this._router.navigate(['/user/' + this.UserName]);
     }
 }

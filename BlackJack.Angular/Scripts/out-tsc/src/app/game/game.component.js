@@ -8,23 +8,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../services/data.service';
+import { ErrorService } from '../services/error.service';
 import { deserialize } from 'json-typescript-mapper';
 import { GameViewModel } from '../viewmodels/GameViewModel';
 import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
 var GameComponent = /** @class */ (function () {
-    function GameComponent(route, dataService) {
-        this.route = route;
-        this.dataService = dataService;
+    function GameComponent(_route, _router, _dataService, _errorService) {
+        this._route = _route;
+        this._router = _router;
+        this._dataService = _dataService;
+        this._errorService = _errorService;
         this.BetInput = false;
         this.TakeCard = false;
-        this.BjDangerChoice = false;
+        this.BlackJackDangerChoice = false;
         this.EndRound = false;
     }
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.route.params.subscribe(function (params) {
+        this._route.params.subscribe(function (params) {
             _this.GameId = params['Id'];
             _this.GetGame();
         });
@@ -48,22 +51,27 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.GetGame = function () {
         var _this = this;
-        this.dataService.GetGame(this.GameId)
+        this._dataService.GetGame(this.GameId)
             .subscribe(function (data) {
             _this.GameViewModel = deserialize(GameViewModel, data);
             _this.GamePlayInitializer();
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     GameComponent.prototype.OnBetsCreation = function () {
         this.FirstPhase();
     };
-    GameComponent.prototype.OnBjDangerChoice = function (takeAward) {
+    GameComponent.prototype.OnBlackJackDangerChoice = function (takeAward) {
+        var _this = this;
         if (!takeAward) {
-            this.dataService.HumanBjAndDealerBjDangerContinueRound(this.GameId)
+            this._dataService.BlackJackDangerContinueRound(this.GameId)
                 .subscribe(function (error) {
                 console.log(error);
+                _this._errorService.SetError(error["error"]["Message"]);
+                _this._router.navigate(['/error']);
             });
         }
         this.SecondPhase();
@@ -71,12 +79,14 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.OnTakingCard = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this.dataService.AddOneMoreCardToHuman(this.GameId)
+            this._dataService.AddOneMoreCardToHuman(this.GameId)
                 .subscribe(function (data) {
                 _this.HumanUpdate();
                 _this.GamePlayInitializer();
             }, function (error) {
                 console.log(error);
+                _this._errorService.SetError(error["error"]["Message"]);
+                _this._router.navigate(['/error']);
             });
         }
         if (!takeCard) {
@@ -85,13 +95,13 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.FirstPhaseGamePlay = function () {
         var _this = this;
-        this.dataService.FirstPhaseGamePlay(this.GameId)
+        this._dataService.FirstPhaseGamePlay(this.GameId)
             .subscribe(function (data) {
             _this.HumanUpdate();
             _this.BotsUpdate();
             _this.DealerFirstPhaseUpdate();
             if (data["HumanBjAndDealerBjDanger"]) {
-                _this.GamePlayBjDangerChoice();
+                _this.GamePlayBlackJackDangerChoice();
             }
             if (data["CanHumanTakeOneMoreCard"]) {
                 _this.GamePlayTakeCard();
@@ -101,11 +111,13 @@ var GameComponent = /** @class */ (function () {
             }
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     GameComponent.prototype.FirstPhase = function () {
         var _this = this;
-        this.dataService.RoundStart(this.GameId)
+        this._dataService.RoundStart(this.GameId)
             .subscribe(function (data) {
             _this.HumanUpdate();
             _this.BotsUpdate();
@@ -114,11 +126,13 @@ var GameComponent = /** @class */ (function () {
             _this.GamePlayInitializer();
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     GameComponent.prototype.SecondPhase = function () {
         var _this = this;
-        this.dataService.SecondPhase(this.GameId)
+        this._dataService.SecondPhase(this.GameId)
             .subscribe(function (data) {
             _this.HumanUpdate();
             _this.BotsUpdate();
@@ -127,45 +141,53 @@ var GameComponent = /** @class */ (function () {
             _this.GamePlayInitializer();
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     GameComponent.prototype.HumanUpdate = function () {
         var _this = this;
-        this.dataService.GetGamePlayer(this.GameViewModel.Human.GamePlayerId)
+        this._dataService.GetGamePlayer(this.GameViewModel.Human.GamePlayerId)
             .subscribe(function (data) {
             var name = _this.GameViewModel.Human.Name;
             _this.GameViewModel.Human = deserialize(PlayerViewModel, data);
             _this.GameViewModel.Human.Name = name;
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     GameComponent.prototype.DealerFirstPhaseUpdate = function () {
         var _this = this;
-        this.dataService.GetDealerFirstPhase(this.GameViewModel.Dealer.GamePlayerId)
+        this._dataService.GetDealerFirstPhase(this.GameViewModel.Dealer.GamePlayerId)
             .subscribe(function (data) {
             var name = _this.GameViewModel.Dealer.Name;
             _this.GameViewModel.Dealer = deserialize(PlayerViewModel, data);
             _this.GameViewModel.Dealer.Name = name;
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     GameComponent.prototype.DealerSecondPhaseUpdate = function () {
         var _this = this;
-        this.dataService.GetDealerSecondPhase(this.GameViewModel.Dealer.GamePlayerId)
+        this._dataService.GetDealerSecondPhase(this.GameViewModel.Dealer.GamePlayerId)
             .subscribe(function (data) {
             var name = _this.GameViewModel.Dealer.Name;
             _this.GameViewModel.Dealer = deserialize(PlayerViewModel, data);
             _this.GameViewModel.Dealer.Name = name;
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     GameComponent.prototype.BotsUpdate = function () {
         var _this = this;
         this.GameViewModel.Bots.forEach(function (bot) {
-            _this.dataService.GetGamePlayer(bot.GamePlayerId)
+            _this._dataService.GetGamePlayer(bot.GamePlayerId)
                 .subscribe(function (data) {
                 var inBot = deserialize(PlayerViewModel, data);
                 bot.Bet = inBot.Bet;
@@ -174,31 +196,33 @@ var GameComponent = /** @class */ (function () {
                 bot.Cards = inBot.Cards;
             }, function (error) {
                 console.log(error);
+                _this._errorService.SetError(error["error"]["Message"]);
+                _this._router.navigate(['/error']);
             });
         });
     };
     GameComponent.prototype.GamePlayBetInput = function () {
         this.BetInput = true;
         this.TakeCard = false;
-        this.BjDangerChoice = false;
+        this.BlackJackDangerChoice = false;
         this.EndRound = false;
     };
     GameComponent.prototype.GamePlayTakeCard = function () {
         this.BetInput = false;
         this.TakeCard = true;
-        this.BjDangerChoice = false;
+        this.BlackJackDangerChoice = false;
         this.EndRound = false;
     };
-    GameComponent.prototype.GamePlayBjDangerChoice = function () {
+    GameComponent.prototype.GamePlayBlackJackDangerChoice = function () {
         this.BetInput = false;
         this.TakeCard = false;
-        this.BjDangerChoice = true;
+        this.BlackJackDangerChoice = true;
         this.EndRound = false;
     };
     GameComponent.prototype.GamePlayEndRound = function () {
         this.BetInput = false;
         this.TakeCard = false;
-        this.BjDangerChoice = false;
+        this.BlackJackDangerChoice = false;
         this.EndRound = true;
     };
     GameComponent.prototype.Reload = function () {
@@ -211,7 +235,9 @@ var GameComponent = /** @class */ (function () {
             styleUrls: ['./game.component.css']
         }),
         __metadata("design:paramtypes", [ActivatedRoute,
-            DataService])
+            Router,
+            DataService,
+            ErrorService])
     ], GameComponent);
     return GameComponent;
 }());

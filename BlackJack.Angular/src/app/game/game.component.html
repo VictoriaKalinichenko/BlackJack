@@ -19,8 +19,8 @@
                 <div *ngIf="TakeCard">
                     <app-take-card (TakeCard)="OnTakingCard($event)"></app-take-card>
                 </div>
-                <div *ngIf="BjDangerChoice">
-                    <app-bj-danger-choice (TakeAward)="OnBjDangerChoice($event)"></app-bj-danger-choice>
+                <div *ngIf="BlackJackDangerChoice">
+                    <app-blackjack-danger-choice (TakeAward)="OnBlackJackDangerChoice($event)"></app-blackjack-danger-choice>
                 </div>
                 <div *ngIf="EndRound">
                     <app-end-round [GameId]="GameId" [UserName]="GameViewModel.Human.Name" (Reload)="Reload()"></app-end-round>

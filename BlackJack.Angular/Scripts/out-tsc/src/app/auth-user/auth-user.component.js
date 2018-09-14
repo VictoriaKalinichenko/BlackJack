@@ -11,16 +11,16 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../services/data.service';
 var AuthUserComponent = /** @class */ (function () {
-    function AuthUserComponent(dataService, route) {
-        this.dataService = dataService;
-        this.route = route;
+    function AuthUserComponent(_dataService, _route) {
+        this._dataService = _dataService;
+        this._route = _route;
     }
     AuthUserComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.route.params.subscribe(function (params) {
+        this._route.params.subscribe(function (params) {
             _this.UserName = params['UserName'];
         });
-        this.dataService.SetUserName(this.UserName);
+        this._dataService.SetUserName(this.UserName);
     };
     AuthUserComponent = __decorate([
         Component({

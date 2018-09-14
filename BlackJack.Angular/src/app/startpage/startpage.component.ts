@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DataService } from '../services/data.service';
+import { ErrorService } from '../services/error.service';
 import { AuthPlayerViewModel } from '../viewmodels/AuthPlayerViewModel';
 import { GameIdViewModel } from '../viewmodels/GameIdViewModel';
 
@@ -17,17 +18,18 @@ export class StartpageComponent implements OnInit {
     GameId: number;
 
     constructor (
-        private dataService: DataService,
-        private router: Router
+        private _dataService: DataService,
+        private _errorService: ErrorService,
+        private _router: Router
     ) { }
 
     ngOnInit() {
-        this.UserName = this.dataService.GetUserName();
+        this.UserName = this._dataService.GetUserName();
         this.AuthUser(this.UserName);
     }
 
     AuthUser(userName: string) {
-        this.dataService.GetAuthorizedPlayer()
+        this._dataService.GetAuthorizedPlayer()
             .subscribe(
             (data: AuthPlayerViewModel) => {
                 this.Player.Name = data.Name;
@@ -36,32 +38,38 @@ export class StartpageComponent implements OnInit {
             },
             (error) => {
                 console.log(error);
+                this._errorService.SetError(error["error"]["Message"]);
+                this._router.navigate(['/error']);
             }
         );
     }
 
     StartNewGame() {
-        this.dataService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
+        this._dataService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
             .subscribe(
             (data: GameIdViewModel) => {
                 this.GameId = data.GameId;
-                this.router.navigate(['/user/' + this.UserName + '/game/' + this.GameId]);
+                this._router.navigate(['/user/' + this.UserName + '/game/' + this.GameId]);
             },
             (error) => {
                 console.log(error);
+                this._errorService.SetError(error["error"]["Message"]);
+                this._router.navigate(['/error']);
             }
         );
     }
 
     ResumeGame() {
-        this.dataService.ResumeGame(this.Player.PlayerId)
+        this._dataService.ResumeGame(this.Player.PlayerId)
             .subscribe(
                 (data: GameIdViewModel) => {
                     this.GameId = data.GameId;
-                    this.router.navigate(['/user/' + this.UserName + '/game/' + this.GameId]);
+                    this._router.navigate(['/user/' + this.UserName + '/game/' + this.GameId]);
                 },
                 (error) => {
                     console.log(error);
+                    this._errorService.SetError(error["error"]["Message"]);
+                    this._router.navigate(['/error']);
                 }
             );
     }

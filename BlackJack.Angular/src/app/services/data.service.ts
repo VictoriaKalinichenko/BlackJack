@@ -67,7 +67,7 @@ export class DataService {
         return this.http.get('http://localhost:55953/GameLogic/SecondPhase?inGameId=' + gameId);
     }
 
-    HumanBjAndDealerBjDangerContinueRound(gameId: number) {
+    BlackJackDangerContinueRound(gameId: number) {
         return this.http.get('http://localhost:55953/GameLogic/HumanBjAndDealerBjDangerContinueRound?inGameId=' + gameId);
     }
     

@@ -55,7 +55,7 @@ var DataService = /** @class */ (function () {
     DataService.prototype.SecondPhase = function (gameId) {
         return this.http.get('http://localhost:55953/GameLogic/SecondPhase?inGameId=' + gameId);
     };
-    DataService.prototype.HumanBjAndDealerBjDangerContinueRound = function (gameId) {
+    DataService.prototype.BlackJackDangerContinueRound = function (gameId) {
         return this.http.get('http://localhost:55953/GameLogic/HumanBjAndDealerBjDangerContinueRound?inGameId=' + gameId);
     };
     DataService.prototype.AddOneMoreCardToHuman = function (gameId) {

@@ -9,23 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DataService } from '../services/data.service';
+import { ErrorService } from '../services/error.service';
+import { Router } from '@angular/router';
 import { MessageViewModel } from '../viewmodels/MessageViewModel';
 import { deserialize } from 'json-typescript-mapper';
 var BetInputComponent = /** @class */ (function () {
-    function BetInputComponent(dataService) {
-        this.dataService = dataService;
+    function BetInputComponent(_dataService, _errorService, _router) {
+        this._dataService = _dataService;
+        this._errorService = _errorService;
+        this._router = _router;
         this.ValidationError = false;
         this.Bet = 50;
         this.BetOut = new EventEmitter();
     }
     BetInputComponent.prototype.EnterBet = function () {
         var _this = this;
-        this.dataService.BetsCreation(this.GameId, this.HumanGamePlayerId, this.Bet)
+        this._dataService.BetsCreation(this.GameId, this.HumanGamePlayerId, this.Bet)
             .subscribe(function (data) {
             _this.ValidationMessage = deserialize(MessageViewModel, data);
             _this.OnValidate();
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     BetInputComponent.prototype.OnValidate = function () {
@@ -58,7 +64,9 @@ var BetInputComponent = /** @class */ (function () {
             templateUrl: './bet-input.component.html',
             styleUrls: ['./bet-input.component.css']
         }),
-        __metadata("design:paramtypes", [DataService])
+        __metadata("design:paramtypes", [DataService,
+            ErrorService,
+            Router])
     ], BetInputComponent);
     return BetInputComponent;
 }());

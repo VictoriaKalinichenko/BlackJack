@@ -20,8 +20,9 @@ import { PlayerOutputComponent } from './player-output/player-output.component';
 import { DealerOutputComponent } from './dealer-output/dealer-output.component';
 import { BetInputComponent } from './bet-input/bet-input.component';
 import { TakeCardComponent } from './take-card/take-card.component';
-import { BjDangerChoiceComponent } from './bj-danger-choice/bj-danger-choice.component';
 import { EndRoundComponent } from './end-round/end-round.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { BlackjackDangerChoiceComponent } from './blackjack-danger-choice/blackjack-danger-choice.component';
 var appRoutes = [
     { path: '', component: HomepageComponent },
     {
@@ -31,7 +32,8 @@ var appRoutes = [
             { path: '', component: StartpageComponent },
             { path: 'game/:Id', component: GameComponent }
         ]
-    }
+    },
+    { path: 'error', component: ErrorPageComponent }
 ];
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -48,8 +50,9 @@ var AppModule = /** @class */ (function () {
                 DealerOutputComponent,
                 BetInputComponent,
                 TakeCardComponent,
-                BjDangerChoiceComponent,
-                EndRoundComponent
+                EndRoundComponent,
+                ErrorPageComponent,
+                BlackjackDangerChoiceComponent
             ],
             imports: [
                 BrowserModule,
@@ -67,7 +70,13 @@ var AppModule = /** @class */ (function () {
                 StartpageComponent,
                 AuthUserComponent,
                 GameComponent,
-                PlayerOutputComponent
+                PlayerOutputComponent,
+                DealerOutputComponent,
+                BetInputComponent,
+                TakeCardComponent,
+                EndRoundComponent,
+                ErrorPageComponent,
+                BlackjackDangerChoiceComponent
             ]
         })
     ], AppModule);

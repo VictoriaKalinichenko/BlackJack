@@ -10,47 +10,55 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
+import { ErrorService } from '../services/error.service';
 import { AuthPlayerViewModel } from '../viewmodels/AuthPlayerViewModel';
 var StartpageComponent = /** @class */ (function () {
-    function StartpageComponent(dataService, router) {
-        this.dataService = dataService;
-        this.router = router;
+    function StartpageComponent(_dataService, _errorService, _router) {
+        this._dataService = _dataService;
+        this._errorService = _errorService;
+        this._router = _router;
         this.Player = new AuthPlayerViewModel();
         this.AmountOfBots = 0;
     }
     StartpageComponent.prototype.ngOnInit = function () {
-        this.UserName = this.dataService.GetUserName();
+        this.UserName = this._dataService.GetUserName();
         this.AuthUser(this.UserName);
     };
     StartpageComponent.prototype.AuthUser = function (userName) {
         var _this = this;
-        this.dataService.GetAuthorizedPlayer()
+        this._dataService.GetAuthorizedPlayer()
             .subscribe(function (data) {
             _this.Player.Name = data.Name;
             _this.Player.PlayerId = data.PlayerId;
             _this.Player.ResumeGame = data.ResumeGame;
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     StartpageComponent.prototype.StartNewGame = function () {
         var _this = this;
-        this.dataService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
+        this._dataService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
             .subscribe(function (data) {
             _this.GameId = data.GameId;
-            _this.router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
+            _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     StartpageComponent.prototype.ResumeGame = function () {
         var _this = this;
-        this.dataService.ResumeGame(this.Player.PlayerId)
+        this._dataService.ResumeGame(this.Player.PlayerId)
             .subscribe(function (data) {
             _this.GameId = data.GameId;
-            _this.router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
+            _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     StartpageComponent = __decorate([
@@ -60,6 +68,7 @@ var StartpageComponent = /** @class */ (function () {
             styleUrls: ['./startpage.component.css']
         }),
         __metadata("design:paramtypes", [DataService,
+            ErrorService,
             Router])
     ], StartpageComponent);
     return StartpageComponent;

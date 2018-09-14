@@ -9,27 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../services/data.service';
+import { ErrorService } from '../services/error.service';
 import { Router } from '@angular/router';
 var EndRoundComponent = /** @class */ (function () {
-    function EndRoundComponent(dataService, router) {
-        this.dataService = dataService;
-        this.router = router;
+    function EndRoundComponent(_dataService, _errorService, _router) {
+        this._dataService = _dataService;
+        this._errorService = _errorService;
+        this._router = _router;
         this.Reload = new EventEmitter();
         this.IsEndRound = true;
         this.IsGameOver = false;
     }
     EndRoundComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataService.HumanRoundResult(this.GameId)
+        this._dataService.HumanRoundResult(this.GameId)
             .subscribe(function (data) {
             _this.RoundResult = data["RoundResult"];
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     EndRoundComponent.prototype.EndRound = function () {
         var _this = this;
-        this.dataService.UpdateGamePlayersForNewRound(this.GameId)
+        this._dataService.UpdateGamePlayersForNewRound(this.GameId)
             .subscribe(function (data) {
             if (data["IsGameOver"] != "") {
                 _this.IsGameOver = true;
@@ -41,10 +45,12 @@ var EndRoundComponent = /** @class */ (function () {
             }
         }, function (error) {
             console.log(error);
+            _this._errorService.SetError(error["error"]["Message"]);
+            _this._router.navigate(['/error']);
         });
     };
     EndRoundComponent.prototype.StartNewGame = function () {
-        this.router.navigate(['/user/' + this.UserName]);
+        this._router.navigate(['/user/' + this.UserName]);
     };
     __decorate([
         Input(),
@@ -65,6 +71,7 @@ var EndRoundComponent = /** @class */ (function () {
             styleUrls: ['./end-round.component.css']
         }),
         __metadata("design:paramtypes", [DataService,
+            ErrorService,
             Router])
     ], EndRoundComponent);
     return EndRoundComponent;

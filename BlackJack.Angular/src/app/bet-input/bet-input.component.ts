@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DataService } from '../services/data.service';
+import { ErrorService } from '../services/error.service';
+import { Router } from '@angular/router';
 import { MessageViewModel } from '../viewmodels/MessageViewModel';
 import { deserialize } from 'json-typescript-mapper';
 
@@ -19,19 +21,23 @@ export class BetInputComponent {
     @Output() BetOut = new EventEmitter();
     
     constructor(
-        private dataService: DataService
+        private _dataService: DataService,
+        private _errorService: ErrorService,
+        private _router: Router
     ) { }
 
     EnterBet() {
-        this.dataService.BetsCreation(this.GameId, this.HumanGamePlayerId, this.Bet)
+        this._dataService.BetsCreation(this.GameId, this.HumanGamePlayerId, this.Bet)
             .subscribe(
-                (data) => {
-                    this.ValidationMessage = deserialize(MessageViewModel, data);
-                    this.OnValidate();
-                },
-                (error) => {
-                    console.log(error);
-                }
+            (data) => {
+                this.ValidationMessage = deserialize(MessageViewModel, data);
+                this.OnValidate();
+            },
+            (error) => {
+                console.log(error);
+                this._errorService.SetError(error["error"]["Message"]);
+                this._router.navigate(['/error']);
+            }
             );
     }
 

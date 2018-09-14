@@ -15,8 +15,9 @@ import { PlayerOutputComponent } from './player-output/player-output.component';
 import { DealerOutputComponent } from './dealer-output/dealer-output.component';
 import { BetInputComponent } from './bet-input/bet-input.component';
 import { TakeCardComponent } from './take-card/take-card.component';
-import { BjDangerChoiceComponent } from './bj-danger-choice/bj-danger-choice.component';
 import { EndRoundComponent } from './end-round/end-round.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { BlackjackDangerChoiceComponent } from './blackjack-danger-choice/blackjack-danger-choice.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomepageComponent },
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
             { path: '', component: StartpageComponent },
             { path: 'game/:Id', component: GameComponent }
         ]
-    }
+    },
+    { path: 'error', component: ErrorPageComponent }
 ];
 
 @NgModule({
@@ -41,8 +43,9 @@ const appRoutes: Routes = [
       DealerOutputComponent,
       BetInputComponent,
       TakeCardComponent,
-      BjDangerChoiceComponent,
-      EndRoundComponent
+      EndRoundComponent,
+      ErrorPageComponent,
+      BlackjackDangerChoiceComponent
   ],
   imports: [
       BrowserModule,
@@ -63,7 +66,13 @@ const appRoutes: Routes = [
         StartpageComponent,
         AuthUserComponent,
         GameComponent,
-        PlayerOutputComponent
+        PlayerOutputComponent,
+        DealerOutputComponent,
+        BetInputComponent,
+        TakeCardComponent,
+        EndRoundComponent,
+        ErrorPageComponent,
+        BlackjackDangerChoiceComponent
     ]
 })
 export class AppModule { }

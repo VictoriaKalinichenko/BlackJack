@@ -43,7 +43,7 @@ var StartpageComponent = /** @class */ (function () {
         var _this = this;
         this._httpService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
             .subscribe(function (data) {
-            _this.GameId = data.GameId;
+            _this.GameId = data["GameId"];
             _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
         }, function (error) {
             console.log(error);
@@ -55,7 +55,7 @@ var StartpageComponent = /** @class */ (function () {
         var _this = this;
         this._httpService.ResumeGame(this.Player.PlayerId)
             .subscribe(function (data) {
-            _this.GameId = data.GameId;
+            _this.GameId = data["GameId"];
             _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
         }, function (error) {
             console.log(error);

@@ -5,7 +5,6 @@ import { DataService } from '../../services/data.service';
 import { HttpService } from '../../services/http.service';
 import { ErrorService } from '../../services/error.service';
 import { AuthPlayerViewModel } from '../../viewmodels/AuthPlayerViewModel';
-import { GameIdViewModel } from '../../viewmodels/GameIdViewModel';
 
 @Component({
   selector: 'app-startpage',
@@ -49,8 +48,8 @@ export class StartpageComponent implements OnInit {
     StartNewGame() {
         this._httpService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
             .subscribe(
-            (data: GameIdViewModel) => {
-                this.GameId = data.GameId;
+            (data) => {
+                this.GameId = data["GameId"];
                 this._router.navigate(['/user/' + this.UserName + '/game/' + this.GameId]);
             },
             (error) => {
@@ -64,8 +63,8 @@ export class StartpageComponent implements OnInit {
     ResumeGame() {
         this._httpService.ResumeGame(this.Player.PlayerId)
             .subscribe(
-                (data: GameIdViewModel) => {
-                    this.GameId = data.GameId;
+                (data) => {
+                    this.GameId = data["GameId"];
                     this._router.navigate(['/user/' + this.UserName + '/game/' + this.GameId]);
                 },
                 (error) => {

@@ -11,8 +11,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HttpService } from '../../../services/http.service';
 import { ErrorService } from '../../../services/error.service';
 import { Router } from '@angular/router';
-import { MessageViewModel } from '../../../viewmodels/MessageViewModel';
-import { deserialize } from 'json-typescript-mapper';
 var BetInputComponent = /** @class */ (function () {
     function BetInputComponent(_httpService, _errorService, _router) {
         this._httpService = _httpService;
@@ -26,7 +24,7 @@ var BetInputComponent = /** @class */ (function () {
         var _this = this;
         this._httpService.BetsCreation(this.GameId, this.HumanGamePlayerId, this.Bet)
             .subscribe(function (data) {
-            _this.ValidationMessage = deserialize(MessageViewModel, data);
+            _this.ValidationMessage = data["Message"];
             _this.OnValidate();
         }, function (error) {
             console.log(error);
@@ -35,10 +33,10 @@ var BetInputComponent = /** @class */ (function () {
         });
     };
     BetInputComponent.prototype.OnValidate = function () {
-        if (this.ValidationMessage.Message != "") {
+        if (this.ValidationMessage != "") {
             this.ValidationError = true;
         }
-        if (this.ValidationMessage.Message == "") {
+        if (this.ValidationMessage == "") {
             this.BetOut.emit();
         }
     };

@@ -319,10 +319,8 @@
     <TypeScriptCompile Include="src\app\homepage\homepage.component.ts" />
     <TypeScriptCompile Include="src\app\auth-user\startpage\startpage.component.spec.ts" />
     <TypeScriptCompile Include="src\app\auth-user\startpage\startpage.component.ts" />
-    <TypeScriptCompile Include="src\app\viewmodels\GameIdViewModel.ts" />
     <TypeScriptCompile Include="src\app\viewmodels\GameViewModel.ts" />
     <TypeScriptCompile Include="src\app\viewmodels\PlayerViewModel.ts" />
-    <TypeScriptCompile Include="src\app\viewmodels\MessageViewModel.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />

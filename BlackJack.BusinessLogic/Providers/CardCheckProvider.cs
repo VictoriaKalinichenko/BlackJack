@@ -5,26 +5,26 @@ namespace BlackJack.BusinessLogic.Providers
 {
     public class CardCheckProvider : ICardCheckProvider
     {
-        public bool DealerBjDanger(int firstCardValue)
+        public bool DealerBlackJackDanger(int firstCardValue)
         {
             bool danger = false;
-            if (firstCardValue >= CardValueHelper.CardDealerBjDanger)
+            if (firstCardValue >= CardValueHelper.CardDealerBlackJackDanger)
             {
                 danger = true;
             }
             return danger;
         }
 
-        public float RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger)
+        public float RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBlackJackDanger)
         {
             float coef = BetValueHelper.BetDefaultCoefficient;
 
-            if (!dealerBjDanger && PlayerBj(score, amountOfCards))
+            if (!dealerBlackJackDanger && PlayerBlackJack(score, amountOfCards))
             {
-                coef = BetValueHelper.BetBjCoefficient;
+                coef = BetValueHelper.BetBlackJackCoefficient;
             }
 
-            if (dealerBjDanger && PlayerBj(score, amountOfCards))
+            if (dealerBlackJackDanger && PlayerBlackJack(score, amountOfCards))
             {
                 coef = BetValueHelper.BetWinCoefficient;
             }
@@ -41,9 +41,9 @@ namespace BlackJack.BusinessLogic.Providers
                 return betPayCoefficient;
             }
 
-            if (PlayerBj(score, amountOfCards) && !PlayerBj(dealerScore, dealerAmountOfCards))
+            if (PlayerBlackJack(score, amountOfCards) && !PlayerBlackJack(dealerScore, dealerAmountOfCards))
             {
-                return BetValueHelper.BetBjCoefficient;
+                return BetValueHelper.BetBlackJackCoefficient;
             }
 
             if (PlayerScoreEqualsDealerScore(score, dealerScore))
@@ -62,7 +62,7 @@ namespace BlackJack.BusinessLogic.Providers
         public bool HumanPlayerHasEnoughCards(int score)
         {
             bool result = false;
-            if (score >= CardValueHelper.CardBjScore)
+            if (score >= CardValueHelper.CardBlackJackScore)
             {
                 result = true;
             }
@@ -83,7 +83,7 @@ namespace BlackJack.BusinessLogic.Providers
         {
             string humanRoundResult = RoundResultHelper.Lose;
 
-            if (betPayCoefficient == BetValueHelper.BetBjCoefficient)
+            if (betPayCoefficient == BetValueHelper.BetBlackJackCoefficient)
             {
                 humanRoundResult = RoundResultHelper.BlackJack;
             }
@@ -101,10 +101,10 @@ namespace BlackJack.BusinessLogic.Providers
             return humanRoundResult;
         }
 
-        private bool PlayerBj(int score, int amountOfCards)
+        private bool PlayerBlackJack(int score, int amountOfCards)
         {
             bool result = false;
-            if (score == CardValueHelper.CardBjScore && amountOfCards == CardValueHelper.CardBjAmount)
+            if (score == CardValueHelper.CardBlackJackScore && amountOfCards == CardValueHelper.CardBlackJackAmount)
             {
                 result = true;
             }
@@ -114,7 +114,7 @@ namespace BlackJack.BusinessLogic.Providers
         private bool PlayerLossing(int score)
         {
             bool result = false;
-            if (score > CardValueHelper.CardBjScore)
+            if (score > CardValueHelper.CardBlackJackScore)
             {
                 result = true;
             }

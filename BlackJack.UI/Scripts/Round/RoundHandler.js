@@ -19,14 +19,14 @@
                 success: function (response) {
                     $("#gameplay").text("");
 
-                    if ((!response.HumanBjAndDealerBjDanger) && (!response.CanHumanTakeOneMoreCard)) {
+                    if ((!response.HumanBlackJackAndDealerBlackJackDanger) && (!response.CanHumanTakeOneMoreCard)) {
                         SecondPhase();
                     }
 
                     ReloadPlayers();
                     ReloadDealerInFirstPhase();
-                    if (response.HumanBjAndDealerBjDanger) {
-                        DrowButtonsHumanBjAndDealerBjDanger();
+                    if (response.HumanBlackJackAndDealerBlackJackDanger) {
+                        DrowButtonsHumanBlackJackAndDealerBlackJackDanger();
                     }
 
                     if (response.CanHumanTakeOneMoreCard) {
@@ -98,14 +98,14 @@
                                 success: function (response) {
                                     $("#gameplay").text("");
 
-                                    if ((!response.HumanBjAndDealerBjDanger) && (!response.CanHumanTakeOneMoreCard)) {
+                                    if ((!response.HumanBlackJackAndDealerBlackJackDanger) && (!response.CanHumanTakeOneMoreCard)) {
                                         SecondPhase();
                                     }
 
                                     ReloadPlayers();
                                     ReloadDealerInFirstPhase();
-                                    if (response.HumanBjAndDealerBjDanger) {
-                                        DrowButtonsHumanBjAndDealerBjDanger();
+                                    if (response.HumanBlackJackAndDealerBlackJackDanger) {
+                                        DrowButtonsHumanBlackJackAndDealerBlackJackDanger();
                                     }
 
                                     if (response.CanHumanTakeOneMoreCard) {
@@ -134,7 +134,7 @@
         var transParam = { inGameId: gameId };
         $.ajax({
             type: "GET",
-            url: "/GameLogic/HumanBjAndDealerBjDangerContinueRound",
+            url: "/GameLogic/BlackJackDangerContinueRound",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -327,7 +327,7 @@
         return text;
     }
 
-    function DrowButtonsHumanBjAndDealerBjDanger() {
+    function DrowButtonsHumanBlackJackAndDealerBlackJackDanger() {
         $("#gameplay").append("<p>You have BlackJack and dealer has BlackJack-danger</p>");
 
         var continueRoundButton = $('<input/>', {

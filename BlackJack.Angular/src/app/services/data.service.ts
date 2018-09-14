@@ -68,7 +68,7 @@ export class DataService {
     }
 
     BlackJackDangerContinueRound(gameId: number) {
-        return this.http.get('http://localhost:55953/GameLogic/HumanBjAndDealerBjDangerContinueRound?inGameId=' + gameId);
+        return this.http.get('http://localhost:55953/GameLogic/BlackJackDangerContinueRound?inGameId=' + gameId);
     }
     
     AddOneMoreCardToHuman(gameId: number) {

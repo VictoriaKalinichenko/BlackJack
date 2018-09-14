@@ -2,7 +2,7 @@
 {
     public static class BetValueHelper
     {
-        public static readonly float BetBjCoefficient = 1.5F;
+        public static readonly float BetBlackJackCoefficient = 1.5F;
         public static readonly int BetWinCoefficient = 1;
         public static readonly int BetZeroCoefficient = 0;
         public static readonly int BetLoseCoefficient = -1;

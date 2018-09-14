@@ -39,9 +39,9 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                bool humanBjAndDealerBjDanger = await _gameLogicService.IsHumanBjAndDealerBjDanger(inGameId);
+                bool humanBlackJackAndDealerBlackJackDanger = await _gameLogicService.IsHumanBlackJackAndDealerBlackJackDanger(inGameId);
                 bool canHumanTakeOneMoreCard = await _gameLogicService.CanHumanTakeOneMoreCard(inGameId);
-                return Ok(new { HumanBjAndDealerBjDanger = humanBjAndDealerBjDanger, CanHumanTakeOneMoreCard = canHumanTakeOneMoreCard });
+                return Ok(new { HumanBlackJackAndDealerBlackJackDanger = humanBlackJackAndDealerBlackJackDanger, CanHumanTakeOneMoreCard = canHumanTakeOneMoreCard });
             }
             catch (Exception ex)
             {
@@ -51,12 +51,12 @@ namespace BlackJack.UI.Controllers
             }
         }
         
-        [Route("HumanBjAndDealerBjDangerContinueRound"), HttpGet]
-        public async Task<IHttpActionResult> HumanBjAndDealerBjDangerContinueRound(int inGameId)
+        [Route("BlackJackDangerContinueRound"), HttpGet]
+        public async Task<IHttpActionResult> BlackJackDangerContinueRound(int inGameId)
         {
             try
             {
-                await _gameLogicService.HumanBjAndDealerBjDangerContinueRound(inGameId);
+                await _gameLogicService.BlackJackDangerContinueRound(inGameId);
                 return Ok(GameMessageHelper.Success);
             }
             catch (Exception ex)

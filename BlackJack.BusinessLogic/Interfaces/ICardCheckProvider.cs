@@ -2,9 +2,9 @@
 {
     public interface ICardCheckProvider
     {
-        bool DealerBjDanger(int dealerFirstCard);
+        bool DealerBlackJackDanger(int dealerFirstCard);
 
-        float RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBjDanger);
+        float RoundFirstPhaseResult(int score, int amountOfCards, bool dealerBlackJackDanger);
 
         float RoundSecondPhaseResult(int score, int amountOfCards, int dealerScore, int dealerAmountOfCards, float betPayCoefficient);
 

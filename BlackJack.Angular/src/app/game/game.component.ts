@@ -119,13 +119,13 @@ export class GameComponent implements OnInit {
                 this.BotsUpdate();
                 this.DealerFirstPhaseUpdate();
 
-                if (data["HumanBjAndDealerBjDanger"]) {
+                if (data["HumanBlackJackAndDealerBlackJackDanger"]) {
                     this.GamePlayBlackJackDangerChoice();
                 }
                 if (data["CanHumanTakeOneMoreCard"]) {
                     this.GamePlayTakeCard();
                 }
-                if (!(data["HumanBjAndDealerBjDanger"]) && !(data["CanHumanTakeOneMoreCard"])) {
+                if (!(data["HumanBlackJackAndDealerBlackJackDanger"]) && !(data["CanHumanTakeOneMoreCard"])) {
                     this.SecondPhase();
                 }
             },

@@ -100,13 +100,13 @@ var GameComponent = /** @class */ (function () {
             _this.HumanUpdate();
             _this.BotsUpdate();
             _this.DealerFirstPhaseUpdate();
-            if (data["HumanBjAndDealerBjDanger"]) {
+            if (data["HumanBlackJackAndDealerBlackJackDanger"]) {
                 _this.GamePlayBlackJackDangerChoice();
             }
             if (data["CanHumanTakeOneMoreCard"]) {
                 _this.GamePlayTakeCard();
             }
-            if (!(data["HumanBjAndDealerBjDanger"]) && !(data["CanHumanTakeOneMoreCard"])) {
+            if (!(data["HumanBlackJackAndDealerBlackJackDanger"]) && !(data["CanHumanTakeOneMoreCard"])) {
                 _this.SecondPhase();
             }
         }, function (error) {

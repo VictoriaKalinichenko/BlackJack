@@ -6,7 +6,7 @@ namespace BlackJack.BusinessLogic.Interfaces
     {
         Task RoundFirstPhase(int gameId);
 
-        Task<bool> IsHumanBjAndDealerBjDanger(int gameId);
+        Task<bool> IsHumanBlackJackAndDealerBlackJackDanger(int gameId);
 
         Task AddOneMoreCardToHuman(int gameId);
 
@@ -14,6 +14,6 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task RoundSecondPhase(int gameId);
 
-        Task HumanBjAndDealerBjDangerContinueRound(int gameId);
+        Task BlackJackDangerContinueRound(int gameId);
     }
 }

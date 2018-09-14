@@ -65,7 +65,7 @@ namespace BlackJack.BusinessLogic.Providers
                 .Where(m => m.Card.CardName == (int)CardName.Ace)
                 .Count();
 
-            for (; aceCount > 0 && roundScore > CardValueHelper.CardBjScore;)
+            for (; aceCount > 0 && roundScore > CardValueHelper.CardBlackJackScore;)
             {
                 aceCount--;
                 roundScore -= (int)CardName.Ten;

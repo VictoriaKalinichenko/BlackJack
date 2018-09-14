@@ -885,13 +885,13 @@ var GameComponent = /** @class */ (function () {
             _this.HumanUpdate();
             _this.BotsUpdate();
             _this.DealerFirstPhaseUpdate();
-            if (data["HumanBjAndDealerBjDanger"]) {
+            if (data["HumanBlackJackAndDealerBlackJackDanger"]) {
                 _this.GamePlayBlackJackDangerChoice();
             }
             if (data["CanHumanTakeOneMoreCard"]) {
                 _this.GamePlayTakeCard();
             }
-            if (!(data["HumanBjAndDealerBjDanger"]) && !(data["CanHumanTakeOneMoreCard"])) {
+            if (!(data["HumanBlackJackAndDealerBlackJackDanger"]) && !(data["CanHumanTakeOneMoreCard"])) {
                 _this.SecondPhase();
             }
         }, function (error) {
@@ -1259,7 +1259,7 @@ var DataService = /** @class */ (function () {
         return this.http.get('http://localhost:55953/GameLogic/SecondPhase?inGameId=' + gameId);
     };
     DataService.prototype.BlackJackDangerContinueRound = function (gameId) {
-        return this.http.get('http://localhost:55953/GameLogic/HumanBjAndDealerBjDangerContinueRound?inGameId=' + gameId);
+        return this.http.get('http://localhost:55953/GameLogic/BlackJackDangerContinueRound?inGameId=' + gameId);
     };
     DataService.prototype.AddOneMoreCardToHuman = function (gameId) {
         return this.http.get('http://localhost:55953/GameLogic/AddOneMoreCardToHuman?inGameId=' + gameId);

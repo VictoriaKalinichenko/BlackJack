@@ -10,10 +10,10 @@ export class HomepageComponent {
     UserName: string;
 
     constructor(
-        private router: Router
+        private _router: Router
     ) { }
 
     AuthUser() {
-        this.router.navigate(['/user', this.UserName]);
+        this._router.navigate(['/user', this.UserName]);
     }
 }

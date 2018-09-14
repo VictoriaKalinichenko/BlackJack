@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { DataService } from '../services/data.service';
-import { ErrorService } from '../services/error.service';
+import { HttpService } from '../../services/http.service';
+import { ErrorService } from '../../services/error.service';
 import { deserialize } from 'json-typescript-mapper';
 import { forEach } from '@angular/router/src/utils/collection';
-import { GameViewModel } from '../viewmodels/GameViewModel';
-import { PlayerViewModel } from '../viewmodels/PlayerViewModel';
+import { GameViewModel } from '../../viewmodels/GameViewModel';
+import { PlayerViewModel } from '../../viewmodels/PlayerViewModel';
 
 @Component({
   selector: 'app-game',
@@ -25,7 +25,7 @@ export class GameComponent implements OnInit {
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
-        private _dataService: DataService,
+        private _httpService: HttpService,
         private _errorService: ErrorService
     ) { }
 
@@ -57,7 +57,7 @@ export class GameComponent implements OnInit {
     }
 
     GetGame() {
-        this._dataService.GetGame(this.GameId)
+        this._httpService.GetGame(this.GameId)
             .subscribe(
             (data) => {
                 this.GameViewModel = deserialize(GameViewModel, data);
@@ -77,7 +77,7 @@ export class GameComponent implements OnInit {
 
     OnBlackJackDangerChoice(takeAward: boolean) {
         if (!takeAward) {
-            this._dataService.BlackJackDangerContinueRound(this.GameId)
+            this._httpService.BlackJackDangerContinueRound(this.GameId)
                 .subscribe(
                 (error) => {
                     console.log(error);
@@ -92,7 +92,7 @@ export class GameComponent implements OnInit {
 
     OnTakingCard(takeCard: boolean) {
         if (takeCard) {
-            this._dataService.AddOneMoreCardToHuman(this.GameId)
+            this._httpService.AddOneMoreCardToHuman(this.GameId)
                 .subscribe(
                 (data) => {
                     this.HumanUpdate();
@@ -112,7 +112,7 @@ export class GameComponent implements OnInit {
     }
 
     FirstPhaseGamePlay() {
-        this._dataService.FirstPhaseGamePlay(this.GameId)
+        this._httpService.FirstPhaseGamePlay(this.GameId)
             .subscribe(
             (data) => {
                 this.HumanUpdate();
@@ -138,7 +138,7 @@ export class GameComponent implements OnInit {
     }
 
     FirstPhase() {
-        this._dataService.RoundStart(this.GameId)
+        this._httpService.RoundStart(this.GameId)
             .subscribe(
             (data) => {
                 this.HumanUpdate();
@@ -156,7 +156,7 @@ export class GameComponent implements OnInit {
     }
 
     SecondPhase() {
-        this._dataService.SecondPhase(this.GameId)
+        this._httpService.SecondPhase(this.GameId)
             .subscribe(
             (data) => {
                 this.HumanUpdate();
@@ -174,7 +174,7 @@ export class GameComponent implements OnInit {
     }
 
     HumanUpdate() {
-        this._dataService.GetGamePlayer(this.GameViewModel.Human.GamePlayerId)
+        this._httpService.GetGamePlayer(this.GameViewModel.Human.GamePlayerId)
             .subscribe(
             (data) => {
                 let name: string = this.GameViewModel.Human.Name;
@@ -190,7 +190,7 @@ export class GameComponent implements OnInit {
     }
 
     DealerFirstPhaseUpdate() {
-        this._dataService.GetDealerFirstPhase(this.GameViewModel.Dealer.GamePlayerId)
+        this._httpService.GetDealerFirstPhase(this.GameViewModel.Dealer.GamePlayerId)
             .subscribe(
             (data) => {
                 let name: string = this.GameViewModel.Dealer.Name;
@@ -206,7 +206,7 @@ export class GameComponent implements OnInit {
     }
 
     DealerSecondPhaseUpdate() {
-        this._dataService.GetDealerSecondPhase(this.GameViewModel.Dealer.GamePlayerId)
+        this._httpService.GetDealerSecondPhase(this.GameViewModel.Dealer.GamePlayerId)
             .subscribe(
             (data) => {
                 let name: string = this.GameViewModel.Dealer.Name;
@@ -223,7 +223,7 @@ export class GameComponent implements OnInit {
 
     BotsUpdate() {
         this.GameViewModel.Bots.forEach(bot => {
-            this._dataService.GetGamePlayer(bot.GamePlayerId)
+            this._httpService.GetGamePlayer(bot.GamePlayerId)
                 .subscribe(
                 (data) => {
                     let inBot = deserialize(PlayerViewModel, data);

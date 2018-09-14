@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { DataService } from '../services/data.service';
-import { ErrorService } from '../services/error.service';
+import { HttpService } from '../../../services/http.service';
+import { ErrorService } from '../../../services/error.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,13 +18,13 @@ export class EndRoundComponent implements OnInit {
     IsGameOver: boolean = false;
 
     constructor(
-        private _dataService: DataService,
+        private _httpService: HttpService,
         private _errorService: ErrorService,
         private _router: Router
     ) { }
 
     ngOnInit() {
-        this._dataService.HumanRoundResult(this.GameId)
+        this._httpService.HumanRoundResult(this.GameId)
             .subscribe(
             (data) => {
                 this.RoundResult = data["RoundResult"];
@@ -38,7 +38,7 @@ export class EndRoundComponent implements OnInit {
     }
 
     EndRound() {
-        this._dataService.UpdateGamePlayersForNewRound(this.GameId)
+        this._httpService.UpdateGamePlayersForNewRound(this.GameId)
             .subscribe(
             (data) => {
                 if (data["IsGameOver"] != "") {

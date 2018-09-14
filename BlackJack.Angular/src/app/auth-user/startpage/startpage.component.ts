@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { DataService } from '../services/data.service';
-import { ErrorService } from '../services/error.service';
-import { AuthPlayerViewModel } from '../viewmodels/AuthPlayerViewModel';
-import { GameIdViewModel } from '../viewmodels/GameIdViewModel';
+import { DataService } from '../../services/data.service';
+import { HttpService } from '../../services/http.service';
+import { ErrorService } from '../../services/error.service';
+import { AuthPlayerViewModel } from '../../viewmodels/AuthPlayerViewModel';
+import { GameIdViewModel } from '../../viewmodels/GameIdViewModel';
 
 @Component({
   selector: 'app-startpage',
@@ -19,6 +20,7 @@ export class StartpageComponent implements OnInit {
 
     constructor (
         private _dataService: DataService,
+        private _httpService: HttpService,
         private _errorService: ErrorService,
         private _router: Router
     ) { }
@@ -29,7 +31,7 @@ export class StartpageComponent implements OnInit {
     }
 
     AuthUser(userName: string) {
-        this._dataService.GetAuthorizedPlayer()
+        this._httpService.GetAuthorizedPlayer(this.UserName)
             .subscribe(
             (data: AuthPlayerViewModel) => {
                 this.Player.Name = data.Name;
@@ -45,7 +47,7 @@ export class StartpageComponent implements OnInit {
     }
 
     StartNewGame() {
-        this._dataService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
+        this._httpService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
             .subscribe(
             (data: GameIdViewModel) => {
                 this.GameId = data.GameId;
@@ -60,7 +62,7 @@ export class StartpageComponent implements OnInit {
     }
 
     ResumeGame() {
-        this._dataService.ResumeGame(this.Player.PlayerId)
+        this._httpService.ResumeGame(this.Player.PlayerId)
             .subscribe(
                 (data: GameIdViewModel) => {
                     this.GameId = data.GameId;

@@ -7,24 +7,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-var HomepageComponent = /** @class */ (function () {
-    function HomepageComponent(_router) {
-        this._router = _router;
+import { Component, Output, EventEmitter } from '@angular/core';
+var TakeCardComponent = /** @class */ (function () {
+    function TakeCardComponent() {
+        this.TakeCard = new EventEmitter();
     }
-    HomepageComponent.prototype.AuthUser = function () {
-        this._router.navigate(['/user', this.UserName]);
+    TakeCardComponent.prototype.OnContinue = function (takeCard) {
+        this.TakeCard.emit(takeCard);
     };
-    HomepageComponent = __decorate([
+    __decorate([
+        Output(),
+        __metadata("design:type", Object)
+    ], TakeCardComponent.prototype, "TakeCard", void 0);
+    TakeCardComponent = __decorate([
         Component({
-            selector: 'app-homepage',
-            templateUrl: './homepage.component.html',
-            styleUrls: ['./homepage.component.css']
+            selector: 'app-take-card',
+            templateUrl: './take-card.component.html',
+            styleUrls: ['./take-card.component.css']
         }),
-        __metadata("design:paramtypes", [Router])
-    ], HomepageComponent);
-    return HomepageComponent;
+        __metadata("design:paramtypes", [])
+    ], TakeCardComponent);
+    return TakeCardComponent;
 }());
-export { HomepageComponent };
-//# sourceMappingURL=homepage.component.js.map
+export { TakeCardComponent };
+//# sourceMappingURL=take-card.component.js.map

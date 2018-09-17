@@ -24,7 +24,7 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                GamePlayerViewModel gamePlayer = await _playerLogicService.GetGamePlayer(gamePlayerId);
+                GetPlayerViewModel gamePlayer = await _playerLogicService.GetGamePlayer(gamePlayerId);
                 return Ok(gamePlayer);
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                GamePlayerViewModel gamePlayer = await _playerLogicService.GetDealerInFirstPhase(gamePlayerId);
+                GetPlayerViewModel gamePlayer = await _playerLogicService.GetDealerInFirstPhase(gamePlayerId);
                 return Ok(gamePlayer);
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                GamePlayerViewModel gamePlayer = await _playerLogicService.GetDealerInSecondPhase(gamePlayerId);
+                GetPlayerViewModel gamePlayer = await _playerLogicService.GetDealerInSecondPhase(gamePlayerId);
                 return Ok(gamePlayer);
             }
             catch (Exception ex)

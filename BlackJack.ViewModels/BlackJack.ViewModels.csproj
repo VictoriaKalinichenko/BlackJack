@@ -48,7 +48,7 @@
     <Compile Include="ViewModels\AuthPlayerViewModel.cs" />
     <Compile Include="ViewModels\BetCreationApiViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
-    <Compile Include="ViewModels\GamePlayerViewModel.cs" />
+    <Compile Include="ViewModels\GetPlayerViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\GetLogsViewModel.cs" />
     <Compile Include="ViewModels\NameValidationViewModel.cs" />

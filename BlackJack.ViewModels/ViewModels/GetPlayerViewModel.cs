@@ -2,7 +2,7 @@
 
 namespace BlackJack.ViewModels.ViewModels
 {
-    public class GamePlayerViewModel
+    public class GetPlayerViewModel
     {
         public int Id { get; set; }
         public PlayerViewModel Player { get; set; }

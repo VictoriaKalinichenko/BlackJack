@@ -5,11 +5,11 @@ namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IPlayerLogicService
     {
-        Task<GamePlayerViewModel> GetGamePlayer(int gamePlayerId);
+        Task<GetPlayerViewModel> GetGamePlayer(int gamePlayerId);
         
-        Task<GamePlayerViewModel> GetDealerInSecondPhase(int gamePlayerId);
+        Task<GetPlayerViewModel> GetDealerInSecondPhase(int gamePlayerId);
 
-        Task<GamePlayerViewModel> GetDealerInFirstPhase(int gamePlayerId);
+        Task<GetPlayerViewModel> GetDealerInFirstPhase(int gamePlayerId);
 
         Task<int> BetsCreation(int bet, int inGameId);
 

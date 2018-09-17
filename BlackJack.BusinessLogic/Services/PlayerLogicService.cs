@@ -39,29 +39,29 @@ namespace BlackJack.BusinessLogic.Services
             _cardCheckProvider = cardCheckProvider;
         }
 
-        public async Task<GamePlayerViewModel> GetGamePlayer(int gamePlayerId)
+        public async Task<GetPlayerViewModel> GetGamePlayer(int gamePlayerId)
         {
             GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
-            GamePlayerViewModel gamePlayerViewModel = Mapper.Map<GamePlayer, GamePlayerViewModel>(gamePlayer);
+            GetPlayerViewModel gamePlayerViewModel = Mapper.Map<GamePlayer, GetPlayerViewModel>(gamePlayer);
             List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
             gamePlayerViewModel.Cards = _playerCardProvider.GetCardsStringList(playerCards);
             return gamePlayerViewModel;
         }
 
-        public async Task<GamePlayerViewModel> GetDealerInFirstPhase(int gamePlayerId)
+        public async Task<GetPlayerViewModel> GetDealerInFirstPhase(int gamePlayerId)
         {
             GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
-            GamePlayerViewModel gamePlayerViewModel = Mapper.Map<GamePlayer, GamePlayerViewModel>(gamePlayer);
+            GetPlayerViewModel gamePlayerViewModel = Mapper.Map<GamePlayer, GetPlayerViewModel>(gamePlayer);
             List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
             gamePlayerViewModel.Cards = new List<string>();
             gamePlayerViewModel.Cards.Add(_playerCardProvider.ConvertCardToString(playerCards[0].Card));
             return gamePlayerViewModel;
         }
 
-        public async Task<GamePlayerViewModel> GetDealerInSecondPhase(int gamePlayerId)
+        public async Task<GetPlayerViewModel> GetDealerInSecondPhase(int gamePlayerId)
         {
             GamePlayer gamePlayer = await _gamePlayerRepository.Get(gamePlayerId);
-            GamePlayerViewModel gamePlayerViewModel = Mapper.Map<GamePlayer, GamePlayerViewModel>(gamePlayer);
+            GetPlayerViewModel gamePlayerViewModel = Mapper.Map<GamePlayer, GetPlayerViewModel>(gamePlayer);
             List<PlayerCard> playerCards = (await _playerCardRepository.GetByGamePlayerId(gamePlayer.Id)).ToList();
             gamePlayerViewModel.Cards = _playerCardProvider.GetCardsStringList(playerCards);
             return gamePlayerViewModel;

@@ -14,7 +14,7 @@ namespace BlackJack.BusinessLogic.Config
                 config.CreateMap<Game, RoundViewModel>();
                 config.CreateMap<Log, GetLogsViewModel>();
 
-                config.CreateMap<GamePlayer, PlayerViewModel>()
+                config.CreateMap<GamePlayer, PlayerItem>()
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
             });
         }

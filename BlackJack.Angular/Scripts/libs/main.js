@@ -98,16 +98,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./homepage/homepage.component */ "./src/app/homepage/homepage.component.ts");
-/* harmony import */ var _auth_user_startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./auth-user/startpage/startpage.component */ "./src/app/auth-user/startpage/startpage.component.ts");
-/* harmony import */ var _auth_user_auth_user_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./auth-user/auth-user.component */ "./src/app/auth-user/auth-user.component.ts");
-/* harmony import */ var _auth_user_game_game_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./auth-user/game/game.component */ "./src/app/auth-user/game/game.component.ts");
-/* harmony import */ var _auth_user_game_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./auth-user/game/player-output/player-output.component */ "./src/app/auth-user/game/player-output/player-output.component.ts");
-/* harmony import */ var _auth_user_game_dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./auth-user/game/dealer-output/dealer-output.component */ "./src/app/auth-user/game/dealer-output/dealer-output.component.ts");
-/* harmony import */ var _auth_user_game_bet_input_bet_input_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./auth-user/game/bet-input/bet-input.component */ "./src/app/auth-user/game/bet-input/bet-input.component.ts");
-/* harmony import */ var _auth_user_game_take_card_take_card_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./auth-user/game/take-card/take-card.component */ "./src/app/auth-user/game/take-card/take-card.component.ts");
-/* harmony import */ var _auth_user_game_end_round_end_round_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./auth-user/game/end-round/end-round.component */ "./src/app/auth-user/game/end-round/end-round.component.ts");
+/* harmony import */ var _authorized_user_startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./authorized-user/startpage/startpage.component */ "./src/app/authorized-user/startpage/startpage.component.ts");
+/* harmony import */ var _authorized_user_authorized_user_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./authorized-user/authorized-user.component */ "./src/app/authorized-user/authorized-user.component.ts");
+/* harmony import */ var _authorized_user_game_game_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./authorized-user/game/game.component */ "./src/app/authorized-user/game/game.component.ts");
+/* harmony import */ var _authorized_user_game_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./authorized-user/game/player-output/player-output.component */ "./src/app/authorized-user/game/player-output/player-output.component.ts");
+/* harmony import */ var _authorized_user_game_dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./authorized-user/game/dealer-output/dealer-output.component */ "./src/app/authorized-user/game/dealer-output/dealer-output.component.ts");
+/* harmony import */ var _authorized_user_game_bet_input_bet_input_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./authorized-user/game/bet-input/bet-input.component */ "./src/app/authorized-user/game/bet-input/bet-input.component.ts");
+/* harmony import */ var _authorized_user_game_take_card_take_card_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./authorized-user/game/take-card/take-card.component */ "./src/app/authorized-user/game/take-card/take-card.component.ts");
+/* harmony import */ var _authorized_user_game_end_round_end_round_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./authorized-user/game/end-round/end-round.component */ "./src/app/authorized-user/game/end-round/end-round.component.ts");
 /* harmony import */ var _error_page_error_page_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./error-page/error-page.component */ "./src/app/error-page/error-page.component.ts");
-/* harmony import */ var _auth_user_game_blackjack_danger_choice_blackjack_danger_choice_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component */ "./src/app/auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component.ts");
+/* harmony import */ var _authorized_user_game_blackjack_danger_choice_blackjack_danger_choice_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component */ "./src/app/authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component.ts");
 /* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./services/data.service */ "./src/app/services/data.service.ts");
 /* harmony import */ var _services_error_service__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./services/error.service */ "./src/app/services/error.service.ts");
 /* harmony import */ var _services_http_service__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./services/http.service */ "./src/app/services/http.service.ts");
@@ -142,10 +142,10 @@ var appRoutes = [
     { path: '', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"] },
     {
         path: 'user/:UserName',
-        component: _auth_user_auth_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthUserComponent"],
+        component: _authorized_user_authorized_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthorizedUserComponent"],
         children: [
-            { path: '', component: _auth_user_startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"] },
-            { path: 'game/:Id', component: _auth_user_game_game_component__WEBPACK_IMPORTED_MODULE_10__["GameComponent"] }
+            { path: '', component: _authorized_user_startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"] },
+            { path: 'game/:Id', component: _authorized_user_game_game_component__WEBPACK_IMPORTED_MODULE_10__["GameComponent"] }
         ]
     },
     { path: 'error', component: _error_page_error_page_component__WEBPACK_IMPORTED_MODULE_16__["ErrorPageComponent"] }
@@ -158,16 +158,16 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
                 _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"],
-                _auth_user_startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"],
-                _auth_user_auth_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthUserComponent"],
-                _auth_user_game_game_component__WEBPACK_IMPORTED_MODULE_10__["GameComponent"],
-                _auth_user_game_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_11__["PlayerOutputComponent"],
-                _auth_user_game_dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_12__["DealerOutputComponent"],
-                _auth_user_game_bet_input_bet_input_component__WEBPACK_IMPORTED_MODULE_13__["BetInputComponent"],
-                _auth_user_game_take_card_take_card_component__WEBPACK_IMPORTED_MODULE_14__["TakeCardComponent"],
-                _auth_user_game_end_round_end_round_component__WEBPACK_IMPORTED_MODULE_15__["EndRoundComponent"],
+                _authorized_user_startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"],
+                _authorized_user_authorized_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthorizedUserComponent"],
+                _authorized_user_game_game_component__WEBPACK_IMPORTED_MODULE_10__["GameComponent"],
+                _authorized_user_game_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_11__["PlayerOutputComponent"],
+                _authorized_user_game_dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_12__["DealerOutputComponent"],
+                _authorized_user_game_bet_input_bet_input_component__WEBPACK_IMPORTED_MODULE_13__["BetInputComponent"],
+                _authorized_user_game_take_card_take_card_component__WEBPACK_IMPORTED_MODULE_14__["TakeCardComponent"],
+                _authorized_user_game_end_round_end_round_component__WEBPACK_IMPORTED_MODULE_15__["EndRoundComponent"],
                 _error_page_error_page_component__WEBPACK_IMPORTED_MODULE_16__["ErrorPageComponent"],
-                _auth_user_game_blackjack_danger_choice_blackjack_danger_choice_component__WEBPACK_IMPORTED_MODULE_17__["BlackjackDangerChoiceComponent"]
+                _authorized_user_game_blackjack_danger_choice_blackjack_danger_choice_component__WEBPACK_IMPORTED_MODULE_17__["BlackjackDangerChoiceComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -184,16 +184,16 @@ var AppModule = /** @class */ (function () {
             bootstrap: [
                 _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
                 _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"],
-                _auth_user_startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"],
-                _auth_user_auth_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthUserComponent"],
-                _auth_user_game_game_component__WEBPACK_IMPORTED_MODULE_10__["GameComponent"],
-                _auth_user_game_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_11__["PlayerOutputComponent"],
-                _auth_user_game_dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_12__["DealerOutputComponent"],
-                _auth_user_game_bet_input_bet_input_component__WEBPACK_IMPORTED_MODULE_13__["BetInputComponent"],
-                _auth_user_game_take_card_take_card_component__WEBPACK_IMPORTED_MODULE_14__["TakeCardComponent"],
-                _auth_user_game_end_round_end_round_component__WEBPACK_IMPORTED_MODULE_15__["EndRoundComponent"],
+                _authorized_user_startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"],
+                _authorized_user_authorized_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthorizedUserComponent"],
+                _authorized_user_game_game_component__WEBPACK_IMPORTED_MODULE_10__["GameComponent"],
+                _authorized_user_game_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_11__["PlayerOutputComponent"],
+                _authorized_user_game_dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_12__["DealerOutputComponent"],
+                _authorized_user_game_bet_input_bet_input_component__WEBPACK_IMPORTED_MODULE_13__["BetInputComponent"],
+                _authorized_user_game_take_card_take_card_component__WEBPACK_IMPORTED_MODULE_14__["TakeCardComponent"],
+                _authorized_user_game_end_round_end_round_component__WEBPACK_IMPORTED_MODULE_15__["EndRoundComponent"],
                 _error_page_error_page_component__WEBPACK_IMPORTED_MODULE_16__["ErrorPageComponent"],
-                _auth_user_game_blackjack_danger_choice_blackjack_danger_choice_component__WEBPACK_IMPORTED_MODULE_17__["BlackjackDangerChoiceComponent"]
+                _authorized_user_game_blackjack_danger_choice_blackjack_danger_choice_component__WEBPACK_IMPORTED_MODULE_17__["BlackjackDangerChoiceComponent"]
             ]
         })
     ], AppModule);
@@ -204,10 +204,10 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth-user/auth-user.component.css":
-/*!***************************************************!*\
-  !*** ./src/app/auth-user/auth-user.component.css ***!
-  \***************************************************/
+/***/ "./src/app/authorized-user/authorized-user.component.css":
+/*!***************************************************************!*\
+  !*** ./src/app/authorized-user/authorized-user.component.css ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -215,10 +215,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth-user/auth-user.component.html":
-/*!****************************************************!*\
-  !*** ./src/app/auth-user/auth-user.component.html ***!
-  \****************************************************/
+/***/ "./src/app/authorized-user/authorized-user.component.html":
+/*!****************************************************************!*\
+  !*** ./src/app/authorized-user/authorized-user.component.html ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -226,16 +226,16 @@ module.exports = "<nav class=\"navbar navbar-default\">\r\n    <div class=\"cont
 
 /***/ }),
 
-/***/ "./src/app/auth-user/auth-user.component.ts":
-/*!**************************************************!*\
-  !*** ./src/app/auth-user/auth-user.component.ts ***!
-  \**************************************************/
-/*! exports provided: AuthUserComponent */
+/***/ "./src/app/authorized-user/authorized-user.component.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/authorized-user/authorized-user.component.ts ***!
+  \**************************************************************/
+/*! exports provided: AuthorizedUserComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthUserComponent", function() { return AuthUserComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthorizedUserComponent", function() { return AuthorizedUserComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
@@ -251,38 +251,38 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-var AuthUserComponent = /** @class */ (function () {
-    function AuthUserComponent(_dataService, _route) {
+var AuthorizedUserComponent = /** @class */ (function () {
+    function AuthorizedUserComponent(_dataService, _route) {
         this._dataService = _dataService;
         this._route = _route;
     }
-    AuthUserComponent.prototype.ngOnInit = function () {
+    AuthorizedUserComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._route.params.subscribe(function (params) {
             _this.UserName = params['UserName'];
         });
         this._dataService.SetUserName(this.UserName);
     };
-    AuthUserComponent = __decorate([
+    AuthorizedUserComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-auth-user',
-            template: __webpack_require__(/*! ./auth-user.component.html */ "./src/app/auth-user/auth-user.component.html"),
-            styles: [__webpack_require__(/*! ./auth-user.component.css */ "./src/app/auth-user/auth-user.component.css")]
+            selector: 'app-authorized-user',
+            template: __webpack_require__(/*! ./authorized-user.component.html */ "./src/app/authorized-user/authorized-user.component.html"),
+            styles: [__webpack_require__(/*! ./authorized-user.component.css */ "./src/app/authorized-user/authorized-user.component.css")]
         }),
         __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
-    ], AuthUserComponent);
-    return AuthUserComponent;
+    ], AuthorizedUserComponent);
+    return AuthorizedUserComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/bet-input/bet-input.component.css":
-/*!******************************************************************!*\
-  !*** ./src/app/auth-user/game/bet-input/bet-input.component.css ***!
-  \******************************************************************/
+/***/ "./src/app/authorized-user/game/bet-input/bet-input.component.css":
+/*!************************************************************************!*\
+  !*** ./src/app/authorized-user/game/bet-input/bet-input.component.css ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -290,10 +290,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/bet-input/bet-input.component.html":
-/*!*******************************************************************!*\
-  !*** ./src/app/auth-user/game/bet-input/bet-input.component.html ***!
-  \*******************************************************************/
+/***/ "./src/app/authorized-user/game/bet-input/bet-input.component.html":
+/*!*************************************************************************!*\
+  !*** ./src/app/authorized-user/game/bet-input/bet-input.component.html ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -301,10 +301,10 @@ module.exports = "<label class=\"control-label\">Enter your bet: </label>\r\n<in
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/bet-input/bet-input.component.ts":
-/*!*****************************************************************!*\
-  !*** ./src/app/auth-user/game/bet-input/bet-input.component.ts ***!
-  \*****************************************************************/
+/***/ "./src/app/authorized-user/game/bet-input/bet-input.component.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/authorized-user/game/bet-input/bet-input.component.ts ***!
+  \***********************************************************************/
 /*! exports provided: BetInputComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -376,8 +376,8 @@ var BetInputComponent = /** @class */ (function () {
     BetInputComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-bet-input',
-            template: __webpack_require__(/*! ./bet-input.component.html */ "./src/app/auth-user/game/bet-input/bet-input.component.html"),
-            styles: [__webpack_require__(/*! ./bet-input.component.css */ "./src/app/auth-user/game/bet-input/bet-input.component.css")]
+            template: __webpack_require__(/*! ./bet-input.component.html */ "./src/app/authorized-user/game/bet-input/bet-input.component.html"),
+            styles: [__webpack_require__(/*! ./bet-input.component.css */ "./src/app/authorized-user/game/bet-input/bet-input.component.css")]
         }),
         __metadata("design:paramtypes", [_services_http_service__WEBPACK_IMPORTED_MODULE_1__["HttpService"],
             _services_error_service__WEBPACK_IMPORTED_MODULE_2__["ErrorService"],
@@ -390,10 +390,10 @@ var BetInputComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component.css":
-/*!**********************************************************************************************!*\
-  !*** ./src/app/auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component.css ***!
-  \**********************************************************************************************/
+/***/ "./src/app/authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component.css":
+/*!****************************************************************************************************!*\
+  !*** ./src/app/authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component.css ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -401,10 +401,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component.html":
-/*!***********************************************************************************************!*\
-  !*** ./src/app/auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component.html ***!
-  \***********************************************************************************************/
+/***/ "./src/app/authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component.html":
+/*!*****************************************************************************************************!*\
+  !*** ./src/app/authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component.html ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -412,10 +412,10 @@ module.exports = "<p>You have BlackJack and dealer has BlackJack-danger</p>\r\n<
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component.ts":
-/*!*********************************************************************************************!*\
-  !*** ./src/app/auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component.ts ***!
-  \*********************************************************************************************/
+/***/ "./src/app/authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component.ts":
+/*!***************************************************************************************************!*\
+  !*** ./src/app/authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component.ts ***!
+  \***************************************************************************************************/
 /*! exports provided: BlackjackDangerChoiceComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -447,8 +447,8 @@ var BlackjackDangerChoiceComponent = /** @class */ (function () {
     BlackjackDangerChoiceComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-blackjack-danger-choice',
-            template: __webpack_require__(/*! ./blackjack-danger-choice.component.html */ "./src/app/auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component.html"),
-            styles: [__webpack_require__(/*! ./blackjack-danger-choice.component.css */ "./src/app/auth-user/game/blackjack-danger-choice/blackjack-danger-choice.component.css")]
+            template: __webpack_require__(/*! ./blackjack-danger-choice.component.html */ "./src/app/authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component.html"),
+            styles: [__webpack_require__(/*! ./blackjack-danger-choice.component.css */ "./src/app/authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component.css")]
         }),
         __metadata("design:paramtypes", [])
     ], BlackjackDangerChoiceComponent);
@@ -459,10 +459,10 @@ var BlackjackDangerChoiceComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/dealer-output/dealer-output.component.css":
-/*!**************************************************************************!*\
-  !*** ./src/app/auth-user/game/dealer-output/dealer-output.component.css ***!
-  \**************************************************************************/
+/***/ "./src/app/authorized-user/game/dealer-output/dealer-output.component.css":
+/*!********************************************************************************!*\
+  !*** ./src/app/authorized-user/game/dealer-output/dealer-output.component.css ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -470,10 +470,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/dealer-output/dealer-output.component.html":
-/*!***************************************************************************!*\
-  !*** ./src/app/auth-user/game/dealer-output/dealer-output.component.html ***!
-  \***************************************************************************/
+/***/ "./src/app/authorized-user/game/dealer-output/dealer-output.component.html":
+/*!*********************************************************************************!*\
+  !*** ./src/app/authorized-user/game/dealer-output/dealer-output.component.html ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -481,10 +481,10 @@ module.exports = "<p>Score: {{Score}}</p>\r\n\r\n<div *ngIf=\"RoundFirstPhase\">
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/dealer-output/dealer-output.component.ts":
-/*!*************************************************************************!*\
-  !*** ./src/app/auth-user/game/dealer-output/dealer-output.component.ts ***!
-  \*************************************************************************/
+/***/ "./src/app/authorized-user/game/dealer-output/dealer-output.component.ts":
+/*!*******************************************************************************!*\
+  !*** ./src/app/authorized-user/game/dealer-output/dealer-output.component.ts ***!
+  \*******************************************************************************/
 /*! exports provided: DealerOutputComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -546,8 +546,8 @@ var DealerOutputComponent = /** @class */ (function () {
     DealerOutputComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-dealer-output',
-            template: __webpack_require__(/*! ./dealer-output.component.html */ "./src/app/auth-user/game/dealer-output/dealer-output.component.html"),
-            styles: [__webpack_require__(/*! ./dealer-output.component.css */ "./src/app/auth-user/game/dealer-output/dealer-output.component.css")]
+            template: __webpack_require__(/*! ./dealer-output.component.html */ "./src/app/authorized-user/game/dealer-output/dealer-output.component.html"),
+            styles: [__webpack_require__(/*! ./dealer-output.component.css */ "./src/app/authorized-user/game/dealer-output/dealer-output.component.css")]
         }),
         __metadata("design:paramtypes", [])
     ], DealerOutputComponent);
@@ -558,10 +558,10 @@ var DealerOutputComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/end-round/end-round.component.css":
-/*!******************************************************************!*\
-  !*** ./src/app/auth-user/game/end-round/end-round.component.css ***!
-  \******************************************************************/
+/***/ "./src/app/authorized-user/game/end-round/end-round.component.css":
+/*!************************************************************************!*\
+  !*** ./src/app/authorized-user/game/end-round/end-round.component.css ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -569,10 +569,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/end-round/end-round.component.html":
-/*!*******************************************************************!*\
-  !*** ./src/app/auth-user/game/end-round/end-round.component.html ***!
-  \*******************************************************************/
+/***/ "./src/app/authorized-user/game/end-round/end-round.component.html":
+/*!*************************************************************************!*\
+  !*** ./src/app/authorized-user/game/end-round/end-round.component.html ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -580,10 +580,10 @@ module.exports = "<div *ngIf=\"IsEndRound\">\r\n    <p>{{RoundResult}}</p>\r\n  
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/end-round/end-round.component.ts":
-/*!*****************************************************************!*\
-  !*** ./src/app/auth-user/game/end-round/end-round.component.ts ***!
-  \*****************************************************************/
+/***/ "./src/app/authorized-user/game/end-round/end-round.component.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/authorized-user/game/end-round/end-round.component.ts ***!
+  \***********************************************************************/
 /*! exports provided: EndRoundComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -663,8 +663,8 @@ var EndRoundComponent = /** @class */ (function () {
     EndRoundComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-end-round',
-            template: __webpack_require__(/*! ./end-round.component.html */ "./src/app/auth-user/game/end-round/end-round.component.html"),
-            styles: [__webpack_require__(/*! ./end-round.component.css */ "./src/app/auth-user/game/end-round/end-round.component.css")]
+            template: __webpack_require__(/*! ./end-round.component.html */ "./src/app/authorized-user/game/end-round/end-round.component.html"),
+            styles: [__webpack_require__(/*! ./end-round.component.css */ "./src/app/authorized-user/game/end-round/end-round.component.css")]
         }),
         __metadata("design:paramtypes", [_services_http_service__WEBPACK_IMPORTED_MODULE_1__["HttpService"],
             _services_error_service__WEBPACK_IMPORTED_MODULE_2__["ErrorService"],
@@ -677,10 +677,10 @@ var EndRoundComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/game.component.css":
-/*!***************************************************!*\
-  !*** ./src/app/auth-user/game/game.component.css ***!
-  \***************************************************/
+/***/ "./src/app/authorized-user/game/game.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/authorized-user/game/game.component.css ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -688,10 +688,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/game.component.html":
-/*!****************************************************!*\
-  !*** ./src/app/auth-user/game/game.component.html ***!
-  \****************************************************/
+/***/ "./src/app/authorized-user/game/game.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/authorized-user/game/game.component.html ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -699,10 +699,10 @@ module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/game.component.ts":
-/*!**************************************************!*\
-  !*** ./src/app/auth-user/game/game.component.ts ***!
-  \**************************************************/
+/***/ "./src/app/authorized-user/game/game.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/authorized-user/game/game.component.ts ***!
+  \********************************************************/
 /*! exports provided: GameComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -950,8 +950,8 @@ var GameComponent = /** @class */ (function () {
     GameComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-game',
-            template: __webpack_require__(/*! ./game.component.html */ "./src/app/auth-user/game/game.component.html"),
-            styles: [__webpack_require__(/*! ./game.component.css */ "./src/app/auth-user/game/game.component.css")]
+            template: __webpack_require__(/*! ./game.component.html */ "./src/app/authorized-user/game/game.component.html"),
+            styles: [__webpack_require__(/*! ./game.component.css */ "./src/app/authorized-user/game/game.component.css")]
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
@@ -965,10 +965,10 @@ var GameComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/player-output/player-output.component.css":
-/*!**************************************************************************!*\
-  !*** ./src/app/auth-user/game/player-output/player-output.component.css ***!
-  \**************************************************************************/
+/***/ "./src/app/authorized-user/game/player-output/player-output.component.css":
+/*!********************************************************************************!*\
+  !*** ./src/app/authorized-user/game/player-output/player-output.component.css ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -976,10 +976,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/player-output/player-output.component.html":
-/*!***************************************************************************!*\
-  !*** ./src/app/auth-user/game/player-output/player-output.component.html ***!
-  \***************************************************************************/
+/***/ "./src/app/authorized-user/game/player-output/player-output.component.html":
+/*!*********************************************************************************!*\
+  !*** ./src/app/authorized-user/game/player-output/player-output.component.html ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -987,10 +987,10 @@ module.exports = "<p>Score: {{Score}}</p>\r\n\r\n<div *ngIf=\"!RoundStart\">\r\n
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/player-output/player-output.component.ts":
-/*!*************************************************************************!*\
-  !*** ./src/app/auth-user/game/player-output/player-output.component.ts ***!
-  \*************************************************************************/
+/***/ "./src/app/authorized-user/game/player-output/player-output.component.ts":
+/*!*******************************************************************************!*\
+  !*** ./src/app/authorized-user/game/player-output/player-output.component.ts ***!
+  \*******************************************************************************/
 /*! exports provided: PlayerOutputComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1044,8 +1044,8 @@ var PlayerOutputComponent = /** @class */ (function () {
     PlayerOutputComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-player-output',
-            template: __webpack_require__(/*! ./player-output.component.html */ "./src/app/auth-user/game/player-output/player-output.component.html"),
-            styles: [__webpack_require__(/*! ./player-output.component.css */ "./src/app/auth-user/game/player-output/player-output.component.css")]
+            template: __webpack_require__(/*! ./player-output.component.html */ "./src/app/authorized-user/game/player-output/player-output.component.html"),
+            styles: [__webpack_require__(/*! ./player-output.component.css */ "./src/app/authorized-user/game/player-output/player-output.component.css")]
         }),
         __metadata("design:paramtypes", [])
     ], PlayerOutputComponent);
@@ -1056,10 +1056,10 @@ var PlayerOutputComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/take-card/take-card.component.css":
-/*!******************************************************************!*\
-  !*** ./src/app/auth-user/game/take-card/take-card.component.css ***!
-  \******************************************************************/
+/***/ "./src/app/authorized-user/game/take-card/take-card.component.css":
+/*!************************************************************************!*\
+  !*** ./src/app/authorized-user/game/take-card/take-card.component.css ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1067,10 +1067,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/take-card/take-card.component.html":
-/*!*******************************************************************!*\
-  !*** ./src/app/auth-user/game/take-card/take-card.component.html ***!
-  \*******************************************************************/
+/***/ "./src/app/authorized-user/game/take-card/take-card.component.html":
+/*!*************************************************************************!*\
+  !*** ./src/app/authorized-user/game/take-card/take-card.component.html ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1078,10 +1078,10 @@ module.exports = "<button class=\"btn btn-primary\" (click)=\"OnContinue(true)\"
 
 /***/ }),
 
-/***/ "./src/app/auth-user/game/take-card/take-card.component.ts":
-/*!*****************************************************************!*\
-  !*** ./src/app/auth-user/game/take-card/take-card.component.ts ***!
-  \*****************************************************************/
+/***/ "./src/app/authorized-user/game/take-card/take-card.component.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/authorized-user/game/take-card/take-card.component.ts ***!
+  \***********************************************************************/
 /*! exports provided: TakeCardComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1113,8 +1113,8 @@ var TakeCardComponent = /** @class */ (function () {
     TakeCardComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-take-card',
-            template: __webpack_require__(/*! ./take-card.component.html */ "./src/app/auth-user/game/take-card/take-card.component.html"),
-            styles: [__webpack_require__(/*! ./take-card.component.css */ "./src/app/auth-user/game/take-card/take-card.component.css")]
+            template: __webpack_require__(/*! ./take-card.component.html */ "./src/app/authorized-user/game/take-card/take-card.component.html"),
+            styles: [__webpack_require__(/*! ./take-card.component.css */ "./src/app/authorized-user/game/take-card/take-card.component.css")]
         }),
         __metadata("design:paramtypes", [])
     ], TakeCardComponent);
@@ -1125,10 +1125,10 @@ var TakeCardComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth-user/startpage/startpage.component.css":
-/*!*************************************************************!*\
-  !*** ./src/app/auth-user/startpage/startpage.component.css ***!
-  \*************************************************************/
+/***/ "./src/app/authorized-user/startpage/startpage.component.css":
+/*!*******************************************************************!*\
+  !*** ./src/app/authorized-user/startpage/startpage.component.css ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1136,10 +1136,10 @@ module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth-user/startpage/startpage.component.html":
-/*!**************************************************************!*\
-  !*** ./src/app/auth-user/startpage/startpage.component.html ***!
-  \**************************************************************/
+/***/ "./src/app/authorized-user/startpage/startpage.component.html":
+/*!********************************************************************!*\
+  !*** ./src/app/authorized-user/startpage/startpage.component.html ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1147,10 +1147,10 @@ module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row row-flex\
 
 /***/ }),
 
-/***/ "./src/app/auth-user/startpage/startpage.component.ts":
-/*!************************************************************!*\
-  !*** ./src/app/auth-user/startpage/startpage.component.ts ***!
-  \************************************************************/
+/***/ "./src/app/authorized-user/startpage/startpage.component.ts":
+/*!******************************************************************!*\
+  !*** ./src/app/authorized-user/startpage/startpage.component.ts ***!
+  \******************************************************************/
 /*! exports provided: StartpageComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1162,7 +1162,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/data.service */ "./src/app/services/data.service.ts");
 /* harmony import */ var _services_http_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/http.service */ "./src/app/services/http.service.ts");
 /* harmony import */ var _services_error_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/error.service */ "./src/app/services/error.service.ts");
-/* harmony import */ var _viewmodels_AuthPlayerViewModel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../viewmodels/AuthPlayerViewModel */ "./src/app/viewmodels/AuthPlayerViewModel.ts");
+/* harmony import */ var _viewmodels_AuthorizedUserViewModel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../viewmodels/AuthorizedUserViewModel */ "./src/app/viewmodels/AuthorizedUserViewModel.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1185,7 +1185,7 @@ var StartpageComponent = /** @class */ (function () {
         this._errorService = _errorService;
         this._router = _router;
         this._route = _route;
-        this.Player = new _viewmodels_AuthPlayerViewModel__WEBPACK_IMPORTED_MODULE_5__["AuthPlayerViewModel"]();
+        this.Player = new _viewmodels_AuthorizedUserViewModel__WEBPACK_IMPORTED_MODULE_5__["AuthorizedUserViewModel"]();
         this.AmountOfBots = 0;
     }
     StartpageComponent.prototype.ngOnInit = function () {
@@ -1222,7 +1222,6 @@ var StartpageComponent = /** @class */ (function () {
         this._httpService.ResumeGame(this.Player.PlayerId)
             .subscribe(function (data) {
             _this.GameId = data["GameId"];
-            var config = _this._route.parent;
             _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
         }, function (error) {
             console.log(error);
@@ -1233,8 +1232,8 @@ var StartpageComponent = /** @class */ (function () {
     StartpageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-startpage',
-            template: __webpack_require__(/*! ./startpage.component.html */ "./src/app/auth-user/startpage/startpage.component.html"),
-            styles: [__webpack_require__(/*! ./startpage.component.css */ "./src/app/auth-user/startpage/startpage.component.css")]
+            template: __webpack_require__(/*! ./startpage.component.html */ "./src/app/authorized-user/startpage/startpage.component.html"),
+            styles: [__webpack_require__(/*! ./startpage.component.css */ "./src/app/authorized-user/startpage/startpage.component.css")]
         }),
         __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"],
             _services_http_service__WEBPACK_IMPORTED_MODULE_3__["HttpService"],
@@ -1489,8 +1488,9 @@ var HttpService = /** @class */ (function () {
         this.http = http;
     }
     HttpService.prototype.GetAuthorizedPlayer = function (userName) {
-        var body = { UserName: userName };
-        return this.http.post('StartGame/GetAuthorizedPlayer', body);
+        var options = userName ?
+            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('userName', userName.toString()) } : {};
+        return this.http.get('StartGame/AuthorizedPlayer', options);
     };
     HttpService.prototype.CreateNewGame = function (playerId, amountOfBots) {
         var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
@@ -1504,7 +1504,7 @@ var HttpService = /** @class */ (function () {
     HttpService.prototype.GetGame = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.http.get('StartGame/GetGame', options);
+        return this.http.get('StartGame/Round', options);
     };
     HttpService.prototype.GetGamePlayer = function (gamePlayerId) {
         var options = gamePlayerId ?
@@ -1573,20 +1573,20 @@ var HttpService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/viewmodels/AuthPlayerViewModel.ts":
-/*!***************************************************!*\
-  !*** ./src/app/viewmodels/AuthPlayerViewModel.ts ***!
-  \***************************************************/
-/*! exports provided: AuthPlayerViewModel */
+/***/ "./src/app/viewmodels/AuthorizedUserViewModel.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/viewmodels/AuthorizedUserViewModel.ts ***!
+  \*******************************************************/
+/*! exports provided: AuthorizedUserViewModel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthPlayerViewModel", function() { return AuthPlayerViewModel; });
-var AuthPlayerViewModel = /** @class */ (function () {
-    function AuthPlayerViewModel() {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthorizedUserViewModel", function() { return AuthorizedUserViewModel; });
+var AuthorizedUserViewModel = /** @class */ (function () {
+    function AuthorizedUserViewModel() {
     }
-    return AuthPlayerViewModel;
+    return AuthorizedUserViewModel;
 }());
 
 

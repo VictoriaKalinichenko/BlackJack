@@ -14,8 +14,9 @@ var HttpService = /** @class */ (function () {
         this.http = http;
     }
     HttpService.prototype.GetAuthorizedPlayer = function (userName) {
-        var body = { UserName: userName };
-        return this.http.post('StartGame/AuthorizedPlayer', body);
+        var options = userName ?
+            { params: new HttpParams().set('userName', userName.toString()) } : {};
+        return this.http.get('StartGame/AuthorizedPlayer', options);
     };
     HttpService.prototype.CreateNewGame = function (playerId, amountOfBots) {
         var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
@@ -29,7 +30,7 @@ var HttpService = /** @class */ (function () {
     HttpService.prototype.GetGame = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.http.get('StartGame/GetGame', options);
+        return this.http.get('StartGame/Round', options);
     };
     HttpService.prototype.GetGamePlayer = function (gamePlayerId) {
         var options = gamePlayerId ?

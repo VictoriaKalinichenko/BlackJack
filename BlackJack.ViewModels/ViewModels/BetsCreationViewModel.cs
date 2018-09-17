@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.ViewModels.ViewModels
 {
-    public class BetCreationApiViewModel
+    public class BetsCreationViewModel
     {
         public int Bet { get; set; }
         public int HumanGamePlayerId { get; set; }

@@ -68,7 +68,7 @@ namespace BlackJack.UI.Controllers
         }
 
         [Route("BetsCreation"), HttpPost]
-        public async Task<IHttpActionResult> BetsCreation(BetCreationApiViewModel viewModel)
+        public async Task<IHttpActionResult> BetsCreation(BetsCreationViewModel viewModel)
         {
             try
             {

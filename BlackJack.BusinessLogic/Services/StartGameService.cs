@@ -114,11 +114,11 @@ namespace BlackJack.BusinessLogic.Services
 
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
 
-            gameViewModel.Bots = new List<PlayerViewModel>();
+            gameViewModel.Bots = new List<PlayerItem>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                PlayerViewModel playerViewModel = Mapper.Map<GamePlayer, PlayerViewModel>(gamePlayer); 
+                PlayerItem playerViewModel = Mapper.Map<GamePlayer, PlayerItem>(gamePlayer); 
 
                 if ((PlayerType)gamePlayer.Player.Type == PlayerType.Dealer)
                 {

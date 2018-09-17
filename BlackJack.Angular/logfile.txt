@@ -166,3 +166,15 @@
 2018-09-14 10:25:15.4334|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.Angular|Void MoveNext()|   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 30|Exception of type 'System.Exception' was thrown.
 2018-09-14 10:25:16.0907|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.Angular|Void MoveNext()|   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 30|Exception of type 'System.Exception' was thrown.
 2018-09-14 10:25:16.6548|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.Angular|Void MoveNext()|   at BlackJack.Angular.Controllers.StartGameController.<GetAuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 30|Exception of type 'System.Exception' was thrown.
+2018-09-17 10:28:18.5472|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 55
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<AuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 28|Object reference not set to an instance of an object.
+2018-09-17 10:31:17.6016|ERROR|BlackJack.Angular.Controllers.StartGameController|BlackJack.BLL|Void MoveNext()|   at BlackJack.BusinessLogic.Services.StartGameService.<PlayerAuthorization>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartGameService.cs:line 55
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.StartGameController.<AuthorizedPlayer>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 28|Object reference not set to an instance of an object.

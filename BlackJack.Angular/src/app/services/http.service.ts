@@ -8,8 +8,10 @@ export class HttpService {
     constructor(private http: HttpClient) { }
     
     GetAuthorizedPlayer(userName: string) {
-        const body = { UserName: userName };
-        return this.http.post('StartGame/AuthorizedPlayer', body);
+        const options = userName ?
+            { params: new HttpParams().set('userName', userName.toString()) } : {};
+
+        return this.http.get('StartGame/AuthorizedPlayer', options);
     }
 
     CreateNewGame(playerId: number, amountOfBots: number) {
@@ -28,7 +30,7 @@ export class HttpService {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this.http.get('StartGame/GetGame', options);
+        return this.http.get('StartGame/Round', options);
     }
 
     GetGamePlayer(gamePlayerId: number) {

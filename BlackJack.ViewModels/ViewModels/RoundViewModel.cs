@@ -7,8 +7,8 @@ namespace BlackJack.ViewModels.ViewModels
         public int Id { get; set; }
         public string Name { get; set; }
         public int Stage { get; set; }
-        public PlayerViewModel Dealer { get; set; }
-        public PlayerViewModel Human { get; set; }
-        public List<PlayerViewModel> Bots { get; set; }
+        public PlayerItem Dealer { get; set; }
+        public PlayerItem Human { get; set; }
+        public List<PlayerItem> Bots { get; set; }
     }
 }

@@ -314,7 +314,7 @@
     <TypeScriptCompile Include="src\app\services\http.service.ts" />
     <TypeScriptCompile Include="src\app\authorized-user\game\take-card\take-card.component.spec.ts" />
     <TypeScriptCompile Include="src\app\authorized-user\game\take-card\take-card.component.ts" />
-    <TypeScriptCompile Include="src\app\viewmodels\AuthorizedPlayerViewModel.ts" />
+    <TypeScriptCompile Include="src\app\viewmodels\AuthorizedUserViewModel.ts" />
     <TypeScriptCompile Include="src\app\homepage\homepage.component.spec.ts" />
     <TypeScriptCompile Include="src\app\homepage\homepage.component.ts" />
     <TypeScriptCompile Include="src\app\authorized-user\startpage\startpage.component.spec.ts" />

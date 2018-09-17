@@ -93,7 +93,7 @@ namespace BlackJack.BusinessLogic.Services
 
                 await _gamePlayerRepository.Create(gamePlayer);
                 
-                message = LogMessageHelper.PlayerAddedToGame(player.PlayerType.ToString(), player.Id, player.Name, gamePlayer.Score);
+                message = LogMessageHelper.PlayerAddedToGame(player.Type.ToString(), player.Id, player.Name, gamePlayer.Score);
                 await _logRepository.Create(game.Id, message);
             }
 
@@ -120,18 +120,18 @@ namespace BlackJack.BusinessLogic.Services
             {
                 PlayerViewModel playerViewModel = Mapper.Map<GamePlayer, PlayerViewModel>(gamePlayer); 
 
-                if ((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer)
+                if ((PlayerType)gamePlayer.Player.Type == PlayerType.Dealer)
                 {
                     gameViewModel.Dealer = playerViewModel;
                 }
 
-                if ((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human)
+                if ((PlayerType)gamePlayer.Player.Type == PlayerType.Human)
                 {
                     gameViewModel.Human = playerViewModel;
                     gameViewModel.Name = playerViewModel.Name;
                 }
 
-                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human) && !((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer))
+                if (!((PlayerType)gamePlayer.Player.Type == PlayerType.Human) && !((PlayerType)gamePlayer.Player.Type == PlayerType.Dealer))
                 {
                     gameViewModel.Bots.Add(playerViewModel);
                 }
@@ -144,7 +144,7 @@ namespace BlackJack.BusinessLogic.Services
         {
             Player player = new Player();
             player.Name = name;
-            player.PlayerType = (int)playerType;
+            player.Type = (int)playerType;
             await _playerRepository.Create(player);
             return player;
         }

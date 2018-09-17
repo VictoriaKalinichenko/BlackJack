@@ -22,7 +22,7 @@ namespace BlackJack.BusinessLogic.Providers
         public string ConvertCardToString(Card card)
         {
             string result = string.Empty;
-            result = $"{((CardName)card.CardName).ToString()} {((CardType)card.CardType).ToString()}";
+            result = $"{((CardName)card.Name).ToString()} {((CardType)card.Type).ToString()}";
             return result;
         }
 
@@ -52,7 +52,7 @@ namespace BlackJack.BusinessLogic.Providers
 
             foreach (PlayerCard playerCard in playerCards)
             {
-                int cardScore = playerCard.Card.CardName;
+                int cardScore = playerCard.Card.Name;
                 if (cardScore > (int)CardName.Ace)
                 {
                     cardScore = (int)CardName.Ten;
@@ -62,7 +62,7 @@ namespace BlackJack.BusinessLogic.Providers
             }
 
             int aceCount = playerCards
-                .Where(m => m.Card.CardName == (int)CardName.Ace)
+                .Where(m => m.Card.Name == (int)CardName.Ace)
                 .Count();
 
             for (; aceCount > 0 && roundScore > CardValueHelper.CardBlackJackScore;)

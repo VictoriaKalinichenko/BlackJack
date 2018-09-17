@@ -2,7 +2,7 @@
 {
     public class Card : EntityBase
     {
-        public int CardName { get; set; }
-        public int CardType { get; set; }
+        public int Name { get; set; }
+        public int Type { get; set; }
     }
 }

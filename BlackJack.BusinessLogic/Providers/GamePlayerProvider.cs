@@ -28,22 +28,22 @@ namespace BlackJack.BusinessLogic.Providers
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                if ((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Human)
+                if ((PlayerType)gamePlayer.Player.Type == PlayerType.Human)
                 {
                     gamePlayer.Bet = bet;
                 }
 
-                if (((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Bot))
+                if (((PlayerType)gamePlayer.Player.Type == PlayerType.Bot))
                 {
                     gamePlayer.Bet = BetGenerate(gamePlayer.Score);
                 }
 
-                if (!((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Dealer))
+                if (!((PlayerType)gamePlayer.Player.Type == PlayerType.Dealer))
                 {
                     gamePlayer.Score = gamePlayer.Score - gamePlayer.Bet;
                     await _gamePlayerRepository.Update(gamePlayer);
                     
-                    string message = LogMessageHelper.BetCreated(gamePlayer.Player.PlayerType.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.Score, gamePlayer.Bet);
+                    string message = LogMessageHelper.BetCreated(gamePlayer.Player.Type.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.Score, gamePlayer.Bet);
                     await _logRepository.Create(inGamePlayers.First().GameId, message);
                 }
             }
@@ -55,7 +55,7 @@ namespace BlackJack.BusinessLogic.Providers
 
             foreach (GamePlayer player in players)
             {
-                if (!((PlayerType)player.Player.PlayerType == PlayerType.Dealer) && player.BetPayCoefficient != BetValueHelper.BetDefaultCoefficient)
+                if (!((PlayerType)player.Player.Type == PlayerType.Dealer) && player.BetPayCoefficient != BetValueHelper.BetDefaultCoefficient)
                 {
                     BetPayment(player, dealer);
                     await _gamePlayerRepository.Update(player);

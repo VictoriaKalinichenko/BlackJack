@@ -173,7 +173,7 @@ namespace BlackJack.BusinessLogic.Services
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                if (((PlayerType)gamePlayer.Player.PlayerType == PlayerType.Bot) && gamePlayer.Score <= GameValueHelper.ZeroScore)
+                if (((PlayerType)gamePlayer.Player.Type == PlayerType.Bot) && gamePlayer.Score <= GameValueHelper.ZeroScore)
                 {
                     await _gamePlayerRepository.Delete(gamePlayer.Id);
                 }

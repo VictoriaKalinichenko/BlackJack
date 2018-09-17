@@ -50,7 +50,7 @@
                 dataType: "json",
                 success: function (response) {
                     $("#gameplay").text("");
-                    $("#gameplay").append(`<p>${response.HumanRoundResult}</p>`)
+                    $("#gameplay").append(`<p>${response.RoundResult}</p>`)
                     ReloadPlayers();
                     ReloadDealerInSecondPhase();
                     DrowButtonsEndRound();
@@ -401,7 +401,7 @@
             value: "New game",
             class: "btn btn-primary",
             click: function () {
-                window.location.href = `/StartGame/MainPage?userName=${userName}`;
+                window.location.href = `/StartGame/AuthorizedPlayer?userName=${userName}`;
             }
         });
 

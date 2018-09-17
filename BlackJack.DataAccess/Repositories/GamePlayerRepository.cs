@@ -66,7 +66,7 @@ namespace BlackJack.DataAccess.Repositories
             string sqlQuery = $@"SELECT A.Id, PlayerId, GameId, Score, RoundScore, BetPayCoefficient, Bet, A.CreationDate
                                  FROM GamePlayers AS A 
                                  INNER JOIN Players AS B ON A.PlayerId = B.Id
-                                 WHERE A.GameId = @gameId AND B.PlayerType = @playerType";
+                                 WHERE A.GameId = @gameId AND B.Type = @playerType";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {

@@ -4,11 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../services/data.service';
 
 @Component({
-  selector: 'app-auth-user',
-  templateUrl: './auth-user.component.html',
-  styleUrls: ['./auth-user.component.css']
+    selector: 'app-authorized-user',
+    templateUrl: './authorized-user.component.html',
+    styleUrls: ['./authorized-user.component.css']
 })
-export class AuthUserComponent implements OnInit {
+export class AuthorizedUserComponent implements OnInit {
     UserName: string;
 
     constructor(

@@ -11,7 +11,7 @@ namespace BlackJack.BusinessLogic.Config
             Mapper.Initialize(config =>
             {
                 config.CreateMap<GamePlayer, GetPlayerViewModel>();
-                config.CreateMap<Game, GameViewModel>();
+                config.CreateMap<Game, RoundViewModel>();
                 config.CreateMap<Log, GetLogsViewModel>();
 
                 config.CreateMap<GamePlayer, PlayerViewModel>()

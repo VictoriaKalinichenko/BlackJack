@@ -47,7 +47,7 @@ namespace BlackJack.BusinessLogic.Services
             return human.Name;
         }
 
-        public async Task<AuthPlayerViewModel> PlayerAuthorization(string name)
+        public async Task<AuthorizedPlayerViewModel> PlayerAuthorization(string name)
         {
             Player human = await _playerRepository.SelectByName(name);
 
@@ -59,14 +59,14 @@ namespace BlackJack.BusinessLogic.Services
                 resumeGame = false;
             }
 
-            AuthPlayerViewModel authPlayerViewModel = new AuthPlayerViewModel()
+            AuthorizedPlayerViewModel authorizedPlayerViewModel = new AuthorizedPlayerViewModel()
             {
                 PlayerId = human.Id,
                 Name = human.Name,
                 ResumeGame = resumeGame
             };
 
-            return authPlayerViewModel;
+            return authorizedPlayerViewModel;
         }
 
         public async Task<int> CreateGame(int playerId, int amountOfBots)
@@ -107,10 +107,10 @@ namespace BlackJack.BusinessLogic.Services
             return gameId;
         }
 
-        public async Task<GameViewModel> GetGame(int gameId)
+        public async Task<RoundViewModel> GetGame(int gameId)
         {
             Game game = await _gameRepository.Get(gameId);
-            GameViewModel gameViewModel = Mapper.Map<Game, GameViewModel>(game);
+            RoundViewModel gameViewModel = Mapper.Map<Game, RoundViewModel>(game);
 
             IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
 

@@ -19,14 +19,14 @@ namespace BlackJack.UI.Controllers
             _startGameService = startGameService;
         }
         
-        public ActionResult Index()
+        public ActionResult NameValidation()
         {
             NameValidationViewModel nameValidationViewModel = new NameValidationViewModel();
             return View(nameValidationViewModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(NameValidationViewModel nameValidationViewModel)
+        public async Task<ActionResult> NameValidation(NameValidationViewModel nameValidationViewModel)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace BlackJack.UI.Controllers
                 if(string.IsNullOrEmpty(nameValidationViewModel.ValidateMessage))
                 {
                     string userName = await _startGameService.PlayerCreation(nameValidationViewModel.UserName);
-                    return RedirectToAction("MainPage", new { userName = userName });
+                    return RedirectToAction("AuthorizedPlayer", new { userName = userName });
                 }
                 
                 return View(nameValidationViewModel);
@@ -48,12 +48,12 @@ namespace BlackJack.UI.Controllers
             }
         }
         
-        public async Task<ActionResult> MainPage(string userName)
+        public async Task<ActionResult> AuthorizedPlayer(string userName)
         {
             try
             {
-                AuthPlayerViewModel authPlayerViewModel = await _startGameService.PlayerAuthorization(userName);
-                return View(authPlayerViewModel);
+                AuthorizedPlayerViewModel authorizedPlayerViewModel = await _startGameService.PlayerAuthorization(userName);
+                return View(authorizedPlayerViewModel);
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                GameViewModel game = await _startGameService.GetGame(gameId);
+                RoundViewModel game = await _startGameService.GetGame(gameId);
                 return View(game);
             }
             catch (Exception ex)

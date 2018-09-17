@@ -18,7 +18,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Home", "MainPage", "StartGame", new { userName = ViewBag.UserName }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Home", "AuthorizedPlayer", "StartGame", new { userName = ViewBag.UserName }, new { @class = "navbar-brand" })
             </div>
 
             <div class="collapse navbar-collapse" id="myNavbar">
@@ -32,7 +32,7 @@
                         <b>Log in as: @ViewBag.UserName</b>
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Log out", "Index", "StartGame")
+                        @Html.ActionLink("Log out", "NameValidation", "StartGame")
                     </li>
                 </ul>
             </div>

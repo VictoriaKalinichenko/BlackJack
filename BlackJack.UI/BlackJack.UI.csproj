@@ -2703,9 +2703,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\KendoGrid\LogViewModels.js" />
+    <Content Include="Scripts\Log\Index.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\Round\RoundHandler.js" />
+    <Content Include="Scripts\StartGame\Round.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2717,11 +2717,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\StartGame\Index.cshtml" />
+    <Content Include="Views\StartGame\NameValidation.cshtml" />
     <Content Include="Views\StartGame\Error.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
     <Content Include="Views\Shared\_StartPage.cshtml" />
-    <Content Include="Views\StartGame\MainPage.cshtml" />
+    <Content Include="Views\StartGame\AuthorizedPlayer.cshtml" />
     <Content Include="Views\StartGame\Round.cshtml" />
   </ItemGroup>
   <ItemGroup>

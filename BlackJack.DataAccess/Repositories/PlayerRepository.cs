@@ -21,7 +21,7 @@ namespace BlackJack.DataAccess.Repositories
         public async Task<Player> SelectByName(string name)
         {
             Player player = new Player();
-            string sqlQuery = @"SELECT Id, Players.Name, PlayerType FROM Players    
+            string sqlQuery = @"SELECT Id, Players.Name, Type FROM Players    
                                 WHERE Players.Name = @name";
 
             using (IDbConnection db = new SqlConnection(_connectionString))

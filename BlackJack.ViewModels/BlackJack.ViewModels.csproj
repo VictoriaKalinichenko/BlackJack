@@ -45,11 +45,11 @@
     <Compile Include="Enums\CardType.cs" />
     <Compile Include="Enums\PlayerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\AuthPlayerViewModel.cs" />
+    <Compile Include="ViewModels\AuthorizedPlayerViewModel.cs" />
     <Compile Include="ViewModels\BetCreationApiViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
     <Compile Include="ViewModels\GetPlayerViewModel.cs" />
-    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\RoundViewModel.cs" />
     <Compile Include="ViewModels\GetLogsViewModel.cs" />
     <Compile Include="ViewModels\NameValidationViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />

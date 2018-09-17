@@ -9,7 +9,7 @@ export class HttpService {
     
     GetAuthorizedPlayer(userName: string) {
         const body = { UserName: userName };
-        return this.http.post('StartGame/GetAuthorizedPlayer', body);
+        return this.http.post('StartGame/AuthorizedPlayer', body);
     }
 
     CreateNewGame(playerId: number, amountOfBots: number) {

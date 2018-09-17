@@ -15,7 +15,7 @@ var HttpService = /** @class */ (function () {
     }
     HttpService.prototype.GetAuthorizedPlayer = function (userName) {
         var body = { UserName: userName };
-        return this.http.post('StartGame/GetAuthorizedPlayer', body);
+        return this.http.post('StartGame/AuthorizedPlayer', body);
     };
     HttpService.prototype.CreateNewGame = function (playerId, amountOfBots) {
         var body = { PlayerId: playerId, AmountOfBots: amountOfBots };

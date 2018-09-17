@@ -32,10 +32,10 @@ namespace BlackJack.UI
                 "~/Scripts/kendoui/js/kendo.all.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/KendoUI/Logs").Include(
-                "~/Scripts/KendoGrid/LogViewModels.js"));
+                "~/Scripts/Log/Index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/RoundHandler").Include(
-                "~/Scripts/Round/RoundHandler.js"));
+                "~/Scripts/StartGame/Round.js"));
         }
     }
 }

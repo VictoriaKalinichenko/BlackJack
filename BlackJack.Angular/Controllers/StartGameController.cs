@@ -21,13 +21,13 @@ namespace BlackJack.Angular.Controllers
         }
         
         [Route("GetAuthorizedPlayer"), HttpPost]
-        public async Task<IHttpActionResult> GetAuthorizedPlayer(UserNameViewModel userNameViewModel)
+        public async Task<IHttpActionResult> AuthorizedPlayer(UserNameViewModel userNameViewModel)
         {
             try
             {
                 string userName = await _startGameService.PlayerCreation(userNameViewModel.UserName);
-                AuthPlayerViewModel authPlayerViewModel = await _startGameService.PlayerAuthorization(userName);
-                return Ok(authPlayerViewModel);
+                AuthorizedPlayerViewModel authorizedPlayerViewModel = await _startGameService.PlayerAuthorization(userName);
+                return Ok(authorizedPlayerViewModel);
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                GameViewModel game = await _startGameService.GetGame(gameId);
+                RoundViewModel game = await _startGameService.GetGame(gameId);
                 return Ok(game);
             }
             catch (Exception ex)

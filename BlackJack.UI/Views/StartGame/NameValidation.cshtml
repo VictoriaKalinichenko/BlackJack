@@ -9,7 +9,7 @@
 <div class="jumbotron">
     <h1>BlackJack</h1>
 
-    @using (Html.BeginForm("Index", "StartGame", FormMethod.Post, new { @class = "form-horizontal" }))
+    @using (Html.BeginForm("NameValidation", "StartGame", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         <div class="form-group">
             <label class="control-label col-md-2">@GameMessageHelper.NameInput</label>

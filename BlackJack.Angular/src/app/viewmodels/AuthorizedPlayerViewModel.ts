@@ -1,4 +1,4 @@
-﻿export class AuthPlayerViewModel {
+﻿export class AuthorizedPlayerViewModel {
     Name: string;
     PlayerId: number;
     ResumeGame: boolean;

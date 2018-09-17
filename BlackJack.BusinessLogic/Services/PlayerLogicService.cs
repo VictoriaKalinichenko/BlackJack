@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Repositories.Interfaces;
-using BlackJack.Entities.Models;
+using BlackJack.Entities.Entities;
 using BlackJack.ViewModels.Enums;
 using BlackJack.ViewModels.ViewModels;
 using NLog;

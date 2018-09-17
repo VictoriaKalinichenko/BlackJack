@@ -1,4 +1,4 @@
-﻿namespace BlackJack.Entities.Models
+﻿namespace BlackJack.Entities.Entities
 {
     public class Card : EntityBase
     {

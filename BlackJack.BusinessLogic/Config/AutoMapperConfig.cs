@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BlackJack.Entities.Models;
+using BlackJack.Entities.Entities;
 using BlackJack.ViewModels.ViewModels;
 
 namespace BlackJack.BusinessLogic.Config

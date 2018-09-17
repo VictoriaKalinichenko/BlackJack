@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.ViewModels.ViewModels;
 using BlackJack.DataAccess.Repositories.Interfaces;
-using BlackJack.Entities.Models;
+using BlackJack.Entities.Entities;
 using AutoMapper;
 
 namespace BlackJack.BusinessLogic.Services

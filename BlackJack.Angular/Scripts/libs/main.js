@@ -1179,11 +1179,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var StartpageComponent = /** @class */ (function () {
-    function StartpageComponent(_dataService, _httpService, _errorService, _router) {
+    function StartpageComponent(_dataService, _httpService, _errorService, _router, _route) {
         this._dataService = _dataService;
         this._httpService = _httpService;
         this._errorService = _errorService;
         this._router = _router;
+        this._route = _route;
         this.Player = new _viewmodels_AuthPlayerViewModel__WEBPACK_IMPORTED_MODULE_5__["AuthPlayerViewModel"]();
         this.AmountOfBots = 0;
     }
@@ -1221,6 +1222,7 @@ var StartpageComponent = /** @class */ (function () {
         this._httpService.ResumeGame(this.Player.PlayerId)
             .subscribe(function (data) {
             _this.GameId = data["GameId"];
+            var config = _this._route.parent;
             _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
         }, function (error) {
             console.log(error);
@@ -1237,7 +1239,8 @@ var StartpageComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"],
             _services_http_service__WEBPACK_IMPORTED_MODULE_3__["HttpService"],
             _services_error_service__WEBPACK_IMPORTED_MODULE_4__["ErrorService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
     ], StartpageComponent);
     return StartpageComponent;
 }());

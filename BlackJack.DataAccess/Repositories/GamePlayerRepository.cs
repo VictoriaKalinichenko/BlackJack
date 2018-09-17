@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using BlackJack.DataAccess.Repositories.Interfaces;
-using BlackJack.Entities.Models;
+using BlackJack.Entities.Entities;
 using Dapper;
 using Dapper.Contrib.Extensions;
 

@@ -57,13 +57,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Card.cs" />
-    <Compile Include="Models\EntityBase.cs" />
-    <Compile Include="Models\Game.cs" />
-    <Compile Include="Models\GamePlayer.cs" />
-    <Compile Include="Models\Log.cs" />
-    <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\PlayerCard.cs" />
+    <Compile Include="Entities\Card.cs" />
+    <Compile Include="Entities\EntityBase.cs" />
+    <Compile Include="Entities\Game.cs" />
+    <Compile Include="Entities\GamePlayer.cs" />
+    <Compile Include="Entities\Log.cs" />
+    <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entities\PlayerCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

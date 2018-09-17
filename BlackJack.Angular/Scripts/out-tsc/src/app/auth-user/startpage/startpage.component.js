@@ -8,17 +8,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { HttpService } from '../../services/http.service';
 import { ErrorService } from '../../services/error.service';
 import { AuthPlayerViewModel } from '../../viewmodels/AuthPlayerViewModel';
 var StartpageComponent = /** @class */ (function () {
-    function StartpageComponent(_dataService, _httpService, _errorService, _router) {
+    function StartpageComponent(_dataService, _httpService, _errorService, _router, _route) {
         this._dataService = _dataService;
         this._httpService = _httpService;
         this._errorService = _errorService;
         this._router = _router;
+        this._route = _route;
         this.Player = new AuthPlayerViewModel();
         this.AmountOfBots = 0;
     }
@@ -72,7 +73,8 @@ var StartpageComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [DataService,
             HttpService,
             ErrorService,
-            Router])
+            Router,
+            ActivatedRoute])
     ], StartpageComponent);
     return StartpageComponent;
 }());

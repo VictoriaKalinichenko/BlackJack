@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlackJack.Entities.Models
+namespace BlackJack.Entities.Entities
 {
     public abstract class EntityBase
     {

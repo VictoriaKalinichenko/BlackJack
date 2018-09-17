@@ -1,6 +1,6 @@
 ﻿using Dapper.Contrib.Extensions;
 
-namespace BlackJack.Entities.Models
+namespace BlackJack.Entities.Entities
 {
     public class PlayerCard : EntityBase
     {

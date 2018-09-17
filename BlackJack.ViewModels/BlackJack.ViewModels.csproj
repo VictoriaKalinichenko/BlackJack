@@ -50,7 +50,7 @@
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
     <Compile Include="ViewModels\GamePlayerViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
-    <Compile Include="ViewModels\LogViewModel.cs" />
+    <Compile Include="ViewModels\GetLogsViewModel.cs" />
     <Compile Include="ViewModels\NameValidationViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="ViewModels\UserNameViewModel.cs" />

@@ -38,9 +38,27 @@
             return message;
         }
 
-        public static string PlayerBlackJack(string playerType, int playerId, string playerName, int playerRoundScore, float betPayCoef)
+        public static string PlayerBlackJackResult(string playerType, int playerId, string playerName, int playerRoundScore, float betPayCoef)
         {
             string message = $"{playerType}(Id={playerId}, Name={playerName}) has Blackjack(RoundScore={playerRoundScore}). BetPayCoefficient is changed(={betPayCoef})";
+            return message;
+        }
+
+        public static string PlayerWinResult(string playerType, int playerId, string playerName, int playerRoundScore, float betPayCoefficient, int dealerRoundScore)
+        {
+            string message = $"{playerType}(Id={playerId}, Name={playerName}) has win result(PlayerRoundScore={playerRoundScore}, DealerRoundScore={dealerRoundScore}). BetPayCoefficient is changed(={betPayCoefficient})";
+            return message;
+        }
+
+        public static string PlayerEqualResult(string playerType, int playerId, string playerName, int playerRoundScore, float betPayCoefficient, int dealerRoundScore)
+        {
+            string message = $"{playerType}(Id={playerId}, Name={playerName}) has equal result(PlayerRoundScore={playerRoundScore}, DealerRoundScore={dealerRoundScore}). BetPayCoefficient is changed(={betPayCoefficient})";
+            return message;
+        }
+
+        public static string PlayerLoseResult(string playerType, int playerId, string playerName, int playerRoundScore, float betPayCoefficient, int dealerRoundScore)
+        {
+            string message = $"{playerType}(Id={playerId}, Name={playerName}) has lose result(PlayerRoundScore={playerRoundScore}, DealerRoundScore={dealerRoundScore}). BetPayCoefficient is changed(={betPayCoefficient})";
             return message;
         }
 
@@ -50,9 +68,9 @@
             return message;
         }
 
-        public static string CardAdded(int cardId, int cardValue, string cardName, string playerType, int playerId, string playerName, int playerRoundScore)
+        public static string CardAdded(int cardId, int cardValue, string cardName, string playerType, int playerId, string playerName)
         {
-            string message = $"Card(Id={cardId}, Value={cardValue}, Name={cardName}) is added to {playerType}(Id={playerId}, Name={playerName}, RoundScore={playerRoundScore})";
+            string message = $"Card(Id={cardId}, Value={cardValue}, Name={cardName}) is added to {playerType}(Id={playerId}, Name={playerName})";
             return message;
         }
     }

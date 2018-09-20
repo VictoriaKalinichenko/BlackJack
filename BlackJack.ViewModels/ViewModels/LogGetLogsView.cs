@@ -2,7 +2,7 @@
 
 namespace BlackJack.ViewModels.ViewModels
 {
-    public class GetLogsViewModel
+    public class LogGetLogsView
     {
         public int Id { get; set; }
         public DateTime DateTime { get; set; }

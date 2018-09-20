@@ -7,9 +7,15 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
     {
         Task<Game> Get(int id);
 
+        Task<int> GetIdByPlayerId(int id);
+
+        Task<Game> GetByPlayerId(int playerId);
+
         Task<Game> Create(Game obj);
 
-        Task Update(Game obj);
+        Task UpdateStage(int gameId, int stage);
+
+        Task UpdateResult(int gameId, string result);
 
         Task Delete(int id);
     }

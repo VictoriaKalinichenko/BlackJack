@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Helpers;
+using BlackJack.ViewModels.ViewModels;
 using NLog;
 
 namespace BlackJack.UI.Controllers
@@ -27,8 +29,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                var logViewModels = await _logService.GetAll();
-                return Json(logViewModels, JsonRequestBehavior.AllowGet);
+                IEnumerable<LogGetLogsView> logViews = await _logService.GetAllLogs();
+                return Json(logViews, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

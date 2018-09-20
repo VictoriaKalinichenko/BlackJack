@@ -1,4 +1,5 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using System.Collections.Generic;
+using Dapper.Contrib.Extensions;
 
 namespace BlackJack.Entities.Entities
 {
@@ -9,8 +10,11 @@ namespace BlackJack.Entities.Entities
         public int Score { get; set; }
         public int Bet { get; set; }
         public int RoundScore { get; set; }
+        public int CardAmount { get; set; }
         public float BetPayCoefficient { get; set; }
         [Write(false)]
         public Player Player { get; set; }
+        [Write(false)]
+        public List<PlayerCard> PlayerCards { get; set; }
     }
 }

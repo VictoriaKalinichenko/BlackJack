@@ -22,7 +22,7 @@ namespace BlackJack.DataAccess.Repositories
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var cards = await db.GetAllAsync<Card>();
+                IEnumerable<Card> cards = await db.GetAllAsync<Card>();
                 return cards;
             }
         }

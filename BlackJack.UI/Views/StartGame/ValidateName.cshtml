@@ -1,6 +1,6 @@
 ﻿@using BlackJack.BusinessLogic.Helpers;
 @using BlackJack.ViewModels.ViewModels;
-@model NameValidationViewModel
+@model StartGameValidateNameView
 @{
     Layout = "~/Views/Shared/_StartPage.cshtml";
     ViewBag.Title = "Home Page";
@@ -9,14 +9,14 @@
 <div class="jumbotron">
     <h1>BlackJack</h1>
 
-    @using (Html.BeginForm("NameValidation", "StartGame", FormMethod.Post, new { @class = "form-horizontal" }))
+    @using (Html.BeginForm("ValidateName", "StartGame", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         <div class="form-group">
             <label class="control-label col-md-2">@GameMessageHelper.NameInput</label>
             <div class="col-md-10">
-                @if (!string.IsNullOrEmpty(Model.ValidateMessage))
+                @if (!string.IsNullOrEmpty(Model.ValidationMessage))
                 {
-                    <div class="alert alert-danger">@Model.ValidateMessage</div>
+                    <div class="alert alert-danger">@Model.ValidationMessage</div>
                 }
                 @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
                 <br />

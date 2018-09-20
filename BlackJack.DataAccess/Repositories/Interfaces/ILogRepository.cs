@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlackJack.Entities.Entities;
 
@@ -8,6 +9,8 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
     {
         Task<IEnumerable<Log>> GetAll();
 
-        Task Create(int gameId, string message);
+        Task Create(int gameId, string message, DateTime dateTime);
+
+        Task CreateMany(IEnumerable<Log> logs);
     }
 }

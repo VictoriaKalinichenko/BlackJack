@@ -3,6 +3,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Helpers;
+using BlackJack.ViewModels.ViewModels;
 using NLog;
 
 namespace BlackJack.UI.Controllers
@@ -18,12 +19,12 @@ namespace BlackJack.UI.Controllers
             _gameLogicService = gameLogicService;
         }
 
-        [Route("RoundStart"), HttpGet]
-        public async Task<IHttpActionResult> RoundStart(int inGameId)
+        [Route("EndGame"), HttpPost]
+        public async Task<IHttpActionResult> EndGame(GameLogicEndGameView gameLogicEndGameView)
         {
             try
             {
-                await _gameLogicService.RoundFirstPhase(inGameId);
+                await _gameLogicService.EndGame(gameLogicEndGameView);
                 return Ok(GameMessageHelper.Success);
             }
             catch (Exception ex)
@@ -33,15 +34,21 @@ namespace BlackJack.UI.Controllers
                 return BadRequest(GameMessageHelper.GameError);
             }
         }
-        
-        [Route("FirstPhaseGamePlay"), HttpGet]
-        public async Task<IHttpActionResult> FirstPhaseGamePlay(int inGameId)
+
+        [Route("DoRoundFirstPhase"), HttpPost]
+        public async Task<IHttpActionResult> DoRoundFirstPhase(GameLogicDoRoundFirstPhaseRequestView gameLogicDoRoundFirstPhaseRequestView)
         {
             try
             {
-                bool humanBlackJackAndDealerBlackJackDanger = await _gameLogicService.IsHumanBlackJackAndDealerBlackJackDanger(inGameId);
-                bool canHumanTakeOneMoreCard = await _gameLogicService.CanHumanTakeOneMoreCard(inGameId);
-                return Ok(new { HumanBlackJackAndDealerBlackJackDanger = humanBlackJackAndDealerBlackJackDanger, CanHumanTakeOneMoreCard = canHumanTakeOneMoreCard });
+                string message = await _gameLogicService.ValidateBet(gameLogicDoRoundFirstPhaseRequestView.Bet, gameLogicDoRoundFirstPhaseRequestView.GamePlayerId);
+
+                if (string.IsNullOrEmpty(message))
+                {
+                    GameLogicDoRoundFirstPhaseResponseView gameLogicDoRoundFirstPhaseResponseView = await _gameLogicService.DoRoundFirstPhase(gameLogicDoRoundFirstPhaseRequestView.Bet, gameLogicDoRoundFirstPhaseRequestView.GameId);
+                    return Ok(new { Message = message, Data = gameLogicDoRoundFirstPhaseResponseView });
+                }
+
+                return Ok(new { Message = message });
             }
             catch (Exception ex)
             {
@@ -50,31 +57,30 @@ namespace BlackJack.UI.Controllers
                 return BadRequest(GameMessageHelper.GameError);
             }
         }
-        
-        [Route("BlackJackDangerContinueRound"), HttpGet]
-        public async Task<IHttpActionResult> BlackJackDangerContinueRound(int inGameId)
+
+        [Route("ResumeGameAfterRoundFirstPhase"), HttpGet]
+        public async Task<IHttpActionResult> ResumeGameAfterRoundFirstPhase(int gameId)
         {
             try
             {
-                await _gameLogicService.BlackJackDangerContinueRound(inGameId);
-                return Ok(GameMessageHelper.Success);
+                GameLogicResumeGameAfterRoundFirstPhaseView gameLogicResumeGameAfterRoundFirstPhaseView = await _gameLogicService.ResumeGameAfterRoundFirstPhase(gameId);
+                return Ok(new { Data = gameLogicResumeGameAfterRoundFirstPhaseView });
             }
             catch (Exception ex)
             {
                 string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameError );
+                return BadRequest(GameMessageHelper.GameError);
             }
         }
         
         [Route("AddOneMoreCardToHuman"), HttpGet]
-        public async Task<IHttpActionResult> AddOneMoreCardToHuman(int inGameId)
+        public async Task<IHttpActionResult> AddOneMoreCardToHuman(int gameId)
         {
             try
             {
-                await _gameLogicService.AddOneMoreCardToHuman(inGameId);
-                bool canHumanTakeOneMoreCard = await _gameLogicService.CanHumanTakeOneMoreCard(inGameId);
-                return Ok(new { CanHumanTakeOneMoreCard = canHumanTakeOneMoreCard });
+                GameLogicAddOneMoreCardToHumanView gameLogicAddOneMoreCardToHumanView = await _gameLogicService.AddOneMoreCardToHuman(gameId);
+                return Ok(new { Data = gameLogicAddOneMoreCardToHumanView });
             }
             catch (Exception ex)
             {
@@ -84,12 +90,44 @@ namespace BlackJack.UI.Controllers
             }
         }
         
-        [Route("SecondPhase"), HttpGet]
-        public async Task<IHttpActionResult> SecondPhase(int inGameId)
+        [Route("DoRoundSecondPhase"), HttpPost]
+        public async Task<IHttpActionResult> DoRoundSecondPhase(GameLogicDoRoundSecondPhaseRequestView gameLogicDoRoundSecondPhaseRequestView)
         {
             try
             {
-                await _gameLogicService.RoundSecondPhase(inGameId);
+                GameLogicDoRoundSecondPhaseResponseView gameLogicDoRoundSecondPhaseResponseView = await _gameLogicService.DoRoundSecondPhase(gameLogicDoRoundSecondPhaseRequestView.GameId, gameLogicDoRoundSecondPhaseRequestView.HumanBlackJackAndDealerBlackJackDanger);
+                return Ok(new { Data = gameLogicDoRoundSecondPhaseResponseView });
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                return BadRequest(GameMessageHelper.GameError);
+            }
+        }
+
+        [Route("ResumeGameAfterRoundSecondPhase"), HttpGet]
+        public async Task<IHttpActionResult> ResumeGameAfterRoundSecondPhase(int gameId)
+        {
+            try
+            {
+                GameLogicResumeGameAfterRoundSecondPhaseView gameLogicResumeGameAfterRoundSecondPhaseView = await _gameLogicService.ResumeGameAfterRoundSecondPhase(gameId);
+                return Ok(new { Data = gameLogicResumeGameAfterRoundSecondPhaseView });
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                return BadRequest(GameMessageHelper.GameError);
+            }
+        }
+
+        [Route("EndRound"), HttpGet]
+        public async Task<IHttpActionResult> EndRound(int gameId)
+        {
+            try
+            {
+                await _gameLogicService.EndRound(gameId);
                 return Ok(GameMessageHelper.Success);
             }
             catch (Exception ex)

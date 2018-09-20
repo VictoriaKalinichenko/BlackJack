@@ -6,20 +6,30 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 {
     public interface IGamePlayerRepository
     {
-        Task<IEnumerable<GamePlayer>> GetByGameId(int gameId);
+        Task<int> GetScoreById(int gamePlayerId);
 
-        Task<GamePlayer> Get(int id);
+        Task<GamePlayer> GetSpecificPlayerForStartRound(int gameId, int playerType);
 
-        Task<int> GetGameIdByPlayerId(int id);
+        Task<IEnumerable<GamePlayer>> GetSpecificPlayersForStartRound(int gameId, int playerType);
 
-        Task<GamePlayer> GetSpecificPlayerByGameId(int gameId, int playerType);
+        Task<GamePlayer> GetSpecificPlayerWithoutCards(int gameId, int playerType);
 
-        Task<GamePlayer> Create(GamePlayer gamePlayer);
+        Task<IEnumerable<GamePlayer>> GetSpecificPlayersWithoutCards(int gameId, int playerType);
 
-        Task Update(GamePlayer gamePlayer);
+        Task<GamePlayer> GetSpecificPlayerWithCards(int gamePlayerId, int playerCard);
 
-        Task Delete(int id);
+        Task<IEnumerable<GamePlayer>> GetSpecificPlayersWithCards(int gameId, int playerType);
+        
+        Task CreateMany(IEnumerable<GamePlayer> gamePlayers);
 
-        Task DeleteByGameId(int gameId);
+        Task UpdateAfterAddingOneMoreCard(GamePlayer gamePlayer);
+
+        Task UpdateMany(IEnumerable<GamePlayer> gamePlayers);
+
+        Task UpdateManyAfterRoundSecondPhase(IEnumerable<GamePlayer> gamePlayers);
+
+        Task DeleteBotsWithZeroScore(int gameId);
+
+        Task DeleteAllByGameId(int gameId);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace BlackJack.ViewModels.ViewModels
 {
-    public class GetPlayerViewModel
+    public class GamePlayerGameLogicDoRoundFirstPhaseResponseItem
     {
         public int Id { get; set; }
-        public PlayerItem Player { get; set; }
+        public string Name { get; set; }
         public int Score { get; set; }
         public int Bet { get; set; }
         public int RoundScore { get; set; }

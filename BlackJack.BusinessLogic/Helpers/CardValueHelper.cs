@@ -8,6 +8,7 @@
         public static readonly int CardBlackJackAmount = 2;
         public static readonly int CardBlackJackScore = 21;
         public static readonly int CardBotEnoughScore = 17;
-        public static readonly int CardZeroScore = 0;
+        public static readonly int ZeroCardScore = 0;
+        public static readonly int ZeroCardAmount = 0;
     }
 }

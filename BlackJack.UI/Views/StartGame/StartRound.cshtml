@@ -1,14 +1,14 @@
 ﻿@using BlackJack.ViewModels.ViewModels
-@model RoundViewModel
+@model StartGameStartRoundView
 @{
     ViewBag.Title = "Index";
-    ViewBag.UserName = Model.Name;
+    ViewBag.UserName = Model.Human.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <input type="hidden" id="gameid" name="gameid" value=@Model.Id />
 <input type="hidden" id="stage" name="stage" value="@Model.Stage" />
-<input type="hidden" id="userName" value=@Model.Name />
+<input type="hidden" id="userName" value=@Model.Human.Name />
 <div id="players">
     <div class="row row-flex">
         <div id="dealer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
@@ -31,10 +31,19 @@
                     </div>
                 </div>
                 <div id="gameplay" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <label class="control-label">Enter your bet: </label>
-                    <input type="number" id="betinput" class="form-control" step="50" min="50" value="50" max=@Model.Human.Score />
-                    <br />
-                    <input type="submit" class="btn btn-primary" name="betbutton" id="betbutton" value="Enter" />
+                    @if (String.IsNullOrEmpty(Model.IsGameOver))
+                    {
+                        <label class="control-label">Enter your bet: </label>
+                        <input type="number" id="betinput" class="form-control" step="50" min="50" value="50" max=@Model.Human.Score />
+                        <input type="hidden" id="humanscore" value=@Model.Human.Score />
+                        <br />
+                        <input type="submit" class="btn btn-primary" name="betbutton" id="betbutton" value="Enter" />
+                    }
+                    @if (!String.IsNullOrEmpty(Model.IsGameOver))
+                    {
+                        <p id="gameresult">@Model.IsGameOver</p>
+                        <input type="submit" class="btn btn-primary" id="endgame" value="Enter" />
+                    }
                 </div>
             </div>
         </div>

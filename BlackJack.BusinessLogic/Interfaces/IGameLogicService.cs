@@ -1,19 +1,24 @@
 ﻿using System.Threading.Tasks;
+using BlackJack.ViewModels.ViewModels;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IGameLogicService
     {
-        Task RoundFirstPhase(int gameId);
+        Task<string> ValidateBet(int bet, int gamePlayerId);
 
-        Task<bool> IsHumanBlackJackAndDealerBlackJackDanger(int gameId);
+        Task<GameLogicDoRoundFirstPhaseResponseView> DoRoundFirstPhase(int bet, int gameId);
 
-        Task AddOneMoreCardToHuman(int gameId);
+        Task<GameLogicResumeGameAfterRoundFirstPhaseView> ResumeGameAfterRoundFirstPhase(int gameId);
 
-        Task<bool> CanHumanTakeOneMoreCard(int gameId);
+        Task<GameLogicAddOneMoreCardToHumanView> AddOneMoreCardToHuman(int gameId);
 
-        Task RoundSecondPhase(int gameId);
+        Task<GameLogicDoRoundSecondPhaseResponseView> DoRoundSecondPhase(int gameId, bool blackJackDangerContinueRound = false);
 
-        Task BlackJackDangerContinueRound(int gameId);
+        Task<GameLogicResumeGameAfterRoundSecondPhaseView> ResumeGameAfterRoundSecondPhase(int gameId);
+
+        Task EndRound(int gameId);
+
+        Task EndGame(GameLogicEndGameView endGameViewModel);
     }
 }

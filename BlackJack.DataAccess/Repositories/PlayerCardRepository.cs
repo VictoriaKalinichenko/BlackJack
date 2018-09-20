@@ -1,11 +1,13 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using BlackJack.DataAccess.Repositories.Interfaces;
+﻿using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using Dapper;
 using Dapper.Contrib.Extensions;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
+using Z.BulkOperations;
 
 namespace BlackJack.DataAccess.Repositories
 {
@@ -27,7 +29,7 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var playerCards = await db.QueryAsync<PlayerCard, Card, PlayerCard>(sqlQuery, (playerCard, card) =>
+                IEnumerable<PlayerCard> playerCards = await db.QueryAsync<PlayerCard, Card, PlayerCard>(sqlQuery, (playerCard, card) =>
                 {
                     playerCard.Card = card;
                     return playerCard;
@@ -38,25 +40,29 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<int> GetCountByGamePlayerId(int gamePlayerId)
+        public async Task<IEnumerable<int>> GetCardsOnHandsIdsByGameId(int gameId)
         {
-            string sqlQuery = $@"SELECT COUNT(GamePlayerId) FROM PlayerCards 
-                                 WHERE GamePlayerId = @gamePlayerId
-                                 GROUP BY GamePlayerId";
+            string sqlQuery = $@"SELECT CardId FROM PlayerCards AS A
+                                 INNER JOIN GamePlayers AS B ON A.GamePlayerId = B.Id
+                                 WHERE B.GameId = @gameId";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                int playerCardsCount = await db.QuerySingleOrDefaultAsync<int>(sqlQuery, new { gamePlayerId });
-                return playerCardsCount;
+                IEnumerable<int> cardIds = await db.QueryAsync<int>(sqlQuery, new { gameId });
+                return cardIds;
             }
         }
 
-        public async Task<PlayerCard> Get(int id)
+        public async Task<IEnumerable<PlayerCard>> GetPlayerCardsByGameId(int gameId)
         {
+            string sqlQuery = $@"SELECT A.Id FROM PlayerCards AS A
+                                 INNER JOIN GamePlayers AS B ON A.GamePlayerId = B.Id
+                                 WHERE B.GameId = @gameId";
+
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                PlayerCard playerCard = await db.GetAsync<PlayerCard>(id);
-                return playerCard;
+                IEnumerable<PlayerCard> playerCardIds = await db.QueryAsync<PlayerCard>(sqlQuery, new { gameId });
+                return playerCardIds;
             }
         }
 
@@ -70,14 +76,27 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task DeleteByGamePlayerId(int gamePlayerId)
+        public async Task CreateMany(IEnumerable<PlayerCard> playerCards)
         {
-            string sqlQuery = $@"DELETE FROM PlayerCards 
-                                 WHERE GamePlayerId = @gamePlayerId";
-
-            using (IDbConnection db = new SqlConnection(_connectionString))
+            using (DbConnection db = new SqlConnection(_connectionString))
             {
-                await db.ExecuteAsync(sqlQuery, new { gamePlayerId });
+                db.Open();
+                var bulkOperation = new BulkOperation(db);
+                bulkOperation.DestinationTableName = "PlayerCards";
+                await bulkOperation.BulkInsertAsync(playerCards);
+                db.Close();
+            }
+        }
+
+        public async Task DeleteMany(IEnumerable<PlayerCard> playerCards)
+        {
+            using (DbConnection db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+                var bulkOperation = new BulkOperation(db);
+                bulkOperation.DestinationTableName = "PlayerCards";
+                await bulkOperation.BulkDeleteAsync(playerCards);
+                db.Close();
             }
         }
     }

@@ -36,9 +36,6 @@
     <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.9\lib\net45\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -68,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AutoMapperConfig.cs" />
+    <Compile Include="Helpers\CardToStringHelper.cs" />
     <Compile Include="Helpers\CardValueHelper.cs" />
     <Compile Include="Helpers\GameMessageHelper.cs" />
     <Compile Include="Helpers\GameValueHelper.cs" />
@@ -75,17 +73,11 @@
     <Compile Include="Helpers\RoundResultHelper.cs" />
     <Compile Include="Helpers\StageHelper.cs" />
     <Compile Include="Helpers\BetValueHelper.cs" />
-    <Compile Include="Interfaces\IPlayerLogicService.cs" />
     <Compile Include="Interfaces\IGamePlayerProvider.cs" />
     <Compile Include="Interfaces\ILogService.cs" />
-    <Compile Include="Interfaces\IPlayerCardProvider.cs" />
     <Compile Include="Interfaces\IStartGameService.cs" />
-    <Compile Include="Providers\CardCheckProvider.cs" />
-    <Compile Include="Interfaces\ICardCheckProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\GamePlayerProvider.cs" />
-    <Compile Include="Providers\PlayerCardProvider.cs" />
-    <Compile Include="Services\PlayerLogicService.cs" />
     <Compile Include="Services\GameLogicService.cs" />
     <Compile Include="Interfaces\IGameLogicService.cs" />
     <Compile Include="Services\LogService.cs" />
@@ -95,9 +87,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="NLog.config" />
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

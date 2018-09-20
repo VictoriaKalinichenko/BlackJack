@@ -17,11 +17,11 @@ namespace BlackJack.BusinessLogic.Services
             _logRepository = logRepository;
         }
 
-        public async Task<IEnumerable<GetLogsViewModel>> GetAll()
+        public async Task<IEnumerable<LogGetLogsView>> GetAllLogs()
         {
             IEnumerable<Log> logs = await _logRepository.GetAll();
-            IEnumerable<GetLogsViewModel> logViewModels = Mapper.Map<IEnumerable<Log>, IEnumerable<GetLogsViewModel>>(logs);
-            return logViewModels;
+            IEnumerable<LogGetLogsView> logViews = Mapper.Map<IEnumerable<Log>, IEnumerable<LogGetLogsView>>(logs);
+            return logViews;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace BlackJack.BusinessLogic.Services
             _logRepository = logRepository;
         }
 
-        public string PlayerNameValidation(string name)
+        public string ValidatePlayerName(string name)
         {
             string result = String.Empty;
             if (String.IsNullOrEmpty(name))
@@ -37,135 +37,133 @@ namespace BlackJack.BusinessLogic.Services
             return result;
         }
 
-        public async Task<string> PlayerCreation(string name)
+        public async Task CreatePlayer(string name)
         {
-            Player human = await _playerRepository.SelectByName(name);
+            Player human = await _playerRepository.SelectByName(name, (int)PlayerType.Human);
             if (human == null)
             {
-                human = await CreatePlayer(name, PlayerType.Human);
+                human = CreatePlayer(name, PlayerType.Human);
+                await _playerRepository.Create(human);
             }
-            return human.Name;
         }
 
-        public async Task<AuthorizedPlayerViewModel> PlayerAuthorization(string name)
+        public async Task<StartGameAuthorizePlayerView> AuthorizePlayer(string name)
         {
-            Player human = await _playerRepository.SelectByName(name);
+            Player human = await _playerRepository.SelectByName(name, (int)PlayerType.Human);
 
             bool resumeGame = true;
-            int gameId = await _gamePlayerRepository.GetGameIdByPlayerId(human.Id);
-            Game game = await _gameRepository.Get(gameId);
+            Game game = await _gameRepository.GetByPlayerId(human.Id);
             if (game == null || !string.IsNullOrEmpty(game.Result))
             {
                 resumeGame = false;
             }
 
-            AuthorizedPlayerViewModel authorizedPlayerViewModel = new AuthorizedPlayerViewModel()
+            var startGameAuthorizePlayerView = new StartGameAuthorizePlayerView()
             {
                 PlayerId = human.Id,
                 Name = human.Name,
                 ResumeGame = resumeGame
             };
 
-            return authorizedPlayerViewModel;
+            return startGameAuthorizePlayerView;
         }
 
         public async Task<int> CreateGame(int playerId, int amountOfBots)
         {
-            int gameId = 0;
-
-            Game game = new Game();
+            var logs = new List<Log>();
+            var game = new Game();
             game = await _gameRepository.Create(game);
-            string message = LogMessageHelper.GameCreated(game.Id, game.Stage);
-            await _logRepository.Create(game.Id, message);
+            logs.Add(new Log() { DateTime = DateTime.Now, GameId = game.Id, Message = LogMessageHelper.GameCreated(game.Id, game.Stage) });
 
             List<Player> players = await CreatePlayerList(playerId, amountOfBots);
+            var gamePlayers = new List<GamePlayer>();
             foreach (Player player in players)
             {
-                GamePlayer gamePlayer = new GamePlayer()
+                var gamePlayer = new GamePlayer()
                 {
                     GameId = game.Id,
                     PlayerId = player.Id,
                     Score = GameValueHelper.DefaultPlayerScore,
                     BetPayCoefficient = BetValueHelper.BetDefaultCoefficient,
                     Bet = BetValueHelper.BetZero,
-                    RoundScore = 0,
+                    RoundScore = GameValueHelper.ZeroScore,
                 };
 
-                await _gamePlayerRepository.Create(gamePlayer);
-                
-                message = LogMessageHelper.PlayerAddedToGame(player.Type.ToString(), player.Id, player.Name, gamePlayer.Score);
-                await _logRepository.Create(game.Id, message);
+                gamePlayers.Add(gamePlayer);
+                logs.Add(new Log() { DateTime = DateTime.Now, GameId = game.Id, Message = LogMessageHelper.PlayerAddedToGame(player.Type.ToString(), player.Id, player.Name, gamePlayer.Score) });
             }
 
-            gameId = game.Id;
+            await _gamePlayerRepository.CreateMany(gamePlayers);
+            await _logRepository.CreateMany(logs);
+
+            int gameId = game.Id;
             return gameId;
         }
 
         public async Task<int> ResumeGame(int playerId)
         {
-            int gameId = await _gamePlayerRepository.GetGameIdByPlayerId(playerId);
+            int gameId = await _gameRepository.GetIdByPlayerId(playerId);
             return gameId;
         }
 
-        public async Task<RoundViewModel> GetGame(int gameId)
+        public async Task<StartGameStartRoundView> GetStartGameStartRoundView(int gameId)
         {
             Game game = await _gameRepository.Get(gameId);
-            RoundViewModel gameViewModel = Mapper.Map<Game, RoundViewModel>(game);
+            StartGameStartRoundView startGameStartRoundView = Mapper.Map<Game, StartGameStartRoundView>(game);
 
-            IEnumerable<GamePlayer> gamePlayers = await _gamePlayerRepository.GetByGameId(gameId);
+            GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerForStartRound(gameId, (int)PlayerType.Dealer);
+            GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerForStartRound(gameId, (int)PlayerType.Human);
+            IEnumerable<GamePlayer> bots = await _gamePlayerRepository.GetSpecificPlayersForStartRound(gameId, (int)PlayerType.Bot);
 
-            gameViewModel.Bots = new List<PlayerItem>();
-
-            foreach (GamePlayer gamePlayer in gamePlayers)
-            {
-                PlayerItem playerViewModel = Mapper.Map<GamePlayer, PlayerItem>(gamePlayer); 
-
-                if ((PlayerType)gamePlayer.Player.Type == PlayerType.Dealer)
-                {
-                    gameViewModel.Dealer = playerViewModel;
-                }
-
-                if ((PlayerType)gamePlayer.Player.Type == PlayerType.Human)
-                {
-                    gameViewModel.Human = playerViewModel;
-                    gameViewModel.Name = playerViewModel.Name;
-                }
-
-                if (!((PlayerType)gamePlayer.Player.Type == PlayerType.Human) && !((PlayerType)gamePlayer.Player.Type == PlayerType.Dealer))
-                {
-                    gameViewModel.Bots.Add(playerViewModel);
-                }
-            }
-
-            return gameViewModel;
+            startGameStartRoundView.Dealer = Mapper.Map<GamePlayer, PlayerStartGameStartRoundItem>(dealer);
+            startGameStartRoundView.Human = Mapper.Map<GamePlayer, PlayerStartGameStartRoundItem>(human);
+            startGameStartRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<PlayerStartGameStartRoundItem>>(bots);
+            
+            startGameStartRoundView.IsGameOver = IsGameOver(human, dealer);
+            return startGameStartRoundView;
         }
-
-        private async Task<Player> CreatePlayer(string name, PlayerType playerType)
+        
+        private Player CreatePlayer(string name, PlayerType playerType)
         {
-            Player player = new Player();
+            var player = new Player();
             player.Name = name;
             player.Type = (int)playerType;
-            await _playerRepository.Create(player);
             return player;
         }
 
         private async Task<List<Player>> CreatePlayerList(int playerId, int amountOfBots)
         {
-            List<Player> players = new List<Player>();
-
-            players.Add(await _playerRepository.Get(playerId));
-
-            Random random = new Random();
-            Player dealer = await CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Dealer);
+            var players = new List<Player>();
+            var random = new Random();
+            Player dealer = CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Dealer);
             players.Add(dealer);
 
             for (int i = 0; i < amountOfBots; i++)
             {
-                Player bot = await CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Bot);
+                Player bot = CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Bot);
                 players.Add(bot);
             }
 
+            players = await _playerRepository.CreateMany(players);
+            players.Add(await _playerRepository.Get(playerId));
             return players;
+        }
+
+        private string IsGameOver(GamePlayer human, GamePlayer dealer)
+        {
+            string isGameOver = string.Empty;
+
+            if (dealer.Score <= GameValueHelper.ZeroScore)
+            {
+                isGameOver = GameMessageHelper.DealerIsLoser;
+            }
+
+            if (human.Score <= GameValueHelper.ZeroScore)
+            {
+                isGameOver = GameMessageHelper.DealerIsWinner;
+            }
+
+            return isGameOver;
         }
     }
 }

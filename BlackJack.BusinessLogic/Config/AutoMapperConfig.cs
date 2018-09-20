@@ -13,19 +13,7 @@ namespace BlackJack.BusinessLogic.Config
         {
             Mapper.Initialize(config =>
             {
-                config.CreateMap<GamePlayer, GamePlayerGameLogicDoRoundFirstPhaseResponseItem>()
-                    .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
-                    .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
-
-                config.CreateMap<GamePlayer, GamePlayerGameLogicDoRoundSecondPhaseResponseItem>()
-                    .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
-                    .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
-
-                config.CreateMap<GamePlayer, GamePlayerGameLogicResumeGameAfterRoundFirstPhaseItem>()
-                    .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
-                    .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
-
-                config.CreateMap<GamePlayer, GamePlayerGameLogicResumeGameAfterRoundSecondPhaseItem>()
+                config.CreateMap<GamePlayer, GamePlayerGameLogicResponseItem>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 

@@ -2,7 +2,7 @@
 
 namespace BlackJack.ViewModels.ViewModels
 {
-    public class GamePlayerGameLogicDoRoundFirstPhaseResponseItem
+    public class GamePlayerGameLogicResponseItem
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -9,10 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataService } from '../../services/data.service';
-import { HttpService } from '../../services/http.service';
-import { ErrorService } from '../../services/error.service';
-import { AuthorizedUserViewModel } from '../../viewmodels/AuthorizedUserViewModel';
+import { DataService } from '../../shared/services/data.service';
+import { HttpService } from '../../shared/services/http.service';
+import { ErrorService } from '../../shared/services/error.service';
+import { AuthorizedUserView } from '../../shared/models/authorized-user-view';
 var StartpageComponent = /** @class */ (function () {
     function StartpageComponent(_dataService, _httpService, _errorService, _router, _route) {
         this._dataService = _dataService;
@@ -20,7 +20,7 @@ var StartpageComponent = /** @class */ (function () {
         this._errorService = _errorService;
         this._router = _router;
         this._route = _route;
-        this.Player = new AuthorizedUserViewModel();
+        this.Player = new AuthorizedUserView();
         this.AmountOfBots = 0;
     }
     StartpageComponent.prototype.ngOnInit = function () {

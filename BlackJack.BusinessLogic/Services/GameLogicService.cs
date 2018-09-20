@@ -81,7 +81,7 @@ namespace BlackJack.BusinessLogic.Services
             GameLogicRoundFirstPhaseResponseView gameLogicResponseView = GetGameLogicRoundFirstPhaseResponseView(bots, dealer, human);
             gameLogicResponseView.CanHumanTakeOneMoreCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
             gameLogicResponseView.HumanBlackJackAndDealerBlackJackDanger = IsHumanBlackJackAndDealerBlackJackDanger(human);
-            gameLogicResponseView.GameId = gameId;
+            gameLogicResponseView.Id = gameId;
             return gameLogicResponseView;
         }
         
@@ -94,7 +94,7 @@ namespace BlackJack.BusinessLogic.Services
             GameLogicRoundFirstPhaseResponseView gameLogicResponseView = GetGameLogicRoundFirstPhaseResponseView(bots, dealer, human);
             gameLogicResponseView.CanHumanTakeOneMoreCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
             gameLogicResponseView.HumanBlackJackAndDealerBlackJackDanger = IsHumanBlackJackAndDealerBlackJackDanger(human);
-            gameLogicResponseView.GameId = gameId;
+            gameLogicResponseView.Id = gameId;
             return gameLogicResponseView;
         }
         
@@ -148,7 +148,7 @@ namespace BlackJack.BusinessLogic.Services
 
             GameLogicRoundSecondPhaseResponseView gameLogicResponseView = GetGameLogicRoundSecondPhaseResponseView(bots, dealer, human);
             gameLogicResponseView.RoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
-            gameLogicResponseView.GameId = gameId;
+            gameLogicResponseView.Id = gameId;
             return gameLogicResponseView;
         }
 
@@ -160,7 +160,7 @@ namespace BlackJack.BusinessLogic.Services
 
             GameLogicRoundSecondPhaseResponseView gameLogicResponseView = GetGameLogicRoundSecondPhaseResponseView(bots, dealer, human);
             gameLogicResponseView.RoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
-            gameLogicResponseView.GameId = gameId;
+            gameLogicResponseView.Id = gameId;
             return gameLogicResponseView;
         }
 

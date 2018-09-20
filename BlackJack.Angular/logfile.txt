@@ -290,3 +290,15 @@ The statement has been terminated.
    at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
    at BlackJack.Angular.Controllers.StartGameController.<CreateNewGame>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\StartGameController.cs:line 44|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_dbo.GamePlayers_dbo.Players_PlayerId". The conflict occurred in database "BlackJack", table "dbo.Players", column 'Id'.
 The statement has been terminated.
+2018-09-20 18:43:25.5269|ERROR|BlackJack.Angular.Controllers.GameLogicController|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetSpecificPlayerWithoutCards>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 80
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.GameLogicService.<DoRoundFirstPhase>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameLogicService.cs:line 61
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.GameLogicController.<DoRoundFirstPhase>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\GameLogicController.cs:line 31|Sequence contains no elements

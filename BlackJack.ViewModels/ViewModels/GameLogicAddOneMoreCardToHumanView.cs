@@ -5,6 +5,7 @@ namespace BlackJack.ViewModels.ViewModels
     public class GameLogicAddOneMoreCardToHumanView
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public int RoundScore { get; set; }
         public int Score { get; set; }
         public int Bet { get; set; }

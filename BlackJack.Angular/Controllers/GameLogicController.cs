@@ -18,23 +18,7 @@ namespace BlackJack.Angular.Controllers
         {
             _gameLogicService = gameLogicService;
         }
-
-        [Route("EndGame"), HttpPost]
-        public async Task<IHttpActionResult> EndGame(GameLogicEndGameView gameLogicEndGameView)
-        {
-            try
-            {
-                await _gameLogicService.EndGame(gameLogicEndGameView);
-                return Ok(GameMessageHelper.Success);
-            }
-            catch (Exception ex)
-            {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
-                _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameError);
-            }
-        }
-
+        
         [Route("DoRoundFirstPhase"), HttpPost]
         public async Task<IHttpActionResult> DoRoundFirstPhase(GameLogicDoRoundFirstPhaseRequestView gameLogicDoRoundFirstPhaseRequestView)
         {
@@ -44,8 +28,8 @@ namespace BlackJack.Angular.Controllers
 
                 if (string.IsNullOrEmpty(message))
                 {
-                    GameLogicRoundFirstPhaseResponseView gameLogicDoRoundFirstPhaseResponseView = await _gameLogicService.DoRoundFirstPhase(gameLogicDoRoundFirstPhaseRequestView.Bet, gameLogicDoRoundFirstPhaseRequestView.GameId);
-                    return Ok(new { Message = message, Data = gameLogicDoRoundFirstPhaseResponseView });
+                    GameLogicRoundFirstPhaseResponseView gameLogicResponseView = await _gameLogicService.DoRoundFirstPhase(gameLogicDoRoundFirstPhaseRequestView.Bet, gameLogicDoRoundFirstPhaseRequestView.GameId);
+                    return Ok(new { Message = message, Data = gameLogicResponseView });
                 }
 
                 return Ok(new { Message = message });
@@ -63,8 +47,8 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                GameLogicResumeGameAfterRoundFirstPhaseView gameLogicResumeGameAfterRoundFirstPhaseView = await _gameLogicService.ResumeGameAfterRoundFirstPhase(gameId);
-                return Ok(new { Data = gameLogicResumeGameAfterRoundFirstPhaseView });
+                GameLogicRoundFirstPhaseResponseView gameLogicResponseView = await _gameLogicService.ResumeGameAfterRoundFirstPhase(gameId);
+                return Ok(gameLogicResponseView);
             }
             catch (Exception ex)
             {
@@ -80,7 +64,7 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 GameLogicAddOneMoreCardToHumanView gameLogicAddOneMoreCardToHumanView = await _gameLogicService.AddOneMoreCardToHuman(gameId);
-                return Ok(new { Data = gameLogicAddOneMoreCardToHumanView });
+                return Ok(gameLogicAddOneMoreCardToHumanView);
             }
             catch (Exception ex)
             {
@@ -95,8 +79,8 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                GameLogicDoRoundSecondPhaseResponseView gameLogicDoRoundSecondPhaseResponseView = await _gameLogicService.DoRoundSecondPhase(gameLogicDoRoundSecondPhaseRequestView.GameId, gameLogicDoRoundSecondPhaseRequestView.HumanBlackJackAndDealerBlackJackDanger);
-                return Ok(new { Data = gameLogicDoRoundSecondPhaseResponseView });
+                GameLogicRoundSecondPhaseResponseView gameLogicResponseView = await _gameLogicService.DoRoundSecondPhase(gameLogicDoRoundSecondPhaseRequestView.GameId, gameLogicDoRoundSecondPhaseRequestView.HumanBlackJackAndDealerBlackJackDanger);
+                return Ok(gameLogicResponseView);
             }
             catch (Exception ex)
             {
@@ -111,8 +95,8 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                GameLogicResumeGameAfterRoundSecondPhaseView gameLogicResumeGameAfterRoundSecondPhaseView = await _gameLogicService.ResumeGameAfterRoundSecondPhase(gameId);
-                return Ok(new { Data = gameLogicResumeGameAfterRoundSecondPhaseView });
+                GameLogicRoundSecondPhaseResponseView gameLogicResponseView = await _gameLogicService.ResumeGameAfterRoundSecondPhase(gameId);
+                return Ok(gameLogicResponseView);
             }
             catch (Exception ex)
             {
@@ -128,6 +112,23 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 await _gameLogicService.EndRound(gameId);
+                return Ok(GameMessageHelper.Success);
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                _logger.Error(message);
+                return BadRequest(GameMessageHelper.GameError);
+            }
+        }
+
+
+        [Route("EndGame"), HttpPost]
+        public async Task<IHttpActionResult> EndGame(GameLogicEndGameView gameLogicEndGameView)
+        {
+            try
+            {
+                await _gameLogicService.EndGame(gameLogicEndGameView);
                 return Ok(GameMessageHelper.Success);
             }
             catch (Exception ex)

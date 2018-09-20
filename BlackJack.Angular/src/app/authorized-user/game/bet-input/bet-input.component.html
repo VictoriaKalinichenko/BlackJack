@@ -1,8 +1,0 @@
-<label class="control-label">Enter your bet: </label>
-<input [(ngModel)]="Bet" type="number" 
-       class="form-control" step="50" min="50" value="50" max={{Score}}  />
-<br />
-<div *ngIf="ValidationError">
-    <div class="alert alert-danger">{{ValidationMessage}}</div>
-</div>
-<button class="btn btn-primary" (click)="EnterBet()">Enter</button>

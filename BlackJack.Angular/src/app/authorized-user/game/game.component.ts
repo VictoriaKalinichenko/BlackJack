@@ -1,26 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { HttpService } from '../../services/http.service';
-import { ErrorService } from '../../services/error.service';
+import { HttpService } from '../../shared/services/http.service';
+import { ErrorService } from '../../shared/services/error.service';
 import { deserialize } from 'json-typescript-mapper';
 import { forEach } from '@angular/router/src/utils/collection';
-import { GameViewModel } from '../../viewmodels/GameViewModel';
-import { PlayerViewModel } from '../../viewmodels/PlayerViewModel';
+import { GameView } from '../../shared/models/game-view';
+import { PlayerView } from '../../shared/models/player-view';
 
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+    selector: 'app-game',
+    templateUrl: './game.component.html',
+    styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
     GameId: number;
-    GameViewModel: GameViewModel;
+    Game: GameView = new GameView();
+
+    BetValidationMessage: string;
+    BetValidationError: boolean = false;
+    Bet: number = 50;
+    RoundResult: string;
+    GameResult: string;
 
     BetInput: boolean = false;
     TakeCard: boolean = false;
     BlackJackDangerChoice: boolean = false;
     EndRound: boolean = false;
+    EndGame: boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
@@ -37,66 +44,83 @@ export class GameComponent implements OnInit {
     }
 
     GamePlayInitializer() {
-        if (this.GameViewModel.Stage == 0) {
+        if (this.Game.Stage == 0) {
             this.GamePlayBetInput();
         }
 
-        if (this.GameViewModel.Stage == 1) {
-            this.HumanUpdate();
-            this.BotsUpdate();
-            this.DealerFirstPhaseUpdate();
-            this.FirstPhaseGamePlay();
+        if (this.Game.Stage == 1) {
+            this.ResumeGameAfterRoundFirstPhase();
         }
 
-        if (this.GameViewModel.Stage == 2) {
-            this.HumanUpdate();
-            this.BotsUpdate();
-            this.DealerSecondPhaseUpdate();
-            this.GamePlayEndRound();
+        if (this.Game.Stage == 2) {
+            this.ResumeGameAfterRoundSecondPhase();
         }
     }
 
     GetGame() {
         this._httpService.GetGame(this.GameId)
             .subscribe(
-            (data) => {
-                this.GameViewModel = deserialize(GameViewModel, data);
-                this.GamePlayInitializer();
-            },
-            (error) => {
-                console.log(error);
-                this._errorService.SetError(error["error"]["Message"]);
-                this._router.navigate(['/error']);
-            }
-            );
-    }
+                (data) => {
+                    this.Game = deserialize(GameView, data);
 
-    OnBetsCreation() {
-        this.FirstPhase();
-    }
+                    if (data["IsGameOver"] != "") {
+                        this.GameResult = data["IsGameOver"];
+                        this.GamePlayEndGame();
+                    }
 
-    OnBlackJackDangerChoice(takeAward: boolean) {
-        if (!takeAward) {
-            this._httpService.BlackJackDangerContinueRound(this.GameId)
-                .subscribe(
+                    this.GamePlayInitializer();
+                },
                 (error) => {
                     console.log(error);
                     this._errorService.SetError(error["error"]["Message"]);
                     this._router.navigate(['/error']);
                 }
-                );
-        }
-
-        this.SecondPhase();
+            );
     }
 
-    OnTakingCard(takeCard: boolean) {
+    ResumeGameAfterRoundFirstPhase() {
+        this._httpService.ResumeGameAfterRoundFirstPhase(this.Game.Id)
+            .subscribe(
+                (data) => {
+                    this.Game = deserialize(GameView, data);
+                    this.FirstPhaseGamePlay(data["HumanBlackJackAndDealerBlackJackDanger"], data["CanHumanTakeOneMoreCard"]);
+                },
+                (error) => {
+                    console.log(error);
+                    this._errorService.SetError(error["error"]["Message"]);
+                    this._router.navigate(['/error']);
+                }
+            );
+    }
+
+    ResumeGameAfterRoundSecondPhase() {
+        this._httpService.ResumeGameAfterRoundSecondPhase(this.Game.Id)
+            .subscribe(
+                (data) => {
+                    this.Game = deserialize(GameView, data);
+                    this.RoundResult = data["RoundResult"];
+                    this.GamePlayEndRound();
+                },
+                (error) => {
+                    console.log(error);
+                    this._errorService.SetError(error["error"]["Message"]);
+                    this._router.navigate(['/error']);
+                }
+            );
+    }
+
+    AddCardToHuman(takeCard: boolean) {
         if (takeCard) {
-            this._httpService.AddOneMoreCardToHuman(this.GameId)
+            this._httpService.AddOneMoreCardToHuman(this.Game.Id)
                 .subscribe(
                 (data) => {
-                    this.HumanUpdate();
-                    this.GamePlayInitializer();
+                    if (data["CanHumanTakeOneMoreCard"]) {
+                        this.Game.Human = deserialize(PlayerView, data);
+                    }
+
+                    if (!data["CanHumanTakeOneMoreCard"]) {
+                        this.DoRoundSecondPhase(false);
+                    }
                 },
                 (error) => {
                     console.log(error);
@@ -107,26 +131,35 @@ export class GameComponent implements OnInit {
         }
 
         if (!takeCard) {
-            this.SecondPhase();
-        } 
+            this.DoRoundSecondPhase(false);
+        }
     }
 
-    FirstPhaseGamePlay() {
-        this._httpService.FirstPhaseGamePlay(this.GameId)
+    FirstPhaseGamePlay(humanBlackJackAndDealerBlackJackDanger: boolean, canHumanTakeOneMoreCard: boolean) {
+        this.Game.Stage = 1;
+        this.BetValidationError = false;
+        if (humanBlackJackAndDealerBlackJackDanger) {
+            this.GamePlayBlackJackDangerChoice();
+        }
+        if (canHumanTakeOneMoreCard) {
+            this.GamePlayTakeCard();
+        }
+        if (!humanBlackJackAndDealerBlackJackDanger && !canHumanTakeOneMoreCard) {
+            this.DoRoundSecondPhase(false);
+        }
+    }
+
+    DoRoundFirstPhase() {
+        this._httpService.DoRoundFirstPhase(this.Game.Id, this.Game.Human.GamePlayerId, this.Bet)
             .subscribe(
             (data) => {
-                this.HumanUpdate();
-                this.BotsUpdate();
-                this.DealerFirstPhaseUpdate();
+                this.Game = deserialize(GameView, data["Data"]);
 
-                if (data["HumanBlackJackAndDealerBlackJackDanger"]) {
-                    this.GamePlayBlackJackDangerChoice();
+                if (data["Message"] != "") {
+                    this.ShowValidationMessage(data["Message"]);
                 }
-                if (data["CanHumanTakeOneMoreCard"]) {
-                    this.GamePlayTakeCard();
-                }
-                if (!(data["HumanBlackJackAndDealerBlackJackDanger"]) && !(data["CanHumanTakeOneMoreCard"])) {
-                    this.SecondPhase();
+                if (data["Message"] == "") {
+                    this.FirstPhaseGamePlay(data["Data"]["HumanBlackJackAndDealerBlackJackDanger"], data["Data"]["CanHumanTakeOneMoreCard"]);
                 }
             },
             (error) => {
@@ -137,108 +170,53 @@ export class GameComponent implements OnInit {
             );
     }
 
-    FirstPhase() {
-        this._httpService.RoundStart(this.GameId)
-            .subscribe(
-            (data) => {
-                this.HumanUpdate();
-                this.BotsUpdate();
-                this.DealerFirstPhaseUpdate();
-                this.GameViewModel.Stage = 1;
-                this.GamePlayInitializer();
-            },
-            (error) => {
-                console.log(error);
-                this._errorService.SetError(error["error"]["Message"]);
-                this._router.navigate(['/error']);
-            }
-            );
+    ShowValidationMessage(validationMessage: string) {
+        this.BetValidationError = true;
+        this.BetValidationMessage = validationMessage;
     }
 
-    SecondPhase() {
-        this._httpService.SecondPhase(this.GameId)
+    DoRoundSecondPhase(humanBlackJackContinueRound: boolean) {
+        this._httpService.DoRoundSecondPhase(this.Game.Id, humanBlackJackContinueRound)
             .subscribe(
-            (data) => {
-                this.HumanUpdate();
-                this.BotsUpdate();
-                this.DealerSecondPhaseUpdate();
-                this.GameViewModel.Stage = 2;
-                this.GamePlayInitializer();
-            },
-            (error) => {
-                console.log(error);
-                this._errorService.SetError(error["error"]["Message"]);
-                this._router.navigate(['/error']);
-            }
-            );
-    }
-
-    HumanUpdate() {
-        this._httpService.GetGamePlayer(this.GameViewModel.Human.GamePlayerId)
-            .subscribe(
-            (data) => {
-                let name: string = this.GameViewModel.Human.Name;
-                this.GameViewModel.Human = deserialize(PlayerViewModel, data);
-                this.GameViewModel.Human.Name = name;
-            },
-            (error) => {
-                console.log(error);
-                this._errorService.SetError(error["error"]["Message"]);
-                this._router.navigate(['/error']);
-            }
-            );
-    }
-
-    DealerFirstPhaseUpdate() {
-        this._httpService.GetDealerFirstPhase(this.GameViewModel.Dealer.GamePlayerId)
-            .subscribe(
-            (data) => {
-                let name: string = this.GameViewModel.Dealer.Name;
-                this.GameViewModel.Dealer = deserialize(PlayerViewModel, data);
-                this.GameViewModel.Dealer.Name = name;
-            },
-            (error) => {
-                console.log(error);
-                this._errorService.SetError(error["error"]["Message"]);
-                this._router.navigate(['/error']);
-            }
-            );
-    }
-
-    DealerSecondPhaseUpdate() {
-        this._httpService.GetDealerSecondPhase(this.GameViewModel.Dealer.GamePlayerId)
-            .subscribe(
-            (data) => {
-                let name: string = this.GameViewModel.Dealer.Name;
-                this.GameViewModel.Dealer = deserialize(PlayerViewModel, data);
-                this.GameViewModel.Dealer.Name = name;
-            },
-            (error) => {
-                console.log(error);
-                this._errorService.SetError(error["error"]["Message"]);
-                this._router.navigate(['/error']);
-            }
-            );
-    }
-
-    BotsUpdate() {
-        this.GameViewModel.Bots.forEach(bot => {
-            this._httpService.GetGamePlayer(bot.GamePlayerId)
-                .subscribe(
                 (data) => {
-                    let inBot = deserialize(PlayerViewModel, data);
-                    bot.Bet = inBot.Bet;
-                    bot.Score = inBot.Score;
-                    bot.RoundScore = inBot.RoundScore;
-                    bot.Cards = inBot.Cards;
+                    this.Game = deserialize(GameView, data);
+                    this.RoundResult = data["RoundResult"];
+                    this.GamePlayEndRound();
                 },
                 (error) => {
                     console.log(error);
                     this._errorService.SetError(error["error"]["Message"]);
                     this._router.navigate(['/error']);
                 }
-                );
-        });
+            );
+    }
+
+    StartNewGame() {
+        this._httpService.EndGame(this.Game.Id, this.GameResult)
+            .subscribe(
+                (data) => {
+                    this._router.navigate(['/user/' + this.Game.Human.Name]);
+                },
+                (error) => {
+                    console.log(error);
+                    this._errorService.SetError(error["error"]["Message"]);
+                    this._router.navigate(['/error']);
+                }
+            );
+    }
+
+    StartNewRound() {
+        this._httpService.EndRound(this.Game.Id)
+            .subscribe(
+                (data) => {
+                    this.GetGame();
+                },
+                (error) => {
+                    console.log(error);
+                    this._errorService.SetError(error["error"]["Message"]);
+                    this._router.navigate(['/error']);
+                }
+            );
     }
 
     GamePlayBetInput() {
@@ -246,6 +224,7 @@ export class GameComponent implements OnInit {
         this.TakeCard = false;
         this.BlackJackDangerChoice = false;
         this.EndRound = false;
+        this.EndGame = false;
     }
 
     GamePlayTakeCard() {
@@ -253,6 +232,7 @@ export class GameComponent implements OnInit {
         this.TakeCard = true;
         this.BlackJackDangerChoice = false;
         this.EndRound = false;
+        this.EndGame = false;
     }
 
     GamePlayBlackJackDangerChoice() {
@@ -260,16 +240,23 @@ export class GameComponent implements OnInit {
         this.TakeCard = false;
         this.BlackJackDangerChoice = true;
         this.EndRound = false;
+        this.EndGame = false;
     }
 
     GamePlayEndRound() {
+        this.Game.Stage = 2;
         this.BetInput = false;
         this.TakeCard = false;
         this.BlackJackDangerChoice = false;
         this.EndRound = true;
+        this.EndGame = false;
     }
 
-    Reload() {
-        this.GetGame();
+    GamePlayEndGame() {
+        this.BetInput = false;
+        this.TakeCard = false;
+        this.BlackJackDangerChoice = false;
+        this.EndRound = false;
+        this.EndGame = true;
     }
 }

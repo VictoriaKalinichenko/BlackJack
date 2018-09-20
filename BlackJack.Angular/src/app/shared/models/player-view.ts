@@ -1,6 +1,6 @@
 ﻿import { JsonProperty } from 'json-typescript-mapper';
 
-export class PlayerViewModel {
+export class PlayerView {
     @JsonProperty('Id')
     GamePlayerId: number;
 

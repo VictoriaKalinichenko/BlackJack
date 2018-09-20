@@ -1,29 +1,49 @@
 <div class="row row-flex">
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
         <h4><span class="label label-danger">Dealer</span></h4>
-        <p>Name: {{GameViewModel.Dealer.Name}}</p>
-        <app-dealer-output [Score]="GameViewModel.Dealer.Score" [RoundScore]="GameViewModel.Dealer.RoundScore" [Cards]="GameViewModel.Dealer.Cards" [GameStage]="GameViewModel.Stage"></app-dealer-output>
+        <p>Name: {{Game.Dealer.Name}}</p>
+        <app-dealer-output [Score]="Game.Dealer.Score" [RoundScore]="Game.Dealer.RoundScore" [Cards]="Game.Dealer.Cards" [GameStage]="Game.Stage"></app-dealer-output>
     </div>
 
     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 well">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <h4><span class="label label-primary">Human</span></h4>
-                <p>Name: {{GameViewModel.Human.Name}}</p>
-                <app-player-output [Score]="GameViewModel.Human.Score" [Bet]="GameViewModel.Human.Bet" [RoundScore]="GameViewModel.Human.RoundScore" [Cards]="GameViewModel.Human.Cards" [GameStage]="GameViewModel.Stage"></app-player-output>
+                <p>Name: {{Game.Human.Name}}</p>
+                <app-player-output [Score]="Game.Human.Score" [Bet]="Game.Human.Bet" [RoundScore]="Game.Human.RoundScore" [Cards]="Game.Human.Cards" [GameStage]="Game.Stage"></app-player-output>
             </div>
+
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div *ngIf="BetInput">
-                    <app-bet-input [Score]="GameViewModel.Human.Score" [GameId]="GameId" [HumanGamePlayerId]="GameViewModel.Human.GamePlayerId" (BetOut)="OnBetsCreation()"></app-bet-input>
+                    <label class="control-label">Enter your bet: </label>
+                    <input [(ngModel)]="Bet" type="number"
+                           class="form-control" step="50" min="50" value="50" max={{Game.Human.Score}} />
+                    <br />
+                    <div *ngIf="BetValidationError">
+                        <div class="alert alert-danger">{{BetValidationMessage}}</div>
+                    </div>
+                    <button class="btn btn-primary" (click)="DoRoundFirstPhase()">Enter</button>
                 </div>
+
                 <div *ngIf="TakeCard">
-                    <app-take-card (TakeCard)="OnTakingCard($event)"></app-take-card>
+                    <button class="btn btn-primary" (click)="AddCardToHuman(true)">Take card</button>
+                    <button class="btn btn-primary" (click)="AddCardToHuman(false)">Don't take</button>
                 </div>
+
                 <div *ngIf="BlackJackDangerChoice">
-                    <app-blackjack-danger-choice (TakeAward)="OnBlackJackDangerChoice($event)"></app-blackjack-danger-choice>
+                    <p>You have BlackJack and dealer has BlackJack-danger</p>
+                    <button class="btn btn-primary" (click)="DoRoundSecondPhase(true)">Continue round</button>
+                    <button class="btn btn-primary" (click)="DoRoundSecondPhase(false)">Take award (1:1)</button>
                 </div>
+
                 <div *ngIf="EndRound">
-                    <app-end-round [GameId]="GameId" [UserName]="GameViewModel.Human.Name" (Reload)="Reload()"></app-end-round>
+                    <p>{{RoundResult}}</p>
+                    <button class="btn btn-primary" (click)="StartNewRound()">End round</button>
+                </div>
+
+                <div *ngIf="EndGame">
+                    <p>{{GameResult}}</p>
+                    <button class="btn btn-primary" (click)="StartNewGame()">End game</button>
                 </div>
             </div>
         </div>
@@ -31,9 +51,9 @@
 </div>
 
 <div class="row row-flex">
-    <div *ngFor="let bot of GameViewModel.Bots" class="col-lg-2 col-md-4 col-sm-4 col-xs-6 well">
+    <div *ngFor="let bot of Game.Bots" class="col-lg-2 col-md-4 col-sm-4 col-xs-6 well">
         <h4><span class="label label-default">Bot</span></h4>
         <p>Name: {{bot.Name}}</p>
-        <app-player-output [Score]="bot.Score" [RoundScore]="bot.RoundScore" [Bet]="bot.Bet" [Cards]="bot.Cards" [GameStage]="GameViewModel.Stage"></app-player-output>
+        <app-player-output [Score]="bot.Score" [RoundScore]="bot.RoundScore" [Bet]="bot.Bet" [Cards]="bot.Cards" [GameStage]="Game.Stage"></app-player-output>
     </div>
 </div>

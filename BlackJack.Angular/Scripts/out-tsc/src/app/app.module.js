@@ -17,14 +17,10 @@ import { AuthorizedUserComponent } from './authorized-user/authorized-user.compo
 import { GameComponent } from './authorized-user/game/game.component';
 import { PlayerOutputComponent } from './authorized-user/game/player-output/player-output.component';
 import { DealerOutputComponent } from './authorized-user/game/dealer-output/dealer-output.component';
-import { BetInputComponent } from './authorized-user/game/bet-input/bet-input.component';
-import { TakeCardComponent } from './authorized-user/game/take-card/take-card.component';
-import { EndRoundComponent } from './authorized-user/game/end-round/end-round.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
-import { BlackjackDangerChoiceComponent } from './authorized-user/game/blackjack-danger-choice/blackjack-danger-choice.component';
-import { DataService } from './services/data.service';
-import { ErrorService } from './services/error.service';
-import { HttpService } from './services/http.service';
+import { DataService } from './shared/services/data.service';
+import { ErrorService } from './shared/services/error.service';
+import { HttpService } from './shared/services/http.service';
 var appRoutes = [
     { path: '', component: HomepageComponent },
     {
@@ -50,11 +46,7 @@ var AppModule = /** @class */ (function () {
                 GameComponent,
                 PlayerOutputComponent,
                 DealerOutputComponent,
-                BetInputComponent,
-                TakeCardComponent,
-                EndRoundComponent,
-                ErrorPageComponent,
-                BlackjackDangerChoiceComponent
+                ErrorPageComponent
             ],
             imports: [
                 BrowserModule,
@@ -76,11 +68,7 @@ var AppModule = /** @class */ (function () {
                 GameComponent,
                 PlayerOutputComponent,
                 DealerOutputComponent,
-                BetInputComponent,
-                TakeCardComponent,
-                EndRoundComponent,
-                ErrorPageComponent,
-                BlackjackDangerChoiceComponent
+                ErrorPageComponent
             ]
         })
     ], AppModule);

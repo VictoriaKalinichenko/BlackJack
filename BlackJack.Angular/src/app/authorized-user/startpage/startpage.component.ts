@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { DataService } from '../../services/data.service';
-import { HttpService } from '../../services/http.service';
-import { ErrorService } from '../../services/error.service';
-import { AuthorizedUserViewModel } from '../../viewmodels/AuthorizedUserViewModel';
+import { DataService } from '../../shared/services/data.service';
+import { HttpService } from '../../shared/services/http.service';
+import { ErrorService } from '../../shared/services/error.service';
+import { AuthorizedUserView } from '../../shared/models/authorized-user-view';
 
 @Component({
   selector: 'app-startpage',
@@ -13,7 +13,7 @@ import { AuthorizedUserViewModel } from '../../viewmodels/AuthorizedUserViewMode
 })
 export class StartpageComponent implements OnInit {
     UserName: string;
-    Player: AuthorizedUserViewModel = new AuthorizedUserViewModel();
+    Player: AuthorizedUserView = new AuthorizedUserView();
     AmountOfBots: number = 0;
     GameId: number;
 
@@ -33,7 +33,7 @@ export class StartpageComponent implements OnInit {
     AuthUser(userName: string) {
         this._httpService.GetAuthorizedPlayer(this.UserName)
             .subscribe(
-            (data: AuthorizedUserViewModel) => {
+            (data: AuthorizedUserView) => {
                 this.Player.Name = data.Name;
                 this.Player.PlayerId = data.PlayerId;
                 this.Player.ResumeGame = data.ResumeGame;

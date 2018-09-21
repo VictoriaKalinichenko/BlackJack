@@ -90,7 +90,7 @@ namespace BlackJack.BusinessLogic.Services
                 };
 
                 gamePlayers.Add(gamePlayer);
-                logs.Add(new Log() { DateTime = DateTime.Now, GameId = game.Id, Message = LogMessageHelper.PlayerAddedToGame(player.Type.ToString(), player.Id, player.Name, gamePlayer.Score) });
+                logs.Add(new Log() { DateTime = DateTime.Now, GameId = game.Id, Message = LogMessageHelper.PlayerAddedToGame(((PlayerType)player.Type).ToString(), player.Id, player.Name, gamePlayer.Score) });
             }
 
             await _gamePlayerRepository.CreateMany(gamePlayers);

@@ -79,8 +79,6 @@ namespace BlackJack.BusinessLogic.Services
             await _logRepository.CreateMany(logs);
 
             GameLogicRoundFirstPhaseResponseView gameLogicResponseView = GetGameLogicRoundFirstPhaseResponseView(bots, dealer, human);
-            gameLogicResponseView.CanHumanTakeOneMoreCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
-            gameLogicResponseView.HumanBlackJackAndDealerBlackJackDanger = IsHumanBlackJackAndDealerBlackJackDanger(human);
             gameLogicResponseView.Id = gameId;
             return gameLogicResponseView;
         }
@@ -92,8 +90,6 @@ namespace BlackJack.BusinessLogic.Services
             IEnumerable<GamePlayer> bots = await _gamePlayerRepository.GetSpecificPlayersWithCards(gameId, (int)PlayerType.Bot);
 
             GameLogicRoundFirstPhaseResponseView gameLogicResponseView = GetGameLogicRoundFirstPhaseResponseView(bots, dealer, human);
-            gameLogicResponseView.CanHumanTakeOneMoreCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
-            gameLogicResponseView.HumanBlackJackAndDealerBlackJackDanger = IsHumanBlackJackAndDealerBlackJackDanger(human);
             gameLogicResponseView.Id = gameId;
             return gameLogicResponseView;
         }
@@ -147,7 +143,6 @@ namespace BlackJack.BusinessLogic.Services
             await _logRepository.CreateMany(logs);
 
             GameLogicRoundSecondPhaseResponseView gameLogicResponseView = GetGameLogicRoundSecondPhaseResponseView(bots, dealer, human);
-            gameLogicResponseView.RoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
             gameLogicResponseView.Id = gameId;
             return gameLogicResponseView;
         }
@@ -159,7 +154,6 @@ namespace BlackJack.BusinessLogic.Services
             IEnumerable<GamePlayer> bots = await _gamePlayerRepository.GetSpecificPlayersWithCards(gameId, (int)PlayerType.Bot);
 
             GameLogicRoundSecondPhaseResponseView gameLogicResponseView = GetGameLogicRoundSecondPhaseResponseView(bots, dealer, human);
-            gameLogicResponseView.RoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
             gameLogicResponseView.Id = gameId;
             return gameLogicResponseView;
         }
@@ -203,6 +197,8 @@ namespace BlackJack.BusinessLogic.Services
             gameLogicResponseView.Dealer.Cards.Add(CardToStringHelper.Convert(dealer.PlayerCards[0].Card));
             gameLogicResponseView.Human = Mapper.Map<GamePlayer, GamePlayerGameLogicResponseItem>(human);
             gameLogicResponseView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerGameLogicResponseItem>>(bots);
+            gameLogicResponseView.CanHumanTakeOneMoreCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
+            gameLogicResponseView.HumanBlackJackAndDealerBlackJackDanger = IsHumanBlackJackAndDealerBlackJackDanger(human);
             return gameLogicResponseView;
         }
 
@@ -212,6 +208,7 @@ namespace BlackJack.BusinessLogic.Services
             gameLogicResponseView.Dealer = Mapper.Map<GamePlayer, GamePlayerGameLogicResponseItem>(dealer);
             gameLogicResponseView.Human = Mapper.Map<GamePlayer, GamePlayerGameLogicResponseItem>(human);
             gameLogicResponseView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerGameLogicResponseItem>>(bots);
+            gameLogicResponseView.RoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
             return gameLogicResponseView;
         }
 
@@ -280,7 +277,7 @@ namespace BlackJack.BusinessLogic.Services
             var logFirstCard = new Log() {
                 DateTime = DateTime.Now,
                 GameId = gamePlayer.GameId,
-                Message = LogMessageHelper.CardAdded(card.Id, card.Name, CardToStringHelper.Convert(card), gamePlayer.Player.Type.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name)
+                Message = LogMessageHelper.CardAdded(card.Id, card.Name, CardToStringHelper.Convert(card), ((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name)
             };
             logs.Add(logFirstCard);
             return playerCard;

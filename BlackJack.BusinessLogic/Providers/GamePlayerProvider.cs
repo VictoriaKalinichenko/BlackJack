@@ -28,7 +28,7 @@ namespace BlackJack.BusinessLogic.Providers
                 {
                     GameId = gamePlayer.GameId,
                     DateTime = DateTime.Now,
-                    Message = LogMessageHelper.BetCreated(gamePlayer.Player.Type.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.Score, gamePlayer.Bet)
+                    Message = LogMessageHelper.BetCreated(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.Score, gamePlayer.Bet)
                 });
             }
         }
@@ -56,7 +56,7 @@ namespace BlackJack.BusinessLogic.Providers
                     {
                         GameId = dealer.GameId,
                         DateTime = DateTime.Now,
-                        Message = LogMessageHelper.PlayerBlackJackResult(gamePlayer.Player.Type.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
+                        Message = LogMessageHelper.PlayerBlackJackResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
                     });
                 }
 
@@ -66,7 +66,7 @@ namespace BlackJack.BusinessLogic.Providers
                     {
                         GameId = dealer.GameId,
                         DateTime = DateTime.Now,
-                        Message = LogMessageHelper.PlayerBlackJackAndDealerBlackJackDanger(gamePlayer.Player.Type.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
+                        Message = LogMessageHelper.PlayerBlackJackAndDealerBlackJackDanger(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
                     });
                 }
             }
@@ -84,7 +84,7 @@ namespace BlackJack.BusinessLogic.Providers
                     {
                         GameId = dealer.GameId,
                         DateTime = DateTime.Now,
-                        Message = LogMessageHelper.PlayerBlackJackResult(gamePlayer.Player.Type.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
+                        Message = LogMessageHelper.PlayerBlackJackResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
                     });
                 }
 
@@ -94,7 +94,7 @@ namespace BlackJack.BusinessLogic.Providers
                     {
                         GameId = dealer.GameId,
                         DateTime = DateTime.Now,
-                        Message = LogMessageHelper.PlayerWinResult(gamePlayer.Player.Type.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
+                        Message = LogMessageHelper.PlayerWinResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
                     });
                 }
 
@@ -104,7 +104,7 @@ namespace BlackJack.BusinessLogic.Providers
                     {
                         GameId = dealer.GameId,
                         DateTime = DateTime.Now,
-                        Message = LogMessageHelper.PlayerEqualResult(gamePlayer.Player.Type.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
+                        Message = LogMessageHelper.PlayerEqualResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
                     });
                 }
 
@@ -114,7 +114,7 @@ namespace BlackJack.BusinessLogic.Providers
                     {
                         GameId = dealer.GameId,
                         DateTime = DateTime.Now,
-                        Message = LogMessageHelper.PlayerLoseResult(gamePlayer.Player.Type.ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
+                        Message = LogMessageHelper.PlayerLoseResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
                     });
                 }
             }

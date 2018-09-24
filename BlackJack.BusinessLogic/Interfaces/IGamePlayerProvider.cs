@@ -5,7 +5,7 @@ namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IGamePlayerProvider
     {
-        void CreateBets(IEnumerable<GamePlayer> gamePlayers, int bet, List<Log> logs);
+        void CreateBets(IEnumerable<GamePlayer> bots, GamePlayer human, int bet, List<Log> logs);
 
         void PayRoundBets(IEnumerable<GamePlayer> humanAndBots, GamePlayer dealer);
 

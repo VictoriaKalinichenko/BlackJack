@@ -61,12 +61,11 @@ namespace BlackJack.BusinessLogic.Services
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithoutCards(gameId, (int)PlayerType.Human);
             GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerWithoutCards(gameId, (int)PlayerType.Dealer);
             IEnumerable<GamePlayer> bots = await _gamePlayerRepository.GetSpecificPlayersWithoutCards(gameId, (int)PlayerType.Bot);
-
-            List<GamePlayer> gamePlayers = bots.ToList();
-            gamePlayers.Add(human);
-            _gamePlayerProvider.CreateBets(gamePlayers, bet, logs);
+            _gamePlayerProvider.CreateBets(bots, human, bet, logs);
 
             List<Card> deck = await CreateDeck();
+            List<GamePlayer> gamePlayers = bots.ToList();
+            gamePlayers.Add(human);
             gamePlayers.Add(dealer);
             await DistributeRoundFirstPhaseCards(gamePlayers, deck, logs);
             gamePlayers.Remove(dealer);

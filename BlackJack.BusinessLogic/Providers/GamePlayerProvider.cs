@@ -9,26 +9,26 @@ namespace BlackJack.BusinessLogic.Providers
 {
     public class GamePlayerProvider : IGamePlayerProvider
     {
-        public void CreateBets(IEnumerable<GamePlayer> gamePlayers, int bet, List<Log> logs)
+        public void CreateBets(IEnumerable<GamePlayer> bots, GamePlayer human, int bet, List<Log> logs)
         {
-            foreach (GamePlayer gamePlayer in gamePlayers)
+            human.Bet = bet;
+            human.Score = human.Score - human.Bet;
+            logs.Add(new Log()
             {
-                if ((PlayerType)gamePlayer.Player.Type == PlayerType.Human)
-                {
-                    gamePlayer.Bet = bet;
-                }
+                GameId = human.GameId,
+                DateTime = DateTime.Now,
+                Message = LogMessageHelper.BetCreated(((PlayerType)human.Player.Type).ToString(), human.Player.Id, human.Player.Name, human.Score, human.Bet)
+            });
 
-                if (((PlayerType)gamePlayer.Player.Type == PlayerType.Bot))
-                {
-                    gamePlayer.Bet = GenerateBet(gamePlayer.Score);
-                }
-
-                gamePlayer.Score = gamePlayer.Score - gamePlayer.Bet;
+            foreach (GamePlayer bot in bots)
+            {
+                bot.Bet = GenerateBet(bot.Score);
+                bot.Score = bot.Score - bot.Bet;
                 logs.Add(new Log()
                 {
-                    GameId = gamePlayer.GameId,
+                    GameId = bot.GameId,
                     DateTime = DateTime.Now,
-                    Message = LogMessageHelper.BetCreated(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.Score, gamePlayer.Bet)
+                    Message = LogMessageHelper.BetCreated(((PlayerType)bot.Player.Type).ToString(), bot.Player.Id, bot.Player.Name, bot.Score, bot.Bet)
                 });
             }
         }

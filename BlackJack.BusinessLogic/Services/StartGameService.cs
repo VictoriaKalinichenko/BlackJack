@@ -71,8 +71,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<int> CreateGame(int playerId, int amountOfBots)
         {
             var logs = new List<Log>();
-            var game = new Game();
-            game = await _gameRepository.Create(game);
+            Game game = await _gameRepository.Create();
             logs.Add(new Log() { DateTime = DateTime.Now, GameId = game.Id, Message = LogMessageHelper.GameCreated(game.Id, game.Stage) });
 
             List<Player> players = await CreatePlayerList(playerId, amountOfBots);

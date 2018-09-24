@@ -55,10 +55,11 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<Game> Create(Game game)
+        public async Task<Game> Create()
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
+                var game = new Game();
                 int gameId = await db.InsertAsync(game);
                 game.Id = gameId;
                 return game;

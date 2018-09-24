@@ -125,11 +125,9 @@ namespace BlackJack.BusinessLogic.Providers
             foreach (GamePlayer player in humanAndBots)
             {
                 int pay = (int)(player.Bet * player.BetPayCoefficient);
-
                 player.Score += player.Bet + pay;
                 player.Bet = BetValueHelper.BetZero;
                 player.BetPayCoefficient = BetValueHelper.BetDefaultCoefficient;
-
                 dealer.Score -= pay;
             }
         }

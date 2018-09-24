@@ -1,5 +1,4 @@
 ﻿@using BlackJack.ViewModels.ViewModels;
-@using BlackJack.BusinessLogic.Helpers;
 @model StartGameAuthorizePlayerView
 @{
     ViewBag.UserName = Model.Name;
@@ -24,7 +23,7 @@
         @using (Html.BeginForm("StartNewGame", "StartGame", new { playerId = Model.PlayerId }, FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="form-group">
-                <label class="control-label col-md-4">@GameMessageHelper.BotAmountInput</label>
+                <label class="control-label col-md-4">Amount of bots: </label>
                 <div class="col-md-8">
                     <input name="amountOfBots" class="form-control" type="number" value="0" min="0" max=5 />
                 </div>

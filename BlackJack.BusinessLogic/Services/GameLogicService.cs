@@ -174,8 +174,8 @@ namespace BlackJack.BusinessLogic.Services
             gamePlayers.Add(dealer);
             foreach(var gamePlayer in gamePlayers)
             {
-                gamePlayer.RoundScore = CardValueHelper.ZeroCardScore;
-                gamePlayer.CardAmount = CardValueHelper.ZeroCardAmount;
+                gamePlayer.RoundScore = GameValueHelper.ZeroScore;
+                gamePlayer.CardAmount = GameValueHelper.ZeroScore;
             }
 
             await _gamePlayerRepository.UpdateMany(gamePlayers);

@@ -93,7 +93,7 @@ namespace BlackJack.BusinessLogic.Services
             return gameLogicResponseView;
         }
         
-        public async Task<GameLogicAddOneMoreCardToHumanView> AddOneMoreCardToHuman(int gameId)
+        public async Task<GameLogicAddCardToHumanView> AddCardToHuman(int gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Human);
             IEnumerable<int> cardOnHandsIds = await _playerCardRepository.GetCardsOnHandsIdsByGameId(gameId);
@@ -108,7 +108,7 @@ namespace BlackJack.BusinessLogic.Services
             await _gamePlayerRepository.UpdateAfterAddingOneMoreCard(human);
             await _logRepository.CreateMany(logs);
 
-            GameLogicAddOneMoreCardToHumanView addOneMoreCardToHumanViewModel = Mapper.Map<GamePlayer, GameLogicAddOneMoreCardToHumanView>(human);
+            GameLogicAddCardToHumanView addOneMoreCardToHumanViewModel = Mapper.Map<GamePlayer, GameLogicAddCardToHumanView>(human);
             addOneMoreCardToHumanViewModel.CanHumanTakeOneMoreCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
             return addOneMoreCardToHumanViewModel;
         }

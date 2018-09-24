@@ -17,7 +17,7 @@ namespace BlackJack.BusinessLogic.Config
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<GamePlayer, GameLogicAddOneMoreCardToHumanView>()
+                config.CreateMap<GamePlayer, GameLogicAddCardToHumanView>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 

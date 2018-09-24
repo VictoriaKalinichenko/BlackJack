@@ -1,10 +1,10 @@
-﻿using System;
-using System.Web.Http;
-using System.Threading.Tasks;
+﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.BusinessLogic.Helpers;
 using BlackJack.ViewModels.ViewModels;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace BlackJack.Angular.Controllers
 {
@@ -58,13 +58,13 @@ namespace BlackJack.Angular.Controllers
             }
         }
         
-        [Route("AddOneMoreCardToHuman"), HttpGet]
-        public async Task<IHttpActionResult> AddOneMoreCardToHuman(int gameId)
+        [Route("AddCardToHuman"), HttpGet]
+        public async Task<IHttpActionResult> AddCardToHuman(int gameId)
         {
             try
             {
-                GameLogicAddOneMoreCardToHumanView gameLogicAddOneMoreCardToHumanView = await _gameLogicService.AddOneMoreCardToHuman(gameId);
-                return Ok(gameLogicAddOneMoreCardToHumanView);
+                GameLogicAddCardToHumanView gameLogicAddCardToHumanView = await _gameLogicService.AddCardToHuman(gameId);
+                return Ok(gameLogicAddCardToHumanView);
             }
             catch (Exception ex)
             {

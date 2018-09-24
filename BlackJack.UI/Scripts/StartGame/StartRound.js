@@ -110,7 +110,7 @@
         var transParam = { gameId: gameId };
         $.ajax({
             type: "GET",
-            url: "/GameLogic/AddOneMoreCardToHuman",
+            url: "/GameLogic/AddCardToHuman",
             data: transParam,
             dataType: "json",
             success: function (response) {

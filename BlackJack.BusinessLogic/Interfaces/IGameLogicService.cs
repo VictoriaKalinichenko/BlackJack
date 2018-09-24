@@ -11,7 +11,7 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task<GameLogicRoundFirstPhaseResponseView> ResumeGameAfterRoundFirstPhase(int gameId);
 
-        Task<GameLogicAddOneMoreCardToHumanView> AddOneMoreCardToHuman(int gameId);
+        Task<GameLogicAddCardToHumanView> AddCardToHuman(int gameId);
 
         Task<GameLogicRoundSecondPhaseResponseView> DoRoundSecondPhase(int gameId, bool blackJackDangerContinueRound = false);
 

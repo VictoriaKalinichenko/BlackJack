@@ -111,7 +111,7 @@ export class GameComponent implements OnInit {
 
     AddCardToHuman(takeCard: boolean) {
         if (takeCard) {
-            this._httpService.AddOneMoreCardToHuman(this.Game.Id)
+            this._httpService.AddCardToHuman(this.Game.Id)
                 .subscribe(
                 (data) => {
                     if (data["CanHumanTakeOneMoreCard"]) {

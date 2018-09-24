@@ -74,13 +74,13 @@ namespace BlackJack.UI.Controllers
             }
         }
         
-        [Route("AddOneMoreCardToHuman"), HttpGet]
-        public async Task<IHttpActionResult> AddOneMoreCardToHuman(int gameId)
+        [Route("AddCardToHuman"), HttpGet]
+        public async Task<IHttpActionResult> AddCardToHuman(int gameId)
         {
             try
             {
-                GameLogicAddOneMoreCardToHumanView gameLogicAddOneMoreCardToHumanView = await _gameLogicService.AddOneMoreCardToHuman(gameId);
-                return Ok(new { Data = gameLogicAddOneMoreCardToHumanView });
+                GameLogicAddCardToHumanView gameLogicAddCardToHumanView = await _gameLogicService.AddCardToHuman(gameId);
+                return Ok(new { Data = gameLogicAddCardToHumanView });
             }
             catch (Exception ex)
             {

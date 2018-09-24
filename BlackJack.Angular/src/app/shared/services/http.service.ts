@@ -43,11 +43,11 @@ export class HttpService {
         return this.http.post('GameLogic/DoRoundSecondPhase', body);
     }
 
-    AddOneMoreCardToHuman(gameId: number) {
+    AddCardToHuman(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this.http.get('GameLogic/AddOneMoreCardToHuman', options);
+        return this.http.get('GameLogic/AddCardToHuman', options);
     }
 
     ResumeGameAfterRoundFirstPhase(gameId: number) {

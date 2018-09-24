@@ -46,7 +46,7 @@
     <Compile Include="Enums\PlayerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AngularStartGameCreateNewGameView.cs" />
-    <Compile Include="ViewModels\GameLogicAddOneMoreCardToHumanView.cs" />
+    <Compile Include="ViewModels\GameLogicAddCardToHumanView.cs" />
     <Compile Include="ViewModels\GameLogicRoundSecondPhaseResponseView.cs" />
     <Compile Include="ViewModels\StartGameAuthorizePlayerView.cs" />
     <Compile Include="ViewModels\GameLogicDoRoundFirstPhaseRequestView.cs" />

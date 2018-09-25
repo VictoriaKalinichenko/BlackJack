@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { UserNameService } from '../../shared/services/user-name.service';
 import { HttpService } from '../../shared/services/http.service';
@@ -21,8 +21,7 @@ export class StartpageComponent implements OnInit {
         private _userNameService: UserNameService,
         private _httpService: HttpService,
         private _errorService: ErrorService,
-        private _router: Router,
-        private _route: ActivatedRoute
+        private _router: Router
     ) { }
 
     ngOnInit() {

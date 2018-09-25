@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using BlackJack.ViewModels.ViewModels;
+using BlackJack.ViewModels.ViewModels.Log;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {

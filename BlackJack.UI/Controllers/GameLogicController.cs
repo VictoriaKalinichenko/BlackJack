@@ -3,7 +3,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Helpers;
-using BlackJack.ViewModels.ViewModels;
+using BlackJack.ViewModels.ViewModels.GameLogic;
 using NLog;
 
 namespace BlackJack.UI.Controllers

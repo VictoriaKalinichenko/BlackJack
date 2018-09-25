@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlackJack.ViewModels.ViewModels
+namespace BlackJack.ViewModels.ViewModels.GameLogic
 {
     public class GameLogicRoundSecondPhaseResponseView
     {

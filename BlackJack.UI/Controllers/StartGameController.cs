@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Helpers;
-using BlackJack.ViewModels.ViewModels;
+using BlackJack.ViewModels.ViewModels.StartGame;
 using NLog;
 
 namespace BlackJack.UI.Controllers

@@ -1,4 +1,4 @@
-﻿namespace BlackJack.ViewModels.ViewModels
+﻿namespace BlackJack.ViewModels.ViewModels.StartGame
 {
     public class PlayerStartGameStartRoundItem
     {

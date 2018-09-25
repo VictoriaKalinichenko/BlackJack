@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.ViewModels.ViewModels;
+using BlackJack.ViewModels.ViewModels.Log;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using AutoMapper;

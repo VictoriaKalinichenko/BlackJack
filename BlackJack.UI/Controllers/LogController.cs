@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Helpers;
-using BlackJack.ViewModels.ViewModels;
+using BlackJack.ViewModels.ViewModels.Log;
 using NLog;
 
 namespace BlackJack.UI.Controllers

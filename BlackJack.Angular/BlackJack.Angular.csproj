@@ -291,8 +291,8 @@
     <TypeScriptCompile Include="src\app\authorized-user\game\game.component.ts" />
     <TypeScriptCompile Include="src\app\authorized-user\game\player-output\player-output.component.spec.ts" />
     <TypeScriptCompile Include="src\app\authorized-user\game\player-output\player-output.component.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\data.service.spec.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\data.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\user-name.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\user-name.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\error.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\error.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\http.service.spec.ts" />

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DataService } from '../shared/services/data.service';
+import { UserNameService } from '../shared/services/user-name.service';
 
 @Component({
     selector: 'app-authorized-user',
@@ -12,7 +12,7 @@ export class AuthorizedUserComponent implements OnInit {
     UserName: string;
 
     constructor(
-        private _dataService: DataService,
+        private _userNameService: UserNameService,
         private _route: ActivatedRoute
     ) { }
 
@@ -21,6 +21,6 @@ export class AuthorizedUserComponent implements OnInit {
             this.UserName = params['UserName']
         });
 
-        this._dataService.SetUserName(this.UserName);
+        this._userNameService.SetUserName(this.UserName);
     }
 }

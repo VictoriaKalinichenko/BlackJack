@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { DataService } from '../../shared/services/data.service';
+import { UserNameService } from '../../shared/services/user-name.service';
 import { HttpService } from '../../shared/services/http.service';
 import { ErrorService } from '../../shared/services/error.service';
 import { AuthorizedUserView } from '../../shared/models/authorized-user-view';
@@ -18,7 +18,7 @@ export class StartpageComponent implements OnInit {
     GameId: number;
 
     constructor (
-        private _dataService: DataService,
+        private _userNameService: UserNameService,
         private _httpService: HttpService,
         private _errorService: ErrorService,
         private _router: Router,
@@ -26,7 +26,7 @@ export class StartpageComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.UserName = this._dataService.GetUserName();
+        this.UserName = this._userNameService.GetUserName();
         this.AuthUser(this.UserName);
     }
 

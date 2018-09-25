@@ -3,7 +3,7 @@
     public class GameLogicDoRoundFirstPhaseRequestView
     {
         public int Bet { get; set; }
-        public int GamePlayerId { get; set; }
-        public int GameId { get; set; }
+        public long GamePlayerId { get; set; }
+        public long GameId { get; set; }
     }
 }

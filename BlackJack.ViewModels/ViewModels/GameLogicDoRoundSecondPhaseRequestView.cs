@@ -2,7 +2,7 @@
 {
     public class GameLogicDoRoundSecondPhaseRequestView
     {
-        public int GameId { get; set; }
+        public long GameId { get; set; }
         public bool HumanBlackJackAndDealerBlackJackDanger { get; set; }
     }
 }

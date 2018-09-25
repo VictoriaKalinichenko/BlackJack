@@ -9,10 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DataService } from '../shared/services/data.service';
+import { UserNameService } from '../shared/services/user-name.service';
 var AuthorizedUserComponent = /** @class */ (function () {
-    function AuthorizedUserComponent(_dataService, _route) {
-        this._dataService = _dataService;
+    function AuthorizedUserComponent(_userNameService, _route) {
+        this._userNameService = _userNameService;
         this._route = _route;
     }
     AuthorizedUserComponent.prototype.ngOnInit = function () {
@@ -20,7 +20,7 @@ var AuthorizedUserComponent = /** @class */ (function () {
         this._route.params.subscribe(function (params) {
             _this.UserName = params['UserName'];
         });
-        this._dataService.SetUserName(this.UserName);
+        this._userNameService.SetUserName(this.UserName);
     };
     AuthorizedUserComponent = __decorate([
         Component({
@@ -28,7 +28,7 @@ var AuthorizedUserComponent = /** @class */ (function () {
             templateUrl: './authorized-user.component.html',
             styleUrls: ['./authorized-user.component.css']
         }),
-        __metadata("design:paramtypes", [DataService,
+        __metadata("design:paramtypes", [UserNameService,
             ActivatedRoute])
     ], AuthorizedUserComponent);
     return AuthorizedUserComponent;

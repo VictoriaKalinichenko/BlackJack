@@ -40,10 +40,10 @@ var HttpService = /** @class */ (function () {
         var body = { GameId: gameId, HumanBlackJackAndDealerBlackJackDanger: humanBlackJackContinueRound };
         return this.http.post('GameLogic/DoRoundSecondPhase', body);
     };
-    HttpService.prototype.AddOneMoreCardToHuman = function (gameId) {
+    HttpService.prototype.AddCardToHuman = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.http.get('GameLogic/AddOneMoreCardToHuman', options);
+        return this.http.get('GameLogic/AddCardToHuman', options);
     };
     HttpService.prototype.ResumeGameAfterRoundFirstPhase = function (gameId) {
         var options = gameId ?

@@ -8,12 +8,12 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
     {
         Task<Player> SelectByName(string name, int playerType);
 
-        Task<Player> Get(int id);
+        Task<Player> Get(long id);
 
         Task<Player> Create(Player obj);
 
         Task<List<Player>> CreateMany(List<Player> players);
 
-        Task Delete(int id);
+        Task Delete(long id);
     }
 }

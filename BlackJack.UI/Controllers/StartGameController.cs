@@ -64,11 +64,11 @@ namespace BlackJack.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> StartNewGame(int playerId, int amountOfBots)
+        public async Task<ActionResult> StartNewGame(long playerId, int amountOfBots)
         {
             try
             {
-                int gameId = await _startGameService.CreateGame(playerId, amountOfBots);
+                long gameId = await _startGameService.CreateGame(playerId, amountOfBots);
                 return RedirectToAction("StartRound", new { gameId = gameId });
             }
             catch (Exception ex)
@@ -79,11 +79,11 @@ namespace BlackJack.UI.Controllers
             }
         }
 
-        public async Task<ActionResult> ResumeGame(int playerId)
+        public async Task<ActionResult> ResumeGame(long playerId)
         {
             try
             {
-                int gameId = await _startGameService.ResumeGame(playerId);
+                long gameId = await _startGameService.ResumeGame(playerId);
                 return RedirectToAction("StartRound", new { gameId = gameId });
             }
             catch (Exception ex)
@@ -94,7 +94,7 @@ namespace BlackJack.UI.Controllers
             }
         }
 
-        public async Task<ActionResult> StartRound(int gameId)
+        public async Task<ActionResult> StartRound(long gameId)
         {
             try
             {

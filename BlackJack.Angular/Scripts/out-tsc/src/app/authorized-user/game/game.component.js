@@ -9,9 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { deserialize } from 'json-typescript-mapper';
 import { HttpService } from '../../shared/services/http.service';
 import { ErrorService } from '../../shared/services/error.service';
-import { deserialize } from 'json-typescript-mapper';
 import { GameView } from '../../shared/models/game-view';
 import { PlayerView } from '../../shared/models/player-view';
 var GameComponent = /** @class */ (function () {
@@ -91,7 +91,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.AddCardToHuman = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this._httpService.AddOneMoreCardToHuman(this.Game.Id)
+            this._httpService.AddCardToHuman(this.Game.Id)
                 .subscribe(function (data) {
                 if (data["CanHumanTakeOneMoreCard"]) {
                     _this.Game.Human = deserialize(PlayerView, data);

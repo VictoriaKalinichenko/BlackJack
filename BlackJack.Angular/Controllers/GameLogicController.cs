@@ -43,7 +43,7 @@ namespace BlackJack.Angular.Controllers
         }
 
         [Route("ResumeGameAfterRoundFirstPhase"), HttpGet]
-        public async Task<IHttpActionResult> ResumeGameAfterRoundFirstPhase(int gameId)
+        public async Task<IHttpActionResult> ResumeGameAfterRoundFirstPhase(long gameId)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace BlackJack.Angular.Controllers
         }
         
         [Route("AddCardToHuman"), HttpGet]
-        public async Task<IHttpActionResult> AddCardToHuman(int gameId)
+        public async Task<IHttpActionResult> AddCardToHuman(long gameId)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace BlackJack.Angular.Controllers
         }
 
         [Route("ResumeGameAfterRoundSecondPhase"), HttpGet]
-        public async Task<IHttpActionResult> ResumeGameAfterRoundSecondPhase(int gameId)
+        public async Task<IHttpActionResult> ResumeGameAfterRoundSecondPhase(long gameId)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace BlackJack.Angular.Controllers
         }
 
         [Route("EndRound"), HttpGet]
-        public async Task<IHttpActionResult> EndRound(int gameId)
+        public async Task<IHttpActionResult> EndRound(long gameId)
         {
             try
             {

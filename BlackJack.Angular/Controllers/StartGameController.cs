@@ -37,11 +37,11 @@ namespace BlackJack.Angular.Controllers
         }
 
         [Route("CreateNewGame"), HttpPost]
-        public async Task<IHttpActionResult> CreateNewGame(AngularStartGameCreateNewGameView requestView)
+        public async Task<IHttpActionResult> CreateNewGame(StartGameCreateNewGameView requestView)
         {
             try
             {
-                int gameId = await _startGameService.CreateGame(requestView.PlayerId, requestView.AmountOfBots);
+                long gameId = await _startGameService.CreateGame(requestView.PlayerId, requestView.AmountOfBots);
                 return Ok(new { GameId = gameId });
             }
             catch (Exception ex)
@@ -53,11 +53,11 @@ namespace BlackJack.Angular.Controllers
         }
 
         [Route("ResumeGame"), HttpGet]
-        public async Task<IHttpActionResult> ResumeGame(int playerId)
+        public async Task<IHttpActionResult> ResumeGame(long playerId)
         {
             try
             {
-                int gameId = await _startGameService.ResumeGame(playerId);
+                long gameId = await _startGameService.ResumeGame(playerId);
                 return Ok(new { GameId = gameId });
             }
             catch (Exception ex)
@@ -69,7 +69,7 @@ namespace BlackJack.Angular.Controllers
         }
 
         [Route("StartRound"), HttpGet]
-        public async Task<IHttpActionResult> StartRound(int gameId)
+        public async Task<IHttpActionResult> StartRound(long gameId)
         {
             try
             {

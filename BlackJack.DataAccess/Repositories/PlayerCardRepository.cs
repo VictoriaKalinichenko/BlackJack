@@ -21,7 +21,7 @@ namespace BlackJack.DataAccess.Repositories
             _connectionString = connectionString;
         }
 
-        public async Task<IEnumerable<PlayerCard>> GetByGamePlayerId(int gamePlayerId)
+        public async Task<IEnumerable<PlayerCard>> GetByGamePlayerId(long gamePlayerId)
         {
             string sqlQuery = $@"SELECT * FROM PlayerCards AS A
                                  INNER JOIN Cards AS B ON A.CardId = B.Id
@@ -40,7 +40,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<IEnumerable<int>> GetCardsOnHandsIdsByGameId(int gameId)
+        public async Task<IEnumerable<long>> GetCardsOnHandsIdsByGameId(long gameId)
         {
             string sqlQuery = $@"SELECT CardId FROM PlayerCards AS A
                                  INNER JOIN GamePlayers AS B ON A.GamePlayerId = B.Id
@@ -48,12 +48,12 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                IEnumerable<int> cardIds = await db.QueryAsync<int>(sqlQuery, new { gameId });
+                IEnumerable<long> cardIds = await db.QueryAsync<long>(sqlQuery, new { gameId });
                 return cardIds;
             }
         }
 
-        public async Task<IEnumerable<PlayerCard>> GetPlayerCardsByGameId(int gameId)
+        public async Task<IEnumerable<PlayerCard>> GetPlayerCardsByGameId(long gameId)
         {
             string sqlQuery = $@"SELECT A.Id FROM PlayerCards AS A
                                  INNER JOIN GamePlayers AS B ON A.GamePlayerId = B.Id
@@ -70,7 +70,7 @@ namespace BlackJack.DataAccess.Repositories
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                int playerCardId = await db.InsertAsync(playerCard);
+                long playerCardId = await db.InsertAsync(playerCard);
                 playerCard.Id = playerCardId;
                 return playerCard;
             }

@@ -35,7 +35,7 @@ namespace BlackJack.BusinessLogic.Services
             _gamePlayerProvider = gamePlayerProvider;
         }
 
-        public async Task<string> ValidateBet(int bet, int gamePlayerId)
+        public async Task<string> ValidateBet(int bet, long gamePlayerId)
         {
             string validationMessage = string.Empty;
             int score = await _gamePlayerRepository.GetScoreById(gamePlayerId);
@@ -53,10 +53,10 @@ namespace BlackJack.BusinessLogic.Services
             return validationMessage;
         }
 
-        public async Task<GameLogicRoundFirstPhaseResponseView> DoRoundFirstPhase(int bet, int gameId)
+        public async Task<GameLogicRoundFirstPhaseResponseView> DoRoundFirstPhase(int bet, long gameId)
         {
             var logs = new List<Log>();
-            logs.Add(new Log() { GameId = gameId, DateTime = DateTime.Now, Message = LogMessageHelper.NewRoundStarted()});
+            logs.Add(new Log() { GameId = gameId, Message = LogMessageHelper.NewRoundStarted()});
 
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithoutCards(gameId, (int)PlayerType.Human);
             GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerWithoutCards(gameId, (int)PlayerType.Dealer);
@@ -74,7 +74,7 @@ namespace BlackJack.BusinessLogic.Services
             await _gamePlayerRepository.UpdateMany(gamePlayers);
             
             await _gameRepository.UpdateStage(gameId, StageHelper.FirstCardsDistribution);
-            logs.Add(new Log() { GameId = gameId, DateTime = DateTime.Now, Message = LogMessageHelper.GameStageChanged(StageHelper.FirstCardsDistribution) });
+            logs.Add(new Log() { GameId = gameId, Message = LogMessageHelper.GameStageChanged(StageHelper.FirstCardsDistribution) });
             await _logRepository.CreateMany(logs);
 
             GameLogicRoundFirstPhaseResponseView gameLogicResponseView = GetGameLogicRoundFirstPhaseResponseView(bots, dealer, human);
@@ -82,7 +82,7 @@ namespace BlackJack.BusinessLogic.Services
             return gameLogicResponseView;
         }
         
-        public async Task<GameLogicRoundFirstPhaseResponseView> ResumeGameAfterRoundFirstPhase(int gameId)
+        public async Task<GameLogicRoundFirstPhaseResponseView> ResumeGameAfterRoundFirstPhase(long gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Human);
             GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Dealer);
@@ -93,10 +93,10 @@ namespace BlackJack.BusinessLogic.Services
             return gameLogicResponseView;
         }
         
-        public async Task<GameLogicAddCardToHumanView> AddCardToHuman(int gameId)
+        public async Task<GameLogicAddCardToHumanView> AddCardToHuman(long gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Human);
-            IEnumerable<int> cardOnHandsIds = await _playerCardRepository.GetCardsOnHandsIdsByGameId(gameId);
+            IEnumerable<long> cardOnHandsIds = await _playerCardRepository.GetCardsOnHandsIdsByGameId(gameId);
             List<Card> deck = await ResumeDeck(cardOnHandsIds);
             var logs = new List<Log>();
 
@@ -113,7 +113,7 @@ namespace BlackJack.BusinessLogic.Services
             return addOneMoreCardToHumanViewModel;
         }
 
-        public async Task<GameLogicRoundSecondPhaseResponseView> DoRoundSecondPhase(int gameId, bool blackJackDangerContinueRound = false)
+        public async Task<GameLogicRoundSecondPhaseResponseView> DoRoundSecondPhase(long gameId, bool blackJackDangerContinueRound = false)
         {
             var logs = new List<Log>();
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Human);
@@ -125,7 +125,7 @@ namespace BlackJack.BusinessLogic.Services
                 human.BetPayCoefficient = BetValueHelper.BetDefaultCoefficient;
             }
 
-            IEnumerable<int> cardOnHandsIds = await _playerCardRepository.GetCardsOnHandsIdsByGameId(gameId);
+            IEnumerable<long> cardOnHandsIds = await _playerCardRepository.GetCardsOnHandsIdsByGameId(gameId);
             List<Card> deck = await ResumeDeck(cardOnHandsIds);
 
             List<GamePlayer> gamePlayers = bots.ToList();
@@ -138,7 +138,7 @@ namespace BlackJack.BusinessLogic.Services
             await _gamePlayerRepository.UpdateManyAfterRoundSecondPhase(gamePlayers);
 
             await _gameRepository.UpdateStage(gameId, StageHelper.SecondCardsDistribution);
-            logs.Add(new Log() { GameId = gameId, DateTime = DateTime.Now, Message = LogMessageHelper.GameStageChanged(StageHelper.SecondCardsDistribution) });
+            logs.Add(new Log() { GameId = gameId, Message = LogMessageHelper.GameStageChanged(StageHelper.SecondCardsDistribution) });
             await _logRepository.CreateMany(logs);
 
             GameLogicRoundSecondPhaseResponseView gameLogicResponseView = GetGameLogicRoundSecondPhaseResponseView(bots, dealer, human);
@@ -146,7 +146,7 @@ namespace BlackJack.BusinessLogic.Services
             return gameLogicResponseView;
         }
 
-        public async Task<GameLogicRoundSecondPhaseResponseView> ResumeGameAfterRoundSecondPhase(int gameId)
+        public async Task<GameLogicRoundSecondPhaseResponseView> ResumeGameAfterRoundSecondPhase(long gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Human);
             GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Dealer);
@@ -157,7 +157,7 @@ namespace BlackJack.BusinessLogic.Services
             return gameLogicResponseView;
         }
 
-        public async Task EndRound(int gameId)
+        public async Task EndRound(long gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithoutCards(gameId, (int)PlayerType.Human);
             GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerWithoutCards(gameId, (int)PlayerType.Dealer);
@@ -273,8 +273,7 @@ namespace BlackJack.BusinessLogic.Services
             Card card = deck.First();
             deck.Remove(card);
             var playerCard = new PlayerCard() { GamePlayerId = gamePlayer.Id, CardId = card.Id, Card = card };
-            var logFirstCard = new Log() {
-                DateTime = DateTime.Now,
+            var logFirstCard = new Log() { 
                 GameId = gamePlayer.GameId,
                 Message = LogMessageHelper.CardAdded(card.Id, card.Name, CardToStringHelper.Convert(card), ((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name)
             };
@@ -289,7 +288,7 @@ namespace BlackJack.BusinessLogic.Services
             return deck;
         }
 
-        private async Task<List<Card>> ResumeDeck(IEnumerable<int> cardOnHandsIds)
+        private async Task<List<Card>> ResumeDeck(IEnumerable<long> cardOnHandsIds)
         {
             List<Card> deck = (await _cardRepository.GetAll()).ToList();
             foreach (var cardId in cardOnHandsIds)

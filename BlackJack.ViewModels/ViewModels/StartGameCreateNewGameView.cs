@@ -1,8 +1,8 @@
 ﻿namespace BlackJack.ViewModels.ViewModels
 {
-    public class AngularStartGameCreateNewGameView
+    public class StartGameCreateNewGameView
     {
-        public int PlayerId { get; set; }
+        public long PlayerId { get; set; }
         public int AmountOfBots { get; set; }
     }
 }

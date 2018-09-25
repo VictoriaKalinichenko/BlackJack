@@ -4,7 +4,7 @@ namespace BlackJack.ViewModels.ViewModels
 {
     public class GamePlayerGameLogicResponseItem
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public int Score { get; set; }
         public int Bet { get; set; }

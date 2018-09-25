@@ -9,13 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataService } from '../../shared/services/data.service';
+import { UserNameService } from '../../shared/services/user-name.service';
 import { HttpService } from '../../shared/services/http.service';
 import { ErrorService } from '../../shared/services/error.service';
 import { AuthorizedUserView } from '../../shared/models/authorized-user-view';
 var StartpageComponent = /** @class */ (function () {
-    function StartpageComponent(_dataService, _httpService, _errorService, _router, _route) {
-        this._dataService = _dataService;
+    function StartpageComponent(_userNameService, _httpService, _errorService, _router, _route) {
+        this._userNameService = _userNameService;
         this._httpService = _httpService;
         this._errorService = _errorService;
         this._router = _router;
@@ -24,7 +24,7 @@ var StartpageComponent = /** @class */ (function () {
         this.AmountOfBots = 0;
     }
     StartpageComponent.prototype.ngOnInit = function () {
-        this.UserName = this._dataService.GetUserName();
+        this.UserName = this._userNameService.GetUserName();
         this.AuthUser(this.UserName);
     };
     StartpageComponent.prototype.AuthUser = function (userName) {
@@ -70,7 +70,7 @@ var StartpageComponent = /** @class */ (function () {
             templateUrl: './startpage.component.html',
             styleUrls: ['./startpage.component.css']
         }),
-        __metadata("design:paramtypes", [DataService,
+        __metadata("design:paramtypes", [UserNameService,
             HttpService,
             ErrorService,
             Router,

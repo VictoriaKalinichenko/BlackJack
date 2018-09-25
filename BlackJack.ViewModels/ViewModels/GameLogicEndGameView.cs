@@ -2,7 +2,7 @@
 {
     public class GameLogicEndGameView
     {
-        public int GameId { get; set; }
+        public long GameId { get; set; }
         public string GameResult { get; set; }
     }
 }

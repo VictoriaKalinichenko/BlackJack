@@ -7,14 +7,14 @@ namespace BlackJack.BusinessLogic.Interfaces
     {
         string ValidatePlayerName(string name);
 
-        Task<int> CreateGame(int playerId, int amountOfBots);
+        Task<long> CreateGame(long playerId, int amountOfBots);
 
         Task CreatePlayer(string name);
 
         Task<StartGameAuthorizePlayerView> AuthorizePlayer(string name);
 
-        Task<int> ResumeGame(int playerId);
+        Task<long> ResumeGame(long playerId);
 
-        Task<StartGameStartRoundView> GetStartGameStartRoundView(int gameId);
+        Task<StartGameStartRoundView> GetStartGameStartRoundView(long gameId);
     }
 }

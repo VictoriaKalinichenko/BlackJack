@@ -18,7 +18,7 @@ namespace BlackJack.DataAccess.Repositories
             _connectionString = connectionString;
         }
 
-        public async Task<Game> Get(int id)
+        public async Task<Game> Get(long id)
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
@@ -27,7 +27,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
         
-        public async Task<int> GetIdByPlayerId(int playerId)
+        public async Task<long> GetIdByPlayerId(long playerId)
         {
             string sqlQuery = $@"SELECT TOP (1) GameId FROM GamePlayers 
                                  WHERE PlayerId = @playerId
@@ -35,12 +35,12 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                int gameId = await db.QueryFirstOrDefaultAsync<int>(sqlQuery, new { playerId });
+                long gameId = await db.QueryFirstOrDefaultAsync<long>(sqlQuery, new { playerId });
                 return gameId;
             }
         }
 
-        public async Task<Game> GetByPlayerId(int playerId)
+        public async Task<Game> GetByPlayerId(long playerId)
         {
             string sqlQuery = $@"SELECT TOP (1) B.Id, B.Stage, B.Result 
                                  FROM GamePlayers AS A
@@ -60,13 +60,13 @@ namespace BlackJack.DataAccess.Repositories
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
                 var game = new Game();
-                int gameId = await db.InsertAsync(game);
+                long gameId = await db.InsertAsync(game);
                 game.Id = gameId;
                 return game;
             }
         }
 
-        public async Task UpdateStage(int gameId, int stage)
+        public async Task UpdateStage(long gameId, int stage)
         {
             string sqlQuery = @"UPDATE Games SET Stage = @stage
                                 WHERE Id = @gameId";
@@ -77,7 +77,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task UpdateResult(int gameId, string result)
+        public async Task UpdateResult(long gameId, string result)
         {
             string sqlQuery = @"UPDATE Games SET Result = @result
                                 WHERE Id = @gameId";
@@ -88,7 +88,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(long id)
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {

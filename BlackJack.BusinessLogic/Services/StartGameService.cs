@@ -68,11 +68,11 @@ namespace BlackJack.BusinessLogic.Services
             return startGameAuthorizePlayerView;
         }
 
-        public async Task<int> CreateGame(int playerId, int amountOfBots)
+        public async Task<long> CreateGame(long playerId, int amountOfBots)
         {
             var logs = new List<Log>();
             Game game = await _gameRepository.Create();
-            logs.Add(new Log() { DateTime = DateTime.Now, GameId = game.Id, Message = LogMessageHelper.GameCreated(game.Id, game.Stage) });
+            logs.Add(new Log() { GameId = game.Id, Message = LogMessageHelper.GameCreated(game.Id, game.Stage) });
 
             List<Player> players = await CreatePlayerList(playerId, amountOfBots);
             var gamePlayers = new List<GamePlayer>();
@@ -89,23 +89,23 @@ namespace BlackJack.BusinessLogic.Services
                 };
 
                 gamePlayers.Add(gamePlayer);
-                logs.Add(new Log() { DateTime = DateTime.Now, GameId = game.Id, Message = LogMessageHelper.PlayerAddedToGame(((PlayerType)player.Type).ToString(), player.Id, player.Name, gamePlayer.Score) });
+                logs.Add(new Log() { GameId = game.Id, Message = LogMessageHelper.PlayerAddedToGame(((PlayerType)player.Type).ToString(), player.Id, player.Name, gamePlayer.Score) });
             }
 
             await _gamePlayerRepository.CreateMany(gamePlayers);
             await _logRepository.CreateMany(logs);
 
-            int gameId = game.Id;
+            long gameId = game.Id;
             return gameId;
         }
 
-        public async Task<int> ResumeGame(int playerId)
+        public async Task<long> ResumeGame(long playerId)
         {
-            int gameId = await _gameRepository.GetIdByPlayerId(playerId);
+            long gameId = await _gameRepository.GetIdByPlayerId(playerId);
             return gameId;
         }
 
-        public async Task<StartGameStartRoundView> GetStartGameStartRoundView(int gameId)
+        public async Task<StartGameStartRoundView> GetStartGameStartRoundView(long gameId)
         {
             Game game = await _gameRepository.Get(gameId);
             StartGameStartRoundView startGameStartRoundView = Mapper.Map<Game, StartGameStartRoundView>(game);
@@ -130,7 +130,7 @@ namespace BlackJack.BusinessLogic.Services
             return player;
         }
 
-        private async Task<List<Player>> CreatePlayerList(int playerId, int amountOfBots)
+        private async Task<List<Player>> CreatePlayerList(long playerId, int amountOfBots)
         {
             var players = new List<Player>();
             var random = new Random();

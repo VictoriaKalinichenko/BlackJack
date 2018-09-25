@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { deserialize } from 'json-typescript-mapper';
 
 import { HttpService } from '../../shared/services/http.service';
 import { ErrorService } from '../../shared/services/error.service';
-import { deserialize } from 'json-typescript-mapper';
-import { forEach } from '@angular/router/src/utils/collection';
 import { GameView } from '../../shared/models/game-view';
 import { PlayerView } from '../../shared/models/player-view';
 

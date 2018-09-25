@@ -104,7 +104,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _authorized_user_game_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./authorized-user/game/player-output/player-output.component */ "./src/app/authorized-user/game/player-output/player-output.component.ts");
 /* harmony import */ var _authorized_user_game_dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./authorized-user/game/dealer-output/dealer-output.component */ "./src/app/authorized-user/game/dealer-output/dealer-output.component.ts");
 /* harmony import */ var _error_page_error_page_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./error-page/error-page.component */ "./src/app/error-page/error-page.component.ts");
-/* harmony import */ var _shared_services_data_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./shared/services/data.service */ "./src/app/shared/services/data.service.ts");
+/* harmony import */ var _shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./shared/services/user-name.service */ "./src/app/shared/services/user-name.service.ts");
 /* harmony import */ var _shared_services_error_service__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./shared/services/error.service */ "./src/app/shared/services/error.service.ts");
 /* harmony import */ var _shared_services_http_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./shared/services/http.service */ "./src/app/shared/services/http.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -164,20 +164,13 @@ var AppModule = /** @class */ (function () {
                 _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"].forRoot(appRoutes, { useHash: true })
             ],
             providers: [
-                _shared_services_data_service__WEBPACK_IMPORTED_MODULE_14__["DataService"],
+                _shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_14__["UserNameService"],
                 _shared_services_error_service__WEBPACK_IMPORTED_MODULE_15__["ErrorService"],
                 _shared_services_http_service__WEBPACK_IMPORTED_MODULE_16__["HttpService"],
                 { provide: _angular_common__WEBPACK_IMPORTED_MODULE_5__["APP_BASE_HREF"], useValue: '/' }
             ],
             bootstrap: [
-                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-                _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_7__["HomepageComponent"],
-                _authorized_user_startpage_startpage_component__WEBPACK_IMPORTED_MODULE_8__["StartpageComponent"],
-                _authorized_user_authorized_user_component__WEBPACK_IMPORTED_MODULE_9__["AuthorizedUserComponent"],
-                _authorized_user_game_game_component__WEBPACK_IMPORTED_MODULE_10__["GameComponent"],
-                _authorized_user_game_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_11__["PlayerOutputComponent"],
-                _authorized_user_game_dealer_output_dealer_output_component__WEBPACK_IMPORTED_MODULE_12__["DealerOutputComponent"],
-                _error_page_error_page_component__WEBPACK_IMPORTED_MODULE_13__["ErrorPageComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]
             ]
         })
     ], AppModule);
@@ -222,7 +215,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthorizedUserComponent", function() { return AuthorizedUserComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _shared_services_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/services/data.service */ "./src/app/shared/services/data.service.ts");
+/* harmony import */ var _shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/services/user-name.service */ "./src/app/shared/services/user-name.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -236,8 +229,8 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var AuthorizedUserComponent = /** @class */ (function () {
-    function AuthorizedUserComponent(_dataService, _route) {
-        this._dataService = _dataService;
+    function AuthorizedUserComponent(_userNameService, _route) {
+        this._userNameService = _userNameService;
         this._route = _route;
     }
     AuthorizedUserComponent.prototype.ngOnInit = function () {
@@ -245,7 +238,7 @@ var AuthorizedUserComponent = /** @class */ (function () {
         this._route.params.subscribe(function (params) {
             _this.UserName = params['UserName'];
         });
-        this._dataService.SetUserName(this.UserName);
+        this._userNameService.SetUserName(this.UserName);
     };
     AuthorizedUserComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -253,7 +246,7 @@ var AuthorizedUserComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./authorized-user.component.html */ "./src/app/authorized-user/authorized-user.component.html"),
             styles: [__webpack_require__(/*! ./authorized-user.component.css */ "./src/app/authorized-user/authorized-user.component.css")]
         }),
-        __metadata("design:paramtypes", [_shared_services_data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"],
+        __metadata("design:paramtypes", [_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_2__["UserNameService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
     ], AuthorizedUserComponent);
     return AuthorizedUserComponent;
@@ -396,10 +389,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameComponent", function() { return GameComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _shared_services_http_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/services/http.service */ "./src/app/shared/services/http.service.ts");
-/* harmony import */ var _shared_services_error_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/services/error.service */ "./src/app/shared/services/error.service.ts");
-/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! json-typescript-mapper */ "./node_modules/json-typescript-mapper/index.js");
-/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! json-typescript-mapper */ "./node_modules/json-typescript-mapper/index.js");
+/* harmony import */ var json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _shared_services_http_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/services/http.service */ "./src/app/shared/services/http.service.ts");
+/* harmony import */ var _shared_services_error_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../shared/services/error.service */ "./src/app/shared/services/error.service.ts");
 /* harmony import */ var _shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../shared/models/game-view */ "./src/app/shared/models/game-view.ts");
 /* harmony import */ var _shared_models_player_view__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../shared/models/player-view */ "./src/app/shared/models/player-view.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -455,7 +448,7 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this._httpService.GetGame(this.GameId)
             .subscribe(function (data) {
-            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_4__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
+            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
             if (data["IsGameOver"] != "") {
                 _this.GameResult = data["IsGameOver"];
                 _this.GamePlayEndGame();
@@ -471,7 +464,7 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this._httpService.ResumeGameAfterRoundFirstPhase(this.Game.Id)
             .subscribe(function (data) {
-            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_4__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
+            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
             _this.FirstPhaseGamePlay(data["HumanBlackJackAndDealerBlackJackDanger"], data["CanHumanTakeOneMoreCard"]);
         }, function (error) {
             console.log(error);
@@ -483,7 +476,7 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this._httpService.ResumeGameAfterRoundSecondPhase(this.Game.Id)
             .subscribe(function (data) {
-            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_4__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
+            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
             _this.RoundResult = data["RoundResult"];
             _this.GamePlayEndRound();
         }, function (error) {
@@ -495,10 +488,10 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.AddCardToHuman = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this._httpService.AddOneMoreCardToHuman(this.Game.Id)
+            this._httpService.AddCardToHuman(this.Game.Id)
                 .subscribe(function (data) {
                 if (data["CanHumanTakeOneMoreCard"]) {
-                    _this.Game.Human = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_4__["deserialize"])(_shared_models_player_view__WEBPACK_IMPORTED_MODULE_6__["PlayerView"], data);
+                    _this.Game.Human = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_player_view__WEBPACK_IMPORTED_MODULE_6__["PlayerView"], data);
                 }
                 if (!data["CanHumanTakeOneMoreCard"]) {
                     _this.DoRoundSecondPhase(false);
@@ -530,7 +523,7 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this._httpService.DoRoundFirstPhase(this.Game.Id, this.Game.Human.GamePlayerId, this.Bet)
             .subscribe(function (data) {
-            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_4__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data["Data"]);
+            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data["Data"]);
             if (data["Message"] != "") {
                 _this.ShowValidationMessage(data["Message"]);
             }
@@ -551,7 +544,7 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this._httpService.DoRoundSecondPhase(this.Game.Id, humanBlackJackContinueRound)
             .subscribe(function (data) {
-            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_4__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
+            _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
             _this.RoundResult = data["RoundResult"];
             _this.GamePlayEndRound();
         }, function (error) {
@@ -626,8 +619,8 @@ var GameComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _shared_services_http_service__WEBPACK_IMPORTED_MODULE_2__["HttpService"],
-            _shared_services_error_service__WEBPACK_IMPORTED_MODULE_3__["ErrorService"]])
+            _shared_services_http_service__WEBPACK_IMPORTED_MODULE_3__["HttpService"],
+            _shared_services_error_service__WEBPACK_IMPORTED_MODULE_4__["ErrorService"]])
     ], GameComponent);
     return GameComponent;
 }());
@@ -761,7 +754,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StartpageComponent", function() { return StartpageComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _shared_services_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/services/data.service */ "./src/app/shared/services/data.service.ts");
+/* harmony import */ var _shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/services/user-name.service */ "./src/app/shared/services/user-name.service.ts");
 /* harmony import */ var _shared_services_http_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/services/http.service */ "./src/app/shared/services/http.service.ts");
 /* harmony import */ var _shared_services_error_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../shared/services/error.service */ "./src/app/shared/services/error.service.ts");
 /* harmony import */ var _shared_models_authorized_user_view__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../shared/models/authorized-user-view */ "./src/app/shared/models/authorized-user-view.ts");
@@ -781,8 +774,8 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var StartpageComponent = /** @class */ (function () {
-    function StartpageComponent(_dataService, _httpService, _errorService, _router, _route) {
-        this._dataService = _dataService;
+    function StartpageComponent(_userNameService, _httpService, _errorService, _router, _route) {
+        this._userNameService = _userNameService;
         this._httpService = _httpService;
         this._errorService = _errorService;
         this._router = _router;
@@ -791,7 +784,7 @@ var StartpageComponent = /** @class */ (function () {
         this.AmountOfBots = 0;
     }
     StartpageComponent.prototype.ngOnInit = function () {
-        this.UserName = this._dataService.GetUserName();
+        this.UserName = this._userNameService.GetUserName();
         this.AuthUser(this.UserName);
     };
     StartpageComponent.prototype.AuthUser = function (userName) {
@@ -837,7 +830,7 @@ var StartpageComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./startpage.component.html */ "./src/app/authorized-user/startpage/startpage.component.html"),
             styles: [__webpack_require__(/*! ./startpage.component.css */ "./src/app/authorized-user/startpage/startpage.component.css")]
         }),
-        __metadata("design:paramtypes", [_shared_services_data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"],
+        __metadata("design:paramtypes", [_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_2__["UserNameService"],
             _shared_services_http_service__WEBPACK_IMPORTED_MODULE_3__["HttpService"],
             _shared_services_error_service__WEBPACK_IMPORTED_MODULE_4__["ErrorService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
@@ -1125,45 +1118,6 @@ var PlayerView = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/services/data.service.ts":
-/*!*************************************************!*\
-  !*** ./src/app/shared/services/data.service.ts ***!
-  \*************************************************/
-/*! exports provided: DataService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataService", function() { return DataService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var DataService = /** @class */ (function () {
-    function DataService() {
-    }
-    DataService.prototype.SetUserName = function (userName) {
-        this.UserName = userName;
-    };
-    DataService.prototype.GetUserName = function () {
-        return this.UserName;
-    };
-    DataService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
-            providedIn: 'root'
-        })
-    ], DataService);
-    return DataService;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/shared/services/error.service.ts":
 /*!**************************************************!*\
   !*** ./src/app/shared/services/error.service.ts ***!
@@ -1257,10 +1211,10 @@ var HttpService = /** @class */ (function () {
         var body = { GameId: gameId, HumanBlackJackAndDealerBlackJackDanger: humanBlackJackContinueRound };
         return this.http.post('GameLogic/DoRoundSecondPhase', body);
     };
-    HttpService.prototype.AddOneMoreCardToHuman = function (gameId) {
+    HttpService.prototype.AddCardToHuman = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.http.get('GameLogic/AddOneMoreCardToHuman', options);
+        return this.http.get('GameLogic/AddCardToHuman', options);
     };
     HttpService.prototype.ResumeGameAfterRoundFirstPhase = function (gameId) {
         var options = gameId ?
@@ -1288,6 +1242,45 @@ var HttpService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], HttpService);
     return HttpService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/user-name.service.ts":
+/*!******************************************************!*\
+  !*** ./src/app/shared/services/user-name.service.ts ***!
+  \******************************************************/
+/*! exports provided: UserNameService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserNameService", function() { return UserNameService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var UserNameService = /** @class */ (function () {
+    function UserNameService() {
+    }
+    UserNameService.prototype.SetUserName = function (userName) {
+        this.UserName = userName;
+    };
+    UserNameService.prototype.GetUserName = function () {
+        return this.UserName;
+    };
+    UserNameService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        })
+    ], UserNameService);
+    return UserNameService;
 }());
 
 

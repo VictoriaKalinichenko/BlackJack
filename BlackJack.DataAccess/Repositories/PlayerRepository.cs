@@ -14,8 +14,7 @@ namespace BlackJack.DataAccess.Repositories
     public class PlayerRepository : IPlayerRepository
     {
         private string _connectionString;
-
-
+        
 
         public PlayerRepository(string connectionString)
         {
@@ -34,7 +33,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<Player> Get(int id)
+        public async Task<Player> Get(long id)
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
@@ -47,7 +46,7 @@ namespace BlackJack.DataAccess.Repositories
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                int playerId = await db.InsertAsync(player);
+                long playerId = await db.InsertAsync(player);
                 player.Id = playerId;
                 return player;
             }
@@ -72,7 +71,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(long id)
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {

@@ -14,7 +14,7 @@ import { PlayerOutputComponent } from './authorized-user/game/player-output/play
 import { DealerOutputComponent } from './authorized-user/game/dealer-output/dealer-output.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 
-import { DataService } from './shared/services/data.service';
+import { UserNameService } from './shared/services/user-name.service';
 import { ErrorService } from './shared/services/error.service';
 import { HttpService } from './shared/services/http.service';
 
@@ -52,20 +52,13 @@ const appRoutes: Routes = [
       )
   ],
     providers: [
-        DataService,
+        UserNameService,
         ErrorService,
         HttpService,
         { provide: APP_BASE_HREF, useValue: '/' }
     ],
     bootstrap: [
-        AppComponent,
-        HomepageComponent,
-        StartpageComponent,
-        AuthorizedUserComponent,
-        GameComponent,
-        PlayerOutputComponent,
-        DealerOutputComponent,
-        ErrorPageComponent
+        AppComponent
     ]
 })
 export class AppModule { }

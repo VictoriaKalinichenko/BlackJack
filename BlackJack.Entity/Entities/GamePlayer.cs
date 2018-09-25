@@ -5,16 +5,16 @@ namespace BlackJack.Entities.Entities
 {
     public class GamePlayer : EntityBase
     {
-        public int PlayerId { get; set; }
-        public int GameId { get; set; }
+        public long PlayerId { get; set; }
+        public long GameId { get; set; }
         public int Score { get; set; }
         public int Bet { get; set; }
         public int RoundScore { get; set; }
         public int CardAmount { get; set; }
         public float BetPayCoefficient { get; set; }
         [Write(false)]
-        public Player Player { get; set; }
+        public virtual Player Player { get; set; }
         [Write(false)]
-        public List<PlayerCard> PlayerCards { get; set; }
+        public virtual List<PlayerCard> PlayerCards { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace BlackJack.DataAccess.Repositories
             _connectionString = connectionString;
         }
 
-        public async Task<GamePlayer> GetSpecificPlayerForStartRound(int gameId, int playerType)
+        public async Task<GamePlayer> GetSpecificPlayerForStartRound(long gameId, int playerType)
         {
             string sqlQuery = $@"SELECT A.Id, Score, B.Id, B.Name
                                  FROM GamePlayers AS A 
@@ -41,7 +41,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<IEnumerable<GamePlayer>> GetSpecificPlayersForStartRound(int gameId, int playerType)
+        public async Task<IEnumerable<GamePlayer>> GetSpecificPlayersForStartRound(long gameId, int playerType)
         {
             string sqlQuery = $@"SELECT A.Id, Score, B.Id, B.Name
                                  FROM GamePlayers AS A 
@@ -61,7 +61,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<GamePlayer> GetSpecificPlayerWithoutCards(int gameId, int playerType)
+        public async Task<GamePlayer> GetSpecificPlayerWithoutCards(long gameId, int playerType)
         {
             string sqlQuery = $@"SELECT A.Id, A.PlayerId, Score, RoundScore, BetPayCoefficient, Bet, CardAmount, B.Id, B.Name, B.Type
                                  FROM GamePlayers AS A 
@@ -81,7 +81,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<IEnumerable<GamePlayer>> GetSpecificPlayersWithoutCards(int gameId, int playerType)
+        public async Task<IEnumerable<GamePlayer>> GetSpecificPlayersWithoutCards(long gameId, int playerType)
         {
             string sqlQuery = $@"SELECT A.Id, A.PlayerId, Score, RoundScore, BetPayCoefficient, Bet, CardAmount, B.Id, B.Name, B.Type
                                  FROM GamePlayers AS A 
@@ -101,7 +101,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<GamePlayer> GetSpecificPlayerWithCards(int gameId, int playerType)
+        public async Task<GamePlayer> GetSpecificPlayerWithCards(long gameId, int playerType)
         {
             string sqlQuery = $@"SELECT A.Id, A.RoundScore, A.CardAmount, A.Score, A.Bet, A.BetPayCoefficient, B.Id, C.Id, C.Name, C.Type, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
@@ -138,7 +138,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<IEnumerable<GamePlayer>> GetSpecificPlayersWithCards(int gameId, int playerType)
+        public async Task<IEnumerable<GamePlayer>> GetSpecificPlayersWithCards(long gameId, int playerType)
         {
             string sqlQuery = $@"SELECT A.Id, A.RoundScore, A.Score, A.Bet, A.CardAmount, A.BetPayCoefficient, B.Id, C.Id, C.Name, C.Type, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
@@ -175,7 +175,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
         
-        public async Task<int> GetScoreById(int gamePlayerId)
+        public async Task<int> GetScoreById(long gamePlayerId)
         {
             string sqlQuery = $@"SELECT Score FROM GamePlayers
                                  WHERE Id = @gamePlayerId";
@@ -244,7 +244,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
         
-        public async Task DeleteBotsWithZeroScore(int gameId)
+        public async Task DeleteBotsWithZeroScore(long gameId)
         {
             string sqlQuery = @"DELETE FROM GamePlayers
                                 WHERE Score <= 0 AND GameId = @gameId";
@@ -255,7 +255,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task DeleteAllByGameId(int gameId)
+        public async Task DeleteAllByGameId(long gameId)
         {
             string sqlQuery = @"DELETE FROM GamePlayers
                                 WHERE GameId = @gameId";

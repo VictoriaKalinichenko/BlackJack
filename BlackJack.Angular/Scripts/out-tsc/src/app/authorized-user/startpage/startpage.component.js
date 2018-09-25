@@ -8,18 +8,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserNameService } from '../../shared/services/user-name.service';
 import { HttpService } from '../../shared/services/http.service';
 import { ErrorService } from '../../shared/services/error.service';
 import { AuthorizedUserView } from '../../shared/models/authorized-user-view';
 var StartpageComponent = /** @class */ (function () {
-    function StartpageComponent(_userNameService, _httpService, _errorService, _router, _route) {
+    function StartpageComponent(_userNameService, _httpService, _errorService, _router) {
         this._userNameService = _userNameService;
         this._httpService = _httpService;
         this._errorService = _errorService;
         this._router = _router;
-        this._route = _route;
         this.Player = new AuthorizedUserView();
         this.AmountOfBots = 0;
     }
@@ -73,8 +72,7 @@ var StartpageComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [UserNameService,
             HttpService,
             ErrorService,
-            Router,
-            ActivatedRoute])
+            Router])
     ], StartpageComponent);
     return StartpageComponent;
 }());

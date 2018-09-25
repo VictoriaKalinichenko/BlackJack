@@ -774,12 +774,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var StartpageComponent = /** @class */ (function () {
-    function StartpageComponent(_userNameService, _httpService, _errorService, _router, _route) {
+    function StartpageComponent(_userNameService, _httpService, _errorService, _router) {
         this._userNameService = _userNameService;
         this._httpService = _httpService;
         this._errorService = _errorService;
         this._router = _router;
-        this._route = _route;
         this.Player = new _shared_models_authorized_user_view__WEBPACK_IMPORTED_MODULE_5__["AuthorizedUserView"]();
         this.AmountOfBots = 0;
     }
@@ -833,8 +832,7 @@ var StartpageComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_2__["UserNameService"],
             _shared_services_http_service__WEBPACK_IMPORTED_MODULE_3__["HttpService"],
             _shared_services_error_service__WEBPACK_IMPORTED_MODULE_4__["ErrorService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], StartpageComponent);
     return StartpageComponent;
 }());
@@ -1181,59 +1179,59 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var HttpService = /** @class */ (function () {
-    function HttpService(http) {
-        this.http = http;
+    function HttpService(_httpClient) {
+        this._httpClient = _httpClient;
     }
     HttpService.prototype.GetAuthorizedPlayer = function (userName) {
         var options = userName ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('userName', userName.toString()) } : {};
-        return this.http.get('StartGame/AuthorizePlayer', options);
+        return this._httpClient.get('StartGame/AuthorizePlayer', options);
     };
     HttpService.prototype.CreateNewGame = function (playerId, amountOfBots) {
         var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
-        return this.http.post('StartGame/CreateNewGame', body);
+        return this._httpClient.post('StartGame/CreateNewGame', body);
     };
     HttpService.prototype.ResumeGame = function (playerId) {
         var options = playerId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('playerId', playerId.toString()) } : {};
-        return this.http.get('StartGame/ResumeGame', options);
+        return this._httpClient.get('StartGame/ResumeGame', options);
     };
     HttpService.prototype.GetGame = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.http.get('StartGame/StartRound', options);
+        return this._httpClient.get('StartGame/StartRound', options);
     };
     HttpService.prototype.DoRoundFirstPhase = function (gameId, humanGamePlayerId, bet) {
         var body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this.http.post('GameLogic/DoRoundFirstPhase', body);
+        return this._httpClient.post('GameLogic/DoRoundFirstPhase', body);
     };
     HttpService.prototype.DoRoundSecondPhase = function (gameId, humanBlackJackContinueRound) {
         var body = { GameId: gameId, HumanBlackJackAndDealerBlackJackDanger: humanBlackJackContinueRound };
-        return this.http.post('GameLogic/DoRoundSecondPhase', body);
+        return this._httpClient.post('GameLogic/DoRoundSecondPhase', body);
     };
     HttpService.prototype.AddCardToHuman = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.http.get('GameLogic/AddCardToHuman', options);
+        return this._httpClient.get('GameLogic/AddCardToHuman', options);
     };
     HttpService.prototype.ResumeGameAfterRoundFirstPhase = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.http.get('GameLogic/ResumeGameAfterRoundFirstPhase', options);
+        return this._httpClient.get('GameLogic/ResumeGameAfterRoundFirstPhase', options);
     };
     HttpService.prototype.ResumeGameAfterRoundSecondPhase = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.http.get('GameLogic/ResumeGameAfterRoundSecondPhase', options);
+        return this._httpClient.get('GameLogic/ResumeGameAfterRoundSecondPhase', options);
     };
     HttpService.prototype.EndRound = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.http.get('GameLogic/EndRound', options);
+        return this._httpClient.get('GameLogic/EndRound', options);
     };
     HttpService.prototype.EndGame = function (gameId, gameResult) {
         var body = { GameId: gameId, GameResult: gameResult };
-        return this.http.post('GameLogic/EndGame', body);
+        return this._httpClient.post('GameLogic/EndGame', body);
     };
     HttpService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Dapper.Contrib.Extensions;
-
-namespace BlackJack.Entities.Entities
+﻿namespace BlackJack.Entities.Entities
 {
     public class Game : EntityBase
     {

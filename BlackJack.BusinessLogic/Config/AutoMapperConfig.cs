@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BlackJack.Entities.Entities;
 using BlackJack.BusinessLogic.Helpers;
-using BlackJack.ViewModels.ViewModels;
+using BlackJack.ViewModels.ViewModels.GameLogic;
+using BlackJack.ViewModels.ViewModels.Log;
+using BlackJack.ViewModels.ViewModels.StartGame;
 
 namespace BlackJack.BusinessLogic.Config
 {

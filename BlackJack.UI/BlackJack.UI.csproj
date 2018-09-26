@@ -185,9 +185,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\GameLogicController.cs" />
+    <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\LogController.cs" />
-    <Compile Include="Controllers\StartGameController.cs" />
+    <Compile Include="Controllers\StartController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2704,7 +2704,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Log\Index.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\StartGame\StartRound.js" />
+    <Content Include="Scripts\StartGame\BeginRound.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2716,12 +2716,12 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\StartGame\ValidateName.cshtml" />
-    <Content Include="Views\StartGame\Error.cshtml" />
+    <Content Include="Views\Start\ValidateName.cshtml" />
+    <Content Include="Views\Start\Error.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
     <Content Include="Views\Shared\_StartPage.cshtml" />
-    <Content Include="Views\StartGame\AuthorizePlayer.cshtml" />
-    <Content Include="Views\StartGame\StartRound.cshtml" />
+    <Content Include="Views\Start\AuthorizePlayer.cshtml" />
+    <Content Include="Views\Start\BeginRound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

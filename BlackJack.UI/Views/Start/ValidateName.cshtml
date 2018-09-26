@@ -1,5 +1,5 @@
-﻿@using BlackJack.ViewModels.ViewModels.StartGame;
-@model StartGameValidateNameView
+﻿@using BlackJack.ViewModels.ViewModels.Start;
+@model ValidateNameViewModel
 @{
     Layout = "~/Views/Shared/_StartPage.cshtml";
     ViewBag.Title = "Home Page";
@@ -8,7 +8,7 @@
 <div class="jumbotron">
     <h1>BlackJack</h1>
 
-    @using (Html.BeginForm("ValidateName", "StartGame", FormMethod.Post, new { @class = "form-horizontal" }))
+    @using (Html.BeginForm("ValidateName", "Start", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         <div class="form-group">
             <label class="control-label col-md-2">Name: </label>

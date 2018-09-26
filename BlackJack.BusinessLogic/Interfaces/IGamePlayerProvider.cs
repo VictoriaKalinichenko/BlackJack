@@ -17,6 +17,6 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         bool DoesBotHaveEnoughCards(int roundScore);
 
-        string GetHumanRoundResult(float betPayCoefficient);
+        string GetRoundResult(float betPayCoefficient);
     }
 }

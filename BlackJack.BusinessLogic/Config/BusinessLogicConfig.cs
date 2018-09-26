@@ -12,8 +12,8 @@ namespace BlackJack.BusinessLogic.Config
         {
             builder.RegisterType<GamePlayerProvider>().As<IGamePlayerProvider>();
 
-            builder.RegisterType<StartGameService>().As<IStartGameService>();
-            builder.RegisterType<GameLogicService>().As<IGameLogicService>();
+            builder.RegisterType<StartService>().As<IStartService>();
+            builder.RegisterType<GameService>().As<IGameService>();
             builder.RegisterType<LogService>().As<ILogService>();
 
             builder.RegisterModule(new DataAccessConfig());

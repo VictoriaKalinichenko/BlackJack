@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using BlackJack.DataAccess.Repositories.Interfaces;
+﻿using AutoMapper;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
-using BlackJack.ViewModels.ViewModels.StartGame;
 using BlackJack.ViewModels.Enums;
-using AutoMapper;
+using BlackJack.ViewModels.ViewModels.Start;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Services
 {
-    public class StartGameService : IStartGameService
+    public class StartService : IStartService
     {
         private readonly IGameRepository _gameRepository;
         private readonly IPlayerRepository _playerRepository;
@@ -19,7 +19,7 @@ namespace BlackJack.BusinessLogic.Services
         private readonly ILogRepository _logRepository;
         
 
-        public StartGameService(IGameRepository gameRepository, IPlayerRepository playerRepository, IGamePlayerRepository gamePlayerRepository, ILogRepository logRepository)
+        public StartService(IGameRepository gameRepository, IPlayerRepository playerRepository, IGamePlayerRepository gamePlayerRepository, ILogRepository logRepository)
         {
             _gamePlayerRepository = gamePlayerRepository;
             _gameRepository = gameRepository;
@@ -47,7 +47,7 @@ namespace BlackJack.BusinessLogic.Services
             }
         }
 
-        public async Task<StartGameAuthorizePlayerView> AuthorizePlayer(string name)
+        public async Task<AuthorizePlayerViewModel> AuthorizePlayer(string name)
         {
             Player human = await _playerRepository.SelectByName(name, (int)PlayerType.Human);
 
@@ -58,14 +58,14 @@ namespace BlackJack.BusinessLogic.Services
                 resumeGame = false;
             }
 
-            var startGameAuthorizePlayerView = new StartGameAuthorizePlayerView()
+            var authorizePlayerViewModel = new AuthorizePlayerViewModel()
             {
                 PlayerId = human.Id,
                 Name = human.Name,
                 ResumeGame = resumeGame
             };
 
-            return startGameAuthorizePlayerView;
+            return authorizePlayerViewModel;
         }
 
         public async Task<long> CreateGame(long playerId, int amountOfBots)
@@ -83,9 +83,9 @@ namespace BlackJack.BusinessLogic.Services
                     GameId = game.Id,
                     PlayerId = player.Id,
                     Score = GameValueHelper.DefaultPlayerScore,
-                    BetPayCoefficient = BetValueHelper.BetDefaultCoefficient,
-                    Bet = BetValueHelper.BetZero,
-                    RoundScore = GameValueHelper.ZeroScore,
+                    BetPayCoefficient = BetValueHelper.DefaultCoefficient,
+                    Bet = GameValueHelper.Zero,
+                    RoundScore = GameValueHelper.Zero,
                 };
 
                 gamePlayers.Add(gamePlayer);
@@ -105,21 +105,21 @@ namespace BlackJack.BusinessLogic.Services
             return gameId;
         }
 
-        public async Task<StartGameStartRoundView> GetStartGameStartRoundView(long gameId)
+        public async Task<BeginRoundViewModel> GetBeginRoundViewModel(long gameId)
         {
             Game game = await _gameRepository.Get(gameId);
-            StartGameStartRoundView startGameStartRoundView = Mapper.Map<Game, StartGameStartRoundView>(game);
+            BeginRoundViewModel beginRoundViewModel = Mapper.Map<Game, BeginRoundViewModel>(game);
 
             GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerForStartRound(gameId, (int)PlayerType.Dealer);
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerForStartRound(gameId, (int)PlayerType.Human);
             IEnumerable<GamePlayer> bots = await _gamePlayerRepository.GetSpecificPlayersForStartRound(gameId, (int)PlayerType.Bot);
 
-            startGameStartRoundView.Dealer = Mapper.Map<GamePlayer, PlayerStartGameStartRoundItem>(dealer);
-            startGameStartRoundView.Human = Mapper.Map<GamePlayer, PlayerStartGameStartRoundItem>(human);
-            startGameStartRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<PlayerStartGameStartRoundItem>>(bots);
+            beginRoundViewModel.Dealer = Mapper.Map<GamePlayer, PlayerBeginRoundViewItem>(dealer);
+            beginRoundViewModel.Human = Mapper.Map<GamePlayer, PlayerBeginRoundViewItem>(human);
+            beginRoundViewModel.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<PlayerBeginRoundViewItem>>(bots);
             
-            startGameStartRoundView.IsGameOver = IsGameOver(human, dealer);
-            return startGameStartRoundView;
+            beginRoundViewModel.IsGameOver = IsGameOver(human, dealer);
+            return beginRoundViewModel;
         }
         
         private Player CreatePlayer(string name, PlayerType playerType)
@@ -152,12 +152,12 @@ namespace BlackJack.BusinessLogic.Services
         {
             string isGameOver = string.Empty;
 
-            if (dealer.Score <= GameValueHelper.ZeroScore)
+            if (dealer.Score <= GameValueHelper.Zero)
             {
                 isGameOver = GameMessageHelper.DealerIsLoser;
             }
 
-            if (human.Score <= GameValueHelper.ZeroScore)
+            if (human.Score <= GameValueHelper.Zero)
             {
                 isGameOver = GameMessageHelper.DealerIsWinner;
             }

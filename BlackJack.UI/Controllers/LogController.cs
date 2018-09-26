@@ -29,7 +29,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                IEnumerable<LogGetLogsView> logViews = await _logService.GetAllLogs();
+                IEnumerable<GetLogsViewModel> logViews = await _logService.GetAllLogs();
                 return Json(logViews, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

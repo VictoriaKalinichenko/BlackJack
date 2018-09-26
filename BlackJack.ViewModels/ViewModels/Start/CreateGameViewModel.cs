@@ -1,6 +1,6 @@
-﻿namespace BlackJack.ViewModels.ViewModels.StartGame
+﻿namespace BlackJack.ViewModels.ViewModels.Start
 {
-    public class StartGameCreateNewGameView
+    public class CreateGameViewModel
     {
         public long PlayerId { get; set; }
         public int AmountOfBots { get; set; }

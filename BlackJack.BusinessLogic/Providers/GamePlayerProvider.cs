@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using BlackJack.BusinessLogic.Helpers;
+﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.ViewModels.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace BlackJack.BusinessLogic.Providers
 {
@@ -47,7 +47,7 @@ namespace BlackJack.BusinessLogic.Providers
             {
                 gamePlayer.BetPayCoefficient = GetRoundFirstPhaseResult(gamePlayer.RoundScore, gamePlayer.CardAmount, dealerBlackJackDanger);
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BetBlackJackCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
                 {
                     logs.Add(new Log()
                     {
@@ -56,7 +56,7 @@ namespace BlackJack.BusinessLogic.Providers
                     });
                 }
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BetWinCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValueHelper.WinCoefficient)
                 {
                     logs.Add(new Log()
                     {
@@ -73,7 +73,7 @@ namespace BlackJack.BusinessLogic.Providers
             {
                 gamePlayer.BetPayCoefficient = GetRoundSecondPhaseResult(gamePlayer.RoundScore, gamePlayer.CardAmount, dealer.RoundScore, dealer.CardAmount, gamePlayer.BetPayCoefficient);
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BetBlackJackCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
                 {
                     logs.Add(new Log()
                     {
@@ -82,7 +82,7 @@ namespace BlackJack.BusinessLogic.Providers
                     });
                 }
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BetWinCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValueHelper.WinCoefficient)
                 {
                     logs.Add(new Log()
                     {
@@ -91,7 +91,7 @@ namespace BlackJack.BusinessLogic.Providers
                     });
                 }
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BetZeroCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValueHelper.ZeroCoefficient)
                 {
                     logs.Add(new Log()
                     {
@@ -100,7 +100,7 @@ namespace BlackJack.BusinessLogic.Providers
                     });
                 }
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BetLoseCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValueHelper.LoseCoefficient)
                 {
                     logs.Add(new Log()
                     {
@@ -117,52 +117,52 @@ namespace BlackJack.BusinessLogic.Providers
             {
                 int pay = (int)(player.Bet * player.BetPayCoefficient);
                 player.Score += player.Bet + pay;
-                player.Bet = BetValueHelper.BetZero;
-                player.BetPayCoefficient = BetValueHelper.BetDefaultCoefficient;
+                player.Bet = GameValueHelper.Zero;
+                player.BetPayCoefficient = BetValueHelper.DefaultCoefficient;
                 dealer.Score -= pay;
             }
         }
         
         public bool DoesHumanHaveEnoughCards(int roundScore)
         {
-            bool doesHumanHaveEnoughCards = false;
+            bool enoughCards = false;
             if (roundScore >= CardValueHelper.CardBlackJackScore)
             {
-                doesHumanHaveEnoughCards = true;
+                enoughCards = true;
             }
-            return doesHumanHaveEnoughCards;
+            return enoughCards;
         }
 
         public bool DoesBotHaveEnoughCards(int roundScore)
         {
-            bool doesBotHaveEnoughCards = false;
+            bool enoughCards = false;
             if (roundScore >= CardValueHelper.CardBotEnoughScore)
             {
-                doesBotHaveEnoughCards = true;
+                enoughCards = true;
             }
-            return doesBotHaveEnoughCards;
+            return enoughCards;
         }
 
-        public string GetHumanRoundResult(float betPayCoefficient)
+        public string GetRoundResult(float betPayCoefficient)
         {
-            string humanRoundResult = RoundResultHelper.Lose;
+            string roundResult = RoundResultHelper.Lose;
 
-            if (betPayCoefficient == BetValueHelper.BetBlackJackCoefficient)
+            if (betPayCoefficient == BetValueHelper.BlackJackCoefficient)
             {
-                humanRoundResult = RoundResultHelper.BlackJack;
+                roundResult = RoundResultHelper.BlackJack;
             }
 
-            if (betPayCoefficient == BetValueHelper.BetWinCoefficient)
+            if (betPayCoefficient == BetValueHelper.WinCoefficient)
             {
-                humanRoundResult = RoundResultHelper.Win;
+                roundResult = RoundResultHelper.Win;
             }
 
-            if (betPayCoefficient == BetValueHelper.BetZeroCoefficient)
+            if (betPayCoefficient == BetValueHelper.ZeroCoefficient)
             {
-                humanRoundResult = RoundResultHelper.ReturnBet;
+                roundResult = RoundResultHelper.ReturnBet;
             }
 
-            return humanRoundResult;
+            return roundResult;
         }
         
         private bool IsDealerBlackJackDanger(int firstCardValue)
@@ -177,16 +177,16 @@ namespace BlackJack.BusinessLogic.Providers
 
         private float GetRoundFirstPhaseResult(int roundScore, int amountOfCards, bool dealerBlackJackDanger)
         {
-            float betPayCoefficient = BetValueHelper.BetDefaultCoefficient;
+            float betPayCoefficient = BetValueHelper.DefaultCoefficient;
 
             if (!dealerBlackJackDanger && IsPlayerBlackJack(roundScore, amountOfCards))
             {
-                betPayCoefficient = BetValueHelper.BetBlackJackCoefficient;
+                betPayCoefficient = BetValueHelper.BlackJackCoefficient;
             }
 
             if (dealerBlackJackDanger && IsPlayerBlackJack(roundScore, amountOfCards))
             {
-                betPayCoefficient = BetValueHelper.BetWinCoefficient;
+                betPayCoefficient = BetValueHelper.WinCoefficient;
             }
 
             return betPayCoefficient;
@@ -194,26 +194,26 @@ namespace BlackJack.BusinessLogic.Providers
 
         private float GetRoundSecondPhaseResult(int roundScore, int amountOfCards, int dealerRoundScore, int dealerAmountOfCards, float betPayCoefficient)
         {
-            if (betPayCoefficient == BetValueHelper.BetWinCoefficient)
+            if (betPayCoefficient == BetValueHelper.WinCoefficient)
             {
                 return betPayCoefficient;
             }
 
-            betPayCoefficient = BetValueHelper.BetLoseCoefficient;
+            betPayCoefficient = BetValueHelper.LoseCoefficient;
 
             if (IsPlayerBlackJack(roundScore, amountOfCards) && !IsPlayerBlackJack(dealerRoundScore, dealerAmountOfCards))
             {
-                return BetValueHelper.BetBlackJackCoefficient;
+                return BetValueHelper.BlackJackCoefficient;
             }
 
             if (DoesPlayerScoreEqualDealerScore(roundScore, dealerRoundScore))
             {
-                betPayCoefficient = BetValueHelper.BetZeroCoefficient;
+                betPayCoefficient = BetValueHelper.ZeroCoefficient;
             }
 
             if (IsPlayerScoreBetterThanDealerScore(roundScore, dealerRoundScore))
             {
-                betPayCoefficient = BetValueHelper.BetWinCoefficient;
+                betPayCoefficient = BetValueHelper.WinCoefficient;
             }
 
             return betPayCoefficient;
@@ -221,42 +221,42 @@ namespace BlackJack.BusinessLogic.Providers
 
         private bool IsPlayerBlackJack(int roundScore, int amountOfCards)
         {
-            bool isPlayerBlackJack = false;
+            bool blackJack = false;
             if (roundScore == CardValueHelper.CardBlackJackScore && amountOfCards == CardValueHelper.CardBlackJackAmount)
             {
-                isPlayerBlackJack = true;
+                blackJack = true;
             }
-            return isPlayerBlackJack;
+            return blackJack;
         }
 
         private bool IsPlayerLossing(int roundScore)
         {
-            bool isPlayerLossing = false;
+            bool playerLossing = false;
             if (roundScore > CardValueHelper.CardBlackJackScore)
             {
-                isPlayerLossing = true;
+                playerLossing = true;
             }
-            return isPlayerLossing;
+            return playerLossing;
         }
 
         private bool DoesPlayerScoreEqualDealerScore(int playerRoundScore, int dealerRoundScore)
         {
-            bool doesPlayerScoreEqualDealerScore = false;
+            bool playerScoreEqualDealerScore = false;
             if (playerRoundScore == dealerRoundScore && !IsPlayerLossing(playerRoundScore))
             {
-                doesPlayerScoreEqualDealerScore = true;
+                playerScoreEqualDealerScore = true;
             }
-            return doesPlayerScoreEqualDealerScore;
+            return playerScoreEqualDealerScore;
         }
 
         private bool IsPlayerScoreBetterThanDealerScore(int playerRoundScore, int dealerRoundScore)
         {
-            bool isPlayerScoreBetterThanDealerScore = false;
+            bool playerScoreBetterThanDealerScore = false;
             if (!IsPlayerLossing(playerRoundScore) && (playerRoundScore > dealerRoundScore || IsPlayerLossing(dealerRoundScore)))
             {
-                isPlayerScoreBetterThanDealerScore = true;
+                playerScoreBetterThanDealerScore = true;
             }
-            return isPlayerScoreBetterThanDealerScore;
+            return playerScoreBetterThanDealerScore;
         }
 
         private int GenerateBet(int playerScore)
@@ -269,7 +269,7 @@ namespace BlackJack.BusinessLogic.Providers
                 maxBet = playerScore;
             }
 
-            int bet = (random.Next(maxBet / BetValueHelper.BetGenerationCoefficient) + 1) * BetValueHelper.BetGenerationCoefficient;
+            int bet = (random.Next(maxBet / BetValueHelper.GenerationCoefficient) + 1) * BetValueHelper.GenerationCoefficient;
             return bet;
         }
     }

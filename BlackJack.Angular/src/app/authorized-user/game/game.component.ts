@@ -48,11 +48,11 @@ export class GameComponent implements OnInit {
         }
 
         if (this.Game.Stage == 1) {
-            this.ResumeGameAfterRoundFirstPhase();
+            this.ResumeAfterRoundFirstPhase();
         }
 
         if (this.Game.Stage == 2) {
-            this.ResumeGameAfterRoundSecondPhase();
+            this.ResumeAfterRoundSecondPhase();
         }
     }
 
@@ -77,12 +77,12 @@ export class GameComponent implements OnInit {
             );
     }
 
-    ResumeGameAfterRoundFirstPhase() {
-        this._httpService.ResumeGameAfterRoundFirstPhase(this.Game.Id)
+    ResumeAfterRoundFirstPhase() {
+        this._httpService.ResumeAfterRoundFirstPhase(this.Game.Id)
             .subscribe(
                 (data) => {
                     this.Game = deserialize(GameView, data);
-                    this.FirstPhaseGamePlay(data["HumanBlackJackAndDealerBlackJackDanger"], data["CanHumanTakeOneMoreCard"]);
+                    this.FirstPhaseGamePlay(data["DealerBlackJackDanger"], data["CanTakeCard"]);
                 },
                 (error) => {
                     console.log(error);
@@ -92,13 +92,12 @@ export class GameComponent implements OnInit {
             );
     }
 
-    ResumeGameAfterRoundSecondPhase() {
-        this._httpService.ResumeGameAfterRoundSecondPhase(this.Game.Id)
+    ResumeAfterRoundSecondPhase() {
+        this._httpService.ResumeAfterRoundSecondPhase(this.Game.Id)
             .subscribe(
                 (data) => {
                     this.Game = deserialize(GameView, data);
-                    this.RoundResult = data["RoundResult"];
-                    this.GamePlayEndRound();
+                    this.SecondPhaseGamePlay(data["RoundResult"]);
                 },
                 (error) => {
                     console.log(error);
@@ -108,16 +107,16 @@ export class GameComponent implements OnInit {
             );
     }
 
-    AddCardToHuman(takeCard: boolean) {
+    AddCard(takeCard: boolean) {
         if (takeCard) {
-            this._httpService.AddCardToHuman(this.Game.Id)
+            this._httpService.AddCard(this.Game.Id)
                 .subscribe(
                 (data) => {
-                    if (data["CanHumanTakeOneMoreCard"]) {
+                    if (data["CanTakeCard"]) {
                         this.Game.Human = deserialize(PlayerView, data);
                     }
 
-                    if (!data["CanHumanTakeOneMoreCard"]) {
+                    if (!data["CanTakeCard"]) {
                         this.DoRoundSecondPhase(false);
                     }
                 },
@@ -134,18 +133,23 @@ export class GameComponent implements OnInit {
         }
     }
 
-    FirstPhaseGamePlay(humanBlackJackAndDealerBlackJackDanger: boolean, canHumanTakeOneMoreCard: boolean) {
+    FirstPhaseGamePlay(dealerBlackJackDanger: boolean, canTakeCard: boolean) {
         this.Game.Stage = 1;
         this.BetValidationError = false;
-        if (humanBlackJackAndDealerBlackJackDanger) {
+        if (dealerBlackJackDanger) {
             this.GamePlayBlackJackDangerChoice();
         }
-        if (canHumanTakeOneMoreCard) {
+        if (canTakeCard) {
             this.GamePlayTakeCard();
         }
-        if (!humanBlackJackAndDealerBlackJackDanger && !canHumanTakeOneMoreCard) {
+        if (!dealerBlackJackDanger && !canTakeCard) {
             this.DoRoundSecondPhase(false);
         }
+    }
+
+    SecondPhaseGamePlay(roundResult: string) {
+        this.RoundResult = roundResult;
+        this.GamePlayEndRound();
     }
 
     DoRoundFirstPhase() {
@@ -158,7 +162,7 @@ export class GameComponent implements OnInit {
                     this.ShowValidationMessage(data["Message"]);
                 }
                 if (data["Message"] == "") {
-                    this.FirstPhaseGamePlay(data["Data"]["HumanBlackJackAndDealerBlackJackDanger"], data["Data"]["CanHumanTakeOneMoreCard"]);
+                    this.FirstPhaseGamePlay(data["Data"]["DealerBlackJackDanger"], data["Data"]["CanTakeCard"]);
                 }
             },
             (error) => {
@@ -179,8 +183,7 @@ export class GameComponent implements OnInit {
             .subscribe(
                 (data) => {
                     this.Game = deserialize(GameView, data);
-                    this.RoundResult = data["RoundResult"];
-                    this.GamePlayEndRound();
+                    this.SecondPhaseGamePlay(data["RoundResult"]);
                 },
                 (error) => {
                     console.log(error);

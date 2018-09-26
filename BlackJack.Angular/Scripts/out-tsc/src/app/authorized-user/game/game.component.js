@@ -41,10 +41,10 @@ var GameComponent = /** @class */ (function () {
             this.GamePlayBetInput();
         }
         if (this.Game.Stage == 1) {
-            this.ResumeGameAfterRoundFirstPhase();
+            this.ResumeAfterRoundFirstPhase();
         }
         if (this.Game.Stage == 2) {
-            this.ResumeGameAfterRoundSecondPhase();
+            this.ResumeAfterRoundSecondPhase();
         }
     };
     GameComponent.prototype.GetGame = function () {
@@ -63,40 +63,39 @@ var GameComponent = /** @class */ (function () {
             _this._router.navigate(['/error']);
         });
     };
-    GameComponent.prototype.ResumeGameAfterRoundFirstPhase = function () {
+    GameComponent.prototype.ResumeAfterRoundFirstPhase = function () {
         var _this = this;
-        this._httpService.ResumeGameAfterRoundFirstPhase(this.Game.Id)
+        this._httpService.ResumeAfterRoundFirstPhase(this.Game.Id)
             .subscribe(function (data) {
             _this.Game = deserialize(GameView, data);
-            _this.FirstPhaseGamePlay(data["HumanBlackJackAndDealerBlackJackDanger"], data["CanHumanTakeOneMoreCard"]);
+            _this.FirstPhaseGamePlay(data["DealerBlackJackDanger"], data["CanTakeCard"]);
         }, function (error) {
             console.log(error);
             _this._errorService.SetError(error["error"]["Message"]);
             _this._router.navigate(['/error']);
         });
     };
-    GameComponent.prototype.ResumeGameAfterRoundSecondPhase = function () {
+    GameComponent.prototype.ResumeAfterRoundSecondPhase = function () {
         var _this = this;
-        this._httpService.ResumeGameAfterRoundSecondPhase(this.Game.Id)
+        this._httpService.ResumeAfterRoundSecondPhase(this.Game.Id)
             .subscribe(function (data) {
             _this.Game = deserialize(GameView, data);
-            _this.RoundResult = data["RoundResult"];
-            _this.GamePlayEndRound();
+            _this.SecondPhaseGamePlay(data["RoundResult"]);
         }, function (error) {
             console.log(error);
             _this._errorService.SetError(error["error"]["Message"]);
             _this._router.navigate(['/error']);
         });
     };
-    GameComponent.prototype.AddCardToHuman = function (takeCard) {
+    GameComponent.prototype.AddCard = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this._httpService.AddCardToHuman(this.Game.Id)
+            this._httpService.AddCard(this.Game.Id)
                 .subscribe(function (data) {
-                if (data["CanHumanTakeOneMoreCard"]) {
+                if (data["CanTakeCard"]) {
                     _this.Game.Human = deserialize(PlayerView, data);
                 }
-                if (!data["CanHumanTakeOneMoreCard"]) {
+                if (!data["CanTakeCard"]) {
                     _this.DoRoundSecondPhase(false);
                 }
             }, function (error) {
@@ -109,18 +108,22 @@ var GameComponent = /** @class */ (function () {
             this.DoRoundSecondPhase(false);
         }
     };
-    GameComponent.prototype.FirstPhaseGamePlay = function (humanBlackJackAndDealerBlackJackDanger, canHumanTakeOneMoreCard) {
+    GameComponent.prototype.FirstPhaseGamePlay = function (dealerBlackJackDanger, canTakeCard) {
         this.Game.Stage = 1;
         this.BetValidationError = false;
-        if (humanBlackJackAndDealerBlackJackDanger) {
+        if (dealerBlackJackDanger) {
             this.GamePlayBlackJackDangerChoice();
         }
-        if (canHumanTakeOneMoreCard) {
+        if (canTakeCard) {
             this.GamePlayTakeCard();
         }
-        if (!humanBlackJackAndDealerBlackJackDanger && !canHumanTakeOneMoreCard) {
+        if (!dealerBlackJackDanger && !canTakeCard) {
             this.DoRoundSecondPhase(false);
         }
+    };
+    GameComponent.prototype.SecondPhaseGamePlay = function (roundResult) {
+        this.RoundResult = roundResult;
+        this.GamePlayEndRound();
     };
     GameComponent.prototype.DoRoundFirstPhase = function () {
         var _this = this;
@@ -131,7 +134,7 @@ var GameComponent = /** @class */ (function () {
                 _this.ShowValidationMessage(data["Message"]);
             }
             if (data["Message"] == "") {
-                _this.FirstPhaseGamePlay(data["Data"]["HumanBlackJackAndDealerBlackJackDanger"], data["Data"]["CanHumanTakeOneMoreCard"]);
+                _this.FirstPhaseGamePlay(data["Data"]["DealerBlackJackDanger"], data["Data"]["CanTakeCard"]);
             }
         }, function (error) {
             console.log(error);
@@ -148,8 +151,7 @@ var GameComponent = /** @class */ (function () {
         this._httpService.DoRoundSecondPhase(this.Game.Id, humanBlackJackContinueRound)
             .subscribe(function (data) {
             _this.Game = deserialize(GameView, data);
-            _this.RoundResult = data["RoundResult"];
-            _this.GamePlayEndRound();
+            _this.SecondPhaseGamePlay(data["RoundResult"]);
         }, function (error) {
             console.log(error);
             _this._errorService.SetError(error["error"]["Message"]);

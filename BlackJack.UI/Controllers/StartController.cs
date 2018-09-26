@@ -1,44 +1,44 @@
-﻿using System;
-using System.Web.Mvc;
-using System.Threading.Tasks;
+﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.BusinessLogic.Helpers;
-using BlackJack.ViewModels.ViewModels.StartGame;
+using BlackJack.ViewModels.ViewModels.Start;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace BlackJack.UI.Controllers
 {
-    public class StartGameController : Controller
+    public class StartController : Controller
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly IStartGameService _startGameService;
+        private readonly IStartService _startService;
 
 
-        public StartGameController (IStartGameService startGameService)
+        public StartController (IStartService startService)
         {
-            _startGameService = startGameService;
+            _startService = startService;
         }
         
         public ActionResult ValidateName()
         {
-            StartGameValidateNameView startGameValidateNameView = new StartGameValidateNameView();
-            return View(startGameValidateNameView);
+            ValidateNameViewModel validateNameViewModel = new ValidateNameViewModel();
+            return View(validateNameViewModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> ValidateName(StartGameValidateNameView startGameValidateNameView)
+        public async Task<ActionResult> ValidateName(ValidateNameViewModel validateNameViewModel)
         {
             try
             {
-                startGameValidateNameView.ValidationMessage = _startGameService.ValidatePlayerName(startGameValidateNameView.UserName);
+                validateNameViewModel.ValidationMessage = _startService.ValidatePlayerName(validateNameViewModel.UserName);
 
-                if(string.IsNullOrEmpty(startGameValidateNameView.ValidationMessage))
+                if(string.IsNullOrEmpty(validateNameViewModel.ValidationMessage))
                 {
-                    await _startGameService.CreatePlayer(startGameValidateNameView.UserName);
-                    return RedirectToAction("AuthorizePlayer", new { userName = startGameValidateNameView.UserName });
+                    await _startService.CreatePlayer(validateNameViewModel.UserName);
+                    return RedirectToAction("AuthorizePlayer", new { userName = validateNameViewModel.UserName });
                 }
                 
-                return View(startGameValidateNameView);
+                return View(validateNameViewModel);
             }
             catch (Exception ex)
             {
@@ -52,8 +52,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                StartGameAuthorizePlayerView startGameAuthorizePlayerView = await _startGameService.AuthorizePlayer(userName);
-                return View(startGameAuthorizePlayerView);
+                AuthorizePlayerViewModel authorizePlayerViewModel = await _startService.AuthorizePlayer(userName);
+                return View(authorizePlayerViewModel);
             }
             catch (Exception ex)
             {
@@ -64,12 +64,12 @@ namespace BlackJack.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> StartNewGame(long playerId, int amountOfBots)
+        public async Task<ActionResult> CreateGame(long playerId, int amountOfBots)
         {
             try
             {
-                long gameId = await _startGameService.CreateGame(playerId, amountOfBots);
-                return RedirectToAction("StartRound", new { gameId = gameId });
+                long gameId = await _startService.CreateGame(playerId, amountOfBots);
+                return RedirectToAction("BeginRound", new { gameId = gameId });
             }
             catch (Exception ex)
             {
@@ -83,8 +83,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                long gameId = await _startGameService.ResumeGame(playerId);
-                return RedirectToAction("StartRound", new { gameId = gameId });
+                long gameId = await _startService.ResumeGame(playerId);
+                return RedirectToAction("BeginRound", new { gameId = gameId });
             }
             catch (Exception ex)
             {
@@ -94,12 +94,12 @@ namespace BlackJack.UI.Controllers
             }
         }
 
-        public async Task<ActionResult> StartRound(long gameId)
+        public async Task<ActionResult> BeginRound(long gameId)
         {
             try
             {
-                StartGameStartRoundView game = await _startGameService.GetStartGameStartRoundView(gameId);
-                return View(game);
+                BeginRoundViewModel beginRoundViewModel = await _startService.GetBeginRoundViewModel(gameId);
+                return View(beginRoundViewModel);
             }
             catch (Exception ex)
             {

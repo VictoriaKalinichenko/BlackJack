@@ -11,68 +11,68 @@ export class HttpService {
         const options = userName ?
             { params: new HttpParams().set('userName', userName.toString()) } : {};
 
-        return this._httpClient.get('StartGame/AuthorizePlayer', options);
+        return this._httpClient.get('Start/AuthorizePlayer', options);
     }
 
     CreateNewGame(playerId: number, amountOfBots: number) {
         const body = { PlayerId: playerId, AmountOfBots: amountOfBots };
-        return this._httpClient.post('StartGame/CreateNewGame', body);
+        return this._httpClient.post('Start/CreateNewGame', body);
     }
 
     ResumeGame(playerId: number) {
         const options = playerId ?
             { params: new HttpParams().set('playerId', playerId.toString()) } : {};
 
-        return this._httpClient.get('StartGame/ResumeGame', options);
+        return this._httpClient.get('Start/ResumeGame', options);
     }
 
     GetGame(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('StartGame/StartRound', options);
+        return this._httpClient.get('Start/BeginRound', options);
     }
 
     DoRoundFirstPhase(gameId: number, humanGamePlayerId: number, bet: number) {
         const body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this._httpClient.post('GameLogic/DoRoundFirstPhase', body);
+        return this._httpClient.post('Game/DoRoundFirstPhase', body);
     }
 
     DoRoundSecondPhase(gameId: number, humanBlackJackContinueRound: boolean) {
-        const body = { GameId: gameId, HumanBlackJackAndDealerBlackJackDanger: humanBlackJackContinueRound };
-        return this._httpClient.post('GameLogic/DoRoundSecondPhase', body);
+        const body = { GameId: gameId, ContinueBlackJackDanger: humanBlackJackContinueRound };
+        return this._httpClient.post('Game/DoRoundSecondPhase', body);
     }
 
-    AddCardToHuman(gameId: number) {
+    AddCard(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('GameLogic/AddCardToHuman', options);
+        return this._httpClient.get('Game/AddCard', options);
     }
 
-    ResumeGameAfterRoundFirstPhase(gameId: number) {
+    ResumeAfterRoundFirstPhase(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('GameLogic/ResumeGameAfterRoundFirstPhase', options);
+        return this._httpClient.get('Game/ResumeAfterRoundFirstPhase', options);
     }
 
-    ResumeGameAfterRoundSecondPhase(gameId: number) {
+    ResumeAfterRoundSecondPhase(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('GameLogic/ResumeGameAfterRoundSecondPhase', options);
+        return this._httpClient.get('Game/ResumeAfterRoundSecondPhase', options);
     }
 
     EndRound(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('GameLogic/EndRound', options);
+        return this._httpClient.get('Game/EndRound', options);
     }
 
     EndGame(gameId: number, gameResult: string) {
-        const body = { GameId: gameId, GameResult: gameResult };
-        return this._httpClient.post('GameLogic/EndGame', body);
+        const body = { GameId: gameId, Result: gameResult };
+        return this._httpClient.post('Game/EndGame', body);
     }
 }

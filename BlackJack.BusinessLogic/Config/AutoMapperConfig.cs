@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BlackJack.Entities.Entities;
 using BlackJack.BusinessLogic.Helpers;
-using BlackJack.ViewModels.ViewModels.GameLogic;
+using BlackJack.ViewModels.ViewModels.Game;
 using BlackJack.ViewModels.ViewModels.Log;
-using BlackJack.ViewModels.ViewModels.StartGame;
+using BlackJack.ViewModels.ViewModels.Start;
 
 namespace BlackJack.BusinessLogic.Config
 {
@@ -15,18 +15,18 @@ namespace BlackJack.BusinessLogic.Config
         {
             Mapper.Initialize(config =>
             {
-                config.CreateMap<GamePlayer, GamePlayerGameLogicResponseItem>()
+                config.CreateMap<GamePlayer, GamePlayerViewItem>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<GamePlayer, GameLogicAddCardToHumanView>()
+                config.CreateMap<GamePlayer, AddCardViewModel>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<Game, StartGameStartRoundView>();
-                config.CreateMap<Log, LogGetLogsView>();
+                config.CreateMap<Game, BeginRoundViewModel>();
+                config.CreateMap<Log, GetLogsViewModel>();
 
-                config.CreateMap<GamePlayer, PlayerStartGameStartRoundItem>()
+                config.CreateMap<GamePlayer, PlayerBeginRoundViewItem>()
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
             });
         }

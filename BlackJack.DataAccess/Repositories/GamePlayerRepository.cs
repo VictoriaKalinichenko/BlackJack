@@ -107,7 +107,7 @@ namespace BlackJack.DataAccess.Repositories
                                  FROM GamePlayers AS A 
                                  LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
                                  LEFT JOIN Cards AS C ON B.CardId = C.Id
-                                 INNER JOIN Players AS D ON A.PlayerId = D.Id
+                                 LEFT JOIN Players AS D ON A.PlayerId = D.Id
                                  WHERE A.GameId = @gameId AND D.Type = @playerType";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
@@ -144,7 +144,7 @@ namespace BlackJack.DataAccess.Repositories
                                  FROM GamePlayers AS A 
                                  LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
                                  LEFT JOIN Cards AS C ON B.CardId = C.Id
-                                 INNER JOIN Players AS D ON A.PlayerId = D.Id
+                                 LEFT JOIN Players AS D ON A.PlayerId = D.Id
                                  WHERE A.GameId = @gameId AND D.Type = @playerType";
 
             using (IDbConnection db = new SqlConnection(_connectionString))

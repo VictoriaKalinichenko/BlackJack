@@ -1,6 +1,6 @@
-﻿namespace BlackJack.ViewModels.ViewModels.StartGame
+﻿namespace BlackJack.ViewModels.ViewModels.Start
 {
-    public class StartGameAuthorizePlayerView
+    public class AuthorizePlayerViewModel
     {
         public long PlayerId { get; set; }
         public string Name { get; set; }

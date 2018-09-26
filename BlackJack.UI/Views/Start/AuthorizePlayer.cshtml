@@ -1,5 +1,5 @@
-﻿@using BlackJack.ViewModels.ViewModels.StartGame;
-@model StartGameAuthorizePlayerView
+﻿@using BlackJack.ViewModels.ViewModels.Start;
+@model AuthorizePlayerViewModel
 @{
     ViewBag.UserName = Model.Name;
     ViewBag.Title = "Main page";
@@ -15,12 +15,12 @@
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 well">
         <h3>Game resuming</h3>
         <p>You can resume your last game</p>
-        @Html.ActionLink("Resume game", "ResumeGame", "StartGame", new { playerId = Model.PlayerId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Resume game", "ResumeGame", "Start", new { playerId = Model.PlayerId }, new { @class = "btn btn-primary" })
     </div>
     }
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 well">
         <h3>Start new game</h3>
-        @using (Html.BeginForm("StartNewGame", "StartGame", new { playerId = Model.PlayerId }, FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("CreateGame", "Start", new { playerId = Model.PlayerId }, FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="form-group">
                 <label class="control-label col-md-4">Amount of bots: </label>

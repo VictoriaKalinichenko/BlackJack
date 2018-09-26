@@ -13,7 +13,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/GameLogic/ResumeGameAfterRoundFirstPhase",
+                url: "/Game/ResumeAfterRoundFirstPhase",
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
@@ -31,7 +31,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/GameLogic/ResumeGameAfterRoundSecondPhase",
+                url: "/Game/ResumeAfterRoundSecondPhase",
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
@@ -48,15 +48,15 @@
         var userName = $("#userName").val();
         var gameId = $("#gameid").val();
         var result = $("#gameresult").text();
-        var transParam = { bet: betInput, gamePlayerId: humanId, inGameId: gameId };
+        var transParam = { result: result, gameId: gameId };
 
         $.ajax({
             type: "POST",
-            url: "/GameLogic/EndGame",
+            url: "/Game/EndGame",
             data: transParam,
             dataType: "json",
             success: function () {
-                window.location.href = `/StartGame/AuthorizePlayer?userName=${userName}`;
+                window.location.href = `/Start/AuthorizePlayer?userName=${userName}`;
             },
             error: function (response) {
                 ShowError(response);
@@ -87,7 +87,7 @@
         var transParam = { bet: betInput, gamePlayerId: humanId, gameId: gameId };
         $.ajax({
             type: "POST",
-            url: "/GameLogic/DoRoundFirstPhase",
+            url: "/Game/DoRoundFirstPhase",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -105,20 +105,20 @@
         });
     });
     
-    function OnTakeOneMoreCard () {
+    function OnTakeCard () {
         var gameId = $("#gameid").val();
         var transParam = { gameId: gameId };
         $.ajax({
             type: "GET",
-            url: "/GameLogic/AddCardToHuman",
+            url: "/Game/AddCard",
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Data.CanHumanTakeOneMoreCard) {
+                if (response.Data.CanTakeCard) {
                     ReloadPlayer(response.Data, "#humangameplay");
                 }
 
-                if (!response.Data.CanHumanTakeOneMoreCard) {
+                if (!response.Data.CanTakeCard) {
                     RoundSecondPhase(false);
                 }
             },
@@ -133,7 +133,7 @@
         var transParam = { gameId: gameId };
         $.ajax({
             type: "GET",
-            url: "/GameLogic/EndRound",
+            url: "/Game/EndRound",
             data: transParam,
             dataType: "json",
             success: function () {
@@ -179,7 +179,7 @@
             value: "Take one more card",
             class: "btn btn-primary",
             click: function () {
-                OnTakeOneMoreCard();
+                OnTakeCard();
             }
         });
 
@@ -211,12 +211,12 @@
         $("#gameplay").append(endRoundButton);
     }
 
-    function RoundSecondPhase(humanBlackJackAndDealerBlackJackDanger) {
+    function RoundSecondPhase(continueBlackJackDanger) {
         var gameId = $("#gameid").val();
-        var transParam = { GameId: gameId, HumanBlackJackAndDealerBlackJackDanger: humanBlackJackAndDealerBlackJackDanger };
+        var transParam = { GameId: gameId, ContinueBlackJackDanger: continueBlackJackDanger };
         $.ajax({
             type: "POST",
-            url: "/GameLogic/DoRoundSecondPhase",
+            url: "/Game/DoRoundSecondPhase",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -231,18 +231,18 @@
     function RoundFirstPhaseReloading(data) {
         $("#gameplay").text("");
 
-        if ((!data.HumanBlackJackAndDealerBlackJackDanger) && (!data.CanHumanTakeOneMoreCard)) {
+        if ((!data.DealerBlackJackDanger) && (!data.CanTakeCard)) {
             RoundSecondPhase(false);
         }
 
         ReloadPlayers(data);
         ReloadDealerInFirstPhase(data.Dealer);
 
-        if (data.HumanBlackJackAndDealerBlackJackDanger) {
+        if (data.DealerBlackJackDanger) {
             DrowButtonsHumanBlackJackAndDealerBlackJackDanger();
         }
 
-        if (data.CanHumanTakeOneMoreCard) {
+        if (data.CanTakeCard) {
             DrowButtonsCanHumanTakeOneMoreCard();
         }
     }

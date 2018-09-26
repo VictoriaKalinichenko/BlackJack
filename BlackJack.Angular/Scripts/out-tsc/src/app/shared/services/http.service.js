@@ -16,53 +16,53 @@ var HttpService = /** @class */ (function () {
     HttpService.prototype.GetAuthorizedPlayer = function (userName) {
         var options = userName ?
             { params: new HttpParams().set('userName', userName.toString()) } : {};
-        return this._httpClient.get('StartGame/AuthorizePlayer', options);
+        return this._httpClient.get('Start/AuthorizePlayer', options);
     };
     HttpService.prototype.CreateNewGame = function (playerId, amountOfBots) {
         var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
-        return this._httpClient.post('StartGame/CreateNewGame', body);
+        return this._httpClient.post('Start/CreateNewGame', body);
     };
     HttpService.prototype.ResumeGame = function (playerId) {
         var options = playerId ?
             { params: new HttpParams().set('playerId', playerId.toString()) } : {};
-        return this._httpClient.get('StartGame/ResumeGame', options);
+        return this._httpClient.get('Start/ResumeGame', options);
     };
     HttpService.prototype.GetGame = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('StartGame/StartRound', options);
+        return this._httpClient.get('Start/BeginRound', options);
     };
     HttpService.prototype.DoRoundFirstPhase = function (gameId, humanGamePlayerId, bet) {
         var body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this._httpClient.post('GameLogic/DoRoundFirstPhase', body);
+        return this._httpClient.post('Game/DoRoundFirstPhase', body);
     };
     HttpService.prototype.DoRoundSecondPhase = function (gameId, humanBlackJackContinueRound) {
-        var body = { GameId: gameId, HumanBlackJackAndDealerBlackJackDanger: humanBlackJackContinueRound };
-        return this._httpClient.post('GameLogic/DoRoundSecondPhase', body);
+        var body = { GameId: gameId, ContinueBlackJackDanger: humanBlackJackContinueRound };
+        return this._httpClient.post('Game/DoRoundSecondPhase', body);
     };
-    HttpService.prototype.AddCardToHuman = function (gameId) {
+    HttpService.prototype.AddCard = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('GameLogic/AddCardToHuman', options);
+        return this._httpClient.get('Game/AddCard', options);
     };
-    HttpService.prototype.ResumeGameAfterRoundFirstPhase = function (gameId) {
+    HttpService.prototype.ResumeAfterRoundFirstPhase = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('GameLogic/ResumeGameAfterRoundFirstPhase', options);
+        return this._httpClient.get('Game/ResumeAfterRoundFirstPhase', options);
     };
-    HttpService.prototype.ResumeGameAfterRoundSecondPhase = function (gameId) {
+    HttpService.prototype.ResumeAfterRoundSecondPhase = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('GameLogic/ResumeGameAfterRoundSecondPhase', options);
+        return this._httpClient.get('Game/ResumeAfterRoundSecondPhase', options);
     };
     HttpService.prototype.EndRound = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('GameLogic/EndRound', options);
+        return this._httpClient.get('Game/EndRound', options);
     };
     HttpService.prototype.EndGame = function (gameId, gameResult) {
-        var body = { GameId: gameId, GameResult: gameResult };
-        return this._httpClient.post('GameLogic/EndGame', body);
+        var body = { GameId: gameId, Result: gameResult };
+        return this._httpClient.post('Game/EndGame', body);
     };
     HttpService = __decorate([
         Injectable({

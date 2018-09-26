@@ -3,28 +3,28 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Helpers;
-using BlackJack.ViewModels.ViewModels.GameLogic;
+using BlackJack.ViewModels.ViewModels.Game;
 using NLog;
 
 namespace BlackJack.UI.Controllers
 {
-    [RoutePrefix("GameLogic")]
-    public class GameLogicController : ApiController
+    [RoutePrefix("Game")]
+    public class GameController : ApiController
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly IGameLogicService _gameLogicService;
+        private readonly IGameService _gameService;
 
-        public GameLogicController (IGameLogicService gameLogicService)
+        public GameController (IGameService gameService)
         {
-            _gameLogicService = gameLogicService;
+            _gameService = gameService;
         }
 
         [Route("EndGame"), HttpPost]
-        public async Task<IHttpActionResult> EndGame(GameLogicEndGameView gameLogicEndGameView)
+        public async Task<IHttpActionResult> EndGame(EndGameViewModel endGameViewModel)
         {
             try
             {
-                await _gameLogicService.EndGame(gameLogicEndGameView);
+                await _gameService.EndGame(endGameViewModel);
                 return Ok(GameMessageHelper.Success);
             }
             catch (Exception ex)
@@ -36,16 +36,16 @@ namespace BlackJack.UI.Controllers
         }
 
         [Route("DoRoundFirstPhase"), HttpPost]
-        public async Task<IHttpActionResult> DoRoundFirstPhase(GameLogicDoRoundFirstPhaseRequestView gameLogicDoRoundFirstPhaseRequestView)
+        public async Task<IHttpActionResult> DoRoundFirstPhase(DoRoundFirstPhaseRequestViewModel doRoundFirstPhaseRequestViewModel)
         {
             try
             {
-                string message = await _gameLogicService.ValidateBet(gameLogicDoRoundFirstPhaseRequestView.Bet, gameLogicDoRoundFirstPhaseRequestView.GamePlayerId);
+                string message = await _gameService.ValidateBet(doRoundFirstPhaseRequestViewModel.Bet, doRoundFirstPhaseRequestViewModel.GamePlayerId);
 
                 if (string.IsNullOrEmpty(message))
                 {
-                    GameLogicRoundFirstPhaseResponseView gameLogicResponseView = await _gameLogicService.DoRoundFirstPhase(gameLogicDoRoundFirstPhaseRequestView.Bet, gameLogicDoRoundFirstPhaseRequestView.GameId);
-                    return Ok(new { Message = message, Data = gameLogicResponseView });
+                    DoRoundFirstPhaseResponseViewModel doRoundFirstPhaseResponseViewModel = await _gameService.DoRoundFirstPhase(doRoundFirstPhaseRequestViewModel.Bet, doRoundFirstPhaseRequestViewModel.GameId);
+                    return Ok(new { Message = message, Data = doRoundFirstPhaseResponseViewModel });
                 }
 
                 return Ok(new { Message = message });
@@ -58,13 +58,13 @@ namespace BlackJack.UI.Controllers
             }
         }
 
-        [Route("ResumeGameAfterRoundFirstPhase"), HttpGet]
-        public async Task<IHttpActionResult> ResumeGameAfterRoundFirstPhase(long gameId)
+        [Route("ResumeAfterRoundFirstPhase"), HttpGet]
+        public async Task<IHttpActionResult> ResumeAfterRoundFirstPhase(long gameId)
         {
             try
             {
-                GameLogicRoundFirstPhaseResponseView gameLogicResponseView = await _gameLogicService.ResumeGameAfterRoundFirstPhase(gameId);
-                return Ok(new { Data = gameLogicResponseView });
+                DoRoundFirstPhaseResponseViewModel doRoundFirstPhaseResponseViewModel = await _gameService.ResumeAfterRoundFirstPhase(gameId);
+                return Ok(new { Data = doRoundFirstPhaseResponseViewModel });
             }
             catch (Exception ex)
             {
@@ -74,13 +74,13 @@ namespace BlackJack.UI.Controllers
             }
         }
         
-        [Route("AddCardToHuman"), HttpGet]
-        public async Task<IHttpActionResult> AddCardToHuman(long gameId)
+        [Route("AddCard"), HttpGet]
+        public async Task<IHttpActionResult> AddCard(long gameId)
         {
             try
             {
-                GameLogicAddCardToHumanView gameLogicAddCardToHumanView = await _gameLogicService.AddCardToHuman(gameId);
-                return Ok(new { Data = gameLogicAddCardToHumanView });
+                AddCardViewModel addCardViewModel = await _gameService.AddCard(gameId);
+                return Ok(new { Data = addCardViewModel });
             }
             catch (Exception ex)
             {
@@ -91,12 +91,12 @@ namespace BlackJack.UI.Controllers
         }
         
         [Route("DoRoundSecondPhase"), HttpPost]
-        public async Task<IHttpActionResult> DoRoundSecondPhase(GameLogicDoRoundSecondPhaseRequestView gameLogicDoRoundSecondPhaseRequestView)
+        public async Task<IHttpActionResult> DoRoundSecondPhase(DoRoundSecondPhaseRequestViewModel doRoundSecondPhaseRequestViewModel)
         {
             try
             {
-                GameLogicRoundSecondPhaseResponseView gameLogicResponseView = await _gameLogicService.DoRoundSecondPhase(gameLogicDoRoundSecondPhaseRequestView.GameId, gameLogicDoRoundSecondPhaseRequestView.HumanBlackJackAndDealerBlackJackDanger);
-                return Ok(new { Data = gameLogicResponseView });
+                DoRoundSecondPhaseResponseViewModel doRoundSecondPhaseResponseViewModel = await _gameService.DoRoundSecondPhase(doRoundSecondPhaseRequestViewModel.GameId, doRoundSecondPhaseRequestViewModel.ContinueBlackJackDanger);
+                return Ok(new { Data = doRoundSecondPhaseResponseViewModel });
             }
             catch (Exception ex)
             {
@@ -106,13 +106,13 @@ namespace BlackJack.UI.Controllers
             }
         }
 
-        [Route("ResumeGameAfterRoundSecondPhase"), HttpGet]
-        public async Task<IHttpActionResult> ResumeGameAfterRoundSecondPhase(long gameId)
+        [Route("ResumeAfterRoundSecondPhase"), HttpGet]
+        public async Task<IHttpActionResult> ResumeAfterRoundSecondPhase(long gameId)
         {
             try
             {
-                GameLogicRoundSecondPhaseResponseView gameLogicResponseView = await _gameLogicService.ResumeGameAfterRoundSecondPhase(gameId);
-                return Ok(new { Data = gameLogicResponseView });
+                DoRoundSecondPhaseResponseViewModel doRoundSecondPhaseResponseViewModel = await _gameService.ResumeAfterRoundSecondPhase(gameId);
+                return Ok(new { Data = doRoundSecondPhaseResponseViewModel });
             }
             catch (Exception ex)
             {
@@ -127,7 +127,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                await _gameLogicService.EndRound(gameId);
+                await _gameService.EndRound(gameId);
                 return Ok(GameMessageHelper.Success);
             }
             catch (Exception ex)

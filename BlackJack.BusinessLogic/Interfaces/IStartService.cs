@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using BlackJack.ViewModels.ViewModels.StartGame;
+using BlackJack.ViewModels.ViewModels.Start;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
-    public interface IStartGameService
+    public interface IStartService
     {
         string ValidatePlayerName(string name);
 
@@ -11,10 +11,10 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task CreatePlayer(string name);
 
-        Task<StartGameAuthorizePlayerView> AuthorizePlayer(string name);
+        Task<AuthorizePlayerViewModel> AuthorizePlayer(string name);
 
         Task<long> ResumeGame(long playerId);
 
-        Task<StartGameStartRoundView> GetStartGameStartRoundView(long gameId);
+        Task<BeginRoundViewModel> GetBeginRoundViewModel(long gameId);
     }
 }

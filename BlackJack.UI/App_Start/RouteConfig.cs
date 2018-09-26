@@ -12,7 +12,7 @@ namespace BlackJack.UI
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "StartGame", action = "ValidateName", id = UrlParameter.Optional }
+                defaults: new { controller = "Start", action = "ValidateName", id = UrlParameter.Optional }
             );
         }
     }

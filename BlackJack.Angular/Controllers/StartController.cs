@@ -3,19 +3,19 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Helpers;
-using BlackJack.ViewModels.ViewModels.StartGame;
+using BlackJack.ViewModels.ViewModels.Start;
 using NLog;
 
 namespace BlackJack.Angular.Controllers
 {
-    [RoutePrefix("StartGame")]
-    public class StartGameController : ApiController
+    [RoutePrefix("Start")]
+    public class StartController : ApiController
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly IStartGameService _startGameService;
+        private readonly IStartService _startGameService;
 
 
-        public StartGameController (IStartGameService startGameService)
+        public StartController (IStartService startGameService)
         {
             _startGameService = startGameService;
         }
@@ -25,8 +25,8 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                StartGameAuthorizePlayerView startGameAuthorizePlayerView = await _startGameService.AuthorizePlayer(userName);
-                return Ok(startGameAuthorizePlayerView);
+                AuthorizePlayerViewModel authorizePlayerViewModel = await _startGameService.AuthorizePlayer(userName);
+                return Ok(authorizePlayerViewModel);
             }
             catch (Exception ex)
             {
@@ -37,11 +37,11 @@ namespace BlackJack.Angular.Controllers
         }
 
         [Route("CreateNewGame"), HttpPost]
-        public async Task<IHttpActionResult> CreateNewGame(StartGameCreateNewGameView requestView)
+        public async Task<IHttpActionResult> CreateNewGame(CreateGameViewModel createGameViewModel)
         {
             try
             {
-                long gameId = await _startGameService.CreateGame(requestView.PlayerId, requestView.AmountOfBots);
+                long gameId = await _startGameService.CreateGame(createGameViewModel.PlayerId, createGameViewModel.AmountOfBots);
                 return Ok(new { GameId = gameId });
             }
             catch (Exception ex)
@@ -68,13 +68,13 @@ namespace BlackJack.Angular.Controllers
             }
         }
 
-        [Route("StartRound"), HttpGet]
-        public async Task<IHttpActionResult> StartRound(long gameId)
+        [Route("BeginRound"), HttpGet]
+        public async Task<IHttpActionResult> BeginRound(long gameId)
         {
             try
             {
-                StartGameStartRoundView game = await _startGameService.GetStartGameStartRoundView(gameId);
-                return Ok(game);
+                BeginRoundViewModel beginRoundViewModel = await _startGameService.GetBeginRoundViewModel(gameId);
+                return Ok(beginRoundViewModel);
             }
             catch (Exception ex)
             {

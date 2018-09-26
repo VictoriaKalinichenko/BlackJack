@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.ViewModels.Enums;
-using BlackJack.ViewModels.ViewModels.GameLogic;
-using AutoMapper;
+using BlackJack.ViewModels.ViewModels.Game;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Services
 {
-    public class GameLogicService : IGameLogicService
+    public class GameService : IGameService
     {
         private readonly IGameRepository _gameRepository;
         private readonly IPlayerRepository _playerRepository;
@@ -23,7 +23,7 @@ namespace BlackJack.BusinessLogic.Services
         private readonly IGamePlayerProvider _gamePlayerProvider;
 
 
-        public GameLogicService(IPlayerRepository playerRepository, IGameRepository gameRepository, IGamePlayerRepository gamePlayerRepository, 
+        public GameService(IPlayerRepository playerRepository, IGameRepository gameRepository, IGamePlayerRepository gamePlayerRepository, 
             IPlayerCardRepository playerCardRepository, IGamePlayerProvider gamePlayerProvider, ILogRepository logRepository, ICardRepository cardRepository)
         {
             _playerRepository = playerRepository;
@@ -45,7 +45,7 @@ namespace BlackJack.BusinessLogic.Services
                 validationMessage = GameMessageHelper.BetMoreThanScore;
             }
 
-            if (bet <= BetValueHelper.BetZero)
+            if (bet <= GameValueHelper.Zero)
             {
                 validationMessage = GameMessageHelper.BetLessThanMin;
             }
@@ -53,7 +53,7 @@ namespace BlackJack.BusinessLogic.Services
             return validationMessage;
         }
 
-        public async Task<GameLogicRoundFirstPhaseResponseView> DoRoundFirstPhase(int bet, long gameId)
+        public async Task<DoRoundFirstPhaseResponseViewModel> DoRoundFirstPhase(int bet, long gameId)
         {
             var logs = new List<Log>();
             logs.Add(new Log() { GameId = gameId, Message = LogMessageHelper.NewRoundStarted()});
@@ -77,23 +77,23 @@ namespace BlackJack.BusinessLogic.Services
             logs.Add(new Log() { GameId = gameId, Message = LogMessageHelper.GameStageChanged(StageHelper.FirstCardsDistribution) });
             await _logRepository.CreateMany(logs);
 
-            GameLogicRoundFirstPhaseResponseView gameLogicResponseView = GetGameLogicRoundFirstPhaseResponseView(bots, dealer, human);
-            gameLogicResponseView.Id = gameId;
-            return gameLogicResponseView;
+            DoRoundFirstPhaseResponseViewModel doRoundFirstPhaseResponseViewModel = GetDoRoundFirstPhaseResponseViewModel(bots, dealer, human);
+            doRoundFirstPhaseResponseViewModel.Id = gameId;
+            return doRoundFirstPhaseResponseViewModel;
         }
         
-        public async Task<GameLogicRoundFirstPhaseResponseView> ResumeGameAfterRoundFirstPhase(long gameId)
+        public async Task<DoRoundFirstPhaseResponseViewModel> ResumeAfterRoundFirstPhase(long gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Human);
             GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Dealer);
             IEnumerable<GamePlayer> bots = await _gamePlayerRepository.GetSpecificPlayersWithCards(gameId, (int)PlayerType.Bot);
 
-            GameLogicRoundFirstPhaseResponseView gameLogicResponseView = GetGameLogicRoundFirstPhaseResponseView(bots, dealer, human);
-            gameLogicResponseView.Id = gameId;
-            return gameLogicResponseView;
+            DoRoundFirstPhaseResponseViewModel doRoundFirstPhaseResponseViewModel = GetDoRoundFirstPhaseResponseViewModel(bots, dealer, human);
+            doRoundFirstPhaseResponseViewModel.Id = gameId;
+            return doRoundFirstPhaseResponseViewModel;
         }
         
-        public async Task<GameLogicAddCardToHumanView> AddCardToHuman(long gameId)
+        public async Task<AddCardViewModel> AddCard(long gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Human);
             IEnumerable<long> cardOnHandsIds = await _playerCardRepository.GetCardsOnHandsIdsByGameId(gameId);
@@ -108,12 +108,12 @@ namespace BlackJack.BusinessLogic.Services
             await _gamePlayerRepository.UpdateAfterAddingOneMoreCard(human);
             await _logRepository.CreateMany(logs);
 
-            GameLogicAddCardToHumanView addOneMoreCardToHumanViewModel = Mapper.Map<GamePlayer, GameLogicAddCardToHumanView>(human);
-            addOneMoreCardToHumanViewModel.CanHumanTakeOneMoreCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
-            return addOneMoreCardToHumanViewModel;
+            AddCardViewModel addCardViewModel = Mapper.Map<GamePlayer, AddCardViewModel>(human);
+            addCardViewModel.CanTakeCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
+            return addCardViewModel;
         }
 
-        public async Task<GameLogicRoundSecondPhaseResponseView> DoRoundSecondPhase(long gameId, bool blackJackDangerContinueRound = false)
+        public async Task<DoRoundSecondPhaseResponseViewModel> DoRoundSecondPhase(long gameId, bool blackJackDangerContinueRound = false)
         {
             var logs = new List<Log>();
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Human);
@@ -122,7 +122,7 @@ namespace BlackJack.BusinessLogic.Services
             
             if (blackJackDangerContinueRound)
             {
-                human.BetPayCoefficient = BetValueHelper.BetDefaultCoefficient;
+                human.BetPayCoefficient = BetValueHelper.DefaultCoefficient;
             }
 
             IEnumerable<long> cardOnHandsIds = await _playerCardRepository.GetCardsOnHandsIdsByGameId(gameId);
@@ -141,20 +141,20 @@ namespace BlackJack.BusinessLogic.Services
             logs.Add(new Log() { GameId = gameId, Message = LogMessageHelper.GameStageChanged(StageHelper.SecondCardsDistribution) });
             await _logRepository.CreateMany(logs);
 
-            GameLogicRoundSecondPhaseResponseView gameLogicResponseView = GetGameLogicRoundSecondPhaseResponseView(bots, dealer, human);
-            gameLogicResponseView.Id = gameId;
-            return gameLogicResponseView;
+            DoRoundSecondPhaseResponseViewModel doRoundSecondPhaseResponseViewModel = GetDoRoundSecondPhaseResponseViewModel(bots, dealer, human);
+            doRoundSecondPhaseResponseViewModel.Id = gameId;
+            return doRoundSecondPhaseResponseViewModel;
         }
 
-        public async Task<GameLogicRoundSecondPhaseResponseView> ResumeGameAfterRoundSecondPhase(long gameId)
+        public async Task<DoRoundSecondPhaseResponseViewModel> ResumeAfterRoundSecondPhase(long gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Human);
             GamePlayer dealer = await _gamePlayerRepository.GetSpecificPlayerWithCards(gameId, (int)PlayerType.Dealer);
             IEnumerable<GamePlayer> bots = await _gamePlayerRepository.GetSpecificPlayersWithCards(gameId, (int)PlayerType.Bot);
 
-            GameLogicRoundSecondPhaseResponseView gameLogicResponseView = GetGameLogicRoundSecondPhaseResponseView(bots, dealer, human);
-            gameLogicResponseView.Id = gameId;
-            return gameLogicResponseView;
+            DoRoundSecondPhaseResponseViewModel doRoundSecondPhaseResponseViewModel = GetDoRoundSecondPhaseResponseViewModel(bots, dealer, human);
+            doRoundSecondPhaseResponseViewModel.Id = gameId;
+            return doRoundSecondPhaseResponseViewModel;
         }
 
         public async Task EndRound(long gameId)
@@ -173,59 +173,59 @@ namespace BlackJack.BusinessLogic.Services
             gamePlayers.Add(dealer);
             foreach(var gamePlayer in gamePlayers)
             {
-                gamePlayer.RoundScore = GameValueHelper.ZeroScore;
-                gamePlayer.CardAmount = GameValueHelper.ZeroScore;
+                gamePlayer.RoundScore = GameValueHelper.Zero;
+                gamePlayer.CardAmount = GameValueHelper.Zero;
             }
 
             await _gamePlayerRepository.UpdateMany(gamePlayers);
             await _gamePlayerRepository.DeleteBotsWithZeroScore(gameId);
         }
         
-        public async Task EndGame(GameLogicEndGameView GameLogicEndGameView)
+        public async Task EndGame(EndGameViewModel GameLogicEndGameView)
         {
-            await _gameRepository.UpdateResult(GameLogicEndGameView.GameId, GameLogicEndGameView.GameResult);
+            await _gameRepository.UpdateResult(GameLogicEndGameView.GameId, GameLogicEndGameView.Result);
             await _gamePlayerRepository.DeleteAllByGameId(GameLogicEndGameView.GameId);
         }
 
-        private GameLogicRoundFirstPhaseResponseView GetGameLogicRoundFirstPhaseResponseView(IEnumerable<GamePlayer> bots, GamePlayer dealer, GamePlayer human)
+        private DoRoundFirstPhaseResponseViewModel GetDoRoundFirstPhaseResponseViewModel(IEnumerable<GamePlayer> bots, GamePlayer dealer, GamePlayer human)
         {
-            var gameLogicResponseView = new GameLogicRoundFirstPhaseResponseView();
-            gameLogicResponseView.Dealer = Mapper.Map<GamePlayer, GamePlayerGameLogicResponseItem>(dealer);
-            gameLogicResponseView.Dealer.RoundScore = GameValueHelper.ZeroScore;
-            gameLogicResponseView.Dealer.Cards.Clear();
-            gameLogicResponseView.Dealer.Cards.Add(CardToStringHelper.Convert(dealer.PlayerCards[0].Card));
-            gameLogicResponseView.Human = Mapper.Map<GamePlayer, GamePlayerGameLogicResponseItem>(human);
-            gameLogicResponseView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerGameLogicResponseItem>>(bots);
-            gameLogicResponseView.CanHumanTakeOneMoreCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
-            gameLogicResponseView.HumanBlackJackAndDealerBlackJackDanger = IsHumanBlackJackAndDealerBlackJackDanger(human);
-            return gameLogicResponseView;
+            var doRoundFirstPhaseResponseViewModel = new DoRoundFirstPhaseResponseViewModel();
+            doRoundFirstPhaseResponseViewModel.Dealer = Mapper.Map<GamePlayer, GamePlayerViewItem>(dealer);
+            doRoundFirstPhaseResponseViewModel.Dealer.RoundScore = GameValueHelper.Zero;
+            doRoundFirstPhaseResponseViewModel.Dealer.Cards.Clear();
+            doRoundFirstPhaseResponseViewModel.Dealer.Cards.Add(CardToStringHelper.Convert(dealer.PlayerCards[0].Card));
+            doRoundFirstPhaseResponseViewModel.Human = Mapper.Map<GamePlayer, GamePlayerViewItem>(human);
+            doRoundFirstPhaseResponseViewModel.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerViewItem>>(bots);
+            doRoundFirstPhaseResponseViewModel.CanTakeCard = !_gamePlayerProvider.DoesHumanHaveEnoughCards(human.RoundScore);
+            doRoundFirstPhaseResponseViewModel.DealerBlackJackDanger = IsDealerBlackJackDanger(human);
+            return doRoundFirstPhaseResponseViewModel;
         }
 
-        private GameLogicRoundSecondPhaseResponseView GetGameLogicRoundSecondPhaseResponseView(IEnumerable<GamePlayer> bots, GamePlayer dealer, GamePlayer human)
+        private DoRoundSecondPhaseResponseViewModel GetDoRoundSecondPhaseResponseViewModel(IEnumerable<GamePlayer> bots, GamePlayer dealer, GamePlayer human)
         {
-            var gameLogicResponseView = new GameLogicRoundSecondPhaseResponseView();
-            gameLogicResponseView.Dealer = Mapper.Map<GamePlayer, GamePlayerGameLogicResponseItem>(dealer);
-            gameLogicResponseView.Human = Mapper.Map<GamePlayer, GamePlayerGameLogicResponseItem>(human);
-            gameLogicResponseView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerGameLogicResponseItem>>(bots);
-            gameLogicResponseView.RoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
-            return gameLogicResponseView;
+            var doRoundSecondPhaseResponseViewModel = new DoRoundSecondPhaseResponseViewModel();
+            doRoundSecondPhaseResponseViewModel.Dealer = Mapper.Map<GamePlayer, GamePlayerViewItem>(dealer);
+            doRoundSecondPhaseResponseViewModel.Human = Mapper.Map<GamePlayer, GamePlayerViewItem>(human);
+            doRoundSecondPhaseResponseViewModel.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerViewItem>>(bots);
+            doRoundSecondPhaseResponseViewModel.RoundResult = _gamePlayerProvider.GetRoundResult(human.BetPayCoefficient);
+            return doRoundSecondPhaseResponseViewModel;
         }
 
-        private bool IsHumanBlackJackAndDealerBlackJackDanger(GamePlayer human)
+        private bool IsDealerBlackJackDanger(GamePlayer human)
         {
-            bool humanBlackJackAndDealerBlackJackDanger = false;
+            bool dealerBlackJackDanger = false;
 
-            if (human.BetPayCoefficient == BetValueHelper.BetWinCoefficient)
+            if (human.BetPayCoefficient == BetValueHelper.WinCoefficient)
             {
-                humanBlackJackAndDealerBlackJackDanger = true;
+                dealerBlackJackDanger = true;
             }
 
-            return humanBlackJackAndDealerBlackJackDanger;
+            return dealerBlackJackDanger;
         }
 
         private async Task DistributeRoundFirstPhaseCards(IEnumerable<GamePlayer> gamePlayers, List<Card> deck, List<Log> logs)
         {
-            var playerCardsInsert = new List<PlayerCard>();
+            var playerCards = new List<PlayerCard>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
@@ -238,10 +238,10 @@ namespace BlackJack.BusinessLogic.Services
 
                 gamePlayer.RoundScore = CountCardScore(gamePlayer.PlayerCards);
                 gamePlayer.CardAmount = gamePlayer.PlayerCards.Count();
-                playerCardsInsert.AddRange(gamePlayer.PlayerCards);
+                playerCards.AddRange(gamePlayer.PlayerCards);
             }
 
-            await _playerCardRepository.CreateMany(playerCardsInsert);
+            await _playerCardRepository.CreateMany(playerCards);
         }
         
         private async Task DistributeRoundSecondPhaseCards(IEnumerable<GamePlayer> players, List<Card> deck, List<Log> logs)

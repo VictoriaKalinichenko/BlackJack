@@ -45,19 +45,19 @@
     <Compile Include="Enums\CardType.cs" />
     <Compile Include="Enums\PlayerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\StartGame\StartGameCreateNewGameView.cs" />
-    <Compile Include="ViewModels\GameLogic\GameLogicAddCardToHumanView.cs" />
-    <Compile Include="ViewModels\GameLogic\GameLogicRoundSecondPhaseResponseView.cs" />
-    <Compile Include="ViewModels\StartGame\StartGameAuthorizePlayerView.cs" />
-    <Compile Include="ViewModels\GameLogic\GameLogicDoRoundFirstPhaseRequestView.cs" />
-    <Compile Include="ViewModels\GameLogic\GameLogicEndGameView.cs" />
-    <Compile Include="ViewModels\GameLogic\GameLogicRoundFirstPhaseResponseView.cs" />
-    <Compile Include="ViewModels\GameLogic\GamePlayerGameLogicResponseItem.cs" />
-    <Compile Include="ViewModels\GameLogic\GameLogicDoRoundSecondPhaseRequestView.cs" />
-    <Compile Include="ViewModels\StartGame\StartGameStartRoundView.cs" />
-    <Compile Include="ViewModels\Log\LogGetLogsView.cs" />
-    <Compile Include="ViewModels\StartGame\StartGameValidateNameView.cs" />
-    <Compile Include="ViewModels\StartGame\PlayerStartGameStartRoundItem.cs" />
+    <Compile Include="ViewModels\Start\CreateGameViewModel.cs" />
+    <Compile Include="ViewModels\Game\AddCardViewModel.cs" />
+    <Compile Include="ViewModels\Game\DoRoundSecondPhaseResponseViewModel.cs" />
+    <Compile Include="ViewModels\Start\AuthorizePlayerViewModel.cs" />
+    <Compile Include="ViewModels\Game\DoRoundFirstPhaseRequestViewModel.cs" />
+    <Compile Include="ViewModels\Game\EndGameViewModel.cs" />
+    <Compile Include="ViewModels\Game\DoRoundFirstPhaseResponseViewModel.cs" />
+    <Compile Include="ViewModels\Game\GamePlayerViewItem.cs" />
+    <Compile Include="ViewModels\Game\DoRoundSecondPhaseRequestViewModel.cs" />
+    <Compile Include="ViewModels\Start\BeginRoundViewModel.cs" />
+    <Compile Include="ViewModels\Log\GetLogsViewModel.cs" />
+    <Compile Include="ViewModels\Start\ValidateNameViewModel.cs" />
+    <Compile Include="ViewModels\Start\PlayerBeginRoundViewItem.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

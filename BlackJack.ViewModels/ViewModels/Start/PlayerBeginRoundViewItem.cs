@@ -1,6 +1,6 @@
-﻿namespace BlackJack.ViewModels.ViewModels.StartGame
+﻿namespace BlackJack.ViewModels.ViewModels.Start
 {
-    public class PlayerStartGameStartRoundItem
+    public class PlayerBeginRoundViewItem
     {
         public long Id { get; set; }
         public string Name { get; set; }

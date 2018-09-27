@@ -46,7 +46,7 @@ export class StartpageComponent implements OnInit {
     }
 
     StartNewGame() {
-        this._httpService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
+        this._httpService.CreateGame(this.Player.PlayerId, this.AmountOfBots)
             .subscribe(
             (data) => {
                 this.GameId = data["GameId"];

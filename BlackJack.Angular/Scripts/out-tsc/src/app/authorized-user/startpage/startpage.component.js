@@ -41,7 +41,7 @@ var StartpageComponent = /** @class */ (function () {
     };
     StartpageComponent.prototype.StartNewGame = function () {
         var _this = this;
-        this._httpService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
+        this._httpService.CreateGame(this.Player.PlayerId, this.AmountOfBots)
             .subscribe(function (data) {
             _this.GameId = data["GameId"];
             _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);

@@ -8,9 +8,9 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
     {
         Task<IEnumerable<PlayerCard>> GetByGamePlayerId(long gamePlayerId);
         
-        Task<IEnumerable<long>> GetCardsOnHandsIdsByGameId(long gameId);
+        Task<IEnumerable<Card>> GetCardsOnHands(long gameId);
 
-        Task<IEnumerable<PlayerCard>> GetPlayerCardsByGameId(long gameId);
+        Task<IEnumerable<PlayerCard>> GetAllByGameId(long gameId);
         
         Task<PlayerCard> Create(PlayerCard obj);
 

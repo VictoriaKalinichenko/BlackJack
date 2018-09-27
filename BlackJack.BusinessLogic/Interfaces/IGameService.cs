@@ -7,15 +7,15 @@ namespace BlackJack.BusinessLogic.Interfaces
     {
         Task<string> ValidateBet(int bet, long gamePlayerId);
 
-        Task<DoRoundFirstPhaseResponseViewModel> DoRoundFirstPhase(int bet, long gameId);
+        Task<StartRoundResponseViewModel> StartRound(int bet, long gameId);
 
-        Task<DoRoundFirstPhaseResponseViewModel> ResumeAfterRoundFirstPhase(long gameId);
+        Task<StartRoundResponseViewModel> ResumeAfterStartRound(long gameId);
 
         Task<AddCardViewModel> AddCard(long gameId);
 
-        Task<DoRoundSecondPhaseResponseViewModel> DoRoundSecondPhase(long gameId, bool blackJackDangerContinueRound = false);
+        Task<ContinueRoundResponseViewModel> ContinueRound(long gameId, bool blackJackDangerContinueRound = false);
 
-        Task<DoRoundSecondPhaseResponseViewModel> ResumeAfterRoundSecondPhase(long gameId);
+        Task<ContinueRoundResponseViewModel> ResumeAfterContinueRound(long gameId);
 
         Task EndRound(long gameId);
 

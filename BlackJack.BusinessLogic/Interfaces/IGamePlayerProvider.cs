@@ -1,22 +1,23 @@
-﻿using System.Collections.Generic;
-using BlackJack.Entities.Entities;
+﻿using BlackJack.Entities.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IGamePlayerProvider
     {
-        void CreateBets(IEnumerable<GamePlayer> bots, GamePlayer human, int bet, List<Log> logs);
+        Task CreateBets(IEnumerable<GamePlayer> bots, GamePlayer human, int bet, List<Log> logs);
 
-        void PayRoundBets(IEnumerable<GamePlayer> humanAndBots, GamePlayer dealer);
+        void PayBets(IEnumerable<GamePlayer> players, GamePlayer dealer);
 
-        void CheckCardsInFirstTime(IEnumerable<GamePlayer> humanAndBots, GamePlayer dealer, List<Log> logs);
+        void DefinePayCoefficientsAfterRoundStart(IEnumerable<GamePlayer> players, GamePlayer dealer, List<Log> logs);
 
-        void CheckCardsInSecondTime(IEnumerable<GamePlayer> humanAndBots, GamePlayer dealer, List<Log> logs);
+        void DefinePayCoefficientsAfterRoundContinue(IEnumerable<GamePlayer> players, GamePlayer dealer, List<Log> logs);
 
-        bool DoesHumanHaveEnoughCards(int roundScore);
+        bool IsEnoughCardsForHuman(int roundScore);
 
-        bool DoesBotHaveEnoughCards(int roundScore);
+        bool IsEnoughCardsForBot(int roundScore);
 
-        string GetRoundResult(float betPayCoefficient);
+        string GetHumanRoundResult(float betPayCoefficient);
     }
 }

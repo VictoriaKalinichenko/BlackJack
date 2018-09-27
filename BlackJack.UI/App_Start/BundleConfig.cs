@@ -35,7 +35,7 @@ namespace BlackJack.UI
                 "~/Scripts/Log/Index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/RoundHandler").Include(
-                "~/Scripts/StartGame/BeginRound.js"));
+                "~/Scripts/Start/InitRound.js"));
         }
     }
 }

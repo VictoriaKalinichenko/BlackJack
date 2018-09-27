@@ -41,10 +41,10 @@ var GameComponent = /** @class */ (function () {
             this.GamePlayBetInput();
         }
         if (this.Game.Stage == 1) {
-            this.ResumeAfterRoundFirstPhase();
+            this.ResumeAfterStartRound();
         }
         if (this.Game.Stage == 2) {
-            this.ResumeAfterRoundSecondPhase();
+            this.ResumeAfterContinueRound();
         }
     };
     GameComponent.prototype.GetGame = function () {
@@ -63,24 +63,24 @@ var GameComponent = /** @class */ (function () {
             _this._router.navigate(['/error']);
         });
     };
-    GameComponent.prototype.ResumeAfterRoundFirstPhase = function () {
+    GameComponent.prototype.ResumeAfterStartRound = function () {
         var _this = this;
-        this._httpService.ResumeAfterRoundFirstPhase(this.Game.Id)
+        this._httpService.ResumeAfterStartRound(this.Game.Id)
             .subscribe(function (data) {
             _this.Game = deserialize(GameView, data);
-            _this.FirstPhaseGamePlay(data["DealerBlackJackDanger"], data["CanTakeCard"]);
+            _this.StartRoundGamePlay(data["BlackJackChoice"], data["CanTakeCard"]);
         }, function (error) {
             console.log(error);
             _this._errorService.SetError(error["error"]["Message"]);
             _this._router.navigate(['/error']);
         });
     };
-    GameComponent.prototype.ResumeAfterRoundSecondPhase = function () {
+    GameComponent.prototype.ResumeAfterContinueRound = function () {
         var _this = this;
-        this._httpService.ResumeAfterRoundSecondPhase(this.Game.Id)
+        this._httpService.ResumeAfterContinueRound(this.Game.Id)
             .subscribe(function (data) {
             _this.Game = deserialize(GameView, data);
-            _this.SecondPhaseGamePlay(data["RoundResult"]);
+            _this.ContinueRoundGamePlay(data["RoundResult"]);
         }, function (error) {
             console.log(error);
             _this._errorService.SetError(error["error"]["Message"]);
@@ -96,7 +96,7 @@ var GameComponent = /** @class */ (function () {
                     _this.Game.Human = deserialize(PlayerView, data);
                 }
                 if (!data["CanTakeCard"]) {
-                    _this.DoRoundSecondPhase(false);
+                    _this.ContinueRound(false);
                 }
             }, function (error) {
                 console.log(error);
@@ -105,36 +105,36 @@ var GameComponent = /** @class */ (function () {
             });
         }
         if (!takeCard) {
-            this.DoRoundSecondPhase(false);
+            this.ContinueRound(false);
         }
     };
-    GameComponent.prototype.FirstPhaseGamePlay = function (dealerBlackJackDanger, canTakeCard) {
+    GameComponent.prototype.StartRoundGamePlay = function (blackJackChoice, canTakeCard) {
         this.Game.Stage = 1;
         this.BetValidationError = false;
-        if (dealerBlackJackDanger) {
+        if (blackJackChoice) {
             this.GamePlayBlackJackDangerChoice();
         }
         if (canTakeCard) {
             this.GamePlayTakeCard();
         }
-        if (!dealerBlackJackDanger && !canTakeCard) {
-            this.DoRoundSecondPhase(false);
+        if (!blackJackChoice && !canTakeCard) {
+            this.ContinueRound(false);
         }
     };
-    GameComponent.prototype.SecondPhaseGamePlay = function (roundResult) {
+    GameComponent.prototype.ContinueRoundGamePlay = function (roundResult) {
         this.RoundResult = roundResult;
         this.GamePlayEndRound();
     };
-    GameComponent.prototype.DoRoundFirstPhase = function () {
+    GameComponent.prototype.StartRound = function () {
         var _this = this;
-        this._httpService.DoRoundFirstPhase(this.Game.Id, this.Game.Human.GamePlayerId, this.Bet)
+        this._httpService.StartRound(this.Game.Id, this.Game.Human.GamePlayerId, this.Bet)
             .subscribe(function (data) {
             _this.Game = deserialize(GameView, data["Data"]);
             if (data["Message"] != "") {
                 _this.ShowValidationMessage(data["Message"]);
             }
             if (data["Message"] == "") {
-                _this.FirstPhaseGamePlay(data["Data"]["DealerBlackJackDanger"], data["Data"]["CanTakeCard"]);
+                _this.StartRoundGamePlay(data["Data"]["BlackJackChoice"], data["Data"]["CanTakeCard"]);
             }
         }, function (error) {
             console.log(error);
@@ -146,12 +146,12 @@ var GameComponent = /** @class */ (function () {
         this.BetValidationError = true;
         this.BetValidationMessage = validationMessage;
     };
-    GameComponent.prototype.DoRoundSecondPhase = function (humanBlackJackContinueRound) {
+    GameComponent.prototype.ContinueRound = function (humanBlackJackContinueRound) {
         var _this = this;
-        this._httpService.DoRoundSecondPhase(this.Game.Id, humanBlackJackContinueRound)
+        this._httpService.ContinueRound(this.Game.Id, humanBlackJackContinueRound)
             .subscribe(function (data) {
             _this.Game = deserialize(GameView, data);
-            _this.SecondPhaseGamePlay(data["RoundResult"]);
+            _this.ContinueRoundGamePlay(data["RoundResult"]);
         }, function (error) {
             console.log(error);
             _this._errorService.SetError(error["error"]["Message"]);

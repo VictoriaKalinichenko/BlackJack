@@ -227,3 +227,147 @@ Parameter name: index
    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
    at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
    at BlackJack.UI.Controllers.GameLogicController.<DoRoundFirstPhase>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameLogicController.cs:line 47|Object reference not set to an instance of an object.
+2018-09-27 10:10:30.2444|ERROR|BlackJack.UI.Controllers.GameController|Z.BulkOperations|Void ?()|   at Z.BulkOperations.BulkOperation.?()
+   at Z.BulkOperations.BulkOperation.?()
+   at Z.BulkOperations.BulkOperation.BulkMerge()
+   at Z.BulkOperations.BulkOperation.BulkMerge(Object datasource)
+   at Z.BulkOperations.BulkOperation.?.?()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<UpdateManyAfterRoundSecondPhase>d__12.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 242
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.BusinessLogic.Services.GameService.<DoRoundSecondPhase>d__12.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameService.cs:line 138
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.GameController.<DoRoundSecondPhase>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 98|The Connection State is invalid. The Connection State must be open.
+2018-09-27 13:32:25.1422|ERROR|BlackJack.UI.Controllers.StartController|System.Core|TSource First[TSource](System.Collections.Generic.IEnumerable`1[TSource])|   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at BlackJack.BusinessLogic.Services.StartService.<InitRound>d__10.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartService.cs:line 115
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartController.<InitRound>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 101|Sequence contains no elements
+2018-09-27 13:35:36.6696|ERROR|BlackJack.UI.Controllers.GameController|Z.BulkOperations|Void ?(System.Collections.Generic.List`1[?])|   at ?.?(List`1 ?)
+   at ?.?(List`1 ?)
+   at Z.BulkOperations.BulkOperation.?()
+   at Z.BulkOperations.BulkOperation.BulkMerge()
+   at Z.BulkOperations.BulkOperation.BulkMerge(Object datasource)
+   at Z.BulkOperations.BulkOperation.?.?()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<UpdateMany>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 172
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.BusinessLogic.Services.GameService.<StartRound>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameService.cs:line 76
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.GameController.<StartRound>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 47|An error occured because the primary key specified is not unique, you can set the property 'AllowDuplicateKeys' to true to allow duplicate key. See the inner exception for details.
+2018-09-27 13:36:49.5304|ERROR|BlackJack.UI.Controllers.GameController|Z.BulkOperations|Void ?(System.Collections.Generic.List`1[?])|   at ?.?(List`1 ?)
+   at ?.?(List`1 ?)
+   at Z.BulkOperations.BulkOperation.?()
+   at Z.BulkOperations.BulkOperation.BulkMerge()
+   at Z.BulkOperations.BulkOperation.BulkMerge(Object datasource)
+   at Z.BulkOperations.BulkOperation.?.?()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<UpdateMany>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 172
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.BusinessLogic.Services.GameService.<StartRound>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameService.cs:line 76
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.GameController.<StartRound>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 47|An error occured because the primary key specified is not unique, you can set the property 'AllowDuplicateKeys' to true to allow duplicate key. See the inner exception for details.
+2018-09-27 13:37:44.1783|ERROR|BlackJack.UI.Controllers.GameController|Z.BulkOperations|Void ?(System.Collections.Generic.List`1[?])|   at ?.?(List`1 ?)
+   at ?.?(List`1 ?)
+   at Z.BulkOperations.BulkOperation.?()
+   at Z.BulkOperations.BulkOperation.BulkMerge()
+   at Z.BulkOperations.BulkOperation.BulkMerge(Object datasource)
+   at Z.BulkOperations.BulkOperation.?.?()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<UpdateMany>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 172
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.BusinessLogic.Services.GameService.<StartRound>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameService.cs:line 76
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.GameController.<StartRound>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 47|An error occured because the primary key specified is not unique, you can set the property 'AllowDuplicateKeys' to true to allow duplicate key. See the inner exception for details.
+2018-09-27 13:41:35.9117|ERROR|BlackJack.UI.Controllers.GameController|Z.BulkOperations|Void ?(System.Collections.Generic.List`1[?])|   at ?.?(List`1 ?)
+   at ?.?(List`1 ?)
+   at Z.BulkOperations.BulkOperation.?()
+   at Z.BulkOperations.BulkOperation.BulkMerge()
+   at Z.BulkOperations.BulkOperation.BulkMerge(Object datasource)
+   at Z.BulkOperations.BulkOperation.?.?()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<UpdateMany>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 172
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.BusinessLogic.Services.GameService.<StartRound>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameService.cs:line 76
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.GameController.<StartRound>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 47|An error occured because the primary key specified is not unique, you can set the property 'AllowDuplicateKeys' to true to allow duplicate key. See the inner exception for details.
+2018-09-27 13:45:18.7570|ERROR|BlackJack.UI.Controllers.GameController|Z.BulkOperations|Void ?(System.Collections.Generic.List`1[?])|   at ?.?(List`1 ?)
+   at ?.?(List`1 ?)
+   at Z.BulkOperations.BulkOperation.?()
+   at Z.BulkOperations.BulkOperation.BulkMerge()
+   at Z.BulkOperations.BulkOperation.BulkMerge(Object datasource)
+   at Z.BulkOperations.BulkOperation.?.?()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<UpdateMany>d__8.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 173
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at BlackJack.BusinessLogic.Services.GameService.<StartRound>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameService.cs:line 76
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.GameController.<StartRound>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 47|An error occured because the primary key specified is not unique, you can set the property 'AllowDuplicateKeys' to true to allow duplicate key. See the inner exception for details.

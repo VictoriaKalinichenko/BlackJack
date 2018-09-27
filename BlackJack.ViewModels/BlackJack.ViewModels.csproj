@@ -47,17 +47,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Start\CreateGameViewModel.cs" />
     <Compile Include="ViewModels\Game\AddCardViewModel.cs" />
-    <Compile Include="ViewModels\Game\DoRoundSecondPhaseResponseViewModel.cs" />
+    <Compile Include="ViewModels\Game\ContinueRoundResponseViewModel.cs" />
     <Compile Include="ViewModels\Start\AuthorizePlayerViewModel.cs" />
-    <Compile Include="ViewModels\Game\DoRoundFirstPhaseRequestViewModel.cs" />
+    <Compile Include="ViewModels\Game\StartRoundRequestViewModel.cs" />
     <Compile Include="ViewModels\Game\EndGameViewModel.cs" />
-    <Compile Include="ViewModels\Game\DoRoundFirstPhaseResponseViewModel.cs" />
-    <Compile Include="ViewModels\Game\GamePlayerViewItem.cs" />
-    <Compile Include="ViewModels\Game\DoRoundSecondPhaseRequestViewModel.cs" />
-    <Compile Include="ViewModels\Start\BeginRoundViewModel.cs" />
+    <Compile Include="ViewModels\Game\StartRoundResponseViewModel.cs" />
+    <Compile Include="ViewModels\Game\GamePlayerItem.cs" />
+    <Compile Include="ViewModels\Game\ContinueRoundRequestViewModel.cs" />
+    <Compile Include="ViewModels\Start\InitRoundViewModel.cs" />
     <Compile Include="ViewModels\Log\GetLogsViewModel.cs" />
     <Compile Include="ViewModels\Start\ValidateNameViewModel.cs" />
-    <Compile Include="ViewModels\Start\PlayerBeginRoundViewItem.cs" />
+    <Compile Include="ViewModels\Start\PlayerItem.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

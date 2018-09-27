@@ -36,8 +36,8 @@ namespace BlackJack.Angular.Controllers
             }
         }
 
-        [Route("CreateNewGame"), HttpPost]
-        public async Task<IHttpActionResult> CreateNewGame(CreateGameViewModel createGameViewModel)
+        [Route("CreateGame"), HttpPost]
+        public async Task<IHttpActionResult> CreateGame(CreateGameViewModel createGameViewModel)
         {
             try
             {
@@ -68,13 +68,13 @@ namespace BlackJack.Angular.Controllers
             }
         }
 
-        [Route("BeginRound"), HttpGet]
-        public async Task<IHttpActionResult> BeginRound(long gameId)
+        [Route("InitRound"), HttpGet]
+        public async Task<IHttpActionResult> InitRound(long gameId)
         {
             try
             {
-                BeginRoundViewModel beginRoundViewModel = await _startGameService.GetBeginRoundViewModel(gameId);
-                return Ok(beginRoundViewModel);
+                InitRoundViewModel initRoundViewModel = await _startGameService.InitRound(gameId);
+                return Ok(initRoundViewModel);
             }
             catch (Exception ex)
             {

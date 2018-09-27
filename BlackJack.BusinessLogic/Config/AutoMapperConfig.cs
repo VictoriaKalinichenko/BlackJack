@@ -15,7 +15,7 @@ namespace BlackJack.BusinessLogic.Config
         {
             Mapper.Initialize(config =>
             {
-                config.CreateMap<GamePlayer, GamePlayerViewItem>()
+                config.CreateMap<GamePlayer, GamePlayerItem>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
@@ -23,10 +23,10 @@ namespace BlackJack.BusinessLogic.Config
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<Game, BeginRoundViewModel>();
+                config.CreateMap<Game, InitRoundViewModel>();
                 config.CreateMap<Log, GetLogsViewModel>();
 
-                config.CreateMap<GamePlayer, PlayerBeginRoundViewItem>()
+                config.CreateMap<GamePlayer, PlayerItem>()
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
             });
         }

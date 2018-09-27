@@ -40,20 +40,22 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<IEnumerable<long>> GetCardsOnHandsIdsByGameId(long gameId)
+        public async Task<IEnumerable<Card>> GetCardsOnHands(long gameId)
         {
-            string sqlQuery = $@"SELECT CardId FROM PlayerCards AS A
+            string sqlQuery = $@"SELECT C.Id, C.Name, C.Type
+                                 FROM PlayerCards AS A
                                  INNER JOIN GamePlayers AS B ON A.GamePlayerId = B.Id
+                                 INNER JOIN Cards As C ON C.Id = A.CardId
                                  WHERE B.GameId = @gameId";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                IEnumerable<long> cardIds = await db.QueryAsync<long>(sqlQuery, new { gameId });
-                return cardIds;
+                IEnumerable<Card> cards = await db.QueryAsync<Card>(sqlQuery, new { gameId });
+                return cards;
             }
         }
 
-        public async Task<IEnumerable<PlayerCard>> GetPlayerCardsByGameId(long gameId)
+        public async Task<IEnumerable<PlayerCard>> GetAllByGameId(long gameId)
         {
             string sqlQuery = $@"SELECT A.Id FROM PlayerCards AS A
                                  INNER JOIN GamePlayers AS B ON A.GamePlayerId = B.Id
@@ -78,26 +80,22 @@ namespace BlackJack.DataAccess.Repositories
 
         public async Task CreateMany(IEnumerable<PlayerCard> playerCards)
         {
-            using (DbConnection db = new SqlConnection(_connectionString))
-            {
-                db.Open();
-                var bulkOperation = new BulkOperation(db);
-                bulkOperation.DestinationTableName = "PlayerCards";
-                await bulkOperation.BulkInsertAsync(playerCards);
-                db.Close();
-            }
+            DbConnection db = new SqlConnection(_connectionString);
+            db.Open();
+            var bulkOperation = new BulkOperation(db);
+            bulkOperation.DestinationTableName = "PlayerCards";
+            await bulkOperation.BulkInsertAsync(playerCards);
+            db.Close();
         }
 
         public async Task DeleteMany(IEnumerable<PlayerCard> playerCards)
         {
-            using (DbConnection db = new SqlConnection(_connectionString))
-            {
-                db.Open();
-                var bulkOperation = new BulkOperation(db);
-                bulkOperation.DestinationTableName = "PlayerCards";
-                await bulkOperation.BulkDeleteAsync(playerCards);
-                db.Close();
-            }
+            DbConnection db = new SqlConnection(_connectionString);
+            db.Open();
+            var bulkOperation = new BulkOperation(db);
+            bulkOperation.DestinationTableName = "PlayerCards";
+            await bulkOperation.BulkDeleteAsync(playerCards);
+            db.Close();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BlackJack.ViewModels.ViewModels.Game
 {
-    public class DoRoundFirstPhaseRequestViewModel
+    public class StartRoundRequestViewModel
     {
         public int Bet { get; set; }
         public long GamePlayerId { get; set; }

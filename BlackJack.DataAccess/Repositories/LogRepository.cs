@@ -31,14 +31,12 @@ namespace BlackJack.DataAccess.Repositories
 
         public async Task CreateMany(IEnumerable<Log> logs)
         {
-            using (DbConnection db = new SqlConnection(_connectionString))
-            {
-                db.Open();
-                var bulkOperation = new BulkOperation(db);
-                bulkOperation.DestinationTableName = "Logs";
-                await bulkOperation.BulkInsertAsync(logs);
-                db.Close();
-            }
+            DbConnection db = new SqlConnection(_connectionString);
+            db.Open();
+            var bulkOperation = new BulkOperation(db);
+            bulkOperation.DestinationTableName = "Logs";
+            await bulkOperation.BulkInsertAsync(logs);
+            db.Close();
         }
 
         public async Task Create(long gameId, string message)

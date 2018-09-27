@@ -18,9 +18,9 @@ var HttpService = /** @class */ (function () {
             { params: new HttpParams().set('userName', userName.toString()) } : {};
         return this._httpClient.get('Start/AuthorizePlayer', options);
     };
-    HttpService.prototype.CreateNewGame = function (playerId, amountOfBots) {
+    HttpService.prototype.CreateGame = function (playerId, amountOfBots) {
         var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
-        return this._httpClient.post('Start/CreateNewGame', body);
+        return this._httpClient.post('Start/CreateGame', body);
     };
     HttpService.prototype.ResumeGame = function (playerId) {
         var options = playerId ?
@@ -30,30 +30,30 @@ var HttpService = /** @class */ (function () {
     HttpService.prototype.GetGame = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Start/BeginRound', options);
+        return this._httpClient.get('Start/InitRound', options);
     };
-    HttpService.prototype.DoRoundFirstPhase = function (gameId, humanGamePlayerId, bet) {
+    HttpService.prototype.StartRound = function (gameId, humanGamePlayerId, bet) {
         var body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this._httpClient.post('Game/DoRoundFirstPhase', body);
+        return this._httpClient.post('Game/StartRound', body);
     };
-    HttpService.prototype.DoRoundSecondPhase = function (gameId, humanBlackJackContinueRound) {
-        var body = { GameId: gameId, ContinueBlackJackDanger: humanBlackJackContinueRound };
-        return this._httpClient.post('Game/DoRoundSecondPhase', body);
+    HttpService.prototype.ContinueRound = function (gameId, blackJackContinueChoice) {
+        var body = { GameId: gameId, BlackJackContinueChoice: blackJackContinueChoice };
+        return this._httpClient.post('Game/ContinueRound', body);
     };
     HttpService.prototype.AddCard = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
         return this._httpClient.get('Game/AddCard', options);
     };
-    HttpService.prototype.ResumeAfterRoundFirstPhase = function (gameId) {
+    HttpService.prototype.ResumeAfterStartRound = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Game/ResumeAfterRoundFirstPhase', options);
+        return this._httpClient.get('Game/ResumeAfterStartRound', options);
     };
-    HttpService.prototype.ResumeAfterRoundSecondPhase = function (gameId) {
+    HttpService.prototype.ResumeAfterContinueRound = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Game/ResumeAfterRoundSecondPhase', options);
+        return this._httpClient.get('Game/ResumeAfterContinueRound', options);
     };
     HttpService.prototype.EndRound = function (gameId) {
         var options = gameId ?

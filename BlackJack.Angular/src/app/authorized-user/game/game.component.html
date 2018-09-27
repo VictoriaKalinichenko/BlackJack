@@ -22,7 +22,7 @@
                     <div *ngIf="BetValidationError">
                         <div class="alert alert-danger">{{BetValidationMessage}}</div>
                     </div>
-                    <button class="btn btn-primary" (click)="DoRoundFirstPhase()">Enter</button>
+                    <button class="btn btn-primary" (click)="StartRound()">Enter</button>
                 </div>
 
                 <div *ngIf="TakeCard">
@@ -32,8 +32,8 @@
 
                 <div *ngIf="BlackJackDangerChoice">
                     <p>You have BlackJack and dealer has BlackJack-danger</p>
-                    <button class="btn btn-primary" (click)="DoRoundSecondPhase(true)">Continue round</button>
-                    <button class="btn btn-primary" (click)="DoRoundSecondPhase(false)">Take award (1:1)</button>
+                    <button class="btn btn-primary" (click)="ContinueRound(true)">Continue round</button>
+                    <button class="btn btn-primary" (click)="ContinueRound(false)">Take award (1:1)</button>
                 </div>
 
                 <div *ngIf="EndRound">

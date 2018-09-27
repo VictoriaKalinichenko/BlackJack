@@ -13,11 +13,11 @@
 
             $.ajax({
                 type: "GET",
-                url: "/Game/ResumeAfterRoundFirstPhase",
+                url: "/Game/ResumeAfterStartRound",
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
-                    RoundFirstPhaseReloading(response.Data);
+                    StartRoundPageReloading(response.Data);
                 },
                 error: function (response) {
                     ShowError(response);
@@ -31,11 +31,11 @@
 
             $.ajax({
                 type: "GET",
-                url: "/Game/ResumeAfterRoundSecondPhase",
+                url: "/Game/ResumeAfterContinueRound",
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
-                    RoundSecondPhaseReloading(response.Data);
+                    ContinueRoundPageReloading(response.Data);
                 },
                 error: function (response) {
                     ShowError(response);
@@ -87,7 +87,7 @@
         var transParam = { bet: betInput, gamePlayerId: humanId, gameId: gameId };
         $.ajax({
             type: "POST",
-            url: "/Game/DoRoundFirstPhase",
+            url: "/Game/StartRound",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -96,7 +96,7 @@
                 }
 
                 if (response.Message == "") {
-                    RoundFirstPhaseReloading(response.Data);
+                    StartRoundPageReloading(response.Data);
                 }
             },
             error: function (response) {
@@ -119,7 +119,7 @@
                 }
 
                 if (!response.Data.CanTakeCard) {
-                    RoundSecondPhase(false);
+                    ContinueRound(false);
                 }
             },
             error: function (response) {
@@ -145,7 +145,7 @@
         });
     }
     
-    function DrowButtonsHumanBlackJackAndDealerBlackJackDanger() {
+    function DrowButtonsBlackJackChoice() {
         $("#gameplay").append("<p>You have BlackJack and dealer has BlackJack-danger</p>");
 
         var continueRoundButton = $('<input/>', {
@@ -154,7 +154,7 @@
             value: "Continue round",
             class: "btn btn-primary",
             click: function () {
-                RoundSecondPhase(true);
+                ContinueRound(true);
             }
         });
 
@@ -164,7 +164,7 @@
             value: "Take award (1:1)",
             class: "btn btn-primary",
             click: function () {
-                RoundSecondPhase(false);
+                ContinueRound(false);
             }
         });
 
@@ -172,7 +172,7 @@
         $("#gameplay").append(takeAwardButton);
     }
 
-    function DrowButtonsCanHumanTakeOneMoreCard() {
+    function DrowButtonsTakeCard() {
         var takeOneMoreCardButton = $('<input/>', {
             type: "button",
             id: "takeonemorecard",
@@ -189,7 +189,7 @@
             value: "Don\'t take",
             class: "btn btn-default",
             click: function () {
-                RoundSecondPhase(false);
+                ContinueRound(false);
             }
         });
 
@@ -211,16 +211,16 @@
         $("#gameplay").append(endRoundButton);
     }
 
-    function RoundSecondPhase(continueBlackJackDanger) {
+    function ContinueRound(blackJackContinueChoice) {
         var gameId = $("#gameid").val();
-        var transParam = { GameId: gameId, ContinueBlackJackDanger: continueBlackJackDanger };
+        var transParam = { GameId: gameId, BlackJackContinueChoice: blackJackContinueChoice };
         $.ajax({
             type: "POST",
-            url: "/Game/DoRoundSecondPhase",
+            url: "/Game/ContinueRound",
             data: transParam,
             dataType: "json",
             success: function (response) {
-                RoundSecondPhaseReloading(response.Data);
+                ContinueRoundPageReloading(response.Data);
             },
             error: function (response) {
                 ShowError(response);
@@ -228,30 +228,30 @@
         });
     }
 
-    function RoundFirstPhaseReloading(data) {
+    function StartRoundPageReloading(data) {
         $("#gameplay").text("");
 
-        if ((!data.DealerBlackJackDanger) && (!data.CanTakeCard)) {
-            RoundSecondPhase(false);
+        if ((!data.BlackJackChoice) && (!data.CanTakeCard)) {
+            ContinueRound(false);
         }
 
         ReloadPlayers(data);
-        ReloadDealerInFirstPhase(data.Dealer);
+        ReloadDealerInStartRound(data.Dealer);
 
-        if (data.DealerBlackJackDanger) {
-            DrowButtonsHumanBlackJackAndDealerBlackJackDanger();
+        if (data.BlackJackChoice) {
+            DrowButtonsBlackJackChoice();
         }
 
         if (data.CanTakeCard) {
-            DrowButtonsCanHumanTakeOneMoreCard();
+            DrowButtonsTakeCard();
         }
     }
 
-    function RoundSecondPhaseReloading(data) {
+    function ContinueRoundPageReloading(data) {
         $("#gameplay").text("");
         $("#gameplay").append(`<p>${data.RoundResult}</p>`)
         ReloadPlayers(data);
-        ReloadDealerInSecondPhase(data.Dealer);
+        ReloadDealerInContinueRound(data.Dealer);
         DrowButtonsEndRound();
     }
 
@@ -295,7 +295,7 @@
         $(gamePlay).append(text);
     }
 
-    function ReloadDealerInFirstPhase(player) {
+    function ReloadDealerInStartRound(player) {
         var text = `<p>Score: ${player.Score}</p>`;
         text = text + `<p>Card:</p><ul>`;
 
@@ -309,7 +309,7 @@
         $("#dealergameplay").append(text);
     }
 
-    function ReloadDealerInSecondPhase(player) {
+    function ReloadDealerInContinueRound(player) {
         var text = `<p>Score: ${player.Score}</p>`;
         text = text + `<p>RoundScore: ${player.RoundScore}</p>`;
         text = text + `<p>Cards:</p><ul>`;
@@ -323,9 +323,7 @@
         $("#dealergameplay").text("");
         $("#dealergameplay").append(text);
     }
-
-
-
+   
     function ShowError(response) {
         alert(`Status: ${response.status}, ${response.statusText}`);
     }

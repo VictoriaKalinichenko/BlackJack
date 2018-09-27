@@ -373,7 +373,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n        <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n        <p>Name: {{Game.Dealer.Name}}</p>\r\n        <app-dealer-output [Score]=\"Game.Dealer.Score\" [RoundScore]=\"Game.Dealer.RoundScore\" [Cards]=\"Game.Dealer.Cards\" [GameStage]=\"Game.Stage\"></app-dealer-output>\r\n    </div>\r\n\r\n    <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <h4><span class=\"label label-primary\">Human</span></h4>\r\n                <p>Name: {{Game.Human.Name}}</p>\r\n                <app-player-output [Score]=\"Game.Human.Score\" [Bet]=\"Game.Human.Bet\" [RoundScore]=\"Game.Human.RoundScore\" [Cards]=\"Game.Human.Cards\" [GameStage]=\"Game.Stage\"></app-player-output>\r\n            </div>\r\n\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <div *ngIf=\"BetInput\">\r\n                    <label class=\"control-label\">Enter your bet: </label>\r\n                    <input [(ngModel)]=\"Bet\" type=\"number\"\r\n                           class=\"form-control\" step=\"50\" min=\"50\" value=\"50\" max={{Game.Human.Score}} />\r\n                    <br />\r\n                    <div *ngIf=\"BetValidationError\">\r\n                        <div class=\"alert alert-danger\">{{BetValidationMessage}}</div>\r\n                    </div>\r\n                    <button class=\"btn btn-primary\" (click)=\"DoRoundFirstPhase()\">Enter</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"TakeCard\">\r\n                    <button class=\"btn btn-primary\" (click)=\"AddCard(true)\">Take card</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"AddCard(false)\">Don't take</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"BlackJackDangerChoice\">\r\n                    <p>You have BlackJack and dealer has BlackJack-danger</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"DoRoundSecondPhase(true)\">Continue round</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"DoRoundSecondPhase(false)\">Take award (1:1)</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"EndRound\">\r\n                    <p>{{RoundResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"StartNewRound()\">End round</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"EndGame\">\r\n                    <p>{{GameResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"StartNewGame()\">End game</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of Game.Bots\" class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n        <h4><span class=\"label label-default\">Bot</span></h4>\r\n        <p>Name: {{bot.Name}}</p>\r\n        <app-player-output [Score]=\"bot.Score\" [RoundScore]=\"bot.RoundScore\" [Bet]=\"bot.Bet\" [Cards]=\"bot.Cards\" [GameStage]=\"Game.Stage\"></app-player-output>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n        <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n        <p>Name: {{Game.Dealer.Name}}</p>\r\n        <app-dealer-output [Score]=\"Game.Dealer.Score\" [RoundScore]=\"Game.Dealer.RoundScore\" [Cards]=\"Game.Dealer.Cards\" [GameStage]=\"Game.Stage\"></app-dealer-output>\r\n    </div>\r\n\r\n    <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <h4><span class=\"label label-primary\">Human</span></h4>\r\n                <p>Name: {{Game.Human.Name}}</p>\r\n                <app-player-output [Score]=\"Game.Human.Score\" [Bet]=\"Game.Human.Bet\" [RoundScore]=\"Game.Human.RoundScore\" [Cards]=\"Game.Human.Cards\" [GameStage]=\"Game.Stage\"></app-player-output>\r\n            </div>\r\n\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <div *ngIf=\"BetInput\">\r\n                    <label class=\"control-label\">Enter your bet: </label>\r\n                    <input [(ngModel)]=\"Bet\" type=\"number\"\r\n                           class=\"form-control\" step=\"50\" min=\"50\" value=\"50\" max={{Game.Human.Score}} />\r\n                    <br />\r\n                    <div *ngIf=\"BetValidationError\">\r\n                        <div class=\"alert alert-danger\">{{BetValidationMessage}}</div>\r\n                    </div>\r\n                    <button class=\"btn btn-primary\" (click)=\"StartRound()\">Enter</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"TakeCard\">\r\n                    <button class=\"btn btn-primary\" (click)=\"AddCard(true)\">Take card</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"AddCard(false)\">Don't take</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"BlackJackDangerChoice\">\r\n                    <p>You have BlackJack and dealer has BlackJack-danger</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"ContinueRound(true)\">Continue round</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"ContinueRound(false)\">Take award (1:1)</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"EndRound\">\r\n                    <p>{{RoundResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"StartNewRound()\">End round</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"EndGame\">\r\n                    <p>{{GameResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"StartNewGame()\">End game</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of Game.Bots\" class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n        <h4><span class=\"label label-default\">Bot</span></h4>\r\n        <p>Name: {{bot.Name}}</p>\r\n        <app-player-output [Score]=\"bot.Score\" [RoundScore]=\"bot.RoundScore\" [Bet]=\"bot.Bet\" [Cards]=\"bot.Cards\" [GameStage]=\"Game.Stage\"></app-player-output>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -438,10 +438,10 @@ var GameComponent = /** @class */ (function () {
             this.GamePlayBetInput();
         }
         if (this.Game.Stage == 1) {
-            this.ResumeAfterRoundFirstPhase();
+            this.ResumeAfterStartRound();
         }
         if (this.Game.Stage == 2) {
-            this.ResumeAfterRoundSecondPhase();
+            this.ResumeAfterContinueRound();
         }
     };
     GameComponent.prototype.GetGame = function () {
@@ -460,24 +460,24 @@ var GameComponent = /** @class */ (function () {
             _this._router.navigate(['/error']);
         });
     };
-    GameComponent.prototype.ResumeAfterRoundFirstPhase = function () {
+    GameComponent.prototype.ResumeAfterStartRound = function () {
         var _this = this;
-        this._httpService.ResumeAfterRoundFirstPhase(this.Game.Id)
+        this._httpService.ResumeAfterStartRound(this.Game.Id)
             .subscribe(function (data) {
             _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
-            _this.FirstPhaseGamePlay(data["DealerBlackJackDanger"], data["CanTakeCard"]);
+            _this.StartRoundGamePlay(data["BlackJackChoice"], data["CanTakeCard"]);
         }, function (error) {
             console.log(error);
             _this._errorService.SetError(error["error"]["Message"]);
             _this._router.navigate(['/error']);
         });
     };
-    GameComponent.prototype.ResumeAfterRoundSecondPhase = function () {
+    GameComponent.prototype.ResumeAfterContinueRound = function () {
         var _this = this;
-        this._httpService.ResumeAfterRoundSecondPhase(this.Game.Id)
+        this._httpService.ResumeAfterContinueRound(this.Game.Id)
             .subscribe(function (data) {
             _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
-            _this.SecondPhaseGamePlay(data["RoundResult"]);
+            _this.ContinueRoundGamePlay(data["RoundResult"]);
         }, function (error) {
             console.log(error);
             _this._errorService.SetError(error["error"]["Message"]);
@@ -493,7 +493,7 @@ var GameComponent = /** @class */ (function () {
                     _this.Game.Human = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_player_view__WEBPACK_IMPORTED_MODULE_6__["PlayerView"], data);
                 }
                 if (!data["CanTakeCard"]) {
-                    _this.DoRoundSecondPhase(false);
+                    _this.ContinueRound(false);
                 }
             }, function (error) {
                 console.log(error);
@@ -502,36 +502,36 @@ var GameComponent = /** @class */ (function () {
             });
         }
         if (!takeCard) {
-            this.DoRoundSecondPhase(false);
+            this.ContinueRound(false);
         }
     };
-    GameComponent.prototype.FirstPhaseGamePlay = function (dealerBlackJackDanger, canTakeCard) {
+    GameComponent.prototype.StartRoundGamePlay = function (blackJackChoice, canTakeCard) {
         this.Game.Stage = 1;
         this.BetValidationError = false;
-        if (dealerBlackJackDanger) {
+        if (blackJackChoice) {
             this.GamePlayBlackJackDangerChoice();
         }
         if (canTakeCard) {
             this.GamePlayTakeCard();
         }
-        if (!dealerBlackJackDanger && !canTakeCard) {
-            this.DoRoundSecondPhase(false);
+        if (!blackJackChoice && !canTakeCard) {
+            this.ContinueRound(false);
         }
     };
-    GameComponent.prototype.SecondPhaseGamePlay = function (roundResult) {
+    GameComponent.prototype.ContinueRoundGamePlay = function (roundResult) {
         this.RoundResult = roundResult;
         this.GamePlayEndRound();
     };
-    GameComponent.prototype.DoRoundFirstPhase = function () {
+    GameComponent.prototype.StartRound = function () {
         var _this = this;
-        this._httpService.DoRoundFirstPhase(this.Game.Id, this.Game.Human.GamePlayerId, this.Bet)
+        this._httpService.StartRound(this.Game.Id, this.Game.Human.GamePlayerId, this.Bet)
             .subscribe(function (data) {
             _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data["Data"]);
             if (data["Message"] != "") {
                 _this.ShowValidationMessage(data["Message"]);
             }
             if (data["Message"] == "") {
-                _this.FirstPhaseGamePlay(data["Data"]["DealerBlackJackDanger"], data["Data"]["CanTakeCard"]);
+                _this.StartRoundGamePlay(data["Data"]["BlackJackChoice"], data["Data"]["CanTakeCard"]);
             }
         }, function (error) {
             console.log(error);
@@ -543,12 +543,12 @@ var GameComponent = /** @class */ (function () {
         this.BetValidationError = true;
         this.BetValidationMessage = validationMessage;
     };
-    GameComponent.prototype.DoRoundSecondPhase = function (humanBlackJackContinueRound) {
+    GameComponent.prototype.ContinueRound = function (humanBlackJackContinueRound) {
         var _this = this;
-        this._httpService.DoRoundSecondPhase(this.Game.Id, humanBlackJackContinueRound)
+        this._httpService.ContinueRound(this.Game.Id, humanBlackJackContinueRound)
             .subscribe(function (data) {
             _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
-            _this.SecondPhaseGamePlay(data["RoundResult"]);
+            _this.ContinueRoundGamePlay(data["RoundResult"]);
         }, function (error) {
             console.log(error);
             _this._errorService.SetError(error["error"]["Message"]);
@@ -803,7 +803,7 @@ var StartpageComponent = /** @class */ (function () {
     };
     StartpageComponent.prototype.StartNewGame = function () {
         var _this = this;
-        this._httpService.CreateNewGame(this.Player.PlayerId, this.AmountOfBots)
+        this._httpService.CreateGame(this.Player.PlayerId, this.AmountOfBots)
             .subscribe(function (data) {
             _this.GameId = data["GameId"];
             _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
@@ -1189,9 +1189,9 @@ var HttpService = /** @class */ (function () {
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('userName', userName.toString()) } : {};
         return this._httpClient.get('Start/AuthorizePlayer', options);
     };
-    HttpService.prototype.CreateNewGame = function (playerId, amountOfBots) {
+    HttpService.prototype.CreateGame = function (playerId, amountOfBots) {
         var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
-        return this._httpClient.post('Start/CreateNewGame', body);
+        return this._httpClient.post('Start/CreateGame', body);
     };
     HttpService.prototype.ResumeGame = function (playerId) {
         var options = playerId ?
@@ -1201,30 +1201,30 @@ var HttpService = /** @class */ (function () {
     HttpService.prototype.GetGame = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Start/BeginRound', options);
+        return this._httpClient.get('Start/InitRound', options);
     };
-    HttpService.prototype.DoRoundFirstPhase = function (gameId, humanGamePlayerId, bet) {
+    HttpService.prototype.StartRound = function (gameId, humanGamePlayerId, bet) {
         var body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this._httpClient.post('Game/DoRoundFirstPhase', body);
+        return this._httpClient.post('Game/StartRound', body);
     };
-    HttpService.prototype.DoRoundSecondPhase = function (gameId, humanBlackJackContinueRound) {
-        var body = { GameId: gameId, ContinueBlackJackDanger: humanBlackJackContinueRound };
-        return this._httpClient.post('Game/DoRoundSecondPhase', body);
+    HttpService.prototype.ContinueRound = function (gameId, blackJackContinueChoice) {
+        var body = { GameId: gameId, BlackJackContinueChoice: blackJackContinueChoice };
+        return this._httpClient.post('Game/ContinueRound', body);
     };
     HttpService.prototype.AddCard = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
         return this._httpClient.get('Game/AddCard', options);
     };
-    HttpService.prototype.ResumeAfterRoundFirstPhase = function (gameId) {
+    HttpService.prototype.ResumeAfterStartRound = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Game/ResumeAfterRoundFirstPhase', options);
+        return this._httpClient.get('Game/ResumeAfterStartRound', options);
     };
-    HttpService.prototype.ResumeAfterRoundSecondPhase = function (gameId) {
+    HttpService.prototype.ResumeAfterContinueRound = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Game/ResumeAfterRoundSecondPhase', options);
+        return this._httpClient.get('Game/ResumeAfterContinueRound', options);
     };
     HttpService.prototype.EndRound = function (gameId) {
         var options = gameId ?

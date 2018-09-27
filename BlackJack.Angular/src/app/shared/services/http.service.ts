@@ -14,9 +14,9 @@ export class HttpService {
         return this._httpClient.get('Start/AuthorizePlayer', options);
     }
 
-    CreateNewGame(playerId: number, amountOfBots: number) {
+    CreateGame(playerId: number, amountOfBots: number) {
         const body = { PlayerId: playerId, AmountOfBots: amountOfBots };
-        return this._httpClient.post('Start/CreateNewGame', body);
+        return this._httpClient.post('Start/CreateGame', body);
     }
 
     ResumeGame(playerId: number) {
@@ -30,17 +30,17 @@ export class HttpService {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('Start/BeginRound', options);
+        return this._httpClient.get('Start/InitRound', options);
     }
 
-    DoRoundFirstPhase(gameId: number, humanGamePlayerId: number, bet: number) {
+    StartRound(gameId: number, humanGamePlayerId: number, bet: number) {
         const body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this._httpClient.post('Game/DoRoundFirstPhase', body);
+        return this._httpClient.post('Game/StartRound', body);
     }
 
-    DoRoundSecondPhase(gameId: number, humanBlackJackContinueRound: boolean) {
-        const body = { GameId: gameId, ContinueBlackJackDanger: humanBlackJackContinueRound };
-        return this._httpClient.post('Game/DoRoundSecondPhase', body);
+    ContinueRound(gameId: number, blackJackContinueChoice: boolean) {
+        const body = { GameId: gameId, BlackJackContinueChoice: blackJackContinueChoice };
+        return this._httpClient.post('Game/ContinueRound', body);
     }
 
     AddCard(gameId: number) {
@@ -50,18 +50,18 @@ export class HttpService {
         return this._httpClient.get('Game/AddCard', options);
     }
 
-    ResumeAfterRoundFirstPhase(gameId: number) {
+    ResumeAfterStartRound(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('Game/ResumeAfterRoundFirstPhase', options);
+        return this._httpClient.get('Game/ResumeAfterStartRound', options);
     }
 
-    ResumeAfterRoundSecondPhase(gameId: number) {
+    ResumeAfterContinueRound(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('Game/ResumeAfterRoundSecondPhase', options);
+        return this._httpClient.get('Game/ResumeAfterContinueRound', options);
     }
 
     EndRound(gameId: number) {

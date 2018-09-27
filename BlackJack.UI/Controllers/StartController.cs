@@ -52,6 +52,11 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
+                if(String.IsNullOrEmpty(userName))
+                {
+                    new Exception(GameMessageHelper.ReceivedDataError);
+                }
+
                 AuthorizePlayerViewModel authorizePlayerViewModel = await _startService.AuthorizePlayer(userName);
                 return View(authorizePlayerViewModel);
             }
@@ -68,6 +73,11 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
+                if (playerId == 0)
+                {
+                    new Exception(GameMessageHelper.ReceivedDataError);
+                }
+
                 long gameId = await _startService.CreateGame(playerId, amountOfBots);
                 return RedirectToAction("InitRound", new { gameId = gameId });
             }
@@ -83,6 +93,11 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
+                if (playerId == 0)
+                {
+                    new Exception(GameMessageHelper.ReceivedDataError);
+                }
+
                 long gameId = await _startService.ResumeGame(playerId);
                 return RedirectToAction("InitRound", new { gameId = gameId });
             }
@@ -98,6 +113,11 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
+                if (gameId == 0)
+                {
+                    new Exception(GameMessageHelper.ReceivedDataError);
+                }
+
                 InitRoundViewModel initRoundViewModel = await _startService.InitRound(gameId);
                 return View(initRoundViewModel);
             }

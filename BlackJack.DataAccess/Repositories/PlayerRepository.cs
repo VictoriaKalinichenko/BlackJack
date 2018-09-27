@@ -11,15 +11,10 @@ using Z.BulkOperations;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class PlayerRepository : IPlayerRepository
+    public class PlayerRepository : GenericRepository<Player>, IPlayerRepository
     {
-        private string _connectionString;
-        
-
-        public PlayerRepository(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        public PlayerRepository(string connectionString) : base(connectionString)
+        { }
 
         public async Task<Player> SelectByName(string name, int playerType)
         {
@@ -29,15 +24,6 @@ namespace BlackJack.DataAccess.Repositories
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
                 Player player = await db.QueryFirstOrDefaultAsync<Player>(sqlQuery, new { name = name, playerType = playerType });
-                return player;
-            }
-        }
-
-        public async Task<Player> Get(long id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Player player = await db.GetAsync<Player>(id);
                 return player;
             }
         }

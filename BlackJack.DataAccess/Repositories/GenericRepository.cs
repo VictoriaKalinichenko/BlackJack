@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    class GenericRepository<T> : IGenericRepository<T>
-        where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private string _connectionString;
+        protected string _connectionString;
 
         public GenericRepository(string connectionString)
         {
@@ -22,15 +21,6 @@ namespace BlackJack.DataAccess.Repositories
             {
                 T item = await db.GetAsync<T>(id);
                 return item;
-            }
-        }
-
-        public async Task<long> Create(T item)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                long id = await db.InsertAsync(item);
-                return id;
             }
         }
 

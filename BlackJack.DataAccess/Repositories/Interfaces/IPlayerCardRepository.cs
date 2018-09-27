@@ -4,7 +4,7 @@ using BlackJack.Entities.Entities;
 
 namespace BlackJack.DataAccess.Repositories.Interfaces
 {
-    public interface IPlayerCardRepository
+    public interface IPlayerCardRepository : IGenericRepository<PlayerCard>
     {
         Task<IEnumerable<PlayerCard>> GetByGamePlayerId(long gamePlayerId);
         

@@ -3,10 +3,8 @@ using BlackJack.Entities.Entities;
 
 namespace BlackJack.DataAccess.Repositories.Interfaces
 {
-    public interface IGameRepository
+    public interface IGameRepository : IGenericRepository<Game>
     {
-        Task<Game> Get(long id);
-
         Task<long> GetIdByPlayerId(long id);
 
         Task<Game> GetByPlayerId(long playerId);
@@ -16,7 +14,5 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
         Task UpdateStage(long gameId, int stage);
 
         Task UpdateResult(long gameId, string result);
-
-        Task Delete(long id);
     }
 }

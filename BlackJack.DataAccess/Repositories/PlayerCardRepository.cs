@@ -11,15 +11,10 @@ using Z.BulkOperations;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class PlayerCardRepository : IPlayerCardRepository 
+    public class PlayerCardRepository : GenericRepository<PlayerCard>, IPlayerCardRepository 
     {
-        private string _connectionString;
-
-
-        public PlayerCardRepository(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        public PlayerCardRepository(string connectionString) : base(connectionString)
+        { }
 
         public async Task<IEnumerable<PlayerCard>> GetByGamePlayerId(long gamePlayerId)
         {

@@ -4,12 +4,10 @@ using BlackJack.Entities.Entities;
 
 namespace BlackJack.DataAccess.Repositories.Interfaces
 {
-    public interface IPlayerRepository
+    public interface IPlayerRepository : IGenericRepository<Player>
     {
         Task<Player> SelectByName(string name, int playerType);
-
-        Task<Player> Get(long id);
-
+        
         Task<Player> Create(Player obj);
 
         Task<List<Player>> CreateMany(List<Player> players);

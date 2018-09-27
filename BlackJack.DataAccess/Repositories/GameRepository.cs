@@ -8,24 +8,10 @@ using Dapper.Contrib.Extensions;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class GameRepository : IGameRepository
+    public class GameRepository : GenericRepository<Game>, IGameRepository
     {
-        private string _connectionString;
-
-
-        public GameRepository(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
-        public async Task<Game> Get(long id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Game game = await db.GetAsync<Game>(id);
-                return game;
-            }
-        }
+        public GameRepository(string connectionString) : base(connectionString)
+        { }
         
         public async Task<long> GetIdByPlayerId(long playerId)
         {
@@ -85,14 +71,6 @@ namespace BlackJack.DataAccess.Repositories
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
                 await db.QueryAsync(sqlQuery, new { result = result, gameId = gameId });
-            }
-        }
-
-        public async Task Delete(long id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                await db.DeleteAsync(new Game() { Id = id });
             }
         }
     }

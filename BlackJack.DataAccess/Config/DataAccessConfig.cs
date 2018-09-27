@@ -31,11 +31,7 @@ namespace BlackJack.DataAccess.Config
             builder.RegisterType<CardRepository>()
                 .As<ICardRepository>()
                 .WithParameter("connectionString", Configuration.Config.ConnectionString);
-
-            builder.RegisterGeneric(typeof(GenericRepository<>))
-                .As(typeof(IGenericRepository<>))
-                .WithParameter("connectionString", Configuration.Config.ConnectionString);
-
+           
             base.Load(builder);
         }
     }

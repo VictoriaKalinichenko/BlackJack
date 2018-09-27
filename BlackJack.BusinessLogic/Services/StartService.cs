@@ -18,16 +18,14 @@ namespace BlackJack.BusinessLogic.Services
         private readonly IPlayerRepository _playerRepository;
         private readonly IGamePlayerRepository _gamePlayerRepository;
         private readonly ILogRepository _logRepository;
-        private readonly IGenericRepository<Player> _genericRepository;
         
 
-        public StartService(IGameRepository gameRepository, IPlayerRepository playerRepository, IGamePlayerRepository gamePlayerRepository, ILogRepository logRepository, IGenericRepository<Player> genericRepository)
+        public StartService(IGameRepository gameRepository, IPlayerRepository playerRepository, IGamePlayerRepository gamePlayerRepository, ILogRepository logRepository)
         {
             _gamePlayerRepository = gamePlayerRepository;
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
             _logRepository = logRepository;
-            _genericRepository = genericRepository;
         }
 
         public string ValidateName(string name)

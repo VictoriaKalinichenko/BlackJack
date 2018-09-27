@@ -12,7 +12,7 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 
         Task<IEnumerable<PlayerCard>> GetAllByGameId(long gameId);
         
-        Task<PlayerCard> Create(PlayerCard obj);
+        Task Create(PlayerCard obj);
 
         Task CreateMany(IEnumerable<PlayerCard> playerCards);
 

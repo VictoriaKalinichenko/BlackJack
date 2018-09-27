@@ -68,9 +68,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICardRepository.cs" />
     <Compile Include="Repositories\Interfaces\IGamePlayerRepository.cs" />
     <Compile Include="Repositories\Interfaces\IGameRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
     <Compile Include="Repositories\Interfaces\ILogRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPlayerCardRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPlayerRepository.cs" />

@@ -68,13 +68,11 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task<PlayerCard> Create(PlayerCard playerCard)
+        public async Task Create(PlayerCard playerCard)
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                long playerCardId = await db.InsertAsync(playerCard);
-                playerCard.Id = playerCardId;
-                return playerCard;
+                await db.InsertAsync(playerCard);
             }
         }
 

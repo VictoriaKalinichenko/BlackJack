@@ -1,10 +1,10 @@
-﻿using System;
-using System.Web.Http;
-using System.Threading.Tasks;
+﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.BusinessLogic.Helpers;
 using BlackJack.ViewModels.ViewModels.Game;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace BlackJack.Angular.Controllers
 {
@@ -24,6 +24,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (endGameViewModel == null || endGameViewModel.GameId == 0 || endGameViewModel.Result == null)
+                {
+                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 await _gameService.EndGame(endGameViewModel);
                 return Ok(GameMessageHelper.Success);
             }
@@ -40,6 +45,12 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (startRoundRequestViewModel == null || startRoundRequestViewModel.GameId == 0 ||
+                    startRoundRequestViewModel.Bet == 0 || startRoundRequestViewModel.GamePlayerId == 0)
+                {
+                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 string message = await _gameService.ValidateBet(startRoundRequestViewModel.Bet, startRoundRequestViewModel.GamePlayerId);
 
                 if (string.IsNullOrEmpty(message))
@@ -63,6 +74,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (gameId == 0)
+                {
+                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 StartRoundResponseViewModel startRoundResponseViewModel = await _gameService.ResumeAfterStartRound(gameId);
                 return Ok(startRoundResponseViewModel);
             }
@@ -79,6 +95,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (gameId == 0)
+                {
+                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 AddCardViewModel addCardViewModel = await _gameService.AddCard(gameId);
                 return Ok(addCardViewModel);
             }
@@ -95,6 +116,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (continueRoundRequestViewModel == null || continueRoundRequestViewModel.GameId == 0)
+                {
+                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 ContinueRoundResponseViewModel continueRoundResponseViewModel = await _gameService.ContinueRound(continueRoundRequestViewModel.GameId, continueRoundRequestViewModel.BlackJackContinueChoice);
                 return Ok(continueRoundResponseViewModel);
             }
@@ -111,6 +137,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (gameId == 0)
+                {
+                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 ContinueRoundResponseViewModel continueRoundResponseViewModel = await _gameService.ResumeAfterContinueRound(gameId);
                 return Ok(continueRoundResponseViewModel);
             }
@@ -127,6 +158,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (gameId == 0)
+                {
+                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 await _gameService.EndRound(gameId);
                 return Ok(GameMessageHelper.Success);
             }

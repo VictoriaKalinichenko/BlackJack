@@ -25,6 +25,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (String.IsNullOrEmpty(userName))
+                {
+                    BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 AuthorizePlayerViewModel authorizePlayerViewModel = await _startGameService.AuthorizePlayer(userName);
                 return Ok(authorizePlayerViewModel);
             }
@@ -41,6 +46,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (createGameViewModel == null || createGameViewModel.PlayerId == 0)
+                {
+                    BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 long gameId = await _startGameService.CreateGame(createGameViewModel.PlayerId, createGameViewModel.AmountOfBots);
                 return Ok(new { GameId = gameId });
             }
@@ -57,6 +67,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (playerId == 0)
+                {
+                    BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 long gameId = await _startGameService.ResumeGame(playerId);
                 return Ok(new { GameId = gameId });
             }
@@ -73,6 +88,11 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
+                if (gameId == 0)
+                {
+                    BadRequest(GameMessageHelper.ReceivedDataError);
+                }
+
                 InitRoundViewModel initRoundViewModel = await _startGameService.InitRound(gameId);
                 return Ok(initRoundViewModel);
             }

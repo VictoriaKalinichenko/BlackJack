@@ -6,6 +6,7 @@ using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.ViewModels.ViewModels.Log;
 using NLog;
+using Newtonsoft.Json;
 
 namespace BlackJack.UI.Controllers
 {
@@ -25,12 +26,16 @@ namespace BlackJack.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetLogs()
+        public async Task<ActionResult> GetAll()
         {
             try
             {
-                IEnumerable<GetLogsViewModel> logViews = await _logService.GetAllLogs();
-                return Json(logViews, JsonRequestBehavior.AllowGet);
+                IEnumerable<GetAllViewModel> logViews = await _logService.GetAll();
+                var jsonResult = new JsonResult();
+                jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                jsonResult.MaxJsonLength = 5000000;
+                jsonResult.Data = logViews;
+                return jsonResult;
             }
             catch (Exception ex)
             {

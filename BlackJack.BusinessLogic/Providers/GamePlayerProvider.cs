@@ -25,7 +25,7 @@ namespace BlackJack.BusinessLogic.Providers
             logs.Add(new Log()
             {
                 GameId = human.GameId,
-                Message = LogMessageHelper.BetCreated(((PlayerType)human.Player.Type).ToString(), human.Player.Id, human.Player.Name, human.Score, human.Bet)
+                Message = LogHelper.BetCreated(((PlayerType)human.Player.Type).ToString(), human.Player.Id, human.Player.Name, human.Score, human.Bet)
             });
 
             foreach (GamePlayer bot in bots)
@@ -35,7 +35,7 @@ namespace BlackJack.BusinessLogic.Providers
                 logs.Add(new Log()
                 {
                     GameId = bot.GameId,
-                    Message = LogMessageHelper.BetCreated(((PlayerType)bot.Player.Type).ToString(), bot.Player.Id, bot.Player.Name, bot.Score, bot.Bet)
+                    Message = LogHelper.BetCreated(((PlayerType)bot.Player.Type).ToString(), bot.Player.Id, bot.Player.Name, bot.Score, bot.Bet)
                 });
             }
 
@@ -51,7 +51,7 @@ namespace BlackJack.BusinessLogic.Providers
                 logs.Add(new Log()
                 {
                     GameId = dealer.GameId,
-                    Message = LogMessageHelper.DealerBlackJackDanger(dealer.Id, dealer.Player.Name, dealer.PlayerCards[0].Card.Id, dealer.PlayerCards[0].Card.Name, CardToStringHelper.Convert(dealer.PlayerCards[0].Card))
+                    Message = LogHelper.DealerBlackJackDanger(dealer.Id, dealer.Player.Name, dealer.PlayerCards[0].Card.Id, dealer.PlayerCards[0].Card.Name, CardToStringHelper.Convert(dealer.PlayerCards[0].Card))
                 });
             }
 
@@ -64,7 +64,7 @@ namespace BlackJack.BusinessLogic.Providers
                     logs.Add(new Log()
                     {
                         GameId = dealer.GameId,
-                        Message = LogMessageHelper.PlayerBlackJackResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
+                        Message = LogHelper.PlayerBlackJackResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
                     });
                 }
 
@@ -73,7 +73,7 @@ namespace BlackJack.BusinessLogic.Providers
                     logs.Add(new Log()
                     {
                         GameId = dealer.GameId,
-                        Message = LogMessageHelper.PlayerBlackJackAndDealerBlackJackDanger(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
+                        Message = LogHelper.PlayerBlackJackAndDealerBlackJackDanger(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
                     });
                 }
             }
@@ -90,7 +90,7 @@ namespace BlackJack.BusinessLogic.Providers
                     logs.Add(new Log()
                     {
                         GameId = dealer.GameId,
-                        Message = LogMessageHelper.PlayerBlackJackResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
+                        Message = LogHelper.PlayerBlackJackResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
                     });
                 }
 
@@ -99,7 +99,7 @@ namespace BlackJack.BusinessLogic.Providers
                     logs.Add(new Log()
                     {
                         GameId = dealer.GameId,
-                        Message = LogMessageHelper.PlayerWinResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
+                        Message = LogHelper.PlayerWinResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
                     });
                 }
 
@@ -108,7 +108,7 @@ namespace BlackJack.BusinessLogic.Providers
                     logs.Add(new Log()
                     {
                         GameId = dealer.GameId,
-                        Message = LogMessageHelper.PlayerEqualResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
+                        Message = LogHelper.PlayerEqualResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
                     });
                 }
 
@@ -117,7 +117,7 @@ namespace BlackJack.BusinessLogic.Providers
                     logs.Add(new Log()
                     {
                         GameId = dealer.GameId,
-                        Message = LogMessageHelper.PlayerLoseResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
+                        Message = LogHelper.PlayerLoseResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
                     });
                 }
             }

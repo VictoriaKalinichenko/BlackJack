@@ -69,13 +69,14 @@
     <Compile Include="Helpers\CardValueHelper.cs" />
     <Compile Include="Helpers\GameMessageHelper.cs" />
     <Compile Include="Helpers\GameValueHelper.cs" />
-    <Compile Include="Helpers\LogMessageHelper.cs" />
+    <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\RoundResultHelper.cs" />
     <Compile Include="Helpers\StageHelper.cs" />
     <Compile Include="Helpers\BetValueHelper.cs" />
     <Compile Include="Interfaces\IGamePlayerProvider.cs" />
     <Compile Include="Interfaces\ILogService.cs" />
     <Compile Include="Interfaces\IStartService.cs" />
+    <Compile Include="Mappers\CustomMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\GamePlayerProvider.cs" />
     <Compile Include="Services\GameService.cs" />

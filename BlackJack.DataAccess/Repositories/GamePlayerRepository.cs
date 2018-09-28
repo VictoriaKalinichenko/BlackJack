@@ -71,19 +71,18 @@ namespace BlackJack.DataAccess.Repositories
                 await db.QueryAsync<GamePlayer, PlayerCard, Card, Player, GamePlayer>(sqlQuery, (gamePlayer, playerCard, card, player) =>
                 {
                     gamePlayer.Player = player;
-                    if (gamePlayers.AsList().FindLast(m => m.Id == gamePlayer.Id) == null)
+                    if (gamePlayers.Find(m => m.Id == gamePlayer.Id) == null)
                     {
-                        gamePlayers.AsList().Add(gamePlayer);
+                        gamePlayers.Add(gamePlayer);
+                    }
+                    
+                    if (gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards == null)
+                    {
+                        gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards = new List<PlayerCard>();
                     }
 
                     playerCard.Card = card;
-
-                    if (gamePlayers.AsList().Find(m => m.Id == gamePlayer.Id).PlayerCards == null)
-                    {
-                        gamePlayers.AsList().Find(m => m.Id == gamePlayer.Id).PlayerCards = new List<PlayerCard>();
-                    }
-
-                    gamePlayers.AsList().Find(m => m.Id == gamePlayer.Id).PlayerCards.Add(playerCard);
+                    gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards.Add(playerCard);
                     return gamePlayer;
                 },
                 new { gameId = gameId, playerType = playerType },
@@ -92,7 +91,7 @@ namespace BlackJack.DataAccess.Repositories
                 return gamePlayers.First();
             }
         }
-
+       
         public async Task<IEnumerable<GamePlayer>> GetAllWithCards(long gameId)
         {
             string sqlQuery = $@"SELECT A.Id, A.GameId, A.RoundScore, A.Score, A.Bet, A.CardAmount, A.BetPayCoefficient, B.Id, C.Id, C.Name, C.Type, D.Id, D.Name, D.Type
@@ -108,19 +107,18 @@ namespace BlackJack.DataAccess.Repositories
                 await db.QueryAsync<GamePlayer, PlayerCard, Card, Player, GamePlayer>(sqlQuery, (gamePlayer, playerCard, card, player) =>
                 {
                     gamePlayer.Player = player;
-                    if (gamePlayers.AsList().FindLast(m => m.Id == gamePlayer.Id) == null)
+                    if (gamePlayers.Find(m => m.Id == gamePlayer.Id) == null)
                     {
-                        gamePlayers.AsList().Add(gamePlayer);
+                        gamePlayers.Add(gamePlayer);
+                    }
+                    
+                    if (gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards == null)
+                    {
+                        gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards = new List<PlayerCard>();
                     }
 
                     playerCard.Card = card;
-
-                    if (gamePlayers.AsList().Find(m => m.Id == gamePlayer.Id).PlayerCards == null)
-                    {
-                        gamePlayers.AsList().Find(m => m.Id == gamePlayer.Id).PlayerCards = new List<PlayerCard>();
-                    }
-
-                    gamePlayers.AsList().Find(m => m.Id == gamePlayer.Id).PlayerCards.Add(playerCard);
+                    gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards.Add(playerCard);
                     return gamePlayer;
                 },
                 new { gameId = gameId },

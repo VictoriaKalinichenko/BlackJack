@@ -31,11 +31,8 @@ namespace BlackJack.UI.Controllers
             try
             {
                 IEnumerable<GetAllViewModel> logViews = await _logService.GetAll();
-                var jsonResult = new JsonResult();
-                jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-                jsonResult.MaxJsonLength = 5000000;
-                jsonResult.Data = logViews;
-                return jsonResult;
+                string jsonResult = JsonConvert.SerializeObject(logViews);
+                return Content(jsonResult, "application/json");
             }
             catch (Exception ex)
             {

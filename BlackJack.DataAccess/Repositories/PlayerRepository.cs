@@ -40,21 +40,18 @@ namespace BlackJack.DataAccess.Repositories
 
         public async Task<List<Player>> CreateMany(List<Player> players)
         {
-            using (DbConnection db = new SqlConnection(_connectionString))
-            {
-                db.Open();
-                var bulkOperation = new BulkOperation(db);
-                bulkOperation.DestinationTableName = "Players";
-                bulkOperation.ColumnMappings.Add(new ColumnMapping("Id", true));
-                bulkOperation.ColumnMappings.Add(new ColumnMapping("Name", "Name"));
-                bulkOperation.ColumnMappings.Add(new ColumnMapping("Type", "Type"));
-                bulkOperation.ColumnMappings.Add(new ColumnMapping("CreationDate", "CreationDate"));
-                bulkOperation.ColumnMappings.Add("Id", ColumnMappingDirectionType.Output);
-                await bulkOperation.BulkInsertAsync(players);
-                db.Close();
-
-                return players;
-            }
+            DbConnection db = new SqlConnection(_connectionString);
+            db.Open();
+            var bulkOperation = new BulkOperation(db);
+            bulkOperation.DestinationTableName = "Players";
+            bulkOperation.ColumnMappings.Add(new ColumnMapping("Id", true));
+            bulkOperation.ColumnMappings.Add(new ColumnMapping("Name", "Name"));
+            bulkOperation.ColumnMappings.Add(new ColumnMapping("Type", "Type"));
+            bulkOperation.ColumnMappings.Add(new ColumnMapping("CreationDate", "CreationDate"));
+            bulkOperation.ColumnMappings.Add("Id", ColumnMappingDirectionType.Output);
+            await bulkOperation.BulkInsertAsync(players);
+            db.Close();
+            return players;
         }
 
         public async Task Delete(long id)

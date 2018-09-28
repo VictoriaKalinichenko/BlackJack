@@ -39,9 +39,8 @@ namespace BlackJack.DataAccess.Repositories
             db.Close();
         }
 
-        public async Task Create(long gameId, string message)
+        public async Task Create(Log log)
         {
-            var log = new Log() { GameId = gameId, Message = message };
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
                 await db.InsertAsync(log);

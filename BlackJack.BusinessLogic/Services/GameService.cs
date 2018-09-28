@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.ViewModels.Enums;
@@ -56,7 +57,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<StartRoundResponseViewModel> StartRound(int bet, long gameId)
         {
             var logs = new List<Log>();
-            logs.Add(new Log() { GameId = gameId, Message = LogMessageHelper.NewRoundStarted()});
+            logs.Add(new Log() { GameId = gameId, Message = LogHelper.NewRoundStarted()});
 
             List<GamePlayer> players = (await _gamePlayerRepository.GetAllWithoutCards(gameId)).ToList();
             GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
@@ -77,26 +78,25 @@ namespace BlackJack.BusinessLogic.Services
             await _gamePlayerRepository.UpdateMany(players);
             
             await _gameRepository.UpdateStage(gameId, StageHelper.FirstCardsDistribution);
-            logs.Add(new Log() { GameId = gameId, Message = LogMessageHelper.GameStageChanged(StageHelper.FirstCardsDistribution) });
+            logs.Add(new Log() { GameId = gameId, Message = LogHelper.GameStageChanged(StageHelper.FirstCardsDistribution) });
             await _logRepository.CreateMany(logs);
 
             players.Remove(human);
             players.Remove(dealer);
-            StartRoundResponseViewModel startRoundResponseViewModel = GetStartRoundResponseViewModel(players, dealer, human);
-            startRoundResponseViewModel.Id = gameId;
+
+            bool canTakeCard = !_gamePlayerProvider.IsEnoughCardsForHuman(human.RoundScore);
+            bool blackJackChoice = IsBlackJackChoice(human);
+            StartRoundResponseViewModel startRoundResponseViewModel = CustomMapper.GetStartRoundResponseViewModel(players, gameId, canTakeCard, blackJackChoice);
             return startRoundResponseViewModel;
         }
         
         public async Task<StartRoundResponseViewModel> ResumeAfterStartRound(long gameId)
         {
             List<GamePlayer> players = (await _gamePlayerRepository.GetAllWithCards(gameId)).ToList();
-            GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
-            GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
-            
-            players.Remove(human);
-            players.Remove(dealer);
-            StartRoundResponseViewModel startRoundResponseViewModel = GetStartRoundResponseViewModel(players, dealer, human);
-            startRoundResponseViewModel.Id = gameId;
+            GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();            
+            bool canTakeCard = !_gamePlayerProvider.IsEnoughCardsForHuman(human.RoundScore);
+            bool blackJackChoice = IsBlackJackChoice(human);
+            StartRoundResponseViewModel startRoundResponseViewModel = CustomMapper.GetStartRoundResponseViewModel(players, gameId, canTakeCard, blackJackChoice);
             return startRoundResponseViewModel;
         }
         
@@ -145,13 +145,13 @@ namespace BlackJack.BusinessLogic.Services
             await _gamePlayerRepository.UpdateManyAfterContinueRound(players);
 
             await _gameRepository.UpdateStage(gameId, StageHelper.SecondCardsDistribution);
-            logs.Add(new Log() { GameId = gameId, Message = LogMessageHelper.GameStageChanged(StageHelper.SecondCardsDistribution) });
+            logs.Add(new Log() { GameId = gameId, Message = LogHelper.GameStageChanged(StageHelper.SecondCardsDistribution) });
             await _logRepository.CreateMany(logs);
 
             players.Remove(human);
             players.Remove(dealer);
-            ContinueRoundResponseViewModel continueRoundResponseViewModel = GetContinueRoundResponseViewModel(players, dealer, human);
-            continueRoundResponseViewModel.Id = gameId;
+            string humanRoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
+            ContinueRoundResponseViewModel continueRoundResponseViewModel = CustomMapper.GetContinueRoundResponseViewModel(players, gameId, humanRoundResult);
             return continueRoundResponseViewModel;
         }
 
@@ -159,12 +159,8 @@ namespace BlackJack.BusinessLogic.Services
         {
             List<GamePlayer> players = (await _gamePlayerRepository.GetAllWithCards(gameId)).ToList();
             GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
-            GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
-
-            players.Remove(human);
-            players.Remove(dealer);
-            ContinueRoundResponseViewModel continueRoundResponseViewModel = GetContinueRoundResponseViewModel(players, dealer, human);
-            continueRoundResponseViewModel.Id = gameId;
+            string humanRoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
+            ContinueRoundResponseViewModel continueRoundResponseViewModel = CustomMapper.GetContinueRoundResponseViewModel(players, gameId, humanRoundResult);
             return continueRoundResponseViewModel;
         }
 
@@ -196,30 +192,6 @@ namespace BlackJack.BusinessLogic.Services
         {
             await _gameRepository.UpdateResult(GameLogicEndGameView.GameId, GameLogicEndGameView.Result);
             await _gamePlayerRepository.DeleteAllByGameId(GameLogicEndGameView.GameId);
-        }
-
-        private StartRoundResponseViewModel GetStartRoundResponseViewModel(IEnumerable<GamePlayer> bots, GamePlayer dealer, GamePlayer human)
-        {
-            var startRoundResponseViewModel = new StartRoundResponseViewModel();
-            startRoundResponseViewModel.Dealer = Mapper.Map<GamePlayer, GamePlayerItem>(dealer);
-            startRoundResponseViewModel.Dealer.RoundScore = GameValueHelper.Zero;
-            startRoundResponseViewModel.Dealer.Cards.Clear();
-            startRoundResponseViewModel.Dealer.Cards.Add(CardToStringHelper.Convert(dealer.PlayerCards[0].Card));
-            startRoundResponseViewModel.Human = Mapper.Map<GamePlayer, GamePlayerItem>(human);
-            startRoundResponseViewModel.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerItem>>(bots);
-            startRoundResponseViewModel.CanTakeCard = !_gamePlayerProvider.IsEnoughCardsForHuman(human.RoundScore);
-            startRoundResponseViewModel.BlackJackChoice = IsBlackJackChoice(human);
-            return startRoundResponseViewModel;
-        }
-
-        private ContinueRoundResponseViewModel GetContinueRoundResponseViewModel(IEnumerable<GamePlayer> bots, GamePlayer dealer, GamePlayer human)
-        {
-            var continueRoundResponseViewModel = new ContinueRoundResponseViewModel();
-            continueRoundResponseViewModel.Dealer = Mapper.Map<GamePlayer, GamePlayerItem>(dealer);
-            continueRoundResponseViewModel.Human = Mapper.Map<GamePlayer, GamePlayerItem>(human);
-            continueRoundResponseViewModel.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerItem>>(bots);
-            continueRoundResponseViewModel.RoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
-            return continueRoundResponseViewModel;
         }
 
         private bool IsBlackJackChoice(GamePlayer human)
@@ -294,7 +266,7 @@ namespace BlackJack.BusinessLogic.Services
             var playerCard = new PlayerCard() { GamePlayerId = gamePlayer.Id, CardId = card.Id, Card = card };
             var logFirstCard = new Log() { 
                 GameId = gamePlayer.GameId,
-                Message = LogMessageHelper.CardAdded(card.Id, card.Name, CardToStringHelper.Convert(card), ((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name)
+                Message = LogHelper.CardAdded(card.Id, card.Name, CardToStringHelper.Convert(card), ((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name)
             };
             logs.Add(logFirstCard);
             return playerCard;

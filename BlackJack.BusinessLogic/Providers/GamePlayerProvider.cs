@@ -1,130 +1,61 @@
 ﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.ViewModels.Enums;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace BlackJack.BusinessLogic.Providers
 {
     public class GamePlayerProvider : IGamePlayerProvider
     {
-        private ILogRepository _logRepository;
-
-        public GamePlayerProvider(ILogRepository logRepository)
+        public void CreateBets(List<GamePlayer> players, int bet)
         {
-            _logRepository = logRepository;
-        }
-
-        public async Task CreateBets(IEnumerable<GamePlayer> bots, GamePlayer human, int bet, List<Log> logs)
-        {
-            human.Bet = bet;
-            human.Score = human.Score - human.Bet;
-            logs.Add(new Log()
+            foreach (GamePlayer player in players)
             {
-                GameId = human.GameId,
-                Message = LogHelper.BetCreated(((PlayerType)human.Player.Type).ToString(), human.Player.Id, human.Player.Name, human.Score, human.Bet)
-            });
-
-            foreach (GamePlayer bot in bots)
-            {
-                bot.Bet = GenerateBet(bot.Score);
-                bot.Score = bot.Score - bot.Bet;
-                logs.Add(new Log()
+                if ((PlayerType)player.Player.Type == PlayerType.Human)
                 {
-                    GameId = bot.GameId,
-                    Message = LogHelper.BetCreated(((PlayerType)bot.Player.Type).ToString(), bot.Player.Id, bot.Player.Name, bot.Score, bot.Bet)
-                });
-            }
+                    player.Bet = bet;
+                }
+                
+                if ((PlayerType)player.Player.Type == PlayerType.Bot)
+                {
+                    player.Bet = GenerateBet(player.Score);
+                }
 
-            await _logRepository.CreateMany(logs);
-            logs.Clear();
+                if (!((PlayerType)player.Player.Type == PlayerType.Dealer))
+                {
+                    player.Score = player.Score - player.Bet;
+                }
+            }
         }
 
-        public void DefinePayCoefficientsAfterRoundStart(IEnumerable<GamePlayer> players, GamePlayer dealer, List<Log> logs)
+        public void DefinePayCoefficientsAfterRoundStart(List<GamePlayer> players)
         {
+            GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
             bool dealerBlackJackDanger = IsDealerBlackJackDanger(dealer.PlayerCards[0].Card.Name);
-            if (dealerBlackJackDanger)
-            {
-                logs.Add(new Log()
-                {
-                    GameId = dealer.GameId,
-                    Message = LogHelper.DealerBlackJackDanger(dealer.Id, dealer.Player.Name, dealer.PlayerCards[0].Card.Id, dealer.PlayerCards[0].Card.Name, CardToStringHelper.Convert(dealer.PlayerCards[0].Card))
-                });
-            }
 
             foreach (GamePlayer gamePlayer in players)
             {
                 gamePlayer.BetPayCoefficient = GetPayCoefficientAfterRoundStart(gamePlayer.RoundScore, gamePlayer.CardAmount, dealerBlackJackDanger);
-
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
-                {
-                    logs.Add(new Log()
-                    {
-                        GameId = dealer.GameId,
-                        Message = LogHelper.PlayerBlackJackResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
-                    });
-                }
-
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.WinCoefficient)
-                {
-                    logs.Add(new Log()
-                    {
-                        GameId = dealer.GameId,
-                        Message = LogHelper.PlayerBlackJackAndDealerBlackJackDanger(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
-                    });
-                }
             }
         }
 
-        public void DefinePayCoefficientsAfterRoundContinue(IEnumerable<GamePlayer> players, GamePlayer dealer, List<Log> logs)
+        public void DefinePayCoefficientsAfterRoundContinue(List<GamePlayer> players)
         {
+            GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
+
             foreach (GamePlayer gamePlayer in players)
             {
                 gamePlayer.BetPayCoefficient = GetPayCoefficientAfterRoundContinue(gamePlayer.RoundScore, gamePlayer.CardAmount, dealer.RoundScore, dealer.CardAmount, gamePlayer.BetPayCoefficient);
-
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
-                {
-                    logs.Add(new Log()
-                    {
-                        GameId = dealer.GameId,
-                        Message = LogHelper.PlayerBlackJackResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient)
-                    });
-                }
-
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.WinCoefficient)
-                {
-                    logs.Add(new Log()
-                    {
-                        GameId = dealer.GameId,
-                        Message = LogHelper.PlayerWinResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
-                    });
-                }
-
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.ZeroCoefficient)
-                {
-                    logs.Add(new Log()
-                    {
-                        GameId = dealer.GameId,
-                        Message = LogHelper.PlayerEqualResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
-                    });
-                }
-
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.LoseCoefficient)
-                {
-                    logs.Add(new Log()
-                    {
-                        GameId = dealer.GameId,
-                        Message = LogHelper.PlayerLoseResult(((PlayerType)gamePlayer.Player.Type).ToString(), gamePlayer.Player.Id, gamePlayer.Player.Name, gamePlayer.RoundScore, gamePlayer.BetPayCoefficient, dealer.RoundScore)
-                    });
-                }
             }
         }
 
-        public void PayBets(IEnumerable<GamePlayer> players, GamePlayer dealer)
+        public void PayBets(List<GamePlayer> players)
         {
+            GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
+
             foreach (GamePlayer player in players)
             {
                 int pay = (int)(player.Bet * player.BetPayCoefficient);

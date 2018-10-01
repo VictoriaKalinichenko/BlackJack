@@ -80,7 +80,7 @@ namespace BlackJack.UI.Controllers
                 }
 
                 StartRoundResponseViewModel startRoundResponseViewModel = await _gameService.ResumeAfterStartRound(gameId);
-                return Ok(new { Data = startRoundResponseViewModel });
+                return Ok(startRoundResponseViewModel);
             }
             catch (Exception ex)
             {
@@ -101,7 +101,7 @@ namespace BlackJack.UI.Controllers
                 }
 
                 AddCardViewModel addCardViewModel = await _gameService.AddCard(gameId);
-                return Ok(new { Data = addCardViewModel });
+                return Ok(addCardViewModel);
             }
             catch (Exception ex)
             {
@@ -122,7 +122,7 @@ namespace BlackJack.UI.Controllers
                 }
 
                 ContinueRoundResponseViewModel continueRoundResponseViewModel = await _gameService.ContinueRound(continueRoundRequestViewModel.GameId, continueRoundRequestViewModel.BlackJackContinueChoice);
-                return Ok(new { Data = continueRoundResponseViewModel });
+                return Ok(continueRoundResponseViewModel);
             }
             catch (Exception ex)
             {
@@ -143,7 +143,7 @@ namespace BlackJack.UI.Controllers
                 }
 
                 ContinueRoundResponseViewModel continueRoundResponseViewModel = await _gameService.ResumeAfterContinueRound(gameId);
-                return Ok(new { Data = continueRoundResponseViewModel });
+                return Ok(continueRoundResponseViewModel);
             }
             catch (Exception ex)
             {

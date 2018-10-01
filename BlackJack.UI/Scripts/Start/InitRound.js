@@ -17,7 +17,7 @@
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
-                    StartRoundPageReloading(response.Data);
+                    StartRoundPageReloading(response);
                 },
                 error: function (response) {
                     ShowError(response);
@@ -35,7 +35,7 @@
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
-                    ContinueRoundPageReloading(response.Data);
+                    ContinueRoundPageReloading(response);
                 },
                 error: function (response) {
                     ShowError(response);
@@ -114,11 +114,11 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Data.CanTakeCard) {
-                    ReloadPlayer(response.Data, "#humangameplay");
+                if (response.CanTakeCard) {
+                    ReloadPlayer(response, "#humangameplay");
                 }
 
-                if (!response.Data.CanTakeCard) {
+                if (!response.CanTakeCard) {
                     ContinueRound(false);
                 }
             },
@@ -220,7 +220,7 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                ContinueRoundPageReloading(response.Data);
+                ContinueRoundPageReloading(response);
             },
             error: function (response) {
                 ShowError(response);

@@ -63,8 +63,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Z.BulkOperations, Version=2.14.1.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Z.BulkOperations.2.14.1\lib\net45\Z.BulkOperations.dll</HintPath>
+    <Reference Include="Z.BulkOperations, Version=2.14.2.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.BulkOperations.2.14.2\lib\net45\Z.BulkOperations.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

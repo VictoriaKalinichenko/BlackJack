@@ -38,13 +38,5 @@ namespace BlackJack.DataAccess.Repositories
             await bulkOperation.BulkInsertAsync(logs);
             db.Close();
         }
-
-        public async Task Create(Log log)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                await db.InsertAsync(log);
-            }
-        }
     }
 }

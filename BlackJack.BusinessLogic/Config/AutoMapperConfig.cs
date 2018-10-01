@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using System.Collections.Generic;
-using System.Linq;
-using BlackJack.Entities.Entities;
 using BlackJack.BusinessLogic.Helpers;
+using BlackJack.Entities.Entities;
 using BlackJack.ViewModels.ViewModels.Game;
 using BlackJack.ViewModels.ViewModels.Log;
 using BlackJack.ViewModels.ViewModels.Start;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BlackJack.BusinessLogic.Config
 {

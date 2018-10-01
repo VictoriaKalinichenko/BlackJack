@@ -47,13 +47,30 @@ namespace BlackJack.BusinessLogic.Mappers
             return continueRoundResponseViewModel;
         }
 
-        public static InitRoundViewModel GetInitRoundViewModel(Game game, List<GamePlayer> bots, GamePlayer human, GamePlayer dealer, string isGameOver)
+        public static InitRoundViewModel GetInitRoundViewModel(Game game, List<GamePlayer> players, string isGameOver)
         {
             InitRoundViewModel initRoundViewModel = Mapper.Map<Game, InitRoundViewModel>(game);
-            initRoundViewModel.Dealer = Mapper.Map<GamePlayer, PlayerItem>(dealer);
-            initRoundViewModel.Human = Mapper.Map<GamePlayer, PlayerItem>(human);
-            initRoundViewModel.Bots = Mapper.Map<List<GamePlayer>, List<PlayerItem>>(bots);
-            initRoundViewModel.IsGameOver = isGameOver;
+            initRoundViewModel.Bots = new List<PlayerItem>();
+
+            foreach(GamePlayer player in players)
+            {
+                if (player.Player.Type == (int)PlayerType.Dealer)
+                {
+                    initRoundViewModel.Dealer = Mapper.Map<GamePlayer, PlayerItem>(player);
+                }
+
+                if (player.Player.Type == (int)PlayerType.Human)
+                {
+                    initRoundViewModel.Human = Mapper.Map<GamePlayer, PlayerItem>(player);
+                }
+
+                if (player.Player.Type == (int)PlayerType.Bot)
+                {
+                    PlayerItem bot = Mapper.Map<GamePlayer, PlayerItem>(player);
+                    initRoundViewModel.Bots.Add(bot);
+                }
+            }
+
             return initRoundViewModel;
         }
     }

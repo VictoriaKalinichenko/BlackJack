@@ -8,8 +8,6 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
     {
         Task<IEnumerable<Log>> GetAll();
 
-        Task Create(Log log);
-
         Task CreateMany(IEnumerable<Log> logs);
     }
 }

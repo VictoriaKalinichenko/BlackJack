@@ -1,6 +1,6 @@
 ﻿using BlackJack.BusinessLogic.Helpers;
-using BlackJack.BusinessLogic.Mappers;
 using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.ViewModels.Enums;
@@ -71,9 +71,7 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<long> CreateGame(long playerId, int amountOfBots)
         {
-            var logs = new List<Log>();
             Game game = await _gameRepository.Create();
-            logs.Add(new Log() { GameId = game.Id, Message = LogHelper.GameCreated(game.Id, game.Stage) });
 
             List<Player> players = await CreatePlayerList(playerId, amountOfBots);
             var gamePlayers = new List<GamePlayer>();
@@ -87,13 +85,14 @@ namespace BlackJack.BusinessLogic.Services
                     BetPayCoefficient = BetValueHelper.DefaultCoefficient,
                     Bet = GameValueHelper.Zero,
                     RoundScore = GameValueHelper.Zero,
+                    Player = player
                 };
 
                 gamePlayers.Add(gamePlayer);
-                logs.Add(new Log() { GameId = game.Id, Message = LogHelper.PlayerAddedToGame(((PlayerType)player.Type).ToString(), player.Id, player.Name, gamePlayer.Score) });
             }
 
             await _gamePlayerRepository.CreateMany(gamePlayers);
+            List<Log> logs = LogHelper.GetCreateGameLogs(gamePlayers, game);
             await _logRepository.CreateMany(logs);
 
             long gameId = game.Id;
@@ -112,10 +111,8 @@ namespace BlackJack.BusinessLogic.Services
             List<GamePlayer> players = (await _gamePlayerRepository.GetAllForInitRound(gameId)).ToList();
             GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
-            players.Remove(human);
-            players.Remove(dealer);
             string isGameOver = IsGameOver(human, dealer);
-            InitRoundViewModel initRoundViewModel = CustomMapper.GetInitRoundViewModel(game, players, human, dealer, isGameOver);
+            InitRoundViewModel initRoundViewModel = CustomMapper.GetInitRoundViewModel(game, players, isGameOver);
             return initRoundViewModel;
         }
         

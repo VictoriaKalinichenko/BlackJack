@@ -2,8 +2,8 @@
 {
     public static class StageHelper
     {
-        public static readonly int RoundStart = 0;
-        public static readonly int FirstCardsDistribution = 1;
-        public static readonly int SecondCardsDistribution = 2;
+        public static readonly int InitRound = 0;
+        public static readonly int StartRound = 1;
+        public static readonly int ContinueRound = 2;
     }
 }

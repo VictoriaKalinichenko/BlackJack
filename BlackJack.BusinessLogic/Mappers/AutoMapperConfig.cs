@@ -7,7 +7,7 @@ using BlackJack.ViewModels.ViewModels.Start;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlackJack.BusinessLogic.Config
+namespace BlackJack.BusinessLogic.Mappers
 {
     public class AutoMapperConfig
     {

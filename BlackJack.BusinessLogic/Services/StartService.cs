@@ -20,7 +20,8 @@ namespace BlackJack.BusinessLogic.Services
         private readonly ILogRepository _logRepository;
         
 
-        public StartService(IGameRepository gameRepository, IPlayerRepository playerRepository, IGamePlayerRepository gamePlayerRepository, ILogRepository logRepository)
+        public StartService(IGameRepository gameRepository, IPlayerRepository playerRepository, 
+            IGamePlayerRepository gamePlayerRepository, ILogRepository logRepository)
         {
             _gamePlayerRepository = gamePlayerRepository;
             _gameRepository = gameRepository;
@@ -92,7 +93,7 @@ namespace BlackJack.BusinessLogic.Services
             }
 
             await _gamePlayerRepository.CreateMany(gamePlayers);
-            List<Log> logs = LogHelper.GetCreateGameLogs(gamePlayers, game);
+            List<Log> logs = LogHelper.GetCreationGameLogs(gamePlayers, game);
             await _logRepository.CreateMany(logs);
 
             long gameId = game.Id;

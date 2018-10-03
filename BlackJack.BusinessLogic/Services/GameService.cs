@@ -23,8 +23,9 @@ namespace BlackJack.BusinessLogic.Services
         private readonly IGamePlayerProvider _gamePlayerProvider;
         private readonly ILogRepository _logRepository;
 
-        public GameService(IPlayerRepository playerRepository, IGameRepository gameRepository, IGamePlayerRepository gamePlayerRepository, 
-            IPlayerCardRepository playerCardRepository, IGamePlayerProvider gamePlayerProvider, ICardRepository cardRepository, ILogRepository logRepository)
+        public GameService(IPlayerRepository playerRepository, IGameRepository gameRepository, 
+            IGamePlayerRepository gamePlayerRepository, IPlayerCardRepository playerCardRepository, 
+            IGamePlayerProvider gamePlayerProvider, ICardRepository cardRepository, ILogRepository logRepository)
         {
             _playerRepository = playerRepository;
             _gameRepository = gameRepository;
@@ -137,7 +138,8 @@ namespace BlackJack.BusinessLogic.Services
             GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
             bool canTakeCard = !_gamePlayerProvider.IsEnoughCardsForHuman(human.RoundScore);
             bool blackJackChoice = IsBlackJackChoice(human);
-            StartRoundResponseViewModel startRoundResponseViewModel = CustomMapper.GetStartRoundResponseViewModel(players, human.GameId, canTakeCard, blackJackChoice);
+            StartRoundResponseViewModel startRoundResponseViewModel = 
+                CustomMapper.GetStartRoundResponseViewModel(players, human.GameId, canTakeCard, blackJackChoice);
             return startRoundResponseViewModel;
         }
 
@@ -145,7 +147,8 @@ namespace BlackJack.BusinessLogic.Services
         {
             GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
             string humanRoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
-            ContinueRoundResponseViewModel continueRoundResponseViewModel = CustomMapper.GetContinueRoundResponseViewModel(players, human.GameId, humanRoundResult);
+            ContinueRoundResponseViewModel continueRoundResponseViewModel = 
+                CustomMapper.GetContinueRoundResponseViewModel(players, human.GameId, humanRoundResult);
             return continueRoundResponseViewModel;
         }
 

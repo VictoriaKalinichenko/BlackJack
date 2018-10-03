@@ -1,4 +1,4 @@
-﻿using BlackJack.BusinessLogic.Config;
+﻿using BlackJack.BusinessLogic.Mappers;
 using BlackJack.UI.Config;
 using Microsoft.Owin;
 using Owin;

@@ -24,7 +24,8 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                IEnumerable<PlayerCard> playerCards = await db.QueryAsync<PlayerCard, Card, PlayerCard>(sqlQuery, (playerCard, card) =>
+                IEnumerable<PlayerCard> playerCards = 
+                    await db.QueryAsync<PlayerCard, Card, PlayerCard>(sqlQuery, (playerCard, card) =>
                 {
                     playerCard.Card = card;
                     return playerCard;

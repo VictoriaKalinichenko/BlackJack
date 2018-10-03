@@ -83,7 +83,7 @@
     <Compile Include="Repositories\LogRepository.cs" />
     <Compile Include="Repositories\PlayerCardRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
-    <Compile Include="Config\DataAccessConfig.cs" />
+    <Compile Include="Config\AutofacConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

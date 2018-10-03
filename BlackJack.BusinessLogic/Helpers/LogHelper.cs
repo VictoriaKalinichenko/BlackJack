@@ -7,7 +7,7 @@ namespace BlackJack.BusinessLogic.Helpers
 {
     public static class LogHelper
     {
-        public static List<Log> GetCreateGameLogs(List<GamePlayer> gamePlayers, Game game)
+        public static List<Log> GetCreationGameLogs(List<GamePlayer> gamePlayers, Game game)
         {
             var logs = new List<Log>();
 
@@ -22,7 +22,8 @@ namespace BlackJack.BusinessLogic.Helpers
                 logs.Add(new Log()
                 {
                     GameId = gamePlayer.GameId,
-                    Message = $"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) is added to game"
+                    Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                                  Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) is added to game"
                 });
             }
 
@@ -42,10 +43,10 @@ namespace BlackJack.BusinessLogic.Helpers
             List<Log> betLogs = GetBetsCreationLogs(gamePlayers);
             logs.AddRange(betLogs);
 
-            List<Log> cardLogs = GetStartRoundCardsAddingLogs(gamePlayers);
+            List<Log> cardLogs = GetCardsAddingLogsAfterStartRound(gamePlayers);
             logs.AddRange(cardLogs);
 
-            List<Log> payCoefficientLogs = GetStartRoundPayCoefficientCulculatingLogs(gamePlayers);
+            List<Log> payCoefficientLogs = GetPayCoefficientCulculatingLogsAfterStartRound(gamePlayers);
             logs.AddRange(payCoefficientLogs);
                         
             logs.Add(new Log()
@@ -61,10 +62,10 @@ namespace BlackJack.BusinessLogic.Helpers
         {
             var logs = new List<Log>();
 
-            List<Log> cardLogs = GetContinueRoundCardsAddingLogs(gamePlayers, playerCards);
+            List<Log> cardLogs = GetCardsAddingLogsAfterContinueRound(gamePlayers, playerCards);
             logs.AddRange(cardLogs);
 
-            List<Log> payCoefficientLogs = GetContinueRoundPayCoefficientCulculatingLogs(gamePlayers);
+            List<Log> payCoefficientLogs = GetPayCoefficientCulculatingLogsAfterContinueRound(gamePlayers);
             logs.AddRange(payCoefficientLogs);
 
             logs.Add(new Log()
@@ -85,14 +86,15 @@ namespace BlackJack.BusinessLogic.Helpers
                 logs.Add(new Log()
                 {
                     GameId = gamePlayer.GameId,
-                    Message = $"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) created the bet(={gamePlayer.Bet})"
+                    Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                                  Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) created the bet(={gamePlayer.Bet})"
                 });
             }
 
             return logs;
         }
 
-        private static List<Log> GetStartRoundCardsAddingLogs(List<GamePlayer> gamePlayers)
+        private static List<Log> GetCardsAddingLogsAfterStartRound(List<GamePlayer> gamePlayers)
         {
             var logs = new List<Log>();
 
@@ -105,7 +107,7 @@ namespace BlackJack.BusinessLogic.Helpers
             return logs;
         }
 
-        private static List<Log> GetStartRoundPayCoefficientCulculatingLogs(List<GamePlayer> gamePlayers)
+        private static List<Log> GetPayCoefficientCulculatingLogsAfterStartRound(List<GamePlayer> gamePlayers)
         {
             var logs = new List<Log>();
 
@@ -116,7 +118,9 @@ namespace BlackJack.BusinessLogic.Helpers
                     logs.Add(new Log()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
+                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                                      Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). 
+                                      BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
                 }
 
@@ -125,7 +129,9 @@ namespace BlackJack.BusinessLogic.Helpers
                     var log = new Log()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}) with DealerBlackJackDanger. BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
+                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                                      Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}) 
+                                      with DealerBlackJackDanger. BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     };
                 }
             }
@@ -133,21 +139,21 @@ namespace BlackJack.BusinessLogic.Helpers
             return logs;
         }
 
-        private static List<Log> GetContinueRoundCardsAddingLogs(List<GamePlayer> gamePlayers, List<PlayerCard> playerCardsInserted)
+        private static List<Log> GetCardsAddingLogsAfterContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> playerCardsInserted)
         {
             var logs = new List<Log>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
                 List<PlayerCard> playerCards = playerCardsInserted.Where(m => m.GamePlayerId == gamePlayer.Id).ToList();
-                List<Log> gamePlayerLogs = GetContinueRoundCardsAddingLogsForPlayer(gamePlayer, playerCards);
+                List<Log> gamePlayerLogs = GetCardsAddingLogsForPlayerAfterContinueRound(gamePlayer, playerCards);
                 logs.AddRange(gamePlayerLogs);
             }
 
             return logs;
         }
 
-        private static List<Log> GetContinueRoundCardsAddingLogsForPlayer(GamePlayer gamePlayer, List<PlayerCard> playerCards)
+        private static List<Log> GetCardsAddingLogsForPlayerAfterContinueRound(GamePlayer gamePlayer, List<PlayerCard> playerCards)
         {
             var logs = new List<Log>();
 
@@ -159,7 +165,7 @@ namespace BlackJack.BusinessLogic.Helpers
             return logs;
         }
 
-        private static List<Log> GetContinueRoundPayCoefficientCulculatingLogs(List<GamePlayer> gamePlayers)
+        private static List<Log> GetPayCoefficientCulculatingLogsAfterContinueRound(List<GamePlayer> gamePlayers)
         {
             var logs = new List<Log>();
 
@@ -172,7 +178,9 @@ namespace BlackJack.BusinessLogic.Helpers
                     logs.Add(new Log()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
+                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                                      Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). 
+                                      BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
                 }
 
@@ -181,7 +189,9 @@ namespace BlackJack.BusinessLogic.Helpers
                     logs.Add(new Log()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has win result(PlayerRoundScore={gamePlayer.RoundScore}, DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
+                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                                      Name={gamePlayer.Player.Name}) has win result(PlayerRoundScore={gamePlayer.RoundScore}, 
+                                      DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
                 }
 
@@ -190,7 +200,9 @@ namespace BlackJack.BusinessLogic.Helpers
                     logs.Add(new Log()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has lose result(PlayerRoundScore={gamePlayer.RoundScore}, DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
+                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                                      Name={gamePlayer.Player.Name}) has lose result(PlayerRoundScore={gamePlayer.RoundScore}, 
+                                      DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
                 }
 
@@ -199,7 +211,9 @@ namespace BlackJack.BusinessLogic.Helpers
                     logs.Add(new Log()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) has equal result(PlayerRoundScore={gamePlayer.RoundScore}, DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
+                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                                      Name={gamePlayer.Player.Name}) has equal result(PlayerRoundScore={gamePlayer.RoundScore}, 
+                                      DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
                 }
             }

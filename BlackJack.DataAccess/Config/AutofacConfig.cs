@@ -4,7 +4,7 @@ using BlackJack.DataAccess.Repositories.Interfaces;
 
 namespace BlackJack.DataAccess.Config
 {
-    public class DataAccessConfig : Module
+    public class AutofacConfig : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

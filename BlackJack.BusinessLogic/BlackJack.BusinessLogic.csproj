@@ -64,7 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\AutoMapperConfig.cs" />
+    <Compile Include="Mappers\AutoMapperConfig.cs" />
     <Compile Include="Helpers\CardToStringHelper.cs" />
     <Compile Include="Helpers\CardValueHelper.cs" />
     <Compile Include="Helpers\GameMessageHelper.cs" />
@@ -83,7 +83,7 @@
     <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\StartService.cs" />
-    <Compile Include="Config\BusinessLogicConfig.cs" />
+    <Compile Include="Config\AutofacConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

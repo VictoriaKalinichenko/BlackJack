@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
-using BlackJack.BusinessLogic.Config;
 using System.Web.Mvc;
 
 namespace BlackJack.UI.Config
@@ -16,10 +15,10 @@ namespace BlackJack.UI.Config
             builder.RegisterApiControllers(typeof(MvcApplication).Assembly);
             builder.RegisterModelBinderProvider();
 
-            builder.RegisterModule(new BusinessLogicConfig());
+            builder.RegisterModule(new BusinessLogic.Config.AutofacConfig());
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-            System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver((IContainer)container);
+            System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

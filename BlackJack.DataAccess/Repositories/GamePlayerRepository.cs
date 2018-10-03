@@ -25,7 +25,8 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                IEnumerable<GamePlayer> gamePlayers = await db.QueryAsync<GamePlayer, Player, GamePlayer>(sqlQuery, (gamePlayer, player) =>
+                IEnumerable<GamePlayer> gamePlayers = 
+                    await db.QueryAsync<GamePlayer, Player, GamePlayer>(sqlQuery, (gamePlayer, player) =>
                 {
                     gamePlayer.Player = player;
                     return gamePlayer;
@@ -38,7 +39,8 @@ namespace BlackJack.DataAccess.Repositories
         
         public async Task<IEnumerable<GamePlayer>> GetAllWithoutCards(long gameId)
         {
-            string sqlQuery = $@"SELECT A.Id, A.GameId, Score, RoundScore, BetPayCoefficient, Bet, CardAmount, B.Id, B.Name, B.Type
+            string sqlQuery = $@"SELECT A.Id, A.GameId, Score, RoundScore, 
+                                 BetPayCoefficient, Bet, CardAmount, B.Id, B.Name, B.Type
                                  FROM GamePlayers AS A 
                                  INNER JOIN Players AS B ON A.PlayerId = B.Id
                                  WHERE A.GameId = @gameId";
@@ -58,7 +60,8 @@ namespace BlackJack.DataAccess.Repositories
 
         public async Task<GamePlayer> GetWithCards(long gameId, int playerType)
         {
-            string sqlQuery = $@"SELECT A.Id, A.GameId, A.RoundScore, A.CardAmount, A.Score, A.Bet, A.BetPayCoefficient, B.Id, C.Id, C.Name, C.Type, D.Id, D.Name, D.Type
+            string sqlQuery = $@"SELECT A.Id, A.GameId, A.RoundScore, A.CardAmount, A.Score, A.Bet, 
+                                 A.BetPayCoefficient, B.Id, C.Id, C.Name, C.Type, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
                                  LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
                                  LEFT JOIN Cards AS C ON B.CardId = C.Id
@@ -94,7 +97,8 @@ namespace BlackJack.DataAccess.Repositories
        
         public async Task<IEnumerable<GamePlayer>> GetAllWithCards(long gameId)
         {
-            string sqlQuery = $@"SELECT A.Id, A.GameId, A.RoundScore, A.Score, A.Bet, A.CardAmount, A.BetPayCoefficient, B.Id, C.Id, C.Name, C.Type, D.Id, D.Name, D.Type
+            string sqlQuery = $@"SELECT A.Id, A.GameId, A.RoundScore, A.Score, A.Bet, A.CardAmount, A.BetPayCoefficient, 
+                                 B.Id, C.Id, C.Name, C.Type, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
                                  LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
                                  LEFT JOIN Cards AS C ON B.CardId = C.Id
@@ -173,7 +177,8 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await db.QueryAsync(sqlQuery, new { roundScore = gamePlayer.RoundScore, cardAmount = gamePlayer.CardAmount, gamePlayerId = gamePlayer.Id });
+                await db.QueryAsync(sqlQuery, 
+                    new { roundScore = gamePlayer.RoundScore, cardAmount = gamePlayer.CardAmount, gamePlayerId = gamePlayer.Id });
             }
         }
 

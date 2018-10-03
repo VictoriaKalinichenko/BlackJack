@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using BlackJack.Angular.Config;
-using BlackJack.BusinessLogic.Config;
+using BlackJack.BusinessLogic.Mappers;
 
 namespace BlackJack.Angular
 {

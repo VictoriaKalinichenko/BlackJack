@@ -102,7 +102,7 @@
       <Project>{9bca9946-a6ca-45f8-8cae-d4748b78131a}</Project>
       <Name>BlackJack.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BlackJack.Entity\BlackJack.Entities.csproj">
+    <ProjectReference Include="..\BlackJack.Entities\BlackJack.Entities.csproj">
       <Project>{192bfd2f-03f1-4d1f-985d-29c9b071dbb2}</Project>
       <Name>BlackJack.Entities</Name>
     </ProjectReference>

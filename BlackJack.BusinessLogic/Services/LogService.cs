@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.ViewModels.ViewModels.Log;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
-using AutoMapper;
+using BlackJack.ViewModels.ViewModels.Log;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Services
 {

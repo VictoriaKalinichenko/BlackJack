@@ -313,9 +313,8 @@ namespace BlackJack.BusinessLogic.Services
                 .Where(m => m.Card.Name == (int)CardName.Ace)
                 .Count();
 
-            for (; aceCount > 0 && roundScore > CardValueHelper.CardBlackJackScore;)
+            for (; aceCount > 0 && roundScore > CardValueHelper.CardBlackJackScore; aceCount--)
             {
-                aceCount--;
                 roundScore -= (int)CardName.Ten;
             }
 

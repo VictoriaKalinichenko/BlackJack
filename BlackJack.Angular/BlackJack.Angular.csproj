@@ -9,7 +9,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DA782FBC-F24B-4102-9741-327505523980}</ProjectGuid>
+    <ProjectGuid>{EF7F29EB-2486-4113-AF55-12D2F38C0659}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -58,7 +58,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.9\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.5.10\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -188,6 +188,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="angular.json" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -202,7 +203,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="package.json" />
-    <Content Include="angular.json" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -222,20 +222,20 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="src\app\app.component.css" />
     <Content Include="src\app\app.component.html" />
-    <Content Include="src\app\authorized-user\authorized-user.component.css" />
-    <Content Include="src\app\authorized-user\authorized-user.component.html" />
-    <Content Include="src\app\authorized-user\game\dealer-output\dealer-output.component.css" />
-    <Content Include="src\app\authorized-user\game\dealer-output\dealer-output.component.html" />
+    <Content Include="src\app\authorized-user\authorized-user\authorized-user.component.css" />
+    <Content Include="src\app\authorized-user\authorized-user\authorized-user.component.html" />
+    <Content Include="src\app\authorized-user\authorized-user\game\game\dealer-output\dealer-output.component.css" />
+    <Content Include="src\app\authorized-user\authorized-user\game\game\dealer-output\dealer-output.component.html" />
+    <Content Include="src\app\authorized-user\authorized-user\game\game\game.component.css" />
+    <Content Include="src\app\authorized-user\authorized-user\game\game\game.component.html" />
+    <Content Include="src\app\authorized-user\authorized-user\game\game\player-output\player-output.component.css" />
+    <Content Include="src\app\authorized-user\authorized-user\game\game\player-output\player-output.component.html" />
+    <Content Include="src\app\authorized-user\authorized-user\startpage\startpage.component.css" />
+    <Content Include="src\app\authorized-user\authorized-user\startpage\startpage.component.html" />
     <Content Include="src\app\error-page\error-page.component.css" />
     <Content Include="src\app\error-page\error-page.component.html" />
-    <Content Include="src\app\authorized-user\game\game.component.css" />
-    <Content Include="src\app\authorized-user\game\game.component.html" />
     <Content Include="src\app\homepage\homepage.component.css" />
     <Content Include="src\app\homepage\homepage.component.html" />
-    <Content Include="src\app\authorized-user\game\player-output\player-output.component.css" />
-    <Content Include="src\app\authorized-user\game\player-output\player-output.component.html" />
-    <Content Include="src\app\authorized-user\startpage\startpage.component.css" />
-    <Content Include="src\app\authorized-user\startpage\startpage.component.html" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\index.html" />
     <Content Include="src\karma.conf.js" />
@@ -250,18 +250,17 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="tsconfig.json" />
     <Content Include="src\assets\.gitkeep" />
     <Content Include="src\browserslist" />
     <Content Include="src\tsconfig.app.json" />
     <Content Include="src\tsconfig.spec.json" />
     <Content Include="src\tslint.json" />
+    <Content Include="tsconfig.json" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Scripts\libs\" />
   </ItemGroup>
   <ItemGroup>
@@ -273,37 +272,34 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\app\app.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\app-routing.module.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\modules\shared.module.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\authorized-user.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\authorized-user.component.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\game\dealer-output\dealer-output.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\game\dealer-output\dealer-output.component.ts" />
-    <TypeScriptCompile Include="src\app\error-page\error-page.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\authorized-user\authorized-user-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\authorized-user\authorized-user.module.ts" />
+    <TypeScriptCompile Include="src\app\authorized-user\authorized-user\authorized-user.component.ts" />
+    <TypeScriptCompile Include="src\app\authorized-user\authorized-user\game\game-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\authorized-user\authorized-user\game\game.module.ts" />
+    <TypeScriptCompile Include="src\app\authorized-user\authorized-user\game\game\dealer-output\dealer-output.component.ts" />
+    <TypeScriptCompile Include="src\app\authorized-user\authorized-user\game\game\game.component.ts" />
+    <TypeScriptCompile Include="src\app\authorized-user\authorized-user\game\game\player-output\player-output.component.ts" />
+    <TypeScriptCompile Include="src\app\authorized-user\authorized-user\startpage\startpage.component.ts" />
     <TypeScriptCompile Include="src\app\error-page\error-page.component.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\game\game.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\game\game.component.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\game\player-output\player-output.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\game\player-output\player-output.component.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\user-name.service.spec.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\user-name.service.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\error.service.spec.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\error.service.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\http.service.spec.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\http.service.ts" />
-    <TypeScriptCompile Include="src\app\shared\models\authorized-user-view.ts" />
-    <TypeScriptCompile Include="src\app\homepage\homepage.component.spec.ts" />
     <TypeScriptCompile Include="src\app\homepage\homepage.component.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\startpage\startpage.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\authorized-user\startpage\startpage.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\authorized-user-view.ts" />
     <TypeScriptCompile Include="src\app\shared\models\game-view.ts" />
     <TypeScriptCompile Include="src\app\shared\models\player-view.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\error-service\error.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\http-service\http.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\user-name-service\user-name.service.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />
@@ -340,7 +336,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>55953</DevelopmentServerPort>
+          <DevelopmentServerPort>52010</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:55953/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
@@ -358,6 +354,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>npm run build</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

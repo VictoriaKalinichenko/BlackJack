@@ -1,10 +1,10 @@
-﻿using System;
-using System.Web.Http;
-using System.Threading.Tasks;
+﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.BusinessLogic.Helpers;
 using BlackJack.ViewModels.ViewModels.Game;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace BlackJack.UI.Controllers
 {

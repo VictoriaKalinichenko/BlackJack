@@ -97,7 +97,7 @@
       <Project>{714ba634-e5f1-4890-8f8c-94de11638195}</Project>
       <Name>BlackJack.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BlackJack.Entity\BlackJack.Entities.csproj">
+    <ProjectReference Include="..\BlackJack.Entities\BlackJack.Entities.csproj">
       <Project>{192bfd2f-03f1-4d1f-985d-29c9b071dbb2}</Project>
       <Name>BlackJack.Entities</Name>
     </ProjectReference>

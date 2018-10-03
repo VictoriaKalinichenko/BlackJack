@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ErrorService } from '../shared/services/error.service';
+import { ErrorService } from 'app/shared/services/error-service/error.service';
 
 @Component({
   selector: 'app-error-page',

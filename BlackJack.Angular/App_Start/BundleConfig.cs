@@ -27,7 +27,10 @@ namespace BlackJack.Angular
                 "~/Scripts/libs/polyfills.js",
                 "~/Scripts/libs/styles.js",
                 "~/Scripts/libs/vendor.js",
-                "~/Scripts/libs/main.js"));
+                "~/Scripts/libs/main.js",
+                "~/Scripts/libs/common.js",
+                "~/Scripts/libs/app-authorized-user-authorized-user-game-game-module.js",
+                "~/Scripts/libs/app-authorized-user-authorized-user-module.js"));
         }
     }
 }

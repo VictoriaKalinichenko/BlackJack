@@ -1,4 +1,4 @@
-﻿import { PlayerView } from '../models/player-view';
+﻿import { PlayerView } from 'app/shared/models/player-view';
 import { JsonProperty } from 'json-typescript-mapper';
 
 export class GameView {

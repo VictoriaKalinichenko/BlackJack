@@ -1,12 +1,12 @@
-﻿using System;
+﻿using BlackJack.BusinessLogic.Helpers;
+using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.ViewModels.ViewModels.Log;
+using Newtonsoft.Json;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.BusinessLogic.Helpers;
-using BlackJack.ViewModels.ViewModels.Log;
-using NLog;
-using Newtonsoft.Json;
 
 namespace BlackJack.UI.Controllers
 {

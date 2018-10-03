@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using BlackJack.Entities.Entities;
+﻿using BlackJack.Entities.Entities;
+using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories.Interfaces
 {

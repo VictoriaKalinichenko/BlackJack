@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "src",
-    "outDir": "./scripts/out-tsc",
+    "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "module": "es2015",
@@ -19,7 +19,6 @@
     ]
   },
   "include": [
-    "src/**/*",
     "./src",
     "node_modules/json-typescript-mapper/libs/utils.ts"
   ]

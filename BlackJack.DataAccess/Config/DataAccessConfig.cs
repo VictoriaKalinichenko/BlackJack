@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.DataAccess.Repositories;
+using BlackJack.DataAccess.Repositories.Interfaces;
 
 namespace BlackJack.DataAccess.Config
 {

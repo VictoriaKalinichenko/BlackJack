@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "BlackJack.Angular": {
+    "BlackJackAngular": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "deployUrl": "http://localhost:55953/Scripts/libs/",
             "outputPath": "./Scripts/libs",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -39,10 +40,10 @@
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
-              "namedChunks": false,
+              "namedChunks": true,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
+              "vendorChunk": true,
               "buildOptimizer": true
             }
           }
@@ -50,18 +51,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "BlackJack.Angular:build"
+            "browserTarget": "BlackJackAngular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "BlackJack.Angular:build:production"
+              "browserTarget": "BlackJackAngular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "BlackJack.Angular:build"
+            "browserTarget": "BlackJackAngular:build"
           }
         },
         "test": {
@@ -103,11 +104,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "BlackJack.Angular:serve"
+            "devServerTarget": "BlackJackAngular:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "BlackJack.Angular:serve:production"
+              "devServerTarget": "BlackJackAngular:serve:production"
             }
           }
         },
@@ -123,5 +124,5 @@
       }
     }
   },
-  "defaultProject": "BlackJack.Angular"
+  "defaultProject": "BlackJackAngular"
 }

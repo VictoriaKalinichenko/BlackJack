@@ -10,15 +10,10 @@ using Z.BulkOperations;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class LogRepository : ILogRepository
+    public class LogRepository : GenericRepository<Log>, ILogRepository
     {
-        private string _connectionString;
-
-
-        public LogRepository(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        public LogRepository(string connectionString) : base(connectionString)
+        { }
 
         public async Task<IEnumerable<Log>> GetAll()
         {

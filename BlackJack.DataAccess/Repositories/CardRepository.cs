@@ -8,15 +8,10 @@ using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class CardRepository : ICardRepository
+    public class CardRepository : GenericRepository<Card>, ICardRepository
     {
-        private string _connectionString;
-
-
-        public CardRepository(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        public CardRepository(string connectionString) : base(connectionString)
+        { }
 
         public async Task<IEnumerable<Card>> GetAll()
         {

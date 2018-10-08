@@ -56,7 +56,6 @@
     <Compile Include="ViewModels\Game\ContinueRoundRequestViewModel.cs" />
     <Compile Include="ViewModels\Start\InitRoundViewModel.cs" />
     <Compile Include="ViewModels\Log\GetAllViewModel.cs" />
-    <Compile Include="ViewModels\Start\ValidateNameViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

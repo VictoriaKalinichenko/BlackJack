@@ -29,16 +29,6 @@ namespace BlackJack.BusinessLogic.Services
             _logRepository = logRepository;
         }
 
-        public string ValidateName(string name)
-        {
-            string result = String.Empty;
-            if (String.IsNullOrEmpty(name))
-            {
-                result = GameMessageHelper.NameFieldIsEmpty;
-            }
-            return result;
-        }
-
         public async Task CreatePlayer(string name)
         {
             Player human = await _playerRepository.SelectByName(name, (int)PlayerType.Human);

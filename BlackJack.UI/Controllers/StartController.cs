@@ -21,24 +21,16 @@ namespace BlackJack.UI.Controllers
         
         public ActionResult ValidateName()
         {
-            ValidateNameViewModel validateNameViewModel = new ValidateNameViewModel();
-            return View(validateNameViewModel);
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> ValidateName(ValidateNameViewModel validateNameViewModel)
+        public async Task<ActionResult> ValidateName(string userName)
         {
             try
             {
-                validateNameViewModel.ValidationMessage = _startService.ValidateName(validateNameViewModel.UserName);
-
-                if(string.IsNullOrEmpty(validateNameViewModel.ValidationMessage))
-                {
-                    await _startService.CreatePlayer(validateNameViewModel.UserName);
-                    return RedirectToAction("AuthorizePlayer", new { userName = validateNameViewModel.UserName });
-                }
-                
-                return View(validateNameViewModel);
+                await _startService.CreatePlayer(userName);
+                return RedirectToAction("AuthorizePlayer", new { userName = userName });
             }
             catch (Exception ex)
             {

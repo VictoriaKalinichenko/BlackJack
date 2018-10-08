@@ -1,6 +1,4 @@
-﻿@using BlackJack.ViewModels.ViewModels.Start;
-@model ValidateNameViewModel
-@{
+﻿@{
     Layout = "~/Views/Shared/_StartPage.cshtml";
     ViewBag.Title = "Home Page";
 }
@@ -13,11 +11,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Name: </label>
             <div class="col-md-10">
-                @if (!string.IsNullOrEmpty(Model.ValidationMessage))
-                {
-                    <div class="alert alert-danger">@Model.ValidationMessage</div>
-                }
-                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                <input type="text" name="userName" class="form-control" required />
                 <br />
                 <input type="submit" value="Enter" class="btn btn-primary" />
             </div>

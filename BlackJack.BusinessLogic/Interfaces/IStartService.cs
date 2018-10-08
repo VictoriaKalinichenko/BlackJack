@@ -5,8 +5,6 @@ namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IStartService
     {
-        string ValidateName(string name);
-
         Task<long> CreateGame(long playerId, int amountOfBots);
 
         Task CreatePlayer(string name);

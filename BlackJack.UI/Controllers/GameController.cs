@@ -124,7 +124,7 @@ namespace BlackJack.UI.Controllers
 
                 ContinueRoundResponseViewModel continueRoundResponseViewModel = 
                     await _gameService.ContinueRound(continueRoundRequestViewModel.GameId, 
-                    continueRoundRequestViewModel.BlackJackContinueChoice);
+                    continueRoundRequestViewModel.ContinueRound);
                 return Ok(continueRoundResponseViewModel);
             }
             catch (Exception ex)

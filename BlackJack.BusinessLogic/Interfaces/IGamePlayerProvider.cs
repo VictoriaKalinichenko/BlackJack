@@ -13,10 +13,6 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         void PayBets(List<GamePlayer> players);
 
-        bool IsEnoughCardsForHuman(int roundScore);
-
-        bool IsEnoughCardsForBot(int roundScore);
-
         string GetHumanRoundResult(float betPayCoefficient);
     }
 }

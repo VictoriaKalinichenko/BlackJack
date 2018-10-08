@@ -83,9 +83,9 @@ namespace BlackJack.BusinessLogic.Services
                 gamePlayers.Add(gamePlayer);
             }
 
-            await _gamePlayerRepository.CreateMany(gamePlayers, TableNameHelper.GetTableName(typeof(GamePlayer)));
+            await _gamePlayerRepository.CreateMany(gamePlayers, ToStringHelper.GetTableName(typeof(GamePlayer)));
             List<Log> logs = LogHelper.GetCreationGameLogs(gamePlayers, game);
-            await _logRepository.CreateMany(logs, TableNameHelper.GetTableName(typeof(Log)));
+            await _logRepository.CreateMany(logs, ToStringHelper.GetTableName(typeof(Log)));
 
             long gameId = game.Id;
             return gameId;

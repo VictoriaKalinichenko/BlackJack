@@ -64,9 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\TableNameHelper.cs" />
     <Compile Include="Mappers\AutoMapperConfig.cs" />
-    <Compile Include="Helpers\CardToStringHelper.cs" />
+    <Compile Include="Helpers\ToStringHelper.cs" />
     <Compile Include="Helpers\CardValueHelper.cs" />
     <Compile Include="Helpers\GameMessageHelper.cs" />
     <Compile Include="Helpers\GameValueHelper.cs" />

@@ -64,7 +64,7 @@ namespace BlackJack.BusinessLogic.Services
             await _gameRepository.UpdateStage(gameId, (int)GameStage.StartRound);
 
             List<Log> logs = LogHelper.GetStartRoundLogs(players, gameId);
-            await _logRepository.CreateMany(logs, TableNameHelper.GetTableName(typeof(Log)));
+            await _logRepository.CreateMany(logs, ToStringHelper.GetTableName(typeof(Log)));
 
             StartRoundResponseViewModel startRoundResponseViewModel = GetStartRoundResponse(players);
             return startRoundResponseViewModel;
@@ -84,7 +84,12 @@ namespace BlackJack.BusinessLogic.Services
             await _gamePlayerRepository.UpdateAddingCard(human);
 
             AddCardViewModel addCardViewModel = Mapper.Map<GamePlayer, AddCardViewModel>(human);
-            addCardViewModel.CanTakeCard = !_gamePlayerProvider.IsEnoughCardsForHuman(human.RoundScore);
+            addCardViewModel.CanTakeCard = true;
+
+            if (human.RoundScore >= CardValueHelper.CardBlackJackScore)
+            {
+                addCardViewModel.CanTakeCard = false;
+            }
 
             return addCardViewModel;
         }
@@ -104,7 +109,7 @@ namespace BlackJack.BusinessLogic.Services
             await _gameRepository.UpdateStage(gameId, (int)GameStage.ContinueRound);
 
             List<Log> logs = LogHelper.GetContinueRoundLogs(players, playerCardInserted, gameId);
-            await _logRepository.CreateMany(logs, TableNameHelper.GetTableName(typeof(Log)));
+            await _logRepository.CreateMany(logs, ToStringHelper.GetTableName(typeof(Log)));
 
             ContinueRoundResponseViewModel continueRoundResponseViewModel = GetContinueRoundResponse(players);
             return continueRoundResponseViewModel;
@@ -136,9 +141,14 @@ namespace BlackJack.BusinessLogic.Services
         private StartRoundResponseViewModel GetStartRoundResponse(List<GamePlayer> players)
         {
             GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
-            bool canTakeCard = !_gamePlayerProvider.IsEnoughCardsForHuman(human.RoundScore);
-            bool blackJackChoice = false;
 
+            bool canTakeCard = true;
+            if (human.RoundScore >= CardValueHelper.CardBlackJackScore)
+            {
+                canTakeCard = false;
+            }
+
+            bool blackJackChoice = false;
             if (human.BetPayCoefficient == BetValueHelper.WinCoefficient)
             {
                 blackJackChoice = true;
@@ -180,7 +190,7 @@ namespace BlackJack.BusinessLogic.Services
                 playerCards.AddRange(gamePlayer.PlayerCards);
             }
 
-            await _playerCardRepository.CreateMany(playerCards, TableNameHelper.GetTableName(typeof(PlayerCard)));
+            await _playerCardRepository.CreateMany(playerCards, ToStringHelper.GetTableName(typeof(PlayerCard)));
         }
 
         private async Task AddOneCardToHuman(GamePlayer human, long gameId)
@@ -200,16 +210,19 @@ namespace BlackJack.BusinessLogic.Services
 
             foreach (GamePlayer gamePlayer in players)
             {
-                await AddSecondCardsToBot(gamePlayer, deck, playerCards);
+                if (!(gamePlayer.Player.Type == (int)PlayerType.Human))
+                {
+                    await AddSecondCardsToBot(gamePlayer, deck, playerCards);
+                }
             }
 
-            await _playerCardRepository.CreateMany(playerCards, TableNameHelper.GetTableName(typeof(PlayerCard)));
+            await _playerCardRepository.CreateMany(playerCards, ToStringHelper.GetTableName(typeof(PlayerCard)));
             return playerCards;
         }
 
         private async Task AddSecondCardsToBot(GamePlayer gamePlayer, List<Card> deck, List<PlayerCard> playerCards)
         {
-            if(_gamePlayerProvider.IsEnoughCardsForBot(gamePlayer.RoundScore))
+            if(gamePlayer.RoundScore >= CardValueHelper.CardBotEnoughScore)
             {
                 return;
             }
@@ -232,7 +245,7 @@ namespace BlackJack.BusinessLogic.Services
         private async Task RemoveCards(List<GamePlayer> players, long gameId)
         {
             IEnumerable<PlayerCard> playerCards = await _playerCardRepository.GetAllByGameId(gameId);
-            await _playerCardRepository.DeleteMany(playerCards, TableNameHelper.GetTableName(typeof(PlayerCard)));
+            await _playerCardRepository.DeleteMany(playerCards, ToStringHelper.GetTableName(typeof(PlayerCard)));
 
             foreach (var gamePlayer in players)
             {
@@ -300,15 +313,10 @@ namespace BlackJack.BusinessLogic.Services
                 }
                 roundScore += cardScore;
             }
-
-            int aceCount = playerCards
-                .Where(m => m.Card.Name == (int)CardName.Ace)
-                .Count();
-
-            for (; aceCount > 0 && roundScore > CardValueHelper.CardBlackJackScore; aceCount--)
-            {
-                roundScore -= (int)CardName.Ten;
-            }
+            
+            for (int aceCount = playerCards.Where(m => m.Card.Name == (int)CardName.Ace).Count(); 
+                aceCount > 0 && roundScore > CardValueHelper.CardBlackJackScore; 
+                aceCount--, roundScore -= (int)CardName.Ten);
 
             return roundScore;
         }

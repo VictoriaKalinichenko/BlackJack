@@ -35,7 +35,7 @@ namespace BlackJack.BusinessLogic.Mappers
         {
             var cardsStringList = playerCards.ToList().ConvertAll(delegate (PlayerCard playerCard)
             {
-                string cardString = CardToStringHelper.Convert(playerCard.Card);
+                string cardString = ToStringHelper.GetCardName(playerCard.Card);
                 return cardString;
             });
             return cardsStringList;

@@ -22,7 +22,7 @@ namespace BlackJack.BusinessLogic.Mappers
             startRoundResponseViewModel.Dealer = Mapper.Map<GamePlayer, GamePlayerItem>(dealer);
             startRoundResponseViewModel.Dealer.RoundScore = GameValueHelper.Zero;
             startRoundResponseViewModel.Dealer.Cards.Clear();
-            startRoundResponseViewModel.Dealer.Cards.Add(CardToStringHelper.Convert(dealer.PlayerCards[0].Card));
+            startRoundResponseViewModel.Dealer.Cards.Add(ToStringHelper.GetCardName(dealer.PlayerCards[0].Card));
             startRoundResponseViewModel.Human = Mapper.Map<GamePlayer, GamePlayerItem>(human);
             startRoundResponseViewModel.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerItem>>(players);
             startRoundResponseViewModel.CanTakeCard = canTakeCard;

@@ -211,9 +211,9 @@
         $("#gameplay").append(endRoundButton);
     }
 
-    function ContinueRound(blackJackContinueChoice) {
+    function ContinueRound(continueRound) {
         var gameId = $("#gameid").val();
-        var transParam = { GameId: gameId, BlackJackContinueChoice: blackJackContinueChoice };
+        var transParam = { GameId: gameId, ContinueRound: continueRound };
         $.ajax({
             type: "POST",
             url: "/Game/ContinueRound",

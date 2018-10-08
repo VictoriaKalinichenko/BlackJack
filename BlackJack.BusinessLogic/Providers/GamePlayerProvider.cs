@@ -68,26 +68,6 @@ namespace BlackJack.BusinessLogic.Providers
             }
         }
         
-        public bool IsEnoughCardsForHuman(int roundScore)
-        {
-            bool enoughCards = false;
-            if (roundScore >= CardValueHelper.CardBlackJackScore)
-            {
-                enoughCards = true;
-            }
-            return enoughCards;
-        }
-
-        public bool IsEnoughCardsForBot(int roundScore)
-        {
-            bool enoughCards = false;
-            if (roundScore >= CardValueHelper.CardBotEnoughScore)
-            {
-                enoughCards = true;
-            }
-            return enoughCards;
-        }
-
         public string GetHumanRoundResult(float betPayCoefficient)
         {
             string roundResult = GameMessageHelper.Lose;
@@ -124,12 +104,16 @@ namespace BlackJack.BusinessLogic.Providers
         {
             float betPayCoefficient = BetValueHelper.DefaultCoefficient;
 
-            if (!dealerBlackJackDanger && IsPlayerBlackJack(roundScore, amountOfCards))
+            if (!dealerBlackJackDanger && 
+                roundScore == CardValueHelper.CardBlackJackScore &&
+                amountOfCards == CardValueHelper.CardBlackJackAmount)
             {
                 betPayCoefficient = BetValueHelper.BlackJackCoefficient;
             }
 
-            if (dealerBlackJackDanger && IsPlayerBlackJack(roundScore, amountOfCards))
+            if (dealerBlackJackDanger && 
+                roundScore == CardValueHelper.CardBlackJackScore &&
+                amountOfCards == CardValueHelper.CardBlackJackAmount)
             {
                 betPayCoefficient = BetValueHelper.WinCoefficient;
             }
@@ -147,64 +131,27 @@ namespace BlackJack.BusinessLogic.Providers
 
             betPayCoefficient = BetValueHelper.LoseCoefficient;
 
-            if (IsPlayerBlackJack(roundScore, amountOfCards) && !IsPlayerBlackJack(dealerRoundScore, dealerAmountOfCards))
+            if ((roundScore == CardValueHelper.CardBlackJackScore &&
+                amountOfCards == CardValueHelper.CardBlackJackAmount) &&
+                !(dealerRoundScore == CardValueHelper.CardBlackJackScore &&
+                dealerAmountOfCards == CardValueHelper.CardBlackJackAmount))
             {
                 return BetValueHelper.BlackJackCoefficient;
             }
 
-            if (DoesPlayerScoreEqualDealerScore(roundScore, dealerRoundScore))
+            if (roundScore <= CardValueHelper.CardBlackJackScore &&
+                roundScore == dealerRoundScore)
             {
                 betPayCoefficient = BetValueHelper.ZeroCoefficient;
             }
 
-            if (IsPlayerScoreBetterThanDealerScore(roundScore, dealerRoundScore))
+            if (roundScore <= CardValueHelper.CardBlackJackScore &&
+                (roundScore > dealerRoundScore || dealerRoundScore <= CardValueHelper.CardBlackJackScore))
             {
                 betPayCoefficient = BetValueHelper.WinCoefficient;
             }
 
             return betPayCoefficient;
-        }
-
-        private bool IsPlayerBlackJack(int roundScore, int amountOfCards)
-        {
-            bool blackJack = false;
-            if (roundScore == CardValueHelper.CardBlackJackScore && 
-                amountOfCards == CardValueHelper.CardBlackJackAmount)
-            {
-                blackJack = true;
-            }
-            return blackJack;
-        }
-
-        private bool IsPlayerLossing(int roundScore)
-        {
-            bool playerLossing = false;
-            if (roundScore > CardValueHelper.CardBlackJackScore)
-            {
-                playerLossing = true;
-            }
-            return playerLossing;
-        }
-
-        private bool DoesPlayerScoreEqualDealerScore(int playerRoundScore, int dealerRoundScore)
-        {
-            bool playerScoreEqualDealerScore = false;
-            if (playerRoundScore == dealerRoundScore && !IsPlayerLossing(playerRoundScore))
-            {
-                playerScoreEqualDealerScore = true;
-            }
-            return playerScoreEqualDealerScore;
-        }
-
-        private bool IsPlayerScoreBetterThanDealerScore(int playerRoundScore, int dealerRoundScore)
-        {
-            bool playerScoreBetterThanDealerScore = false;
-            if (!IsPlayerLossing(playerRoundScore) && 
-                (playerRoundScore > dealerRoundScore || IsPlayerLossing(dealerRoundScore)))
-            {
-                playerScoreBetterThanDealerScore = true;
-            }
-            return playerScoreBetterThanDealerScore;
         }
 
         private int GenerateBet(int playerScore)

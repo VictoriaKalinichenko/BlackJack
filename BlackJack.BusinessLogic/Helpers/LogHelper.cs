@@ -226,7 +226,7 @@ namespace BlackJack.BusinessLogic.Helpers
             var log = new Log()
             {
                 GameId = gamePlayer.GameId,
-                Message = $@"Card(Id={card.Id}, Value={card.Name}, Name={CardToStringHelper.Convert(card)}) is added to 
+                Message = $@"Card(Id={card.Id}, Value={card.Name}, Name={ToStringHelper.GetCardName(card)}) is added to 
                              {((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name})"
             };
 

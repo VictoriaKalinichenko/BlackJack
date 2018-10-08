@@ -188,11 +188,7 @@ namespace BlackJack.BusinessLogic.Services
             IEnumerable<Card> cardsOnHands = await _playerCardRepository.GetCardsOnHands(gameId);
             List<Card> deck = await ResumeDeck(cardsOnHands);
 
-            Card card = TakeCardFromDeck(deck);
-            PlayerCard addedPlayerCard = CustomMapper.GetPlayerCard(human, card);
-            human.PlayerCards.Add(addedPlayerCard);
-            human.RoundScore = CountCardScore(human.PlayerCards);
-            human.CardAmount++;
+            PlayerCard addedPlayerCard = AddCardToPlayer(human, deck);
             await _playerCardRepository.Create(addedPlayerCard);
         }
 
@@ -218,17 +214,20 @@ namespace BlackJack.BusinessLogic.Services
                 return;
             }
 
-            Card card = TakeCardFromDeck(deck);
-            PlayerCard addedPlayerCard = CustomMapper.GetPlayerCard(gamePlayer, card);
+            PlayerCard addedPlayerCard = AddCardToPlayer(gamePlayer, deck);
             playerCards.Add(addedPlayerCard);
-            gamePlayer.PlayerCards.Add(addedPlayerCard);
-            gamePlayer.CardAmount++;
-            gamePlayer.RoundScore = CountCardScore(gamePlayer.PlayerCards);
-
             await AddSecondCardsToBot(gamePlayer, deck, playerCards);
         }
         
-        
+        private PlayerCard AddCardToPlayer(GamePlayer gamePlayer, List<Card> deck)
+        {
+            Card card = TakeCardFromDeck(deck);
+            PlayerCard playerCard = CustomMapper.GetPlayerCard(gamePlayer, card);
+            gamePlayer.PlayerCards.Add(playerCard);
+            gamePlayer.CardAmount++;
+            gamePlayer.RoundScore = CountCardScore(gamePlayer.PlayerCards);
+            return playerCard;
+        }
 
         private async Task RemoveCards(List<GamePlayer> players, long gameId)
         {

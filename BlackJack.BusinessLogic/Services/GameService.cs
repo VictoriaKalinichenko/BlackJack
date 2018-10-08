@@ -61,7 +61,7 @@ namespace BlackJack.BusinessLogic.Services
             await DistributeFirstCards(players);
             _gamePlayerProvider.DefinePayCoefficientsAfterRoundStart(players);
             await _gamePlayerRepository.UpdateMany(players);
-            await _gameRepository.UpdateStage(gameId, StageHelper.StartRound);
+            await _gameRepository.UpdateStage(gameId, (int)GameStage.StartRound);
 
             List<Log> logs = LogHelper.GetStartRoundLogs(players, gameId);
             await _logRepository.CreateMany(logs, TableNameHelper.GetTableName(typeof(Log)));
@@ -101,7 +101,7 @@ namespace BlackJack.BusinessLogic.Services
             List<PlayerCard> playerCardInserted = await DistributeSecondCards(players);
             _gamePlayerProvider.DefinePayCoefficientsAfterRoundContinue(players);
             await _gamePlayerRepository.UpdateManyAfterContinueRound(players);
-            await _gameRepository.UpdateStage(gameId, StageHelper.ContinueRound);
+            await _gameRepository.UpdateStage(gameId, (int)GameStage.ContinueRound);
 
             List<Log> logs = LogHelper.GetContinueRoundLogs(players, playerCardInserted, gameId);
             await _logRepository.CreateMany(logs, TableNameHelper.GetTableName(typeof(Log)));
@@ -124,7 +124,7 @@ namespace BlackJack.BusinessLogic.Services
             await RemoveCards(players, gameId);
             await _gamePlayerRepository.UpdateMany(players);
             await _gamePlayerRepository.DeleteBotsWithZeroScore(gameId);
-            await _gameRepository.UpdateStage(gameId, StageHelper.InitRound);
+            await _gameRepository.UpdateStage(gameId, (int)GameStage.InitRound);
         }
         
         public async Task EndGame(EndGameViewModel GameLogicEndGameView)

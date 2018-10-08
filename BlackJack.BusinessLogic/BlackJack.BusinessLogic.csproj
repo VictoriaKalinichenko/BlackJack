@@ -71,7 +71,6 @@
     <Compile Include="Helpers\GameMessageHelper.cs" />
     <Compile Include="Helpers\GameValueHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
-    <Compile Include="Helpers\StageHelper.cs" />
     <Compile Include="Helpers\BetValueHelper.cs" />
     <Compile Include="Interfaces\IGamePlayerProvider.cs" />
     <Compile Include="Interfaces\ILogService.cs" />

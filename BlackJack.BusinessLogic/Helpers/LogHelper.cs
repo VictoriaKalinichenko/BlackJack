@@ -52,7 +52,7 @@ namespace BlackJack.BusinessLogic.Helpers
             logs.Add(new Log()
             {
                 GameId = gameId,
-                Message = $"Stage is changed (Stage={StageHelper.StartRound})"
+                Message = $"Stage is changed (Stage={(int)GameStage.StartRound})"
             });
 
             return logs;
@@ -71,7 +71,7 @@ namespace BlackJack.BusinessLogic.Helpers
             logs.Add(new Log()
             {
                 GameId = gameId,
-                Message = $"Stage is changed (Stage={StageHelper.ContinueRound})"
+                Message = $"Stage is changed (Stage={(int)GameStage.ContinueRound})"
             });
 
             return logs;

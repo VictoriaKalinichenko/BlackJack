@@ -137,7 +137,13 @@ namespace BlackJack.BusinessLogic.Services
         {
             GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
             bool canTakeCard = !_gamePlayerProvider.IsEnoughCardsForHuman(human.RoundScore);
-            bool blackJackChoice = IsBlackJackChoice(human);
+            bool blackJackChoice = false;
+
+            if (human.BetPayCoefficient == BetValueHelper.WinCoefficient)
+            {
+                blackJackChoice = true;
+            }
+
             StartRoundResponseViewModel startRoundResponseViewModel = 
                 CustomMapper.GetStartRoundResponseViewModel(players, human.GameId, canTakeCard, blackJackChoice);
             return startRoundResponseViewModel;
@@ -151,19 +157,7 @@ namespace BlackJack.BusinessLogic.Services
                 CustomMapper.GetContinueRoundResponseViewModel(players, human.GameId, humanRoundResult);
             return continueRoundResponseViewModel;
         }
-
-        private bool IsBlackJackChoice(GamePlayer human)
-        {
-            bool blackJackChoice = false;
-
-            if (human.BetPayCoefficient == BetValueHelper.WinCoefficient)
-            {
-                blackJackChoice = true;
-            }
-
-            return blackJackChoice;
-        }
-
+        
         private async Task DistributeFirstCards(IEnumerable<GamePlayer> gamePlayers)
         {
             List<Card> deck = await CreateDeck();
@@ -174,11 +168,11 @@ namespace BlackJack.BusinessLogic.Services
                 gamePlayer.PlayerCards = new List<PlayerCard>();
 
                 Card card = TakeCardFromDeck(deck);
-                PlayerCard firstCard = AddCardToPlayer(gamePlayer, card);
+                PlayerCard firstCard = CustomMapper.GetPlayerCard(gamePlayer, card);
                 gamePlayer.PlayerCards.Add(firstCard);
 
                 card = TakeCardFromDeck(deck);
-                PlayerCard secondCard = AddCardToPlayer(gamePlayer, card);
+                PlayerCard secondCard = CustomMapper.GetPlayerCard(gamePlayer, card);
                 gamePlayer.PlayerCards.Add(secondCard);
 
                 gamePlayer.RoundScore = CountCardScore(gamePlayer.PlayerCards);
@@ -195,7 +189,7 @@ namespace BlackJack.BusinessLogic.Services
             List<Card> deck = await ResumeDeck(cardsOnHands);
 
             Card card = TakeCardFromDeck(deck);
-            PlayerCard addedPlayerCard = AddCardToPlayer(human, card);
+            PlayerCard addedPlayerCard = CustomMapper.GetPlayerCard(human, card);
             human.PlayerCards.Add(addedPlayerCard);
             human.RoundScore = CountCardScore(human.PlayerCards);
             human.CardAmount++;
@@ -225,7 +219,7 @@ namespace BlackJack.BusinessLogic.Services
             }
 
             Card card = TakeCardFromDeck(deck);
-            PlayerCard addedPlayerCard = AddCardToPlayer(gamePlayer, card);
+            PlayerCard addedPlayerCard = CustomMapper.GetPlayerCard(gamePlayer, card);
             playerCards.Add(addedPlayerCard);
             gamePlayer.PlayerCards.Add(addedPlayerCard);
             gamePlayer.CardAmount++;
@@ -234,11 +228,7 @@ namespace BlackJack.BusinessLogic.Services
             await AddSecondCardsToBot(gamePlayer, deck, playerCards);
         }
         
-        private PlayerCard AddCardToPlayer(GamePlayer gamePlayer, Card card)
-        {
-            var playerCard = new PlayerCard() { GamePlayerId = gamePlayer.Id, CardId = card.Id, Card = card };
-            return playerCard;
-        }
+        
 
         private async Task RemoveCards(List<GamePlayer> players, long gameId)
         {

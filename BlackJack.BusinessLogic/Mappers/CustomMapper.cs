@@ -73,5 +73,11 @@ namespace BlackJack.BusinessLogic.Mappers
 
             return initRoundViewModel;
         }
+
+        public static PlayerCard GetPlayerCard(GamePlayer gamePlayer, Card card)
+        {
+            var playerCard = new PlayerCard() { GamePlayerId = gamePlayer.Id, CardId = card.Id, Card = card };
+            return playerCard;
+        }
     }
 }

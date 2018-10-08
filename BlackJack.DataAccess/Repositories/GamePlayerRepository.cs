@@ -144,16 +144,6 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task CreateMany(IEnumerable<GamePlayer> gamePlayers)
-        {
-            DbConnection db = new SqlConnection(_connectionString);
-            db.Open();
-            var bulkOperation = new BulkOperation(db);
-            bulkOperation.DestinationTableName = "GamePlayers";
-            await bulkOperation.BulkInsertAsync(gamePlayers);
-            db.Close();
-        }
-
         public async Task UpdateMany(IEnumerable<GamePlayer> gamePlayers)
         {
             DbConnection db = new SqlConnection(_connectionString);

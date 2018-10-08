@@ -1,13 +1,10 @@
 ﻿using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using Dapper;
-using Dapper.Contrib.Extensions;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Z.BulkOperations;
 
 namespace BlackJack.DataAccess.Repositories
 {
@@ -62,34 +59,6 @@ namespace BlackJack.DataAccess.Repositories
                 IEnumerable<PlayerCard> playerCardIds = await db.QueryAsync<PlayerCard>(sqlQuery, new { gameId });
                 return playerCardIds;
             }
-        }
-
-        public async Task Create(PlayerCard playerCard)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                await db.InsertAsync(playerCard);
-            }
-        }
-
-        public async Task CreateMany(IEnumerable<PlayerCard> playerCards)
-        {
-            DbConnection db = new SqlConnection(_connectionString);
-            db.Open();
-            var bulkOperation = new BulkOperation(db);
-            bulkOperation.DestinationTableName = "PlayerCards";
-            await bulkOperation.BulkInsertAsync(playerCards);
-            db.Close();
-        }
-
-        public async Task DeleteMany(IEnumerable<PlayerCard> playerCards)
-        {
-            DbConnection db = new SqlConnection(_connectionString);
-            db.Open();
-            var bulkOperation = new BulkOperation(db);
-            bulkOperation.DestinationTableName = "PlayerCards";
-            await bulkOperation.BulkDeleteAsync(playerCards);
-            db.Close();
         }
     }
 }

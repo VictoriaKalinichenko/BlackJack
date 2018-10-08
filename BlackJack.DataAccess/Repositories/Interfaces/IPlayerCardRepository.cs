@@ -11,11 +11,5 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
         Task<IEnumerable<Card>> GetCardsOnHands(long gameId);
 
         Task<IEnumerable<PlayerCard>> GetAllByGameId(long gameId);
-        
-        Task Create(PlayerCard obj);
-
-        Task CreateMany(IEnumerable<PlayerCard> playerCards);
-
-        Task DeleteMany(IEnumerable<PlayerCard> playerCards);
     }
 }

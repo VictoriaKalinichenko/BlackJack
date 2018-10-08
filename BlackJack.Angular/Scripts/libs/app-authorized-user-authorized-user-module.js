@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["authorized-user-authorized-user-module"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["app-authorized-user-authorized-user-module"],{
 
 /***/ "./src/app/authorized-user/authorized-user-routing.module.ts":
 /*!*******************************************************************!*\
@@ -35,7 +35,7 @@ var routes = [
             },
             {
                 path: 'game/:Id',
-                loadChildren: './authorized-user/game/game.module#GameModule'
+                loadChildren: 'app/authorized-user/authorized-user/game/game.module#GameModule'
             }
         ]
     }
@@ -325,4 +325,4 @@ var AuthorizedUserView = /** @class */ (function () {
 /***/ })
 
 }]);
-//# sourceMappingURL=authorized-user-authorized-user-module.js.map
+//# sourceMappingURL=app-authorized-user-authorized-user-module.js.map

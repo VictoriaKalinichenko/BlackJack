@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["authorized-user-game-game-module"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["app-authorized-user-authorized-user-game-game-module"],{
 
 /***/ "./node_modules/json-typescript-mapper/index.js":
 /*!******************************************************!*\
@@ -2058,4 +2058,4 @@ var PlayerView = /** @class */ (function () {
 /***/ })
 
 }]);
-//# sourceMappingURL=authorized-user-game-game-module.js.map
+//# sourceMappingURL=app-authorized-user-authorized-user-game-game-module.js.map

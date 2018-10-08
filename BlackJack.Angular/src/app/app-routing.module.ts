@@ -13,7 +13,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'user/:UserName',
-        loadChildren: './authorized-user/authorized-user.module#AuthorizedUserModule'
+        loadChildren: 'app/authorized-user/authorized-user.module#AuthorizedUserModule'
     },
     {
         path: 'error',

@@ -8,13 +8,13 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./authorized-user/authorized-user.module": [
+	"app/authorized-user/authorized-user.module": [
 		"./src/app/authorized-user/authorized-user.module.ts",
-		"authorized-user-authorized-user-module"
+		"app-authorized-user-authorized-user-module"
 	],
-	"./authorized-user/game/game.module": [
+	"app/authorized-user/authorized-user/game/game.module": [
 		"./src/app/authorized-user/authorized-user/game/game.module.ts",
-		"authorized-user-game-game-module"
+		"app-authorized-user-authorized-user-game-game-module"
 	]
 };
 function webpackAsyncContext(req) {
@@ -72,7 +72,7 @@ var appRoutes = [
     },
     {
         path: 'user/:UserName',
-        loadChildren: './authorized-user/authorized-user.module#AuthorizedUserModule'
+        loadChildren: 'app/authorized-user/authorized-user.module#AuthorizedUserModule'
     },
     {
         path: 'error',

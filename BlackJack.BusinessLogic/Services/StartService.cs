@@ -72,7 +72,8 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<long> CreateGame(long playerId, int amountOfBots)
         {
-            Game game = await _gameRepository.Create();
+            var game = new Game();
+            game.Id = await _gameRepository.Create(game);
 
             List<Player> players = await CreatePlayerList(playerId, amountOfBots);
             var gamePlayers = new List<GamePlayer>();
@@ -92,9 +93,9 @@ namespace BlackJack.BusinessLogic.Services
                 gamePlayers.Add(gamePlayer);
             }
 
-            await _gamePlayerRepository.CreateMany(gamePlayers);
+            await _gamePlayerRepository.CreateMany(gamePlayers, TableNameHelper.GetTableName(typeof(GamePlayer)));
             List<Log> logs = LogHelper.GetCreationGameLogs(gamePlayers, game);
-            await _logRepository.CreateMany(logs);
+            await _logRepository.CreateMany(logs, TableNameHelper.GetTableName(typeof(Log)));
 
             long gameId = game.Id;
             return gameId;

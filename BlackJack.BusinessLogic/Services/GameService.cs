@@ -64,7 +64,7 @@ namespace BlackJack.BusinessLogic.Services
             await _gameRepository.UpdateStage(gameId, StageHelper.StartRound);
 
             List<Log> logs = LogHelper.GetStartRoundLogs(players, gameId);
-            await _logRepository.CreateMany(logs);
+            await _logRepository.CreateMany(logs, TableNameHelper.GetTableName(typeof(Log)));
 
             StartRoundResponseViewModel startRoundResponseViewModel = GetStartRoundResponse(players);
             return startRoundResponseViewModel;
@@ -104,7 +104,7 @@ namespace BlackJack.BusinessLogic.Services
             await _gameRepository.UpdateStage(gameId, StageHelper.ContinueRound);
 
             List<Log> logs = LogHelper.GetContinueRoundLogs(players, playerCardInserted, gameId);
-            await _logRepository.CreateMany(logs);
+            await _logRepository.CreateMany(logs, TableNameHelper.GetTableName(typeof(Log)));
 
             ContinueRoundResponseViewModel continueRoundResponseViewModel = GetContinueRoundResponse(players);
             return continueRoundResponseViewModel;
@@ -186,7 +186,7 @@ namespace BlackJack.BusinessLogic.Services
                 playerCards.AddRange(gamePlayer.PlayerCards);
             }
 
-            await _playerCardRepository.CreateMany(playerCards);
+            await _playerCardRepository.CreateMany(playerCards, TableNameHelper.GetTableName(typeof(PlayerCard)));
         }
 
         private async Task AddOneCardToHuman(GamePlayer human, long gameId)
@@ -213,7 +213,7 @@ namespace BlackJack.BusinessLogic.Services
                 await AddSecondCardsToBot(gamePlayer, deck, playerCards);
             }
 
-            await _playerCardRepository.CreateMany(playerCards);
+            await _playerCardRepository.CreateMany(playerCards, TableNameHelper.GetTableName(typeof(PlayerCard)));
             return playerCards;
         }
 
@@ -243,7 +243,7 @@ namespace BlackJack.BusinessLogic.Services
         private async Task RemoveCards(List<GamePlayer> players, long gameId)
         {
             IEnumerable<PlayerCard> playerCards = await _playerCardRepository.GetAllByGameId(gameId);
-            await _playerCardRepository.DeleteMany(playerCards);
+            await _playerCardRepository.DeleteMany(playerCards, TableNameHelper.GetTableName(typeof(PlayerCard)));
 
             foreach (var gamePlayer in players)
             {

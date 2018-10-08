@@ -1,7 +1,6 @@
 ﻿using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using Dapper;
-using Dapper.Contrib.Extensions;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -40,18 +39,7 @@ namespace BlackJack.DataAccess.Repositories
                 return game;
             }
         }
-
-        public async Task<Game> Create()
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                var game = new Game();
-                long gameId = await db.InsertAsync(game);
-                game.Id = gameId;
-                return game;
-            }
-        }
-
+        
         public async Task UpdateStage(long gameId, int stage)
         {
             string sqlQuery = @"UPDATE Games SET Stage = @stage

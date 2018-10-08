@@ -15,7 +15,7 @@ const routes: Routes = [
             },
             {
                 path: 'game/:Id',
-                loadChildren: './authorized-user/game/game.module#GameModule'
+                loadChildren: 'app/authorized-user/authorized-user/game/game.module#GameModule'
             }
         ]
     }

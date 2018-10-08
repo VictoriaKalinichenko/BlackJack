@@ -90,21 +90,21 @@ namespace BlackJack.BusinessLogic.Providers
 
         public string GetHumanRoundResult(float betPayCoefficient)
         {
-            string roundResult = RoundResultHelper.Lose;
+            string roundResult = GameMessageHelper.Lose;
 
             if (betPayCoefficient == BetValueHelper.BlackJackCoefficient)
             {
-                roundResult = RoundResultHelper.BlackJack;
+                roundResult = GameMessageHelper.BlackJack;
             }
 
             if (betPayCoefficient == BetValueHelper.WinCoefficient)
             {
-                roundResult = RoundResultHelper.Win;
+                roundResult = GameMessageHelper.Win;
             }
 
             if (betPayCoefficient == BetValueHelper.ZeroCoefficient)
             {
-                roundResult = RoundResultHelper.ReturnBet;
+                roundResult = GameMessageHelper.ReturnBet;
             }
 
             return roundResult;

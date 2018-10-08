@@ -1,7 +1,6 @@
 ﻿using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using Dapper;
-using Dapper.Contrib.Extensions;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -26,17 +25,7 @@ namespace BlackJack.DataAccess.Repositories
                 Player player = await db.QueryFirstOrDefaultAsync<Player>(sqlQuery, new { name = name, playerType = playerType });
                 return player;
             }
-        }
-
-        public async Task<Player> Create(Player player)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                long playerId = await db.InsertAsync(player);
-                player.Id = playerId;
-                return player;
-            }
-        }
+        }        
 
         public async Task<List<Player>> CreateMany(List<Player> players)
         {
@@ -52,14 +41,6 @@ namespace BlackJack.DataAccess.Repositories
             await bulkOperation.BulkInsertAsync(players);
             db.Close();
             return players;
-        }
-
-        public async Task Delete(long id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                await db.DeleteAsync(new Player() { Id = id });
-            }
         }
     }
 }

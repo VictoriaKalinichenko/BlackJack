@@ -16,8 +16,6 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 
         Task<IEnumerable<GamePlayer>> GetAllWithCards(long gameId);
         
-        Task CreateMany(IEnumerable<GamePlayer> gamePlayers);
-
         Task UpdateAddingCard(GamePlayer gamePlayer);
 
         Task UpdateMany(IEnumerable<GamePlayer> gamePlayers);

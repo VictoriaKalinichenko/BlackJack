@@ -3,7 +3,7 @@
 
     <div class="form-group">
         <label>User name: </label>
-        <input class="form-control" name="name" [(ngModel)]="UserName" #name="ngModel" required />
+        <input class="form-control" name="name" [(ngModel)]="UserName" #name="ngModel" required pattern="^[a-zA-Z]*$" />
     </div>
 
     <div class="form-group">

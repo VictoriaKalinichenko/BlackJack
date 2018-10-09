@@ -36,8 +36,8 @@ var HttpService = /** @class */ (function () {
         var body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
         return this._httpClient.post('Game/StartRound', body);
     };
-    HttpService.prototype.ContinueRound = function (gameId, blackJackContinueChoice) {
-        var body = { GameId: gameId, BlackJackContinueChoice: blackJackContinueChoice };
+    HttpService.prototype.ContinueRound = function (gameId, continueRound) {
+        var body = { GameId: gameId, ContinueRound: continueRound };
         return this._httpClient.post('Game/ContinueRound', body);
     };
     HttpService.prototype.AddCard = function (gameId) {

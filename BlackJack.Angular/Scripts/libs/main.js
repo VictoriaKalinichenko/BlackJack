@@ -312,7 +312,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\r\n    <h1>BlackJack</h1>\r\n\r\n    <div class=\"form-group\">\r\n        <label>User name: </label>\r\n        <input class=\"form-control\" name=\"name\" [(ngModel)]=\"UserName\" #name=\"ngModel\" required />\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n        <button [disabled]=\"name.invalid\" class=\"btn btn-primary\" (click)=\"AuthUser()\">Enter</button>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"jumbotron\">\r\n    <h1>BlackJack</h1>\r\n\r\n    <div class=\"form-group\">\r\n        <label>User name: </label>\r\n        <input class=\"form-control\" name=\"name\" [(ngModel)]=\"UserName\" #name=\"ngModel\" required pattern=\"^[a-zA-Z]*$\" />\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n        <button [disabled]=\"name.invalid\" class=\"btn btn-primary\" (click)=\"AuthUser()\">Enter</button>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -498,8 +498,8 @@ var HttpService = /** @class */ (function () {
         var body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
         return this._httpClient.post('Game/StartRound', body);
     };
-    HttpService.prototype.ContinueRound = function (gameId, blackJackContinueChoice) {
-        var body = { GameId: gameId, BlackJackContinueChoice: blackJackContinueChoice };
+    HttpService.prototype.ContinueRound = function (gameId, continueRound) {
+        var body = { GameId: gameId, ContinueRound: continueRound };
         return this._httpClient.post('Game/ContinueRound', body);
     };
     HttpService.prototype.AddCard = function (gameId) {

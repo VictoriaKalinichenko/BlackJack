@@ -178,8 +178,8 @@ export class GameComponent implements OnInit {
         this.BetValidationMessage = validationMessage;
     }
 
-    ContinueRound(humanBlackJackContinueRound: boolean) {
-        this._httpService.ContinueRound(this.Game.Id, humanBlackJackContinueRound)
+    ContinueRound(continueRound: boolean) {
+        this._httpService.ContinueRound(this.Game.Id, continueRound)
             .subscribe(
                 (data) => {
                     this.Game = deserialize(GameView, data);

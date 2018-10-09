@@ -1758,9 +1758,9 @@ var GameComponent = /** @class */ (function () {
         this.BetValidationError = true;
         this.BetValidationMessage = validationMessage;
     };
-    GameComponent.prototype.ContinueRound = function (humanBlackJackContinueRound) {
+    GameComponent.prototype.ContinueRound = function (continueRound) {
         var _this = this;
-        this._httpService.ContinueRound(this.Game.Id, humanBlackJackContinueRound)
+        this._httpService.ContinueRound(this.Game.Id, continueRound)
             .subscribe(function (data) {
             _this.Game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_models_game_view__WEBPACK_IMPORTED_MODULE_5__["GameView"], data);
             _this.ContinueRoundGamePlay(data["RoundResult"]);

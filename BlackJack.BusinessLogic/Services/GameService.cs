@@ -94,11 +94,11 @@ namespace BlackJack.BusinessLogic.Services
             return addCardViewModel;
         }
 
-        public async Task<ContinueRoundResponseViewModel> ContinueRound(long gameId, bool blackJackDangerContinue = false)
+        public async Task<ContinueRoundResponseViewModel> ContinueRound(long gameId, bool continueRound = false)
         {
             List<GamePlayer> players = (await _gamePlayerRepository.GetAllWithCards(gameId)).ToList();
 
-            if (blackJackDangerContinue)
+            if (continueRound)
             {
                 players.Where(m => m.Player.Type == (int)PlayerType.Human).First().BetPayCoefficient = BetValueHelper.DefaultCoefficient;
             }

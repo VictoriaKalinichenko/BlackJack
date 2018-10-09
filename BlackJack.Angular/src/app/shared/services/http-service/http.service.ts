@@ -38,8 +38,8 @@ export class HttpService {
         return this._httpClient.post('Game/StartRound', body);
     }
 
-    ContinueRound(gameId: number, blackJackContinueChoice: boolean) {
-        const body = { GameId: gameId, BlackJackContinueChoice: blackJackContinueChoice };
+    ContinueRound(gameId: number, continueRound: boolean) {
+        const body = { GameId: gameId, ContinueRound: continueRound };
         return this._httpClient.post('Game/ContinueRound', body);
     }
 

@@ -146,9 +146,9 @@ var GameComponent = /** @class */ (function () {
         this.BetValidationError = true;
         this.BetValidationMessage = validationMessage;
     };
-    GameComponent.prototype.ContinueRound = function (humanBlackJackContinueRound) {
+    GameComponent.prototype.ContinueRound = function (continueRound) {
         var _this = this;
-        this._httpService.ContinueRound(this.Game.Id, humanBlackJackContinueRound)
+        this._httpService.ContinueRound(this.Game.Id, continueRound)
             .subscribe(function (data) {
             _this.Game = deserialize(GameView, data);
             _this.ContinueRoundGamePlay(data["RoundResult"]);

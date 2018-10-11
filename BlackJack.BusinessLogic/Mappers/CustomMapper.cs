@@ -79,5 +79,47 @@ namespace BlackJack.BusinessLogic.Mappers
             var playerCard = new PlayerCard() { GamePlayerId = gamePlayer.Id, CardId = card.Id, Card = card };
             return playerCard;
         }
+
+        public static AuthorizePlayerViewModel GetAuthorizePlayerViewModel (Player human, Game game)
+        {
+            var authorizePlayerViewModel = new AuthorizePlayerViewModel()
+            {
+                PlayerId = human.Id,
+                Name = human.Name,
+                ResumeGame = true
+            };
+            
+            if (game == null || !string.IsNullOrEmpty(game.Result))
+            {
+                authorizePlayerViewModel.ResumeGame = false;
+            }
+            
+            return authorizePlayerViewModel;
+        }
+
+        public static GamePlayer GetGamePlayer(Player player, long gameId)
+        {
+            var gamePlayer = new GamePlayer()
+            {
+                GameId = gameId,
+                PlayerId = player.Id,
+                Score = GameValueHelper.DefaultPlayerScore,
+                BetPayCoefficient = BetValueHelper.DefaultCoefficient,
+                Bet = GameValueHelper.Zero,
+                RoundScore = GameValueHelper.Zero,
+                Player = player
+            };
+
+            return gamePlayer;
+        }
+
+
+        public static Player GetPlayer(string name, PlayerType playerType)
+        {
+            var player = new Player();
+            player.Name = name;
+            player.Type = (int)playerType;
+            return player;
+        }
     }
 }

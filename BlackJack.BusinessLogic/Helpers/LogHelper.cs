@@ -46,7 +46,7 @@ namespace BlackJack.BusinessLogic.Helpers
             List<Log> cardLogs = GetCardsAddingLogsAfterStartRound(gamePlayers);
             logs.AddRange(cardLogs);
 
-            List<Log> payCoefficientLogs = GetPayCoefficientCulculatingLogsAfterStartRound(gamePlayers);
+            List<Log> payCoefficientLogs = GetPayCoefficientDefiningLogsAfterStartRound(gamePlayers);
             logs.AddRange(payCoefficientLogs);
                         
             logs.Add(new Log()
@@ -65,7 +65,7 @@ namespace BlackJack.BusinessLogic.Helpers
             List<Log> cardLogs = GetCardsAddingLogsAfterContinueRound(gamePlayers, playerCards);
             logs.AddRange(cardLogs);
 
-            List<Log> payCoefficientLogs = GetPayCoefficientCulculatingLogsAfterContinueRound(gamePlayers);
+            List<Log> payCoefficientLogs = GetPayCoefficientDefiningLogsAfterContinueRound(gamePlayers);
             logs.AddRange(payCoefficientLogs);
 
             logs.Add(new Log()
@@ -107,7 +107,7 @@ namespace BlackJack.BusinessLogic.Helpers
             return logs;
         }
 
-        private static List<Log> GetPayCoefficientCulculatingLogsAfterStartRound(List<GamePlayer> gamePlayers)
+        private static List<Log> GetPayCoefficientDefiningLogsAfterStartRound(List<GamePlayer> gamePlayers)
         {
             var logs = new List<Log>();
 
@@ -165,7 +165,7 @@ namespace BlackJack.BusinessLogic.Helpers
             return logs;
         }
 
-        private static List<Log> GetPayCoefficientCulculatingLogsAfterContinueRound(List<GamePlayer> gamePlayers)
+        private static List<Log> GetPayCoefficientDefiningLogsAfterContinueRound(List<GamePlayer> gamePlayers)
         {
             var logs = new List<Log>();
 

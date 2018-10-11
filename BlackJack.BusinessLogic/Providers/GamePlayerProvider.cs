@@ -36,7 +36,7 @@ namespace BlackJack.BusinessLogic.Providers
             GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
 
             bool dealerBlackJackDanger = false;
-            if (dealer.PlayerCards[0].Card.Name >= CardValueHelper.CardDealerBlackJackDanger)
+            if (dealer.PlayerCards[0].Card.Name >= CardValueHelper.DealerBlackJackDanger)
             {
                 dealerBlackJackDanger = true;
             }
@@ -109,15 +109,15 @@ namespace BlackJack.BusinessLogic.Providers
             float betPayCoefficient = BetValueHelper.DefaultCoefficient;
 
             if (!dealerBlackJackDanger && 
-                roundScore == CardValueHelper.CardBlackJackScore &&
-                amountOfCards == CardValueHelper.CardBlackJackAmount)
+                roundScore == CardValueHelper.BlackJackScore &&
+                amountOfCards == CardValueHelper.BlackJackAmount)
             {
                 betPayCoefficient = BetValueHelper.BlackJackCoefficient;
             }
 
             if (dealerBlackJackDanger && 
-                roundScore == CardValueHelper.CardBlackJackScore &&
-                amountOfCards == CardValueHelper.CardBlackJackAmount)
+                roundScore == CardValueHelper.BlackJackScore &&
+                amountOfCards == CardValueHelper.BlackJackAmount)
             {
                 betPayCoefficient = BetValueHelper.WinCoefficient;
             }
@@ -135,22 +135,22 @@ namespace BlackJack.BusinessLogic.Providers
 
             betPayCoefficient = BetValueHelper.LoseCoefficient;
 
-            if ((roundScore == CardValueHelper.CardBlackJackScore &&
-                amountOfCards == CardValueHelper.CardBlackJackAmount) &&
-                !(dealerRoundScore == CardValueHelper.CardBlackJackScore &&
-                dealerAmountOfCards == CardValueHelper.CardBlackJackAmount))
+            if ((roundScore == CardValueHelper.BlackJackScore &&
+                amountOfCards == CardValueHelper.BlackJackAmount) &&
+                !(dealerRoundScore == CardValueHelper.BlackJackScore &&
+                dealerAmountOfCards == CardValueHelper.BlackJackAmount))
             {
                 return BetValueHelper.BlackJackCoefficient;
             }
 
-            if (roundScore <= CardValueHelper.CardBlackJackScore &&
+            if (roundScore <= CardValueHelper.BlackJackScore &&
                 roundScore == dealerRoundScore)
             {
                 betPayCoefficient = BetValueHelper.ZeroCoefficient;
             }
 
-            if (roundScore <= CardValueHelper.CardBlackJackScore &&
-                (roundScore > dealerRoundScore || dealerRoundScore > CardValueHelper.CardBlackJackScore))
+            if (roundScore <= CardValueHelper.BlackJackScore &&
+                (roundScore > dealerRoundScore || dealerRoundScore > CardValueHelper.BlackJackScore))
             {
                 betPayCoefficient = BetValueHelper.WinCoefficient;
             }

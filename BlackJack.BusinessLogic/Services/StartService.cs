@@ -34,7 +34,7 @@ namespace BlackJack.BusinessLogic.Services
             Player human = await _playerRepository.SelectByName(name, (int)PlayerType.Human);
             if (human == null)
             {
-                human = CreatePlayer(name, PlayerType.Human);
+                human = CustomMapper.GetPlayer(name, PlayerType.Human);
                 await _playerRepository.Create(human);
             }
         }
@@ -42,21 +42,8 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<AuthorizePlayerViewModel> AuthorizePlayer(string name)
         {
             Player human = await _playerRepository.SelectByName(name, (int)PlayerType.Human);
-
-            bool resumeGame = true;
             Game game = await _gameRepository.GetByPlayerId(human.Id);
-            if (game == null || !string.IsNullOrEmpty(game.Result))
-            {
-                resumeGame = false;
-            }
-
-            var authorizePlayerViewModel = new AuthorizePlayerViewModel()
-            {
-                PlayerId = human.Id,
-                Name = human.Name,
-                ResumeGame = resumeGame
-            };
-
+            AuthorizePlayerViewModel authorizePlayerViewModel = CustomMapper.GetAuthorizePlayerViewModel(human, game);
             return authorizePlayerViewModel;
         }
 
@@ -69,17 +56,7 @@ namespace BlackJack.BusinessLogic.Services
             var gamePlayers = new List<GamePlayer>();
             foreach (Player player in players)
             {
-                var gamePlayer = new GamePlayer()
-                {
-                    GameId = game.Id,
-                    PlayerId = player.Id,
-                    Score = GameValueHelper.DefaultPlayerScore,
-                    BetPayCoefficient = BetValueHelper.DefaultCoefficient,
-                    Bet = GameValueHelper.Zero,
-                    RoundScore = GameValueHelper.Zero,
-                    Player = player
-                };
-
+                GamePlayer gamePlayer = CustomMapper.GetGamePlayer(player, game.Id);
                 gamePlayers.Add(gamePlayer);
             }
 
@@ -108,24 +85,16 @@ namespace BlackJack.BusinessLogic.Services
             return initRoundViewModel;
         }
         
-        private Player CreatePlayer(string name, PlayerType playerType)
-        {
-            var player = new Player();
-            player.Name = name;
-            player.Type = (int)playerType;
-            return player;
-        }
-
         private async Task<List<Player>> CreatePlayerList(long playerId, int amountOfBots)
         {
             var players = new List<Player>();
             var random = new Random();
-            Player dealer = CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Dealer);
+            Player dealer = CustomMapper.GetPlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Dealer);
             players.Add(dealer);
 
             for (int i = 0; i < amountOfBots; i++)
             {
-                Player bot = CreatePlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Bot);
+                Player bot = CustomMapper.GetPlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Bot);
                 players.Add(bot);
             }
 

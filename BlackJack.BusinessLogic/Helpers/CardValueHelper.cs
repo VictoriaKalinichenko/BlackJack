@@ -2,9 +2,9 @@
 {
     public static class CardValueHelper
     {
-        public static readonly int CardDealerBlackJackDanger = 10;
-        public static readonly int CardBlackJackAmount = 2;
-        public static readonly int CardBlackJackScore = 21;
-        public static readonly int CardBotEnoughScore = 17;
+        public static readonly int DealerBlackJackDanger = 10;
+        public static readonly int BlackJackAmount = 2;
+        public static readonly int BlackJackScore = 21;
+        public static readonly int BotEnoughScore = 17;
     }
 }

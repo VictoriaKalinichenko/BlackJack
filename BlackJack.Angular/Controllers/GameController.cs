@@ -55,8 +55,7 @@ namespace BlackJack.Angular.Controllers
 
                 if (string.IsNullOrEmpty(message))
                 {
-                    StartRoundResponseViewModel startRoundResponseViewModel = 
-                        await _gameService.StartRound(startRoundRequestViewModel.Bet, startRoundRequestViewModel.GameId);
+                    StartRoundResponseViewModel startRoundResponseViewModel = await _gameService.StartRound(startRoundRequestViewModel);
                     return Ok(new { Message = message, Data = startRoundResponseViewModel });
                 }
 
@@ -122,9 +121,7 @@ namespace BlackJack.Angular.Controllers
                     return BadRequest(GameMessageHelper.ReceivedDataError);
                 }
 
-                ContinueRoundResponseViewModel continueRoundResponseViewModel = 
-                    await _gameService.ContinueRound(continueRoundRequestViewModel.GameId, 
-                    continueRoundRequestViewModel.ContinueRound);
+                ContinueRoundResponseViewModel continueRoundResponseViewModel = await _gameService.ContinueRound(continueRoundRequestViewModel);
                 return Ok(continueRoundResponseViewModel);
             }
             catch (Exception ex)

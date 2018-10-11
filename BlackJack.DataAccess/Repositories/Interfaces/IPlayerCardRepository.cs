@@ -6,10 +6,6 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 {
     public interface IPlayerCardRepository : IGenericRepository<PlayerCard>
     {
-        Task<IEnumerable<PlayerCard>> GetByGamePlayerId(long gamePlayerId);
-        
-        Task<IEnumerable<Card>> GetCardsOnHands(long gameId);
-
-        Task<IEnumerable<PlayerCard>> GetAllByGameId(long gameId);
+        Task DeleteAllByGameId(long gameId);
     }
 }

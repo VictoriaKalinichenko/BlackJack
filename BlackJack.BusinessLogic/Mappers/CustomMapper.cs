@@ -11,6 +11,50 @@ namespace BlackJack.BusinessLogic.Mappers
 {
     public static class CustomMapper
     {
+        public static AuthorizePlayerViewModel GetAuthorizePlayerViewModel(Player human, Game game)
+        {
+            var authorizePlayerViewModel = new AuthorizePlayerViewModel()
+            {
+                PlayerId = human.Id,
+                Name = human.Name,
+                ResumeGame = true
+            };
+
+            if (game == null || !string.IsNullOrEmpty(game.Result))
+            {
+                authorizePlayerViewModel.ResumeGame = false;
+            }
+
+            return authorizePlayerViewModel;
+        }
+
+        public static InitRoundViewModel GetInitRoundViewModel(Game game, List<GamePlayer> players, string isGameOver)
+        {
+            InitRoundViewModel initRoundViewModel = Mapper.Map<Game, InitRoundViewModel>(game);
+            initRoundViewModel.Bots = new List<PlayerItem>();
+
+            foreach (GamePlayer player in players)
+            {
+                if (player.Player.Type == (int)PlayerType.Dealer)
+                {
+                    initRoundViewModel.Dealer = Mapper.Map<GamePlayer, PlayerItem>(player);
+                }
+
+                if (player.Player.Type == (int)PlayerType.Human)
+                {
+                    initRoundViewModel.Human = Mapper.Map<GamePlayer, PlayerItem>(player);
+                }
+
+                if (player.Player.Type == (int)PlayerType.Bot)
+                {
+                    PlayerItem bot = Mapper.Map<GamePlayer, PlayerItem>(player);
+                    initRoundViewModel.Bots.Add(bot);
+                }
+            }
+
+            return initRoundViewModel;
+        }
+
         public static StartRoundResponseViewModel GetStartRoundResponseViewModel(List<GamePlayer> players, long gameId, bool canTakeCard, bool isBlackJackChoice)
         {
             GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
@@ -47,54 +91,12 @@ namespace BlackJack.BusinessLogic.Mappers
             return continueRoundResponseViewModel;
         }
 
-        public static InitRoundViewModel GetInitRoundViewModel(Game game, List<GamePlayer> players, string isGameOver)
+        public static Player GetPlayer(string name, PlayerType playerType)
         {
-            InitRoundViewModel initRoundViewModel = Mapper.Map<Game, InitRoundViewModel>(game);
-            initRoundViewModel.Bots = new List<PlayerItem>();
-
-            foreach(GamePlayer player in players)
-            {
-                if (player.Player.Type == (int)PlayerType.Dealer)
-                {
-                    initRoundViewModel.Dealer = Mapper.Map<GamePlayer, PlayerItem>(player);
-                }
-
-                if (player.Player.Type == (int)PlayerType.Human)
-                {
-                    initRoundViewModel.Human = Mapper.Map<GamePlayer, PlayerItem>(player);
-                }
-
-                if (player.Player.Type == (int)PlayerType.Bot)
-                {
-                    PlayerItem bot = Mapper.Map<GamePlayer, PlayerItem>(player);
-                    initRoundViewModel.Bots.Add(bot);
-                }
-            }
-
-            return initRoundViewModel;
-        }
-
-        public static PlayerCard GetPlayerCard(GamePlayer gamePlayer, Card card)
-        {
-            var playerCard = new PlayerCard() { GamePlayerId = gamePlayer.Id, CardId = card.Id, Card = card };
-            return playerCard;
-        }
-
-        public static AuthorizePlayerViewModel GetAuthorizePlayerViewModel (Player human, Game game)
-        {
-            var authorizePlayerViewModel = new AuthorizePlayerViewModel()
-            {
-                PlayerId = human.Id,
-                Name = human.Name,
-                ResumeGame = true
-            };
-            
-            if (game == null || !string.IsNullOrEmpty(game.Result))
-            {
-                authorizePlayerViewModel.ResumeGame = false;
-            }
-            
-            return authorizePlayerViewModel;
+            var player = new Player();
+            player.Name = name;
+            player.Type = (int)playerType;
+            return player;
         }
 
         public static GamePlayer GetGamePlayer(Player player, long gameId)
@@ -112,14 +114,11 @@ namespace BlackJack.BusinessLogic.Mappers
 
             return gamePlayer;
         }
-
-
-        public static Player GetPlayer(string name, PlayerType playerType)
+        
+        public static PlayerCard GetPlayerCard(GamePlayer gamePlayer, Card card)
         {
-            var player = new Player();
-            player.Name = name;
-            player.Type = (int)playerType;
-            return player;
+            var playerCard = new PlayerCard() { GamePlayerId = gamePlayer.Id, CardId = card.Id, Card = card };
+            return playerCard;
         }
     }
 }

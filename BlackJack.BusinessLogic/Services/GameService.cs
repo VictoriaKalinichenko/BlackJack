@@ -137,36 +137,6 @@ namespace BlackJack.BusinessLogic.Services
             await _gameRepository.UpdateResult(GameLogicEndGameView.GameId, GameLogicEndGameView.Result);
             await _gamePlayerRepository.DeleteAllByGameId(GameLogicEndGameView.GameId);
         }
-
-        private StartRoundResponseViewModel GetStartRoundResponse(List<GamePlayer> players)
-        {
-            GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
-
-            bool canTakeCard = true;
-            if (human.RoundScore >= CardValueHelper.BlackJackScore)
-            {
-                canTakeCard = false;
-            }
-
-            bool blackJackChoice = false;
-            if (human.BetPayCoefficient == BetValueHelper.WinCoefficient)
-            {
-                blackJackChoice = true;
-            }
-
-            StartRoundResponseViewModel startRoundResponseViewModel = 
-                CustomMapper.GetStartRoundResponseViewModel(players, human.GameId, canTakeCard, blackJackChoice);
-            return startRoundResponseViewModel;
-        }
-
-        private ContinueRoundResponseViewModel GetContinueRoundResponse(List<GamePlayer> players) 
-        {
-            GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
-            string humanRoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
-            ContinueRoundResponseViewModel continueRoundResponseViewModel = 
-                CustomMapper.GetContinueRoundResponseViewModel(players, human.GameId, humanRoundResult);
-            return continueRoundResponseViewModel;
-        }
         
         private async Task DistributeFirstCards(IEnumerable<GamePlayer> gamePlayers)
         {
@@ -231,6 +201,36 @@ namespace BlackJack.BusinessLogic.Services
             gamePlayer.CardAmount++;
             gamePlayer.RoundScore = CountCardScore(gamePlayer.PlayerCards);
             return playerCard;
+        }
+        
+        private StartRoundResponseViewModel GetStartRoundResponse(List<GamePlayer> players)
+        {
+            GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
+
+            bool canTakeCard = true;
+            if (human.RoundScore >= CardValueHelper.BlackJackScore)
+            {
+                canTakeCard = false;
+            }
+
+            bool blackJackChoice = false;
+            if (human.BetPayCoefficient == BetValueHelper.WinCoefficient)
+            {
+                blackJackChoice = true;
+            }
+
+            StartRoundResponseViewModel startRoundResponseViewModel =
+                CustomMapper.GetStartRoundResponseViewModel(players, human.GameId, canTakeCard, blackJackChoice);
+            return startRoundResponseViewModel;
+        }
+
+        private ContinueRoundResponseViewModel GetContinueRoundResponse(List<GamePlayer> players)
+        {
+            GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
+            string humanRoundResult = _gamePlayerProvider.GetHumanRoundResult(human.BetPayCoefficient);
+            ContinueRoundResponseViewModel continueRoundResponseViewModel =
+                CustomMapper.GetContinueRoundResponseViewModel(players, human.GameId, humanRoundResult);
+            return continueRoundResponseViewModel;
         }
 
         private async Task RemoveCards(List<GamePlayer> players, long gameId)

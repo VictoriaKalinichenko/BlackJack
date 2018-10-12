@@ -1,0 +1,1 @@
+2018-10-12 17:53:53.2911|ERROR|BlackJack.Angular.Controllers.GameController|BlackJack.Angular|Void MoveNext()|   at BlackJack.Angular.Controllers.GameController.<AddCard>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\GameController.cs:line 105|Exception of type 'System.Exception' was thrown.

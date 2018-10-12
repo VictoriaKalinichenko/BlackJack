@@ -5,11 +5,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../../shared/modules/shared.module';
-import { GameRoutingModule } from './game-routing.module';
-import { GameComponent } from './game/game.component';
-import { PlayerOutputComponent } from './game/player-output/player-output.component';
-import { DealerOutputComponent } from './game/dealer-output/dealer-output.component';
+import { SharedModule } from 'app/shared/modules/shared.module';
+import { GameRoutingModule } from 'app/authorized-user/authorized-user/game/game-routing.module';
+import { GameComponent } from 'app/authorized-user/authorized-user/game/game/game.component';
+import { PlayerOutputComponent } from 'app/authorized-user/authorized-user/game/player-output/player-output.component';
+import { DealerOutputComponent } from 'app/authorized-user/authorized-user/game/dealer-output/dealer-output.component';
 var GameModule = /** @class */ (function () {
     function GameModule() {
     }

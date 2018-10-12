@@ -11,15 +11,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserNameService } from 'app/shared/services/user-name-service/user-name.service';
 import { HttpService } from 'app/shared/services/http-service/http.service';
-import { ErrorService } from 'app/shared/services/error-service/error.service';
-import { AuthorizedUserView } from 'app/shared/models/authorized-user-view';
+import { AuthorizePlayerViewModel } from 'app/shared/models/authorize-player-view-model';
 var StartpageComponent = /** @class */ (function () {
-    function StartpageComponent(_userNameService, _httpService, _errorService, _router) {
+    function StartpageComponent(_userNameService, _httpService, _router) {
         this._userNameService = _userNameService;
         this._httpService = _httpService;
-        this._errorService = _errorService;
         this._router = _router;
-        this.Player = new AuthorizedUserView();
+        this.Player = new AuthorizePlayerViewModel();
         this.AmountOfBots = 0;
     }
     StartpageComponent.prototype.ngOnInit = function () {
@@ -33,10 +31,6 @@ var StartpageComponent = /** @class */ (function () {
             _this.Player.Name = data.Name;
             _this.Player.PlayerId = data.PlayerId;
             _this.Player.ResumeGame = data.ResumeGame;
-        }, function (error) {
-            console.log(error);
-            _this._errorService.SetError(error["error"]["Message"]);
-            _this._router.navigate(['/error']);
         });
     };
     StartpageComponent.prototype.StartNewGame = function () {
@@ -45,10 +39,6 @@ var StartpageComponent = /** @class */ (function () {
             .subscribe(function (data) {
             _this.GameId = data["GameId"];
             _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
-        }, function (error) {
-            console.log(error);
-            _this._errorService.SetError(error["error"]["Message"]);
-            _this._router.navigate(['/error']);
         });
     };
     StartpageComponent.prototype.ResumeGame = function () {
@@ -57,10 +47,6 @@ var StartpageComponent = /** @class */ (function () {
             .subscribe(function (data) {
             _this.GameId = data["GameId"];
             _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
-        }, function (error) {
-            console.log(error);
-            _this._errorService.SetError(error["error"]["Message"]);
-            _this._router.navigate(['/error']);
         });
     };
     StartpageComponent = __decorate([
@@ -71,7 +57,6 @@ var StartpageComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [UserNameService,
             HttpService,
-            ErrorService,
             Router])
     ], StartpageComponent);
     return StartpageComponent;

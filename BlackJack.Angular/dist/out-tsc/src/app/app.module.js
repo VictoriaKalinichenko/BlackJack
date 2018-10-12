@@ -6,15 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { SharedModule } from './shared/modules/shared.module';
-import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from 'app/shared/modules/shared.module';
+import { AppRoutingModule } from 'app/app-routing.module';
 import { APP_BASE_HREF } from '@angular/common';
-import { AppComponent } from './app.component';
-import { HomepageComponent } from './homepage/homepage.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
-import { UserNameService } from './shared/services/user-name-service/user-name.service';
-import { ErrorService } from './shared/services/error-service/error.service';
-import { HttpService } from './shared/services/http-service/http.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AppComponent } from 'app/app.component';
+import { HomepageComponent } from 'app/homepage/homepage.component';
+import { ErrorPageComponent } from 'app/error-page/error-page.component';
+import { UserNameService } from 'app/shared/services/user-name-service/user-name.service';
+import { ErrorService } from 'app/shared/services/error-service/error.service';
+import { HttpService } from 'app/shared/services/http-service/http.service';
+import { RequestInterceptor } from 'app/shared/interceptors/request-interceptor/request-interceptor';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -34,7 +36,15 @@ var AppModule = /** @class */ (function () {
                 UserNameService,
                 ErrorService,
                 HttpService,
-                { provide: APP_BASE_HREF, useValue: '/' }
+                {
+                    provide: APP_BASE_HREF,
+                    useValue: '/'
+                },
+                {
+                    provide: HTTP_INTERCEPTORS,
+                    useClass: RequestInterceptor,
+                    multi: true
+                }
             ],
             bootstrap: [
                 AppComponent

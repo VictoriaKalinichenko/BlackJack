@@ -6,13 +6,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HomepageComponent } from './homepage/homepage.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
+import { HomepageComponent } from 'app/homepage/homepage.component';
+import { ErrorPageComponent } from 'app/error-page/error-page.component';
 var appRoutes = [
     {
         path: '',
-        redirectTo: '',
-        pathMatch: 'full',
         component: HomepageComponent
     },
     {

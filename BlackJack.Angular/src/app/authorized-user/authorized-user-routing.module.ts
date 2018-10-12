@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthorizedUserComponent } from './authorized-user/authorized-user.component';
-import { StartpageComponent } from './authorized-user/startpage/startpage.component';
+import { AuthorizedUserComponent } from 'app/authorized-user/authorized-user/authorized-user.component';
+import { StartpageComponent } from 'app/authorized-user/startpage/startpage.component';
 
 const routes: Routes = [
     {
@@ -15,7 +15,7 @@ const routes: Routes = [
             },
             {
                 path: 'game/:Id',
-                loadChildren: 'app/authorized-user/authorized-user/game/game.module#GameModule'
+                loadChildren: 'app/authorized-user/game/game.module#GameModule'
             }
         ]
     }

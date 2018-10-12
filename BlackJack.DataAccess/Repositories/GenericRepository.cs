@@ -1,4 +1,5 @@
 ﻿using BlackJack.DataAccess.Repositories.Interfaces;
+using BlackJack.Entities.Entities;
 using Dapper.Contrib.Extensions;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +10,7 @@ using Z.BulkOperations;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
     {
         protected string _connectionString;
 

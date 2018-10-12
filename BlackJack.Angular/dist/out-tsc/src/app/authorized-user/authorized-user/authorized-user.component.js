@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserNameService } from '../../shared/services/user-name-service/user-name.service';
+import { UserNameService } from 'app/shared/services/user-name-service/user-name.service';
 var AuthorizedUserComponent = /** @class */ (function () {
     function AuthorizedUserComponent(_userNameService, _route) {
         this._userNameService = _userNameService;
@@ -25,8 +25,7 @@ var AuthorizedUserComponent = /** @class */ (function () {
     AuthorizedUserComponent = __decorate([
         Component({
             selector: 'app-authorized-user',
-            templateUrl: './authorized-user.component.html',
-            styleUrls: ['./authorized-user.component.css']
+            templateUrl: './authorized-user.component.html'
         }),
         __metadata("design:paramtypes", [UserNameService,
             ActivatedRoute])

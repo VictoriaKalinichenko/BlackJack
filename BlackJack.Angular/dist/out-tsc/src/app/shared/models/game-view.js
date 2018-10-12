@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { PlayerView } from 'app/shared/models/player-view';
+import { GamePlayerItem } from 'app/shared/models/game-player-item';
 import { JsonProperty } from 'json-typescript-mapper';
 var GameView = /** @class */ (function () {
     function GameView() {
@@ -26,15 +26,15 @@ var GameView = /** @class */ (function () {
         __metadata("design:type", Number)
     ], GameView.prototype, "Stage", void 0);
     __decorate([
-        JsonProperty({ clazz: PlayerView, name: 'Human' }),
-        __metadata("design:type", PlayerView)
+        JsonProperty({ clazz: GamePlayerItem, name: 'Human' }),
+        __metadata("design:type", GamePlayerItem)
     ], GameView.prototype, "Human", void 0);
     __decorate([
-        JsonProperty({ clazz: PlayerView, name: 'Dealer' }),
-        __metadata("design:type", PlayerView)
+        JsonProperty({ clazz: GamePlayerItem, name: 'Dealer' }),
+        __metadata("design:type", GamePlayerItem)
     ], GameView.prototype, "Dealer", void 0);
     __decorate([
-        JsonProperty({ clazz: PlayerView, name: 'Bots' }),
+        JsonProperty({ clazz: GamePlayerItem, name: 'Bots' }),
         __metadata("design:type", Array)
     ], GameView.prototype, "Bots", void 0);
     return GameView;

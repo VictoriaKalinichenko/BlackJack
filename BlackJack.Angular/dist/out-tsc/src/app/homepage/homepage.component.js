@@ -19,8 +19,7 @@ var HomepageComponent = /** @class */ (function () {
     HomepageComponent = __decorate([
         Component({
             selector: 'app-homepage',
-            templateUrl: './homepage.component.html',
-            styleUrls: ['./homepage.component.css']
+            templateUrl: './homepage.component.html'
         }),
         __metadata("design:paramtypes", [Router])
     ], HomepageComponent);

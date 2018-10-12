@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { UserNameService } from '../../shared/services/user-name-service/user-name.service';
+import { UserNameService } from 'app/shared/services/user-name-service/user-name.service';
 
 @Component({
     selector: 'app-authorized-user',
-    templateUrl: './authorized-user.component.html',
-    styleUrls: ['./authorized-user.component.css']
+    templateUrl: './authorized-user.component.html'
 })
 export class AuthorizedUserComponent implements OnInit {
     UserName: string;

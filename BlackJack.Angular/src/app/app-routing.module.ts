@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomepageComponent } from './homepage/homepage.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
+import { HomepageComponent } from 'app/homepage/homepage.component';
+import { ErrorPageComponent } from 'app/error-page/error-page.component';
 
 const appRoutes: Routes = [
     {
         path: '',
-        redirectTo: '',
-        pathMatch: 'full',
         component: HomepageComponent
     },
     {

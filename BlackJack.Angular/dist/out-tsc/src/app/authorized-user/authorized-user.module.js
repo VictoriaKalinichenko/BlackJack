@@ -5,10 +5,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/modules/shared.module';
-import { AuthorizedUserRoutingModule } from './authorized-user-routing.module';
-import { AuthorizedUserComponent } from './authorized-user/authorized-user.component';
-import { StartpageComponent } from './authorized-user/startpage/startpage.component';
+import { SharedModule } from 'app/shared/modules/shared.module';
+import { AuthorizedUserRoutingModule } from 'app/authorized-user/authorized-user-routing.module';
+import { AuthorizedUserComponent } from 'app/authorized-user/authorized-user/authorized-user.component';
+import { StartpageComponent } from 'app/authorized-user/startpage/startpage.component';
 var AuthorizedUserModule = /** @class */ (function () {
     function AuthorizedUserModule() {
     }

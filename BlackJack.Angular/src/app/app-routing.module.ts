@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomepageComponent } from 'app/homepage/homepage.component';
+import { HomePageComponent } from 'app/home-page/home-page.component';
 import { ErrorPageComponent } from 'app/error-page/error-page.component';
 
 const appRoutes: Routes = [
     {
         path: '',
-        component: HomepageComponent
+        component: HomePageComponent
     },
     {
         path: 'user/:UserName',
-        loadChildren: 'app/authorized-user/authorized-user.module#AuthorizedUserModule'
+        loadChildren: 'app/authorized-user-module/authorized-user.module#AuthorizedUserModule'
     },
     {
         path: 'error',

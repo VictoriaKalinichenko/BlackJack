@@ -9,8 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserNameService } from 'app/shared/services/user-name-service/user-name.service';
-import { HttpService } from 'app/shared/services/http-service/http.service';
+import { UserNameService } from 'app/shared/services/user-name.service';
+import { HttpService } from 'app/shared/services/http.service';
 import { AuthorizePlayerViewModel } from 'app/shared/view-models/authorize-player-view-model';
 var StartpageComponent = /** @class */ (function () {
     function StartpageComponent(_userNameService, _httpService, _router) {

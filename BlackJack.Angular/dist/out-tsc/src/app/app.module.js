@@ -11,12 +11,12 @@ import { AppRoutingModule } from 'app/app-routing.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from 'app/app.component';
-import { HomepageComponent } from 'app/homepage/homepage.component';
+import { HomePageComponent } from 'app/home-page/home-page.component';
 import { ErrorPageComponent } from 'app/error-page/error-page.component';
-import { UserNameService } from 'app/shared/services/user-name-service/user-name.service';
-import { ErrorService } from 'app/shared/services/error-service/error.service';
-import { HttpService } from 'app/shared/services/http-service/http.service';
-import { RequestInterceptor } from 'app/shared/interceptors/request-interceptor/request-interceptor';
+import { UserNameService } from 'app/shared/services/user-name.service';
+import { ErrorService } from 'app/shared/services/error.service';
+import { HttpService } from 'app/shared/services/http.service';
+import { RequestInterceptor } from 'app/shared/interceptors/request-interceptor';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -24,7 +24,7 @@ var AppModule = /** @class */ (function () {
         NgModule({
             declarations: [
                 AppComponent,
-                HomepageComponent,
+                HomePageComponent,
                 ErrorPageComponent
             ],
             imports: [

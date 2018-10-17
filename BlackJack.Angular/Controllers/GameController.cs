@@ -24,7 +24,7 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                if (endGameViewModel == null || endGameViewModel.GameId == 0 || endGameViewModel.Result == null)
+                if (endGameViewModel == null || endGameViewModel.Result == null)
                 {
                     return BadRequest(GameMessageHelper.ReceivedDataError);
                 }
@@ -45,8 +45,7 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                if (startRoundRequestViewModel == null || startRoundRequestViewModel.GameId == 0 ||
-                    startRoundRequestViewModel.Bet == 0 || startRoundRequestViewModel.GamePlayerId == 0)
+                if (startRoundRequestViewModel == null)
                 {
                     return BadRequest(GameMessageHelper.ReceivedDataError);
                 }
@@ -74,11 +73,6 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                if (gameId == 0)
-                {
-                    return BadRequest(GameMessageHelper.ReceivedDataError);
-                }
-
                 StartRoundResponseViewModel startRoundResponseViewModel = await _gameService.ResumeAfterStartRound(gameId);
                 return Ok(startRoundResponseViewModel);
             }
@@ -95,11 +89,6 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                if (gameId == 0)
-                {
-                    return BadRequest(GameMessageHelper.ReceivedDataError);
-                }
-
                 AddCardViewModel addCardViewModel = await _gameService.AddCard(gameId);
                 return Ok(addCardViewModel);
             }
@@ -116,7 +105,7 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                if (continueRoundRequestViewModel == null || continueRoundRequestViewModel.GameId == 0)
+                if (continueRoundRequestViewModel == null)
                 {
                     return BadRequest(GameMessageHelper.ReceivedDataError);
                 }
@@ -137,11 +126,6 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                if (gameId == 0)
-                {
-                    return BadRequest(GameMessageHelper.ReceivedDataError);
-                }
-
                 ContinueRoundResponseViewModel continueRoundResponseViewModel = 
                     await _gameService.ResumeAfterContinueRound(gameId);
                 return Ok(continueRoundResponseViewModel);
@@ -159,11 +143,6 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                if (gameId == 0)
-                {
-                    return BadRequest(GameMessageHelper.ReceivedDataError);
-                }
-
                 await _gameService.EndRound(gameId);
                 return Ok(GameMessageHelper.Success);
             }

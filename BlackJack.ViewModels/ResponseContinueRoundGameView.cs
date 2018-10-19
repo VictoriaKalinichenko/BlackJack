@@ -2,7 +2,7 @@
 
 namespace BlackJack.ViewModels.ViewModels.Game
 {
-    public class ContinueRoundResponseViewModel
+    public class ResponseContinueRoundGameView
     {
         public long Id { get; set; }
         public string RoundResult { get; set; }

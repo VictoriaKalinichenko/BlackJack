@@ -20,7 +20,7 @@ namespace BlackJack.UI.Controllers
         }
 
         [Route("EndGame"), HttpPost]
-        public async Task<IHttpActionResult> EndGame(EndGameViewModel endGameViewModel)
+        public async Task<IHttpActionResult> EndGame(EndGameView endGameViewModel)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                AddCardViewModel addCardViewModel = await _gameService.AddCard(gameId);
+                AddCardGameView addCardViewModel = await _gameService.AddCard(gameId);
                 return Ok(addCardViewModel);
             }
             catch (Exception ex)
@@ -101,7 +101,7 @@ namespace BlackJack.UI.Controllers
         }
         
         [Route("ContinueRound"), HttpPost]
-        public async Task<IHttpActionResult> ContinueRound(ContinueRoundRequestViewModel continueRoundRequestViewModel)
+        public async Task<IHttpActionResult> ContinueRound(RequestContinueRoundGameView continueRoundRequestViewModel)
         {
             try
             {

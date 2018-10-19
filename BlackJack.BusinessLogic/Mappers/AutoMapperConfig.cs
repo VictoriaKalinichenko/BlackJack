@@ -19,12 +19,12 @@ namespace BlackJack.BusinessLogic.Mappers
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<GamePlayer, AddCardViewModel>()
+                config.CreateMap<GamePlayer, AddCardGameView>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
                 config.CreateMap<Game, StartInitRoundViewModel>();
-                config.CreateMap<HistoryMessage, LogGetAllView>();
+                config.CreateMap<HistoryMessage, GetAllLogView>();
 
                 config.CreateMap<GamePlayer, PlayerItem>()
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));

@@ -11,14 +11,14 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task<StartRoundResponseViewModel> ResumeAfterStartRound(long gameId);
 
-        Task<AddCardViewModel> AddCard(long gameId);
+        Task<AddCardGameView> AddCard(long gameId);
 
-        Task<ContinueRoundResponseViewModel> ContinueRound(ContinueRoundRequestViewModel continueRoundRequestViewModel);
+        Task<ContinueRoundResponseViewModel> ContinueRound(RequestContinueRoundGameView continueRoundRequestViewModel);
 
         Task<ContinueRoundResponseViewModel> ResumeAfterContinueRound(long gameId);
 
         Task EndRound(long gameId);
 
-        Task EndGame(EndGameViewModel endGameViewModel);
+        Task EndGame(EndGameView endGameViewModel);
     }
 }

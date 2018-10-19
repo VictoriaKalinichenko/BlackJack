@@ -76,13 +76,13 @@ namespace BlackJack.BusinessLogic.Services
             return startRoundResponseViewModel;
         }
         
-        public async Task<AddCardViewModel> AddCard(long gameId)
+        public async Task<AddCardGameView> AddCard(long gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetWithCards(gameId, (int)PlayerType.Human);
             await AddOneCardToHuman(human, gameId);
             await _gamePlayerRepository.UpdateAddingCard(human);
 
-            AddCardViewModel addCardViewModel = Mapper.Map<GamePlayer, AddCardViewModel>(human);
+            AddCardGameView addCardViewModel = Mapper.Map<GamePlayer, AddCardGameView>(human);
             addCardViewModel.CanTakeCard = true;
 
             if (human.RoundScore >= CardValueHelper.BlackJackScore)
@@ -93,7 +93,7 @@ namespace BlackJack.BusinessLogic.Services
             return addCardViewModel;
         }
 
-        public async Task<ContinueRoundResponseViewModel> ContinueRound(ContinueRoundRequestViewModel continueRoundRequestViewModel)
+        public async Task<ContinueRoundResponseViewModel> ContinueRound(RequestContinueRoundGameView continueRoundRequestViewModel)
         {
             List<GamePlayer> players = (await _gamePlayerRepository.GetAllWithCards(continueRoundRequestViewModel.GameId)).ToList();
 
@@ -129,7 +129,7 @@ namespace BlackJack.BusinessLogic.Services
             await _gameRepository.UpdateStage(gameId, GameStage.InitRound);
         }
         
-        public async Task EndGame(EndGameViewModel GameLogicEndGameView)
+        public async Task EndGame(EndGameView GameLogicEndGameView)
         {
             await _gameRepository.UpdateResult(GameLogicEndGameView.GameId, GameLogicEndGameView.Result);
             await _gamePlayerRepository.DeleteAllByGameId(GameLogicEndGameView.GameId);

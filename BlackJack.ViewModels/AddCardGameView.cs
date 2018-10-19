@@ -2,7 +2,7 @@
 
 namespace BlackJack.ViewModels.ViewModels.Game
 {
-    public class AddCardViewModel
+    public class AddCardGameView
     {
         public string Name { get; set; }
         public int RoundScore { get; set; }

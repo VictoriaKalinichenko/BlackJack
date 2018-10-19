@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class PlayerCardRepository : GenericRepository<PlayerCard>, IPlayerCardRepository 
+    public class PlayerCardRepository : BaseRepository<PlayerCard>, IPlayerCardRepository 
     {
         public PlayerCardRepository(string connectionString) : base(connectionString)
         { }

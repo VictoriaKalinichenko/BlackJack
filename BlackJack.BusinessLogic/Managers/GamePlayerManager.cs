@@ -1,30 +1,30 @@
 ﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.Entities.Entities;
-using BlackJack.ViewModels.Enums;
+using BlackJack.Entities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlackJack.BusinessLogic.Providers
+namespace BlackJack.BusinessLogic.Managers
 {
-    public class GamePlayerProvider : IGamePlayerProvider
+    public class GamePlayerManager : IGamePlayerManager
     {
         public void CreateBets(List<GamePlayer> players, int bet)
         {
             foreach (GamePlayer player in players)
             {
-                if ((PlayerType)player.Player.Type == PlayerType.Human)
+                if (player.Player.Type == PlayerType.Human)
                 {
                     player.Bet = bet;
                 }
                 
-                if ((PlayerType)player.Player.Type == PlayerType.Bot)
+                if (player.Player.Type == PlayerType.Bot)
                 {
                     player.Bet = GenerateBet(player.Score);
                 }
 
-                if (!((PlayerType)player.Player.Type == PlayerType.Dealer))
+                if (!(player.Player.Type == PlayerType.Dealer))
                 {
                     player.Score = player.Score - player.Bet;
                 }
@@ -33,17 +33,17 @@ namespace BlackJack.BusinessLogic.Providers
 
         public void DefinePayCoefficientsAfterRoundStart(List<GamePlayer> players)
         {
-            GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
+            GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
 
             bool dealerBlackJackDanger = false;
-            if (dealer.PlayerCards[0].Card.Name >= CardValueHelper.DealerBlackJackDanger)
+            if ((int)dealer.PlayerCards[0].Card.Rank >= CardValueHelper.DealerBlackJackDanger)
             {
                 dealerBlackJackDanger = true;
             }
 
             foreach (GamePlayer gamePlayer in players)
             {
-                if (!(gamePlayer.Player.Type == (int)PlayerType.Dealer))
+                if (!(gamePlayer.Player.Type == PlayerType.Dealer))
                 {
                     gamePlayer.BetPayCoefficient = GetPayCoefficientAfterRoundStart(gamePlayer.RoundScore,
                     gamePlayer.CardAmount, dealerBlackJackDanger);
@@ -53,11 +53,11 @@ namespace BlackJack.BusinessLogic.Providers
 
         public void DefinePayCoefficientsAfterRoundContinue(List<GamePlayer> players)
         {
-            GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
+            GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
 
             foreach (GamePlayer gamePlayer in players)
             {
-                if (!(gamePlayer.Player.Type == (int)PlayerType.Dealer))
+                if (!(gamePlayer.Player.Type == PlayerType.Dealer))
                 {
                     gamePlayer.BetPayCoefficient = GetPayCoefficientAfterRoundContinue(gamePlayer.RoundScore,
                         gamePlayer.CardAmount, dealer.RoundScore, dealer.CardAmount, gamePlayer.BetPayCoefficient);
@@ -67,11 +67,11 @@ namespace BlackJack.BusinessLogic.Providers
 
         public void PayBets(List<GamePlayer> players)
         {
-            GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
+            GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
 
             foreach (GamePlayer player in players)
             {
-                if (!(player.Player.Type == (int)PlayerType.Dealer))
+                if (!(player.Player.Type == PlayerType.Dealer))
                 {
                     int pay = (int)(player.Bet * player.BetPayCoefficient);
                     player.Score += player.Bet + pay;

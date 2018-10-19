@@ -3,7 +3,7 @@ using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
-using BlackJack.ViewModels.Enums;
+using BlackJack.Entities.Enums;
 using BlackJack.ViewModels.ViewModels.Start;
 using System;
 using System.Collections.Generic;
@@ -17,21 +17,21 @@ namespace BlackJack.BusinessLogic.Services
         private readonly IGameRepository _gameRepository;
         private readonly IPlayerRepository _playerRepository;
         private readonly IGamePlayerRepository _gamePlayerRepository;
-        private readonly ILogRepository _logRepository;
+        private readonly IHistoryMessageManager _historyMessageManager;
         
 
         public StartService(IGameRepository gameRepository, IPlayerRepository playerRepository, 
-            IGamePlayerRepository gamePlayerRepository, ILogRepository logRepository)
+            IGamePlayerRepository gamePlayerRepository, IHistoryMessageManager historyMessageManager)
         {
             _gamePlayerRepository = gamePlayerRepository;
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
-            _logRepository = logRepository;
+            _historyMessageManager = historyMessageManager;
         }
 
         public async Task CreatePlayer(string name)
         {
-            Player human = await _playerRepository.SelectByName(name, (int)PlayerType.Human);
+            Player human = await _playerRepository.SelectByName(name, PlayerType.Human);
             if (human == null)
             {
                 human = CustomMapper.GetPlayer(name, PlayerType.Human);
@@ -39,11 +39,11 @@ namespace BlackJack.BusinessLogic.Services
             }
         }
 
-        public async Task<AuthorizePlayerViewModel> AuthorizePlayer(string name)
+        public async Task<StartAuthorizePlayerViewModel> AuthorizePlayer(string name)
         {
-            Player human = await _playerRepository.SelectByName(name, (int)PlayerType.Human);
+            Player human = await _playerRepository.SelectByName(name, PlayerType.Human);
             Game game = await _gameRepository.GetByPlayerId(human.Id);
-            AuthorizePlayerViewModel authorizePlayerViewModel = CustomMapper.GetAuthorizePlayerViewModel(human, game);
+            StartAuthorizePlayerViewModel authorizePlayerViewModel = CustomMapper.GetAuthorizePlayerViewModel(human, game);
             return authorizePlayerViewModel;
         }
 
@@ -60,10 +60,8 @@ namespace BlackJack.BusinessLogic.Services
                 gamePlayers.Add(gamePlayer);
             }
 
-            await _gamePlayerRepository.CreateMany(gamePlayers, ToStringHelper.GetTableName(typeof(GamePlayer)));
-            List<Log> logs = LogHelper.GetCreationGameLogs(gamePlayers, game);
-            await _logRepository.CreateMany(logs, ToStringHelper.GetTableName(typeof(Log)));
-
+            await _gamePlayerRepository.CreateMany(gamePlayers);
+            await _historyMessageManager.AddCreationGameMessages(gamePlayers, game);
             long gameId = game.Id;
             return gameId;
         }
@@ -74,14 +72,14 @@ namespace BlackJack.BusinessLogic.Services
             return gameId;
         }
 
-        public async Task<InitRoundViewModel> InitRound(long gameId)
+        public async Task<StartInitRoundViewModel> InitRound(long gameId)
         {
             Game game = await _gameRepository.Get(gameId);
             List<GamePlayer> players = (await _gamePlayerRepository.GetAllForInitRound(gameId)).ToList();
-            GamePlayer human = players.Where(m => m.Player.Type == (int)PlayerType.Human).First();
-            GamePlayer dealer = players.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
+            GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
+            GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
             string isGameOver = IsGameOver(human, dealer);
-            InitRoundViewModel initRoundViewModel = CustomMapper.GetInitRoundViewModel(game, players, isGameOver);
+            StartInitRoundViewModel initRoundViewModel = CustomMapper.GetInitRoundViewModel(game, players, isGameOver);
             return initRoundViewModel;
         }
         

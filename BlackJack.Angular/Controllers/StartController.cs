@@ -30,7 +30,7 @@ namespace BlackJack.Angular.Controllers
                     BadRequest(GameMessageHelper.ReceivedDataError);
                 }
 
-                AuthorizePlayerViewModel authorizePlayerViewModel = await _startGameService.AuthorizePlayer(userName);
+                StartAuthorizePlayerViewModel authorizePlayerViewModel = await _startGameService.AuthorizePlayer(userName);
                 return Ok(authorizePlayerViewModel);
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace BlackJack.Angular.Controllers
         }
 
         [Route("CreateGame"), HttpPost]
-        public async Task<IHttpActionResult> CreateGame(CreateGameViewModel createGameViewModel)
+        public async Task<IHttpActionResult> CreateGame(StartCreateGameViewModel createGameViewModel)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                InitRoundViewModel initRoundViewModel = await _startGameService.InitRound(gameId);
+                StartInitRoundViewModel initRoundViewModel = await _startGameService.InitRound(gameId);
                 return Ok(initRoundViewModel);
             }
             catch (Exception ex)

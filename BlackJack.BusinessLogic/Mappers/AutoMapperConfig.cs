@@ -23,8 +23,8 @@ namespace BlackJack.BusinessLogic.Mappers
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<Game, InitRoundViewModel>();
-                config.CreateMap<Log, GetAllViewModel>();
+                config.CreateMap<Game, StartInitRoundViewModel>();
+                config.CreateMap<HistoryMessage, LogGetAllView>();
 
                 config.CreateMap<GamePlayer, PlayerItem>()
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
@@ -35,8 +35,7 @@ namespace BlackJack.BusinessLogic.Mappers
         {
             var cardsStringList = playerCards.ToList().ConvertAll(delegate (PlayerCard playerCard)
             {
-                string cardString = ToStringHelper.GetCardName(playerCard.Card);
-                return cardString;
+                return playerCard.Card.ToString();
             });
             return cardsStringList;
         }

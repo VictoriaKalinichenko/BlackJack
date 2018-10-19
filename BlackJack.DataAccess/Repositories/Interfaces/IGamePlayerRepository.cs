@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories.Interfaces
 {
-    public interface IGamePlayerRepository : IGenericRepository<GamePlayer>
+    public interface IGamePlayerRepository : IBaseRepository<GamePlayer>
     {
         Task<int> GetScoreById(long gamePlayerId);
 

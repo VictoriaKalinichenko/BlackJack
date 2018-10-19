@@ -49,7 +49,7 @@ namespace BlackJack.UI.Controllers
                     new Exception(GameMessageHelper.ReceivedDataError);
                 }
 
-                AuthorizePlayerViewModel authorizePlayerViewModel = await _startService.AuthorizePlayer(userName);
+                StartAuthorizePlayerViewModel authorizePlayerViewModel = await _startService.AuthorizePlayer(userName);
                 return View(authorizePlayerViewModel);
             }
             catch (Exception ex)
@@ -95,7 +95,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                InitRoundViewModel initRoundViewModel = await _startService.InitRound(gameId);
+                StartInitRoundViewModel initRoundViewModel = await _startService.InitRound(gameId);
                 return View(initRoundViewModel);
             }
             catch (Exception ex)

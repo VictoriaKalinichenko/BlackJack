@@ -6,15 +6,14 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Z.BulkOperations;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
+    public class BaseRepository<T> : IBaseRepository<T> where T : Base
     {
         protected string _connectionString;
 
-        public GenericRepository(string connectionString)
+        public BaseRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
@@ -46,14 +45,12 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task CreateMany(IEnumerable<T> items, string tableName)
+        public async Task CreateMany(IEnumerable<T> items)
         {
-            DbConnection db = new SqlConnection(_connectionString);
-            db.Open();
-            var bulkOperation = new BulkOperation(db);
-            bulkOperation.DestinationTableName = tableName;
-            await bulkOperation.BulkInsertAsync(items);
-            db.Close();
+            using (DbConnection db = new SqlConnection(_connectionString))
+            {
+                await db.InsertAsync(items);
+            }
         }
 
         public async Task Delete(T item)
@@ -64,14 +61,12 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
-        public async Task DeleteMany(IEnumerable<T> items, string tableName)
+        public async Task DeleteMany(IEnumerable<T> items)
         {
-            DbConnection db = new SqlConnection(_connectionString);
-            db.Open();
-            var bulkOperation = new BulkOperation(db);
-            bulkOperation.DestinationTableName = tableName;
-            await bulkOperation.BulkDeleteAsync(items);
-            db.Close();
+            using (DbConnection db = new SqlConnection(_connectionString))
+            {
+                await db.DeleteAsync(items);
+            }
         }
     }
 }

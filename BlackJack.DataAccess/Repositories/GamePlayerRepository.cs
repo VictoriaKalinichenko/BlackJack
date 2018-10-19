@@ -1,5 +1,6 @@
 ﻿using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
+using BlackJack.Entities.Enums;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
@@ -7,11 +8,10 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Z.BulkOperations;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class GamePlayerRepository : GenericRepository<GamePlayer>, IGamePlayerRepository
+    public class GamePlayerRepository : BaseRepository<GamePlayer>, IGamePlayerRepository
     {
         public GamePlayerRepository(string connectionString) : base(connectionString)
         { }
@@ -61,7 +61,7 @@ namespace BlackJack.DataAccess.Repositories
         public async Task<GamePlayer> GetWithCards(long gameId, int playerType)
         {
             string sqlQuery = $@"SELECT A.Id, A.GameId, A.RoundScore, A.CardAmount, A.Score, A.Bet, 
-                                 A.BetPayCoefficient, B.Id, C.Id, C.Name, C.Type, D.Id, D.Name, D.Type
+                                 A.BetPayCoefficient, B.Id, C.Id, C.Rank, C.Lear, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
                                  LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
                                  LEFT JOIN Cards AS C ON B.CardId = C.Id
@@ -98,7 +98,7 @@ namespace BlackJack.DataAccess.Repositories
         public async Task<IEnumerable<GamePlayer>> GetAllWithCards(long gameId)
         {
             string sqlQuery = $@"SELECT A.Id, A.GameId, A.RoundScore, A.Score, A.Bet, A.CardAmount, A.BetPayCoefficient, 
-                                 B.Id, C.Id, C.Name, C.Type, D.Id, D.Name, D.Type
+                                 B.Id, C.Id, C.Rank, C.Lear, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
                                  LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
                                  LEFT JOIN Cards AS C ON B.CardId = C.Id
@@ -146,18 +146,15 @@ namespace BlackJack.DataAccess.Repositories
 
         public async Task UpdateMany(IEnumerable<GamePlayer> gamePlayers)
         {
-            DbConnection db = new SqlConnection(_connectionString);
-            db.Open();
-            var bulkOperation = new BulkOperation(db);
-            bulkOperation.DestinationTableName = "GamePlayers";
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("Id", true));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("Score", "Score"));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("RoundScore", "RoundScore"));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("CardAmount", "CardAmount"));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("Bet", "Bet"));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("BetPayCoefficient", "BetPayCoefficient"));
-            await bulkOperation.BulkMergeAsync(gamePlayers);
-            db.Close();
+            string sqlQuery = @"UPDATE GamePlayers 
+                                SET Score = @Score, RoundScore = @RoundScore, CardAmount = @CardAmount, 
+                                BetPayCoefficient = @BetPayCoefficient, Bet = @Bet
+                                WHERE Id = @Id";
+
+            using (DbConnection db = new SqlConnection(_connectionString))
+            {
+                await db.ExecuteAsync(sqlQuery, gamePlayers.ToArray());
+            }
         }
 
         public async Task UpdateAddingCard(GamePlayer gamePlayer)
@@ -174,26 +171,26 @@ namespace BlackJack.DataAccess.Repositories
 
         public async Task UpdateManyAfterContinueRound(IEnumerable<GamePlayer> gamePlayers)
         {
-            DbConnection db = new SqlConnection(_connectionString);
-            db.Open();
-            var bulkOperation = new BulkOperation(db);
-            bulkOperation.DestinationTableName = "GamePlayers";
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("Id", true));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("RoundScore", "RoundScore"));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("CardAmount", "CardAmount"));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("BetPayCoefficient", "BetPayCoefficient"));
-            await bulkOperation.BulkMergeAsync(gamePlayers);
-            db.Close();
+            string sqlQuery = @"UPDATE GamePlayers 
+                                SET RoundScore = @RoundScore, CardAmount = @CardAmount, BetPayCoefficient = @BetPayCoefficient 
+                                WHERE Id = @Id";
+
+            using (DbConnection db = new SqlConnection(_connectionString))
+            {
+                await db.ExecuteAsync(sqlQuery, gamePlayers.ToArray());
+            }
         }
         
         public async Task DeleteBotsWithZeroScore(long gameId)
         {
             string sqlQuery = @"DELETE FROM GamePlayers
-                                WHERE Score <= 0 AND GameId = @gameId";
+                                WHERE Id IN (SELECT A.Id FROM GamePlayers AS A
+                                INNER JOIN Players AS B ON A.PlayerId = B.Id
+                                WHERE A.GameId = @gameId AND A.Score <= 0 AND B.Type = @playerType)";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await db.QueryAsync(sqlQuery, new { gameId });
+                await db.QueryAsync(sqlQuery, new { gameId = gameId, playerType = PlayerType.Bot });
             }
         }
 

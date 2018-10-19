@@ -1,8 +1,10 @@
-﻿namespace BlackJack.Entities.Entities
+﻿using BlackJack.Entities.Enums;
+
+namespace BlackJack.Entities.Entities
 {
-    public class Game : EntityBase
+    public class Game : Base
     {
-        public int Stage { get; set; }
+        public GameStage Stage { get; set; }
         public string Result { get; set; }
     }
 }

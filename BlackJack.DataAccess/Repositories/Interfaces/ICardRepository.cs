@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories.Interfaces
 {
-    public interface ICardRepository : IGenericRepository<Card>
+    public interface ICardRepository : IBaseRepository<Card>
     {
         Task<IEnumerable<Card>> ResumeDeck(long gameId);
     }

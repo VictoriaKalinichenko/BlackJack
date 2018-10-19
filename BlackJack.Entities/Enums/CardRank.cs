@@ -1,6 +1,6 @@
-﻿namespace BlackJack.ViewModels.Enums
+﻿namespace BlackJack.Entities.Enums
 {
-    public enum CardName
+    public enum CardRank
     {
         Two = 2,
         Three = 3,

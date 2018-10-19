@@ -1,5 +1,6 @@
 ﻿using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
+using BlackJack.Entities.Enums;
 using Dapper;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class GameRepository : GenericRepository<Game>, IGameRepository
+    public class GameRepository : BaseRepository<Game>, IGameRepository
     {
         public GameRepository(string connectionString) : base(connectionString)
         { }
@@ -40,7 +41,7 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
         
-        public async Task UpdateStage(long gameId, int stage)
+        public async Task UpdateStage(long gameId, GameStage stage)
         {
             string sqlQuery = @"UPDATE Games SET Stage = @stage
                                 WHERE Id = @gameId";

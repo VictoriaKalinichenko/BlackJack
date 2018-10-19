@@ -9,10 +9,10 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task CreatePlayer(string name);
 
-        Task<AuthorizePlayerViewModel> AuthorizePlayer(string name);
+        Task<StartAuthorizePlayerViewModel> AuthorizePlayer(string name);
 
         Task<long> ResumeGame(long playerId);
 
-        Task<InitRoundViewModel> InitRound(long gameId);
+        Task<StartInitRoundViewModel> InitRound(long gameId);
     }
 }

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Configuration", "BlackJack.Configuration\BlackJack.Configuration.csproj", "{714BA634-E5F1-4890-8F8C-94DE11638195}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.ViewModels", "BlackJack.ViewModels\BlackJack.ViewModels.csproj", "{DE27A5E9-F395-48F8-8FD8-C5057832A7E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.UI", "BlackJack.UI\BlackJack.UI.csproj", "{62F71F17-D27D-48E8-B24A-A3D9E8A3EFEC}"
@@ -23,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{714BA634-E5F1-4890-8F8C-94DE11638195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{714BA634-E5F1-4890-8F8C-94DE11638195}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{714BA634-E5F1-4890-8F8C-94DE11638195}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{714BA634-E5F1-4890-8F8C-94DE11638195}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE27A5E9-F395-48F8-8FD8-C5057832A7E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE27A5E9-F395-48F8-8FD8-C5057832A7E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE27A5E9-F395-48F8-8FD8-C5057832A7E4}.Release|Any CPU.ActiveCfg = Release|Any CPU

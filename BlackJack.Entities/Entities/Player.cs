@@ -1,8 +1,10 @@
-﻿namespace BlackJack.Entities.Entities
+﻿using BlackJack.Entities.Enums;
+
+namespace BlackJack.Entities.Entities
 {
-    public class Player : EntityBase
+    public class Player : Base
     {
         public string Name { get; set; }
-        public int Type { get; set; }
+        public PlayerType Type { get; set; }
     }
 }

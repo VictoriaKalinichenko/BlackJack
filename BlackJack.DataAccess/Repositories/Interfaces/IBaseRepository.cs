@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories.Interfaces
 {
-    public interface IGenericRepository<T> where T : EntityBase
+    public interface IBaseRepository<T> where T : Base
     {
         Task<T> Get(long id);
 
@@ -12,10 +12,10 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 
         Task<long> Create(T item);
 
-        Task CreateMany(IEnumerable<T> items, string tableName);
+        Task CreateMany(IEnumerable<T> items);
 
         Task Delete(T item);
 
-        Task DeleteMany(IEnumerable<T> items, string tableName);
+        Task DeleteMany(IEnumerable<T> items);
     }
 }

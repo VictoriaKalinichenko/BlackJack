@@ -542,3 +542,49 @@ Parameter name: index
    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
    at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
    at BlackJack.UI.Controllers.GameController.<EndRound>d__9.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 167|Incorrect syntax near the keyword 'AS'.
+2018-10-19 12:20:28.9502|ERROR|BlackJack.UI.Controllers.GameController|.Net SqlClient Data Provider|System.Data.Common.DbDataReader <ExecuteDbDataReaderAsync>b__180_0(System.Threading.Tasks.Task`1[System.Data.SqlClient.SqlDataReader])|   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__180_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.ValidateEnd(Task task)
+   at Dapper.SqlMapper.<MultiMapAsync>d__52`8.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.GamePlayerRepository.<GetWithCards>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GamePlayerRepository.cs:line 74
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.GameService.<AddCard>d__11.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\GameService.cs:line 81
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.GameController.<AddCard>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\GameController.cs:line 92|Invalid column name 'Name'.
+Invalid column name 'Type'.
+2018-10-19 13:28:55.9086|ERROR|BlackJack.UI.Controllers.StartController|Dapper|CacheInfo GetCacheInfo(Identity, System.Object, Boolean)|   at Dapper.SqlMapper.GetCacheInfo(Identity identity, Object exampleParameters, Boolean addToCache)
+   at Dapper.SqlMapper.<QueryAsync>d__33`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.PlayerRepository.<CreateMany>d__2.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\PlayerRepository.cs:line 40
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartService.<CreatePlayerList>d__10.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartService.cs:line 99
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartService.<CreateGame>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartService.cs:line 55
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartController.<CreateGame>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 68|An enumerable sequence of parameters (arrays, lists, etc) is not allowed in this context

@@ -2,6 +2,6 @@
 
 namespace BlackJack.DataAccess.Repositories.Interfaces
 {
-    public interface ILogRepository : IGenericRepository<Log>
+    public interface IHistoryMessageRepository : IBaseRepository<HistoryMessage>
     { }
 }

@@ -54,9 +54,6 @@
     <Reference Include="Autofac.Integration.WebApi, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi2.4.2.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="BlackJack.ViewModels">
-      <HintPath>..\BlackJack.ViewModels\bin\Debug\BlackJack.ViewModels.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
@@ -188,9 +185,6 @@
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\StartController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Config\AutofacConfig.cs" />
     <Compile Include="Startup.cs" />
@@ -202,7 +196,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\kendoui\js\angular.min.js" />
@@ -2743,6 +2736,10 @@
     <ProjectReference Include="..\BlackJack.BusinessLogic\BlackJack.BusinessLogic.csproj">
       <Project>{0424383b-bc97-43e2-ba28-2b9e04202c37}</Project>
       <Name>BlackJack.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlackJack.ViewModels\BlackJack.ViewModels.csproj">
+      <Project>{de27a5e9-f395-48f8-8fd8-c5057832a7e4}</Project>
+      <Name>BlackJack.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

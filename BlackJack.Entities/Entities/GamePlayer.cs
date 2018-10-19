@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BlackJack.Entities.Entities
 {
-    public class GamePlayer : EntityBase
+    public class GamePlayer : Base
     {
         public long PlayerId { get; set; }
         public long GameId { get; set; }

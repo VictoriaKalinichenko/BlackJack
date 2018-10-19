@@ -2,7 +2,7 @@
 
 namespace BlackJack.ViewModels.ViewModels.Start
 {
-    public class InitRoundViewModel
+    public class StartInitRoundViewModel
     {
         public long Id { get; set; }
         public int Stage { get; set; }

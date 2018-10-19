@@ -1,4 +1,4 @@
-﻿namespace BlackJack.ViewModels.Enums
+﻿namespace BlackJack.Entities.Enums
 {
     public enum PlayerType
     {

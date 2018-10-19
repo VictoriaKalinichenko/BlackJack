@@ -6,31 +6,38 @@ namespace BlackJack.DataAccess.Config
 {
     public class AutofacConfig : Module
     {
+        private string _connectionString;
+
+        public AutofacConfig(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<PlayerRepository>()
                 .As<IPlayerRepository>()
-                .WithParameter("connectionString", Configuration.Config.ConnectionString);
+                .WithParameter("connectionString", _connectionString);
 
             builder.RegisterType<PlayerCardRepository>()
                 .As<IPlayerCardRepository>()
-                .WithParameter("connectionString", Configuration.Config.ConnectionString);
+                .WithParameter("connectionString", _connectionString);
 
             builder.RegisterType<GameRepository>()
                 .As<IGameRepository>()
-                .WithParameter("connectionString", Configuration.Config.ConnectionString);
+                .WithParameter("connectionString", _connectionString);
 
             builder.RegisterType<GamePlayerRepository>()
                 .As<IGamePlayerRepository>()
-                .WithParameter("connectionString", Configuration.Config.ConnectionString);
+                .WithParameter("connectionString", _connectionString);
             
-            builder.RegisterType<LogRepository>()
-                .As<ILogRepository>()
-                .WithParameter("connectionString", Configuration.Config.ConnectionString);
+            builder.RegisterType<HistoryMessageRepository>()
+                .As<IHistoryMessageRepository>()
+                .WithParameter("connectionString", _connectionString);
 
             builder.RegisterType<CardRepository>()
                 .As<ICardRepository>()
-                .WithParameter("connectionString", Configuration.Config.ConnectionString);
+                .WithParameter("connectionString", _connectionString);
            
             base.Load(builder);
         }

@@ -30,7 +30,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                IEnumerable<GetAllViewModel> logViews = await _logService.GetAll();
+                IEnumerable<LogGetAllView> logViews = await _logService.GetAll();
                 string jsonResult = JsonConvert.SerializeObject(logViews);
                 return Content(jsonResult, "application/json");
             }

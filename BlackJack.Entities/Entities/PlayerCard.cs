@@ -2,7 +2,7 @@
 
 namespace BlackJack.Entities.Entities
 {
-    public class PlayerCard : EntityBase
+    public class PlayerCard : Base
     {
         public long GamePlayerId { get; set; }
         public long CardId { get; set; }

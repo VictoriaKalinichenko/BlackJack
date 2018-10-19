@@ -10,17 +10,17 @@ namespace BlackJack.BusinessLogic.Services
 {
     public class LogService : ILogService
     {
-        private readonly ILogRepository _logRepository;
+        private readonly IHistoryMessageRepository _logRepository;
         
-        public LogService(ILogRepository logRepository)
+        public LogService(IHistoryMessageRepository logRepository)
         {
             _logRepository = logRepository;
         }
 
-        public async Task<IEnumerable<GetAllViewModel>> GetAll()
+        public async Task<IEnumerable<LogGetAllView>> GetAll()
         {
-            IEnumerable<Log> logs = await _logRepository.GetAll();
-            IEnumerable<GetAllViewModel> logViews = Mapper.Map<IEnumerable<Log>, IEnumerable<GetAllViewModel>>(logs);
+            IEnumerable<HistoryMessage> logs = await _logRepository.GetAll();
+            IEnumerable<LogGetAllView> logViews = Mapper.Map<IEnumerable<HistoryMessage>, IEnumerable<LogGetAllView>>(logs);
             return logViews;
         }
     }

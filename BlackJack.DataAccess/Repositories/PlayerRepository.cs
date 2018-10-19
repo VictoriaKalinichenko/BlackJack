@@ -1,5 +1,6 @@
 ﻿using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
+using BlackJack.Entities.Enums;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
@@ -10,12 +11,12 @@ using Z.BulkOperations;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class PlayerRepository : GenericRepository<Player>, IPlayerRepository
+    public class PlayerRepository : BaseRepository<Player>, IPlayerRepository
     {
         public PlayerRepository(string connectionString) : base(connectionString)
         { }
 
-        public async Task<Player> SelectByName(string name, int playerType)
+        public async Task<Player> SelectByName(string name, PlayerType playerType)
         {
             string sqlQuery = @"SELECT Id, Players.Name, Type FROM Players    
                                 WHERE Players.Name = @name AND Players.Type = @playerType";
@@ -40,6 +41,7 @@ namespace BlackJack.DataAccess.Repositories
             bulkOperation.ColumnMappings.Add("Id", ColumnMappingDirectionType.Output);
             await bulkOperation.BulkInsertAsync(players);
             db.Close();
+
             return players;
         }
     }

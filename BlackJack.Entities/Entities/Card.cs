@@ -1,8 +1,17 @@
-﻿namespace BlackJack.Entities.Entities
+﻿using BlackJack.Entities.Enums;
+
+namespace BlackJack.Entities.Entities
 {
-    public class Card : EntityBase
+    public class Card : Base
     {
-        public int Name { get; set; }
-        public int Type { get; set; }
+        public CardRank Rank { get; set; }
+        public CardLear Lear { get; set; }
+
+        public override string ToString()
+        {
+            string convertedString = string.Empty;
+            convertedString = $"{Rank.ToString()} {Lear.ToString()}";
+            return convertedString;
+        }
     }
 }

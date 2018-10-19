@@ -1,92 +1,103 @@
-﻿using BlackJack.Entities.Entities;
-using BlackJack.ViewModels.Enums;
+﻿using BlackJack.BusinessLogic.Helpers;
+using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.DataAccess.Repositories.Interfaces;
+using BlackJack.Entities.Entities;
+using BlackJack.Entities.Enums;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace BlackJack.BusinessLogic.Helpers
+namespace BlackJack.BusinessLogic.Managers
 {
-    public static class LogHelper
+    public class HistoryMessageManager : IHistoryMessageManager
     {
-        public static List<Log> GetCreationGameLogs(List<GamePlayer> gamePlayers, Game game)
-        {
-            var logs = new List<Log>();
+        private readonly IHistoryMessageRepository _historyMessageRepository;
 
-            logs.Add(new Log()
+        public HistoryMessageManager(IHistoryMessageRepository historyMessageRepository)
+        {
+            _historyMessageRepository = historyMessageRepository;
+        }
+
+        public async Task AddCreationGameMessages(List<GamePlayer> gamePlayers, Game game)
+        {
+            var logs = new List<HistoryMessage>();
+
+            logs.Add(new HistoryMessage()
             {
                 GameId = game.Id,
                 Message = $"Game(Id={game.Id}, Stage={game.Stage}) is created"
             });
 
-            foreach(GamePlayer gamePlayer in gamePlayers)
+            foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                logs.Add(new Log()
+                logs.Add(new HistoryMessage()
                 {
                     GameId = gamePlayer.GameId,
-                    Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                    Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
                                   Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) is added to game"
                 });
             }
 
-            return logs;
+            await _historyMessageRepository.CreateMany(logs);
         }
 
-        public static List<Log> GetStartRoundLogs(List<GamePlayer> gamePlayers, long gameId)
+        public async Task AddStartRoundMessages(List<GamePlayer> gamePlayers, long gameId)
         {
-            var logs = new List<Log>();
-            
-            logs.Add(new Log()
+            var logs = new List<HistoryMessage>();
+
+            logs.Add(new HistoryMessage()
             {
                 GameId = gameId,
                 Message = "New round is started"
             });
 
-            List<Log> betLogs = GetBetsCreationLogs(gamePlayers);
+            List<HistoryMessage> betLogs = CreateBetCreationMessages(gamePlayers);
             logs.AddRange(betLogs);
 
-            List<Log> cardLogs = GetCardsAddingLogsAfterStartRound(gamePlayers);
+            List<HistoryMessage> cardLogs = CreateCardAddingMessagesAfterStartRound(gamePlayers);
             logs.AddRange(cardLogs);
 
-            List<Log> payCoefficientLogs = GetPayCoefficientDefiningLogsAfterStartRound(gamePlayers);
+            List<HistoryMessage> payCoefficientLogs = CreatePayCoefficientDefiningMessagesAfterStartRound(gamePlayers);
             logs.AddRange(payCoefficientLogs);
-                        
-            logs.Add(new Log()
+
+            logs.Add(new HistoryMessage()
             {
                 GameId = gameId,
                 Message = $"Stage is changed (Stage={(int)GameStage.StartRound})"
             });
 
-            return logs;
+            await _historyMessageRepository.CreateMany(logs);
         }
 
-        public static List<Log> GetContinueRoundLogs(List<GamePlayer> gamePlayers, List<PlayerCard> playerCards, long gameId)
+        public async Task AddContinueRoundMessages(List<GamePlayer> gamePlayers, List<PlayerCard> playerCards, long gameId)
         {
-            var logs = new List<Log>();
+            var logs = new List<HistoryMessage>();
 
-            List<Log> cardLogs = GetCardsAddingLogsAfterContinueRound(gamePlayers, playerCards);
+            List<HistoryMessage> cardLogs = CreateCardAddingMessagesAfterContinueRound(gamePlayers, playerCards);
             logs.AddRange(cardLogs);
 
-            List<Log> payCoefficientLogs = GetPayCoefficientDefiningLogsAfterContinueRound(gamePlayers);
+            List<HistoryMessage> payCoefficientLogs = CreatePayCoefficientDefiningMessagesAfterContinueRound(gamePlayers);
             logs.AddRange(payCoefficientLogs);
 
-            logs.Add(new Log()
+            logs.Add(new HistoryMessage()
             {
                 GameId = gameId,
                 Message = $"Stage is changed (Stage={(int)GameStage.ContinueRound})"
             });
 
-            return logs;
+            await _historyMessageRepository.CreateMany(logs);
         }
-        
-        private static List<Log> GetBetsCreationLogs(List<GamePlayer> gamePlayers)
+
+        private List<HistoryMessage> CreateBetCreationMessages(List<GamePlayer> gamePlayers)
         {
-            var logs = new List<Log>();
+            var logs = new List<HistoryMessage>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                logs.Add(new Log()
+                logs.Add(new HistoryMessage()
                 {
                     GameId = gamePlayer.GameId,
-                    Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                    Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
                                   Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) created the bet(={gamePlayer.Bet})"
                 });
             }
@@ -94,31 +105,31 @@ namespace BlackJack.BusinessLogic.Helpers
             return logs;
         }
 
-        private static List<Log> GetCardsAddingLogsAfterStartRound(List<GamePlayer> gamePlayers)
+        private List<HistoryMessage> CreateCardAddingMessagesAfterStartRound(List<GamePlayer> gamePlayers)
         {
-            var logs = new List<Log>();
+            var logs = new List<HistoryMessage>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                logs.Add(GetCardAddingLog(gamePlayer, gamePlayer.PlayerCards[0].Card));
-                logs.Add(GetCardAddingLog(gamePlayer, gamePlayer.PlayerCards[1].Card));
+                logs.Add(CreateCardAddingMessage(gamePlayer, gamePlayer.PlayerCards[0].Card));
+                logs.Add(CreateCardAddingMessage(gamePlayer, gamePlayer.PlayerCards[1].Card));
             }
 
             return logs;
         }
 
-        private static List<Log> GetPayCoefficientDefiningLogsAfterStartRound(List<GamePlayer> gamePlayers)
+        private List<HistoryMessage> CreatePayCoefficientDefiningMessagesAfterStartRound(List<GamePlayer> gamePlayers)
         {
-            var logs = new List<Log>();
+            var logs = new List<HistoryMessage>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
                 if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
                 {
-                    logs.Add(new Log()
+                    logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). 
                                       BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -126,10 +137,10 @@ namespace BlackJack.BusinessLogic.Helpers
 
                 if (gamePlayer.BetPayCoefficient == BetValueHelper.WinCoefficient)
                 {
-                    var log = new Log()
+                    var log = new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}) 
                                       with DealerBlackJackDanger. BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     };
@@ -139,46 +150,46 @@ namespace BlackJack.BusinessLogic.Helpers
             return logs;
         }
 
-        private static List<Log> GetCardsAddingLogsAfterContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> playerCardsInserted)
+        private List<HistoryMessage> CreateCardAddingMessagesAfterContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> playerCardsInserted)
         {
-            var logs = new List<Log>();
+            var logs = new List<HistoryMessage>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
                 List<PlayerCard> playerCards = playerCardsInserted.Where(m => m.GamePlayerId == gamePlayer.Id).ToList();
-                List<Log> gamePlayerLogs = GetCardsAddingLogsForPlayerAfterContinueRound(gamePlayer, playerCards);
+                List<HistoryMessage> gamePlayerLogs = CreateCardAddingMessagesForPlayerAfterContinueRound(gamePlayer, playerCards);
                 logs.AddRange(gamePlayerLogs);
             }
 
             return logs;
         }
 
-        private static List<Log> GetCardsAddingLogsForPlayerAfterContinueRound(GamePlayer gamePlayer, List<PlayerCard> playerCards)
+        private List<HistoryMessage> CreateCardAddingMessagesForPlayerAfterContinueRound(GamePlayer gamePlayer, List<PlayerCard> playerCards)
         {
-            var logs = new List<Log>();
+            var logs = new List<HistoryMessage>();
 
             foreach (PlayerCard playerCard in playerCards)
             {
-                GetCardAddingLog(gamePlayer, playerCard.Card);
+                CreateCardAddingMessage(gamePlayer, playerCard.Card);
             }
 
             return logs;
         }
 
-        private static List<Log> GetPayCoefficientDefiningLogsAfterContinueRound(List<GamePlayer> gamePlayers)
+        private List<HistoryMessage> CreatePayCoefficientDefiningMessagesAfterContinueRound(List<GamePlayer> gamePlayers)
         {
-            var logs = new List<Log>();
+            var logs = new List<HistoryMessage>();
 
-            GamePlayer dealer = gamePlayers.Where(m => m.Player.Type == (int)PlayerType.Dealer).First();
+            GamePlayer dealer = gamePlayers.Where(m => m.Player.Type == PlayerType.Dealer).First();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
                 if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
                 {
-                    logs.Add(new Log()
+                    logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). 
                                       BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -186,10 +197,10 @@ namespace BlackJack.BusinessLogic.Helpers
 
                 if (gamePlayer.BetPayCoefficient == BetValueHelper.WinCoefficient)
                 {
-                    logs.Add(new Log()
+                    logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has win result(PlayerRoundScore={gamePlayer.RoundScore}, 
                                       DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -197,10 +208,10 @@ namespace BlackJack.BusinessLogic.Helpers
 
                 if (gamePlayer.BetPayCoefficient == BetValueHelper.LoseCoefficient)
                 {
-                    logs.Add(new Log()
+                    logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has lose result(PlayerRoundScore={gamePlayer.RoundScore}, 
                                       DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -208,10 +219,10 @@ namespace BlackJack.BusinessLogic.Helpers
 
                 if (gamePlayer.BetPayCoefficient == BetValueHelper.ZeroCoefficient)
                 {
-                    logs.Add(new Log()
+                    logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has equal result(PlayerRoundScore={gamePlayer.RoundScore}, 
                                       DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -221,13 +232,13 @@ namespace BlackJack.BusinessLogic.Helpers
             return logs;
         }
 
-        private static Log GetCardAddingLog(GamePlayer gamePlayer, Card card)
+        private HistoryMessage CreateCardAddingMessage(GamePlayer gamePlayer, Card card)
         {
-            var log = new Log()
+            var log = new HistoryMessage()
             {
                 GameId = gamePlayer.GameId,
-                Message = $@"Card(Id={card.Id}, Value={card.Name}, Name={ToStringHelper.GetCardName(card)}) is added to 
-                             {((PlayerType)gamePlayer.Player.Type).ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name})"
+                Message = $@"Card(Id={card.Id}, Value={card.Rank}, Name={card.ToString()}) is added to 
+                             {gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name})"
             };
 
             return log;

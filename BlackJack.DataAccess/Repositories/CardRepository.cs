@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class CardRepository : GenericRepository<Card>, ICardRepository
+    public class CardRepository : BaseRepository<Card>, ICardRepository
     {
         public CardRepository(string connectionString) : base(connectionString)
         { }
 
         public async Task<IEnumerable<Card>> ResumeDeck(long gameId)
         {
-            string sqlQuery = $@"SELECT Id, Name, Type FROM Cards
+            string sqlQuery = $@"SELECT Id, Rank, Lear FROM Cards
                                  EXCEPT
-                                 SELECT C.Id, C.Name, C.Type
+                                 SELECT C.Id, C.Rank, C.Lear
                                  FROM PlayerCards AS A
                                  INNER JOIN GamePlayers AS B ON A.GamePlayerId = B.Id
                                  INNER JOIN Cards As C ON C.Id = A.CardId

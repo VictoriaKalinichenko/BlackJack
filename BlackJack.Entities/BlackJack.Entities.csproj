@@ -58,12 +58,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Card.cs" />
-    <Compile Include="Entities\EntityBase.cs" />
+    <Compile Include="Entities\Base.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\GamePlayer.cs" />
-    <Compile Include="Entities\Log.cs" />
+    <Compile Include="Entities\HistoryMessage.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\PlayerCard.cs" />
+    <Compile Include="Enums\BotName.cs" />
+    <Compile Include="Enums\CardRank.cs" />
+    <Compile Include="Enums\CardLear.cs" />
+    <Compile Include="Enums\GameStage.cs" />
+    <Compile Include="Enums\PlayerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

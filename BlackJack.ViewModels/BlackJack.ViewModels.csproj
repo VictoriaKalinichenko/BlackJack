@@ -40,23 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\BotName.cs" />
-    <Compile Include="Enums\CardName.cs" />
-    <Compile Include="Enums\CardType.cs" />
-    <Compile Include="Enums\GameStage.cs" />
-    <Compile Include="Enums\PlayerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\Start\CreateGameViewModel.cs" />
-    <Compile Include="ViewModels\Game\AddCardViewModel.cs" />
-    <Compile Include="ViewModels\Game\ContinueRoundResponseViewModel.cs" />
-    <Compile Include="ViewModels\Start\AuthorizePlayerViewModel.cs" />
-    <Compile Include="ViewModels\Game\StartRoundRequestViewModel.cs" />
-    <Compile Include="ViewModels\Game\EndGameViewModel.cs" />
-    <Compile Include="ViewModels\Game\StartRoundResponseViewModel.cs" />
-    <Compile Include="ViewModels\Game\GamePlayerItem.cs" />
-    <Compile Include="ViewModels\Game\ContinueRoundRequestViewModel.cs" />
-    <Compile Include="ViewModels\Start\InitRoundViewModel.cs" />
-    <Compile Include="ViewModels\Log\GetAllViewModel.cs" />
+    <Compile Include="StartCreateGameView.cs" />
+    <Compile Include="GameAddCardView.cs" />
+    <Compile Include="GameContinueRoundResponseView.cs" />
+    <Compile Include="StartAuthorizePlayerView.cs" />
+    <Compile Include="GameStartRoundRequestView.cs" />
+    <Compile Include="GameEndGameView.cs" />
+    <Compile Include="GameStartRoundResponseView.cs" />
+    <Compile Include="GamePlayerItem.cs" />
+    <Compile Include="GameContinueRoundRequestView.cs" />
+    <Compile Include="StartInitRoundView.cs" />
+    <Compile Include="LogGetAllView.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

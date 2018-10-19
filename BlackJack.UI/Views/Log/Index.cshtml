@@ -1,7 +1,6 @@
 ﻿@model string
 @{
     Layout = null;
-    ViewBag.UserName = Model;
     ViewBag.Title = "Logs";
 }
 
@@ -25,18 +24,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Home", "AuthorizePlayer", "Start", new { userName = ViewBag.UserName }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Home", "AuthorizePlayer", "Start", new { userName = Model }, new { @class = "navbar-brand" })
             </div>
 
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="nav-item">
-                        @Html.ActionLink("Game logs", "Index", "Log", new { userName = ViewBag.UserName }, null)
+                        @Html.ActionLink("Game logs", "Index", "Log", new { userName = Model }, null)
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="navbar-text">
-                        <b>Log in as: @ViewBag.UserName</b>
+                        <b>Log in as: @Model</b>
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Log out", "ValidateName", "Start")

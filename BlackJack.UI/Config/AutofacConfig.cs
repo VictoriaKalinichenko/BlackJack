@@ -2,6 +2,7 @@
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using System.Web.Mvc;
+using System.Configuration;
 
 namespace BlackJack.UI.Config
 {
@@ -9,13 +10,14 @@ namespace BlackJack.UI.Config
     {
         public static void ConfigureContainer()
         {
+            string connectionString = ConfigurationManager.ConnectionStrings["dataBaseConnection"].ConnectionString;
             var builder = new ContainerBuilder();
 
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterApiControllers(typeof(MvcApplication).Assembly);
+            builder.RegisterControllers(typeof(Startup).Assembly);
+            builder.RegisterApiControllers(typeof(Startup).Assembly);
             builder.RegisterModelBinderProvider();
 
-            builder.RegisterModule(new BusinessLogic.Config.AutofacConfig());
+            builder.RegisterModule(new BusinessLogic.Config.AutofacConfig(connectionString));
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);

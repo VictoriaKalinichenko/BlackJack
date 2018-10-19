@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
-    public interface IGamePlayerProvider
+    public interface IGamePlayerManager
     {
         void CreateBets(List<GamePlayer> players, int bet);
 

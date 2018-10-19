@@ -1,6 +1,6 @@
 ﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.ViewModels.ViewModels.Game;
+using BlackJack.ViewModels;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -110,7 +110,7 @@ namespace BlackJack.UI.Controllers
                     return BadRequest(GameMessageHelper.ReceivedDataError);
                 }
 
-                ContinueRoundResponseViewModel continueRoundResponseViewModel = await _gameService.ContinueRound(continueRoundRequestViewModel);
+                ResponseContinueRoundGameView continueRoundResponseViewModel = await _gameService.ContinueRound(continueRoundRequestViewModel);
                 return Ok(continueRoundResponseViewModel);
             }
             catch (Exception ex)

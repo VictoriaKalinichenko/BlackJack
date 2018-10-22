@@ -1,7 +1,6 @@
 ﻿@model string
 @{
     Layout = null;
-    ViewBag.Title = "Logs";
 }
 
 <!DOCTYPE html>
@@ -9,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - BlackJack</title>
+    <title>Game history - BlackJack</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/bundles/KendoUI/css")
@@ -30,7 +29,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="nav-item">
-                        @Html.ActionLink("Game logs", "Index", "Log", new { userName = Model }, null)
+                        @Html.ActionLink("Game history", "Index", "GameHistory", new { userName = Model }, null)
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -38,14 +37,14 @@
                         <b>Log in as: @Model</b>
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Log out", "ValidateName", "Start")
+                        @Html.ActionLink("Log out", "Index", "Start")
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container body-content">
-        <h2>Logs</h2>
+        <h2>Game history</h2>
         <div id="grid"></div>
         @Scripts.Render("~/bundles/KendoUI/Logs")
         <hr />

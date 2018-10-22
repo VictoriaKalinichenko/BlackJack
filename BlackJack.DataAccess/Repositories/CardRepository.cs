@@ -29,5 +29,17 @@ namespace BlackJack.DataAccess.Repositories
                 return cards;
             }
         }
+
+        public async Task<IEnumerable<Card>> GetSpecifiedAmount(int cardAmount)
+        {
+            string sqlQuery = $@"SELECT TOP (@cardAmount) Id, Rank, Lear FROM Cards
+                                 ORDER BY NEWID()";
+
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                IEnumerable<Card> cards = await db.QueryAsync<Card>(sqlQuery, new { cardAmount });
+                return cards;
+            }
+        }
     }
 }

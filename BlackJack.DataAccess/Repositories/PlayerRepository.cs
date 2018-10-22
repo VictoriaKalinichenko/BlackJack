@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Z.BulkOperations;
+using Z.Dapper.Plus;
 
 namespace BlackJack.DataAccess.Repositories
 {
@@ -26,23 +26,17 @@ namespace BlackJack.DataAccess.Repositories
                 Player player = await db.QueryFirstOrDefaultAsync<Player>(sqlQuery, new { name = name, playerType = playerType });
                 return player;
             }
-        }        
+        }
 
         public async Task<List<Player>> CreateMany(List<Player> players)
         {
-            DbConnection db = new SqlConnection(_connectionString);
-            db.Open();
-            var bulkOperation = new BulkOperation(db);
-            bulkOperation.DestinationTableName = "Players";
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("Id", true));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("Name", "Name"));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("Type", "Type"));
-            bulkOperation.ColumnMappings.Add(new ColumnMapping("CreationDate", "CreationDate"));
-            bulkOperation.ColumnMappings.Add("Id", ColumnMappingDirectionType.Output);
-            await bulkOperation.BulkInsertAsync(players);
-            db.Close();
+            DapperPlusManager.Entity<Player>().Table("Players").Identity("Id");
 
-            return players;
+            using (DbConnection db = new SqlConnection(_connectionString))
+            {
+                players = await Task.Run(() => db.BulkInsert(players).CurrentItem);
+                return players;
+            }
         }
     }
 }

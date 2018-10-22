@@ -4,7 +4,7 @@ using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.Entities.Enums;
-using BlackJack.ViewModels.ViewModels.Start;
+using BlackJack.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,12 +39,12 @@ namespace BlackJack.BusinessLogic.Services
             }
         }
 
-        public async Task<StartAuthorizePlayerViewModel> AuthorizePlayer(string name)
+        public async Task<AuthorizePlayerStartView> AuthorizePlayer(string name)
         {
             Player human = await _playerRepository.SelectByName(name, PlayerType.Human);
             Game game = await _gameRepository.GetByPlayerId(human.Id);
-            StartAuthorizePlayerViewModel authorizePlayerViewModel = CustomMapper.GetAuthorizePlayerViewModel(human, game);
-            return authorizePlayerViewModel;
+            AuthorizePlayerStartView authorizePlayerStartView = CustomMapper.GetAuthorizePlayerStartView(human, game);
+            return authorizePlayerStartView;
         }
 
         public async Task<long> CreateGame(long playerId, int amountOfBots)
@@ -72,15 +72,15 @@ namespace BlackJack.BusinessLogic.Services
             return gameId;
         }
 
-        public async Task<StartInitRoundViewModel> InitRound(long gameId)
+        public async Task<InitializeRoundStartView> InitializeRound(long gameId)
         {
             Game game = await _gameRepository.Get(gameId);
-            List<GamePlayer> players = (await _gamePlayerRepository.GetAllForInitRound(gameId)).ToList();
+            List<GamePlayer> players = (await _gamePlayerRepository.GetAllForInitializeRound(gameId)).ToList();
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
             string isGameOver = IsGameOver(human, dealer);
-            StartInitRoundViewModel initRoundViewModel = CustomMapper.GetInitRoundViewModel(game, players, isGameOver);
-            return initRoundViewModel;
+            InitializeRoundStartView initializeRoundStartView = CustomMapper.GetInitializeRoundStartView(game, players, isGameOver);
+            return initializeRoundStartView;
         }
         
         private async Task<List<Player>> CreatePlayerList(long playerId, int amountOfBots)

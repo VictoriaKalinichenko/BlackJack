@@ -1,6 +1,6 @@
 ﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.ViewModels.ViewModels.Start;
+using BlackJack.ViewModels;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -19,22 +19,22 @@ namespace BlackJack.UI.Controllers
             _startService = startService;
         }
         
-        public ActionResult ValidateName()
+        public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> ValidateName(string userName)
+        public async Task<ActionResult> Index(string userName)
         {
             try
             {
                 await _startService.CreatePlayer(userName);
                 return RedirectToAction("AuthorizePlayer", new { userName = userName });
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                string message = LogHelper.ToString(exception);
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessageHelper.PlayerAuthError });
             }
@@ -49,12 +49,12 @@ namespace BlackJack.UI.Controllers
                     new Exception(GameMessageHelper.ReceivedDataError);
                 }
 
-                StartAuthorizePlayerViewModel authorizePlayerViewModel = await _startService.AuthorizePlayer(userName);
-                return View(authorizePlayerViewModel);
+                AuthorizePlayerStartView authorizePlayerStartView = await _startService.AuthorizePlayer(userName);
+                return View(authorizePlayerStartView);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                string message = LogHelper.ToString(exception);
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessageHelper.PlayerAuthError });
             }
@@ -66,11 +66,11 @@ namespace BlackJack.UI.Controllers
             try
             {
                 long gameId = await _startService.CreateGame(playerId, amountOfBots);
-                return RedirectToAction("InitRound", new { gameId = gameId });
+                return RedirectToAction("InitializeRound", new { gameId = gameId });
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                string message = LogHelper.ToString(exception);
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessageHelper.GameCreationError });
             }
@@ -81,26 +81,26 @@ namespace BlackJack.UI.Controllers
             try
             {
                 long gameId = await _startService.ResumeGame(playerId);
-                return RedirectToAction("InitRound", new { gameId = gameId });
+                return RedirectToAction("InitializeRound", new { gameId = gameId });
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                string message = LogHelper.ToString(exception);
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessageHelper.GameResumingError });
             }
         }
 
-        public async Task<ActionResult> InitRound(long gameId)
+        public async Task<ActionResult> InitializeRound(long gameId)
         {
             try
             {
-                StartInitRoundViewModel initRoundViewModel = await _startService.InitRound(gameId);
-                return View(initRoundViewModel);
+                InitializeRoundStartView initializeRoundStartView = await _startService.InitializeRound(gameId);
+                return View(initializeRoundStartView);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                string message = LogHelper.ToString(exception);
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessageHelper.GameLoadingError });
             }

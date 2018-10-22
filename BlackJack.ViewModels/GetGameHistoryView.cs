@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlackJack
+namespace BlackJack.ViewModels
 {
-    public class GetAllLogView
+    public class GetGameHistoryView
     {
-        public List<HistoryMessageGetAllLogViewItem> HistoryMessages { get; set; }
+        public List<HistoryMessageGetGameHistoryViewItem> HistoryMessages { get; set; }
     }
 
-    public class HistoryMessageGetAllLogViewItem
+    public class HistoryMessageGetGameHistoryViewItem
     {
         public long Id { get; set; }
         public DateTime CreationDate { get; set; }

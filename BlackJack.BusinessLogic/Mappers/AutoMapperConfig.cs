@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using BlackJack.BusinessLogic.Helpers;
 using BlackJack.Entities.Entities;
-using BlackJack.ViewModels.ViewModels.Game;
-using BlackJack.ViewModels.ViewModels.Log;
-using BlackJack.ViewModels.ViewModels.Start;
+using BlackJack.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,19 +12,26 @@ namespace BlackJack.BusinessLogic.Mappers
         {
             Mapper.Initialize(config =>
             {
-                config.CreateMap<GamePlayer, GamePlayerItem>()
+                config.CreateMap<Game, InitializeRoundStartView>();
+                config.CreateMap<HistoryMessage, HistoryMessageGetGameHistoryViewItem>();
+
+                config.CreateMap<GamePlayer, GamePlayerInitializeRoundStartViewItem>()
+                    .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
+                
+                config.CreateMap<GamePlayer, GamePlayerResponseStartRoundViewItem>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<GamePlayer, AddCardGameView>()
+                config.CreateMap<GamePlayer, GamePlayerResponseContinueRoundViewItem>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<Game, StartInitRoundViewModel>();
-                config.CreateMap<HistoryMessage, GetAllLogView>();
-
-                config.CreateMap<GamePlayer, PlayerItem>()
+                config.CreateMap<GamePlayer, AddCardRoundView>()
+                    .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
+                
+                config.CreateMap<ResponseStartRoundView, ResumeAfterStartRoundView>();
+                config.CreateMap<ResponseContinueRoundView, ResumeAfterContinueRoundView>();
             });
         }
 

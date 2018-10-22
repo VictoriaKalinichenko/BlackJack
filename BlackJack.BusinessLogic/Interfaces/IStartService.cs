@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using BlackJack.ViewModels.ViewModels.Start;
+using BlackJack.ViewModels;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
@@ -9,10 +9,10 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task CreatePlayer(string name);
 
-        Task<StartAuthorizePlayerViewModel> AuthorizePlayer(string name);
+        Task<AuthorizePlayerStartView> AuthorizePlayer(string name);
 
         Task<long> ResumeGame(long playerId);
 
-        Task<StartInitRoundViewModel> InitRound(long gameId);
+        Task<InitializeRoundStartView> InitializeRound(long gameId);
     }
 }

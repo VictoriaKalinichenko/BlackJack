@@ -1,6 +1,6 @@
 ﻿using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.ViewModels.ViewModels.Start;
+using BlackJack.ViewModels;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -12,12 +12,12 @@ namespace BlackJack.Angular.Controllers
     public class StartController : ApiController
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly IStartService _startGameService;
+        private readonly IStartService _startService;
 
 
-        public StartController (IStartService startGameService)
+        public StartController (IStartService startService)
         {
-            _startGameService = startGameService;
+            _startService = startService;
         }
 
         [Route("AuthorizePlayer"), HttpGet]
@@ -30,33 +30,33 @@ namespace BlackJack.Angular.Controllers
                     BadRequest(GameMessageHelper.ReceivedDataError);
                 }
 
-                StartAuthorizePlayerViewModel authorizePlayerViewModel = await _startGameService.AuthorizePlayer(userName);
-                return Ok(authorizePlayerViewModel);
+                AuthorizePlayerStartView authorizePlayerStartView = await _startService.AuthorizePlayer(userName);
+                return Ok(authorizePlayerStartView);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                string message = LogHelper.ToString(exception);
                 _logger.Error(message);
                 return BadRequest(GameMessageHelper.PlayerAuthError);
             }
         }
 
         [Route("CreateGame"), HttpPost]
-        public async Task<IHttpActionResult> CreateGame(StartCreateGameViewModel createGameViewModel)
+        public async Task<IHttpActionResult> CreateGame(CreateGameStartView createGameStartView)
         {
             try
             {
-                if (createGameViewModel == null)
+                if (createGameStartView == null)
                 {
                     BadRequest(GameMessageHelper.ReceivedDataError);
                 }
 
-                long gameId = await _startGameService.CreateGame(createGameViewModel.PlayerId, createGameViewModel.AmountOfBots);
+                long gameId = await _startService.CreateGame(createGameStartView.PlayerId, createGameStartView.AmountOfBots);
                 return Ok(new { GameId = gameId });
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                string message = LogHelper.ToString(exception);
                 _logger.Error(message);
                 return BadRequest(GameMessageHelper.GameCreationError);
             }
@@ -67,28 +67,28 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                long gameId = await _startGameService.ResumeGame(playerId);
+                long gameId = await _startService.ResumeGame(playerId);
                 return Ok(new { GameId = gameId });
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                string message = LogHelper.ToString(exception);
                 _logger.Error(message);
                 return BadRequest(GameMessageHelper.GameResumingError);
             }
         }
 
-        [Route("InitRound"), HttpGet]
-        public async Task<IHttpActionResult> InitRound(long gameId)
+        [Route("InitializeRound"), HttpGet]
+        public async Task<IHttpActionResult> InitializeRound(long gameId)
         {
             try
             {
-                StartInitRoundViewModel initRoundViewModel = await _startGameService.InitRound(gameId);
-                return Ok(initRoundViewModel);
+                InitializeRoundStartView initializeRoundStartView = await _startService.InitializeRound(gameId);
+                return Ok(initializeRoundStartView);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string message = $"{ex.Source}|{ex.TargetSite}|{ex.StackTrace}|{ex.Message}";
+                string message = LogHelper.ToString(exception);
                 _logger.Error(message);
                 return BadRequest(GameMessageHelper.GameLoadingError);
             }

@@ -2,7 +2,7 @@
     dataSource = new kendo.data.DataSource({
         transport: {
             read: {
-                url: "/Log/GetAll",
+                url: "/GameHistory/Get",
                 dataType: "json",
                 type: "GET"
             },
@@ -12,15 +12,7 @@
         },
         pageSize: 20,
         schema: {
-            model: {
-                id: "Id",
-                fields: {
-                    Id: {},
-                    GameId: {},
-                    DateTime: {type: "date"},
-                    Message: {}
-                }
-            }
+            data: "HistoryMessages"
         }
     });
 

@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Interfaces\IHistoryMessageManager.cs" />
     <Compile Include="Managers\HistoryMessageManager.cs" />
     <Compile Include="Mappers\AutoMapperConfig.cs" />
@@ -72,14 +73,14 @@
     <Compile Include="Helpers\GameValueHelper.cs" />
     <Compile Include="Helpers\BetValueHelper.cs" />
     <Compile Include="Interfaces\IGamePlayerManager.cs" />
-    <Compile Include="Interfaces\ILogService.cs" />
+    <Compile Include="Interfaces\IGameHistoryService.cs" />
     <Compile Include="Interfaces\IStartService.cs" />
     <Compile Include="Mappers\CustomMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Managers\GamePlayerManager.cs" />
-    <Compile Include="Services\GameService.cs" />
-    <Compile Include="Interfaces\IGameService.cs" />
-    <Compile Include="Services\LogService.cs" />
+    <Compile Include="Services\RoundService.cs" />
+    <Compile Include="Interfaces\IRoundService.cs" />
+    <Compile Include="Services\GameHistoryService.cs" />
     <Compile Include="Services\StartService.cs" />
     <Compile Include="Config\AutofacConfig.cs" />
   </ItemGroup>

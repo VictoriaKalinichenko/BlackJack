@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="nav-item">
-                        @Html.ActionLink("Game logs", "Index", "Log", new { userName = ViewBag.UserName }, null)
+                        @Html.ActionLink("Game history", "Index", "GameHistory", new { userName = ViewBag.UserName }, null)
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -32,7 +32,7 @@
                         <b>Log in as: @ViewBag.UserName</b>
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Log out", "ValidateName", "Start")
+                        @Html.ActionLink("Log out", "Index", "Start")
                     </li>
                 </ul>
             </div>

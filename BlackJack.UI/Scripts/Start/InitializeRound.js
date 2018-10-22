@@ -13,7 +13,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/Game/ResumeAfterStartRound",
+                url: "/Round/ResumeAfterStart",
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
@@ -31,7 +31,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/Game/ResumeAfterContinueRound",
+                url: "/Round/ResumeAfterContinue",
                 data: transParam,
                 dataType: "json",
                 success: function (response) {
@@ -52,7 +52,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/Game/EndGame",
+            url: "/Round/EndGame",
             data: transParam,
             dataType: "json",
             success: function () {
@@ -87,15 +87,15 @@
         var transParam = { bet: betInput, gamePlayerId: humanId, gameId: gameId };
         $.ajax({
             type: "POST",
-            url: "/Game/StartRound",
+            url: "/Round/Start",
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Message != "") {
+                if (response.Message != null) {
                     alert(response.Message);
                 }
 
-                if (response.Message == "") {
+                if (response.Message == null) {
                     StartRoundPageReloading(response.Data);
                 }
             },
@@ -110,7 +110,7 @@
         var transParam = { gameId: gameId };
         $.ajax({
             type: "GET",
-            url: "/Game/AddCard",
+            url: "/Round/AddCard",
             data: transParam,
             dataType: "json",
             success: function (response) {
@@ -133,7 +133,7 @@
         var transParam = { gameId: gameId };
         $.ajax({
             type: "GET",
-            url: "/Game/EndRound",
+            url: "/Round/End",
             data: transParam,
             dataType: "json",
             success: function () {
@@ -216,7 +216,7 @@
         var transParam = { GameId: gameId, ContinueRound: continueRound };
         $.ajax({
             type: "POST",
-            url: "/Game/ContinueRound",
+            url: "/Round/Continue",
             data: transParam,
             dataType: "json",
             success: function (response) {

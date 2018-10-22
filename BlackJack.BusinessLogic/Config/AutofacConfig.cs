@@ -20,8 +20,8 @@ namespace BlackJack.BusinessLogic.Config
             builder.RegisterType<HistoryMessageManager>().As<IHistoryMessageManager>();
             
             builder.RegisterType<StartService>().As<IStartService>();
-            builder.RegisterType<GameService>().As<IGameService>();
-            builder.RegisterType<LogService>().As<ILogService>();
+            builder.RegisterType<RoundService>().As<IRoundService>();
+            builder.RegisterType<GameHistoryService>().As<IGameHistoryService>();
 
             builder.RegisterModule(new DataAccess.Config.AutofacConfig(_connectionString));
             base.Load(builder);

@@ -8,7 +8,7 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
     {
         Task<int> GetScoreById(long gamePlayerId);
 
-        Task<IEnumerable<GamePlayer>> GetAllForInitRound(long gameId);
+        Task<IEnumerable<GamePlayer>> GetAllForInitializeRound(long gameId);
 
         Task<IEnumerable<GamePlayer>> GetAllWithoutCards(long gameId);
 

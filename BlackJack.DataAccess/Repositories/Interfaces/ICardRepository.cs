@@ -6,6 +6,6 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 {
     public interface ICardRepository : IBaseRepository<Card>
     {
-        Task<IEnumerable<Card>> ResumeDeck(long gameId);
+        Task<IEnumerable<Card>> GetSpecifiedAmount(int cardAmount);
     }
 }

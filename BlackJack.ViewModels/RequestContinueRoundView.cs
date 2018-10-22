@@ -1,6 +1,6 @@
-﻿namespace BlackJack.ViewModels.ViewModels.Game
+﻿namespace BlackJack.ViewModels
 {
-    public class RequestContinueRoundGameView
+    public class RequestContinueRoundView
     {
         public long GameId { get; set; }
         public bool ContinueRound { get; set; }

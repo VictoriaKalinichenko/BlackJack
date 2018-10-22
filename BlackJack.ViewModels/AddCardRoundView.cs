@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace BlackJack.ViewModels.ViewModels.Game
+namespace BlackJack.ViewModels
 {
-    public class AddCardGameView
+    public class AddCardRoundView
     {
         public string Name { get; set; }
         public int RoundScore { get; set; }

@@ -30,11 +30,11 @@ namespace BlackJack.BusinessLogic.Managers
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
+                string playerType = gamePlayer.Player.Type.ToString();
                 logs.Add(new HistoryMessage()
                 {
                     GameId = gamePlayer.GameId,
-                    Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
-                                  Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) is added to game"
+                    Message = $"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) is added to game"
                 });
             }
 
@@ -94,11 +94,11 @@ namespace BlackJack.BusinessLogic.Managers
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
+                string playerType = gamePlayer.Player.Type.ToString();
                 logs.Add(new HistoryMessage()
                 {
                     GameId = gamePlayer.GameId,
-                    Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
-                                  Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) created the bet(={gamePlayer.Bet})"
+                    Message = $@"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}, Score={gamePlayer.Score}) created the bet(={gamePlayer.Bet})"
                 });
             }
 
@@ -124,12 +124,14 @@ namespace BlackJack.BusinessLogic.Managers
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
+                string playerType = gamePlayer.Player.Type.ToString();
+
                 if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
                 {
                     logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{playerType}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). 
                                       BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -140,7 +142,7 @@ namespace BlackJack.BusinessLogic.Managers
                     var log = new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{playerType}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}) 
                                       with DealerBlackJackDanger. BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     };
@@ -184,12 +186,14 @@ namespace BlackJack.BusinessLogic.Managers
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
+                string playerType = gamePlayer.Player.Type.ToString();
+
                 if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
                 {
                     logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{playerType}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has Blackjack(RoundScore={gamePlayer.RoundScore}). 
                                       BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -200,7 +204,7 @@ namespace BlackJack.BusinessLogic.Managers
                     logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{playerType}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has win result(PlayerRoundScore={gamePlayer.RoundScore}, 
                                       DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -211,7 +215,7 @@ namespace BlackJack.BusinessLogic.Managers
                     logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{playerType}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has lose result(PlayerRoundScore={gamePlayer.RoundScore}, 
                                       DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -222,7 +226,7 @@ namespace BlackJack.BusinessLogic.Managers
                     logs.Add(new HistoryMessage()
                     {
                         GameId = gamePlayer.GameId,
-                        Message = $@"{gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, 
+                        Message = $@"{playerType}(Id={gamePlayer.Player.Id}, 
                                       Name={gamePlayer.Player.Name}) has equal result(PlayerRoundScore={gamePlayer.RoundScore}, 
                                       DealerRoundScore={dealer.RoundScore}). BetPayCoefficient is changed(={gamePlayer.BetPayCoefficient})"
                     });
@@ -234,11 +238,12 @@ namespace BlackJack.BusinessLogic.Managers
 
         private HistoryMessage CreateCardAddingMessage(GamePlayer gamePlayer, Card card)
         {
+            string playerType = gamePlayer.Player.Type.ToString();
             var log = new HistoryMessage()
             {
                 GameId = gamePlayer.GameId,
                 Message = $@"Card(Id={card.Id}, Value={card.Rank}, Name={card.ToString()}) is added to 
-                             {gamePlayer.Player.Type.ToString()}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name})"
+                             {playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name})"
             };
 
             return log;

@@ -16,7 +16,7 @@ namespace BlackJack.DataAccess.Repositories
         public GamePlayerRepository(string connectionString) : base(connectionString)
         { }
 
-        public async Task<IEnumerable<GamePlayer>> GetAllForInitRound(long gameId)
+        public async Task<IEnumerable<GamePlayer>> GetAllForInitializeRound(long gameId)
         {
             string sqlQuery = $@"SELECT A.Id, Score, B.Id, B.Name, B.Type
                                  FROM GamePlayers AS A 

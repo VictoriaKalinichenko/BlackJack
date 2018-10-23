@@ -6,13 +6,13 @@ import { ErrorService } from 'app/shared/services/error.service';
   templateUrl: './error-page.component.html'
 })
 export class ErrorPageComponent implements OnInit {
-    Error: string;
+    error: string;
 
     constructor(
-        private _errorService: ErrorService
+        private errorService: ErrorService
     ) { }
 
     ngOnInit() {
-        this.Error = this._errorService.GetError();
+        this.error = this.errorService.GetError();
     }
 }

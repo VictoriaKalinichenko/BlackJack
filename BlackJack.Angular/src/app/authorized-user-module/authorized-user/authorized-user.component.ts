@@ -8,18 +8,18 @@ import { UserNameService } from 'app/shared/services/user-name.service';
     templateUrl: './authorized-user.component.html'
 })
 export class AuthorizedUserComponent implements OnInit {
-    UserName: string;
+    userName: string;
 
     constructor(
-        private _userNameService: UserNameService,
-        private _route: ActivatedRoute
+        private userNameService: UserNameService,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit() {
-        this._route.params.subscribe(params => {
-            this.UserName = params['UserName']
+        this.route.params.subscribe(params => {
+            this.userName = params['userName']
         });
 
-        this._userNameService.SetUserName(this.UserName);
+        this.userNameService.SetUserName(this.userName);
     }
 }

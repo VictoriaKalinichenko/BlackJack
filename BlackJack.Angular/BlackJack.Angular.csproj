@@ -300,7 +300,7 @@
     <TypeScriptCompile Include="src\app\authorized-user-module\start-page\start-page.component.ts" />
     <TypeScriptCompile Include="src\app\error-page\error-page.component.ts" />
     <TypeScriptCompile Include="src\app\home-page\home-page.component.ts" />
-    <TypeScriptCompile Include="src\app\shared\view-models\authorize-player-view-model.ts" />
+    <TypeScriptCompile Include="src\app\shared\view-models\authorize-player-start-view.ts" />
     <TypeScriptCompile Include="src\app\shared\mapping-models\game-mapping-model.ts" />
     <TypeScriptCompile Include="src\app\shared\mapping-models\player-mapping-model.ts" />
     <TypeScriptCompile Include="src\app\shared\services\error.service.ts" />

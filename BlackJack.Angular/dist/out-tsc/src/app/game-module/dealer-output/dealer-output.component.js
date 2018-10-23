@@ -11,22 +11,22 @@ import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 var DealerOutputComponent = /** @class */ (function () {
     function DealerOutputComponent() {
-        this.RoundFirstPhase = false;
-        this.RoundSecondPhase = false;
+        this.roundFirstPhase = false;
+        this.roundSecondPhase = false;
     }
-    Object.defineProperty(DealerOutputComponent.prototype, "GameStage", {
+    Object.defineProperty(DealerOutputComponent.prototype, "gameStage", {
         set: function (stage) {
             if (stage == 1) {
-                this.RoundFirstPhase = true;
-                this.RoundSecondPhase = false;
+                this.roundFirstPhase = true;
+                this.roundSecondPhase = false;
             }
             if (stage == 2) {
-                this.RoundFirstPhase = false;
-                this.RoundSecondPhase = true;
+                this.roundFirstPhase = false;
+                this.roundSecondPhase = true;
             }
             if (stage == 0) {
-                this.RoundFirstPhase = false;
-                this.RoundSecondPhase = false;
+                this.roundFirstPhase = false;
+                this.roundSecondPhase = false;
             }
         },
         enumerable: true,
@@ -35,20 +35,20 @@ var DealerOutputComponent = /** @class */ (function () {
     __decorate([
         Input(),
         __metadata("design:type", Number)
-    ], DealerOutputComponent.prototype, "Score", void 0);
+    ], DealerOutputComponent.prototype, "score", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Number)
-    ], DealerOutputComponent.prototype, "RoundScore", void 0);
+    ], DealerOutputComponent.prototype, "roundScore", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
-    ], DealerOutputComponent.prototype, "Cards", void 0);
+    ], DealerOutputComponent.prototype, "cards", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Number),
         __metadata("design:paramtypes", [Number])
-    ], DealerOutputComponent.prototype, "GameStage", null);
+    ], DealerOutputComponent.prototype, "gameStage", null);
     DealerOutputComponent = __decorate([
         Component({
             selector: 'app-dealer-output',

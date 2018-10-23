@@ -9,10 +9,10 @@ var ErrorService = /** @class */ (function () {
     function ErrorService() {
     }
     ErrorService.prototype.SetError = function (error) {
-        this.Error = error;
+        this.error = error;
     };
     ErrorService.prototype.GetError = function () {
-        return this.Error;
+        return this.error;
     };
     ErrorService = __decorate([
         Injectable({

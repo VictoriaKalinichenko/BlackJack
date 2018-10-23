@@ -14,7 +14,7 @@ var appRoutes = [
         component: HomePageComponent
     },
     {
-        path: 'user/:UserName',
+        path: 'user/:userName',
         loadChildren: 'app/authorized-user-module/authorized-user.module#AuthorizedUserModule'
     },
     {

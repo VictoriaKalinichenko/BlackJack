@@ -115,7 +115,7 @@ var AuthorizedUserModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default\">\r\n    <div class=\"container\">\r\n        <div class=\"navbar-header\">\r\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#myNavbar\">\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n            </button>\r\n            <a class=\"navbar-brand\" [routerLink]=\"['/user', UserName]\">\r\n                Home\r\n            </a>\r\n        </div>\r\n\r\n        <div class=\"collapse navbar-collapse\" id=\"myNavbar\">\r\n            <ul class=\"nav navbar-nav\">\r\n                <li class=\"navbar-text\">\r\n                    <b>Log in as: {{UserName}}</b>\r\n                </li>\r\n                <li class=\"nav-item\">\r\n                    <a routerLink=\"/\">\r\n                        Log out\r\n                    </a>\r\n                </li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</nav>\r\n<router-outlet></router-outlet>  "
+module.exports = "<nav class=\"navbar navbar-default\">\r\n    <div class=\"container\">\r\n        <div class=\"navbar-header\">\r\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#myNavbar\">\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n            </button>\r\n            <a class=\"navbar-brand\" [routerLink]=\"['/user', userName]\">\r\n                Home\r\n            </a>\r\n        </div>\r\n\r\n        <div class=\"collapse navbar-collapse\" id=\"myNavbar\">\r\n            <ul class=\"nav navbar-nav\">\r\n                <li class=\"navbar-text\">\r\n                    <b>Log in as: {{userName}}</b>\r\n                </li>\r\n                <li class=\"nav-item\">\r\n                    <a routerLink=\"/\">\r\n                        Log out\r\n                    </a>\r\n                </li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</nav>\r\n<router-outlet></router-outlet>  "
 
 /***/ }),
 
@@ -145,16 +145,16 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var AuthorizedUserComponent = /** @class */ (function () {
-    function AuthorizedUserComponent(_userNameService, _route) {
-        this._userNameService = _userNameService;
-        this._route = _route;
+    function AuthorizedUserComponent(userNameService, route) {
+        this.userNameService = userNameService;
+        this.route = route;
     }
     AuthorizedUserComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._route.params.subscribe(function (params) {
-            _this.UserName = params['UserName'];
+        this.route.params.subscribe(function (params) {
+            _this.userName = params['userName'];
         });
-        this._userNameService.SetUserName(this.UserName);
+        this.userNameService.SetUserName(this.userName);
     };
     AuthorizedUserComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -189,7 +189,7 @@ module.exports = ".row-flex {\r\n    display: flex;\r\n    flex-flow: row wrap;\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngIf=\"Player.ResumeGame\" class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Game resuming</h3>\r\n        <p>You can resume your last game</p>\r\n        <div class=\"form-group\">\r\n            <a class=\"btn btn-primary\" (click)=\"ResumeGame()\">Resume game</a>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Start new game</h3>\r\n        <label class=\"control-label col-md-4\">Amount of bots:</label>\r\n        <div class=\"col-md-8\">\r\n            <input name=\"amountOfBots\" [(ngModel)]=\"AmountOfBots\" class=\"form-control\"\r\n                   type=\"number\" value=\"0\" min=\"0\" max=\"5\"\r\n                   #amountOfBots=\"ngModel\" pattern=\"[0-5]\" />\r\n            <div [hidden]=\"amountOfBots.valid\" class=\"alert alert-danger\">\r\n                Amount of bots must be more than or equals to 0 and less than or equals to 5.\r\n            </div>\r\n            <br />\r\n            <button [disabled]=\"amountOfBots.invalid\" class=\"btn btn-primary\" (click)=\"StartNewGame()\">Start new game</button>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngIf=\"player.resumeGame\" class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Game resuming</h3>\r\n        <p>You can resume your last game</p>\r\n        <div class=\"form-group\">\r\n            <a class=\"btn btn-primary\" (click)=\"ResumeGame()\">Resume game</a>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Start new game</h3>\r\n        <label class=\"control-label col-md-4\">Amount of bots:</label>\r\n        <div class=\"col-md-8\">\r\n            <input name=\"amount\" [(ngModel)]=\"amountOfBots\" class=\"form-control\"\r\n                   type=\"number\" value=\"0\" min=\"0\" max=\"5\"\r\n                   #amount=\"ngModel\" pattern=\"[0-5]\" />\r\n            <div [hidden]=\"amount.valid\" class=\"alert alert-danger\">\r\n                Amount of bots must be more than or equals to 0 and less than or equals to 5.\r\n            </div>\r\n            <br />\r\n            <button [disabled]=\"amount.invalid\" class=\"btn btn-primary\" (click)=\"StartNewGame()\">Start new game</button>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -207,7 +207,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var app_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/shared/services/user-name.service */ "./src/app/shared/services/user-name.service.ts");
 /* harmony import */ var app_shared_services_http_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/shared/services/http.service */ "./src/app/shared/services/http.service.ts");
-/* harmony import */ var app_shared_view_models_authorize_player_view_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/shared/view-models/authorize-player-view-model */ "./src/app/shared/view-models/authorize-player-view-model.ts");
+/* harmony import */ var app_shared_view_models_authorize_player_start_view__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/shared/view-models/authorize-player-start-view */ "./src/app/shared/view-models/authorize-player-start-view.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -223,40 +223,40 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var StartPageComponent = /** @class */ (function () {
-    function StartPageComponent(_userNameService, _httpService, _router) {
-        this._userNameService = _userNameService;
-        this._httpService = _httpService;
-        this._router = _router;
-        this.Player = new app_shared_view_models_authorize_player_view_model__WEBPACK_IMPORTED_MODULE_4__["AuthorizePlayerViewModel"]();
-        this.AmountOfBots = 0;
+    function StartPageComponent(userNameService, httpService, router) {
+        this.userNameService = userNameService;
+        this.httpService = httpService;
+        this.router = router;
+        this.player = new app_shared_view_models_authorize_player_start_view__WEBPACK_IMPORTED_MODULE_4__["AuthorizePlayerStartView"]();
+        this.amountOfBots = 0;
     }
     StartPageComponent.prototype.ngOnInit = function () {
-        this.UserName = this._userNameService.GetUserName();
-        this.AuthUser(this.UserName);
+        this.userName = this.userNameService.GetUserName();
+        this.AuthUser(this.userName);
     };
     StartPageComponent.prototype.AuthUser = function (userName) {
         var _this = this;
-        this._httpService.GetAuthorizedPlayer(this.UserName)
+        this.httpService.GetAuthorizedPlayer(this.userName)
             .subscribe(function (data) {
-            _this.Player.Name = data.Name;
-            _this.Player.PlayerId = data.PlayerId;
-            _this.Player.ResumeGame = data.ResumeGame;
+            _this.player.name = data["Name"];
+            _this.player.playerId = data["PlayerId"];
+            _this.player.resumeGame = data["ResumeGame"];
         });
     };
     StartPageComponent.prototype.StartNewGame = function () {
         var _this = this;
-        this._httpService.CreateGame(this.Player.PlayerId, this.AmountOfBots)
+        this.httpService.CreateGame(this.player.playerId, this.amountOfBots)
             .subscribe(function (data) {
-            _this.GameId = data["GameId"];
-            _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
+            _this.gameId = data["GameId"];
+            _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);
         });
     };
     StartPageComponent.prototype.ResumeGame = function () {
         var _this = this;
-        this._httpService.ResumeGame(this.Player.PlayerId)
+        this.httpService.ResumeGame(this.player.playerId)
             .subscribe(function (data) {
-            _this.GameId = data["GameId"];
-            _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
+            _this.gameId = data["GameId"];
+            _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);
         });
     };
     StartPageComponent = __decorate([
@@ -276,20 +276,20 @@ var StartPageComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/view-models/authorize-player-view-model.ts":
+/***/ "./src/app/shared/view-models/authorize-player-start-view.ts":
 /*!*******************************************************************!*\
-  !*** ./src/app/shared/view-models/authorize-player-view-model.ts ***!
+  !*** ./src/app/shared/view-models/authorize-player-start-view.ts ***!
   \*******************************************************************/
-/*! exports provided: AuthorizePlayerViewModel */
+/*! exports provided: AuthorizePlayerStartView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthorizePlayerViewModel", function() { return AuthorizePlayerViewModel; });
-var AuthorizePlayerViewModel = /** @class */ (function () {
-    function AuthorizePlayerViewModel() {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthorizePlayerStartView", function() { return AuthorizePlayerStartView; });
+var AuthorizePlayerStartView = /** @class */ (function () {
+    function AuthorizePlayerStartView() {
     }
-    return AuthorizePlayerViewModel;
+    return AuthorizePlayerStartView;
 }());
 
 

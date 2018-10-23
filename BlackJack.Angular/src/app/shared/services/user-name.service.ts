@@ -4,13 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UserNameService {
-    UserName: string;
+    userName: string;
     
     SetUserName(userName: string) {
-        this.UserName = userName;
+        this.userName = userName;
     }
 
     GetUserName() {
-        return this.UserName;
+        return this.userName;
     }
 }

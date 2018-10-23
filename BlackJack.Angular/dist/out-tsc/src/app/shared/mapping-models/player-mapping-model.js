@@ -10,37 +10,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { JsonProperty } from 'json-typescript-mapper';
 var PlayerMappingModel = /** @class */ (function () {
     function PlayerMappingModel() {
-        this.GamePlayerId = void 0;
-        this.Name = void 0;
-        this.Score = void 0;
-        this.Bet = void 0;
-        this.RoundScore = void 0;
-        this.Cards = void 0;
+        this.gamePlayerId = void 0;
+        this.name = void 0;
+        this.score = void 0;
+        this.bet = void 0;
+        this.roundScore = void 0;
+        this.cards = void 0;
     }
     __decorate([
         JsonProperty('Id'),
         __metadata("design:type", Number)
-    ], PlayerMappingModel.prototype, "GamePlayerId", void 0);
+    ], PlayerMappingModel.prototype, "gamePlayerId", void 0);
     __decorate([
         JsonProperty('Name'),
         __metadata("design:type", String)
-    ], PlayerMappingModel.prototype, "Name", void 0);
+    ], PlayerMappingModel.prototype, "name", void 0);
     __decorate([
         JsonProperty('Score'),
         __metadata("design:type", Number)
-    ], PlayerMappingModel.prototype, "Score", void 0);
+    ], PlayerMappingModel.prototype, "score", void 0);
     __decorate([
         JsonProperty('Bet'),
         __metadata("design:type", Number)
-    ], PlayerMappingModel.prototype, "Bet", void 0);
+    ], PlayerMappingModel.prototype, "bet", void 0);
     __decorate([
         JsonProperty('RoundScore'),
         __metadata("design:type", Number)
-    ], PlayerMappingModel.prototype, "RoundScore", void 0);
+    ], PlayerMappingModel.prototype, "roundScore", void 0);
     __decorate([
         JsonProperty('Cards'),
         __metadata("design:type", Array)
-    ], PlayerMappingModel.prototype, "Cards", void 0);
+    ], PlayerMappingModel.prototype, "cards", void 0);
     return PlayerMappingModel;
 }());
 export { PlayerMappingModel };

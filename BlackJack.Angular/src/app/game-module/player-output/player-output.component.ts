@@ -6,15 +6,15 @@ import { Input } from '@angular/core';
   templateUrl: './player-output.component.html'
 })
 export class PlayerOutputComponent {
-    @Input() Score: number;
-    @Input() RoundScore: number;
-    @Input() Bet: number;
-    @Input() Cards: string[];
+    @Input() score: number;
+    @Input() roundScore: number;
+    @Input() bet: number;
+    @Input() cards: string[];
 
-    RoundStart: boolean = true;
+    roundStart: boolean = true;
     
     @Input()
-    set GameStage (stage: number) {
-        this.RoundStart = (stage == 0);
+    set gameStage (stage: number) {
+        this.roundStart = (stage == 0);
     }
 }

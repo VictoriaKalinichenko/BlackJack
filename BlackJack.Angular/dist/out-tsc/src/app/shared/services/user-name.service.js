@@ -9,10 +9,10 @@ var UserNameService = /** @class */ (function () {
     function UserNameService() {
     }
     UserNameService.prototype.SetUserName = function (userName) {
-        this.UserName = userName;
+        this.userName = userName;
     };
     UserNameService.prototype.GetUserName = function () {
-        return this.UserName;
+        return this.userName;
     };
     UserNameService = __decorate([
         Injectable({

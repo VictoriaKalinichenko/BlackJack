@@ -3,25 +3,25 @@ import { JsonProperty } from 'json-typescript-mapper';
 
 export class GameMappingModel {
     @JsonProperty('Id')
-    Id: number;
+    id: number;
 
     @JsonProperty('Stage')
-    Stage: number;
+    stage: number;
 
     @JsonProperty({ clazz: PlayerMappingModel, name: 'Human' })
-    Human: PlayerMappingModel;
+    human: PlayerMappingModel;
 
     @JsonProperty({ clazz: PlayerMappingModel, name: 'Dealer' })
-    Dealer: PlayerMappingModel;
+    dealer: PlayerMappingModel;
 
     @JsonProperty({ clazz: PlayerMappingModel, name: 'Bots' })
-    Bots: PlayerMappingModel[];
+    bots: PlayerMappingModel[];
 
     constructor() {
-        this.Id = void 0;
-        this.Stage = void 0;
-        this.Human = void 0;
-        this.Dealer = void 0;
-        this.Bots = void 0;
+        this.id = void 0;
+        this.stage = void 0;
+        this.human = void 0;
+        this.dealer = void 0;
+        this.bots = void 0;
     }
 }

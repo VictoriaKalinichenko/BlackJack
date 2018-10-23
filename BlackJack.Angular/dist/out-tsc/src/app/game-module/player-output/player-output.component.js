@@ -11,11 +11,11 @@ import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 var PlayerOutputComponent = /** @class */ (function () {
     function PlayerOutputComponent() {
-        this.RoundStart = true;
+        this.roundStart = true;
     }
-    Object.defineProperty(PlayerOutputComponent.prototype, "GameStage", {
+    Object.defineProperty(PlayerOutputComponent.prototype, "gameStage", {
         set: function (stage) {
-            this.RoundStart = (stage == 0);
+            this.roundStart = (stage == 0);
         },
         enumerable: true,
         configurable: true
@@ -23,24 +23,24 @@ var PlayerOutputComponent = /** @class */ (function () {
     __decorate([
         Input(),
         __metadata("design:type", Number)
-    ], PlayerOutputComponent.prototype, "Score", void 0);
+    ], PlayerOutputComponent.prototype, "score", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Number)
-    ], PlayerOutputComponent.prototype, "RoundScore", void 0);
+    ], PlayerOutputComponent.prototype, "roundScore", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Number)
-    ], PlayerOutputComponent.prototype, "Bet", void 0);
+    ], PlayerOutputComponent.prototype, "bet", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
-    ], PlayerOutputComponent.prototype, "Cards", void 0);
+    ], PlayerOutputComponent.prototype, "cards", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Number),
         __metadata("design:paramtypes", [Number])
-    ], PlayerOutputComponent.prototype, "GameStage", null);
+    ], PlayerOutputComponent.prototype, "gameStage", null);
     PlayerOutputComponent = __decorate([
         Component({
             selector: 'app-player-output',

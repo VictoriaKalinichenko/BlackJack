@@ -5,74 +5,74 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class HttpService {
-    constructor(private _httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) { }
     
     GetAuthorizedPlayer(userName: string) {
         const options = userName ?
             { params: new HttpParams().set('userName', userName.toString()) } : {};
 
-        return this._httpClient.get('Start/AuthorizePlayer', options);
+        return this.httpClient.get('Start/AuthorizePlayer', options);
     }
 
     CreateGame(playerId: number, amountOfBots: number) {
         const body = { PlayerId: playerId, AmountOfBots: amountOfBots };
-        return this._httpClient.post('Start/CreateGame', body);
+        return this.httpClient.post('Start/CreateGame', body);
     }
 
     ResumeGame(playerId: number) {
         const options = playerId ?
             { params: new HttpParams().set('playerId', playerId.toString()) } : {};
 
-        return this._httpClient.get('Start/ResumeGame', options);
+        return this.httpClient.get('Start/ResumeGame', options);
     }
 
     GetGame(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('Start/InitRound', options);
+        return this.httpClient.get('Start/InitializeRound', options);
     }
 
     StartRound(gameId: number, humanGamePlayerId: number, bet: number) {
         const body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this._httpClient.post('Game/StartRound', body);
+        return this.httpClient.post('Round/Start', body);
     }
 
     ContinueRound(gameId: number, continueRound: boolean) {
         const body = { GameId: gameId, ContinueRound: continueRound };
-        return this._httpClient.post('Game/ContinueRound', body);
+        return this.httpClient.post('Round/Continue', body);
     }
 
     AddCard(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('Game/AddCard', options);
+        return this.httpClient.get('Round/AddCard', options);
     }
 
     ResumeAfterStartRound(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('Game/ResumeAfterStartRound', options);
+        return this.httpClient.get('Round/ResumeAfterStart', options);
     }
 
     ResumeAfterContinueRound(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('Game/ResumeAfterContinueRound', options);
+        return this.httpClient.get('Round/ResumeAfterContinue', options);
     }
 
     EndRound(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this._httpClient.get('Game/EndRound', options);
+        return this.httpClient.get('Round/End', options);
     }
 
     EndGame(gameId: number, gameResult: string) {
         const body = { GameId: gameId, Result: gameResult };
-        return this._httpClient.post('Game/EndGame', body);
+        return this.httpClient.post('Round/EndGame', body);
     }
 }

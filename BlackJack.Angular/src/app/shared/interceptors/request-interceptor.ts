@@ -16,8 +16,8 @@ import { ErrorService } from 'app/shared/services/error.service';
 export class RequestInterceptor implements HttpInterceptor {
 
     constructor(
-        private _errorService: ErrorService,
-        private _router: Router
+        private errorService: ErrorService,
+        private router: Router
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -26,8 +26,8 @@ export class RequestInterceptor implements HttpInterceptor {
             (error: any) => {
                 if (error instanceof HttpErrorResponse) {
                     console.log(error);
-                    this._errorService.SetError(error["error"]["Message"]);
-                    this._router.navigate(['/error']);
+                    this.errorService.SetError(error["error"]["Message"]);
+                    this.router.navigate(['/error']);
                 }
             }
         ));

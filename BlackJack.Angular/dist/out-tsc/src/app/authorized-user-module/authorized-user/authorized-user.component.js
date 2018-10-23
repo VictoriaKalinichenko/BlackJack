@@ -11,16 +11,16 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserNameService } from 'app/shared/services/user-name.service';
 var AuthorizedUserComponent = /** @class */ (function () {
-    function AuthorizedUserComponent(_userNameService, _route) {
-        this._userNameService = _userNameService;
-        this._route = _route;
+    function AuthorizedUserComponent(userNameService, route) {
+        this.userNameService = userNameService;
+        this.route = route;
     }
     AuthorizedUserComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._route.params.subscribe(function (params) {
-            _this.UserName = params['UserName'];
+        this.route.params.subscribe(function (params) {
+            _this.userName = params['userName'];
         });
-        this._userNameService.SetUserName(this.UserName);
+        this.userNameService.SetUserName(this.userName);
     };
     AuthorizedUserComponent = __decorate([
         Component({

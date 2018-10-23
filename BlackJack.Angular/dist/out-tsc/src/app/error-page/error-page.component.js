@@ -10,11 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { ErrorService } from 'app/shared/services/error.service';
 var ErrorPageComponent = /** @class */ (function () {
-    function ErrorPageComponent(_errorService) {
-        this._errorService = _errorService;
+    function ErrorPageComponent(errorService) {
+        this.errorService = errorService;
     }
     ErrorPageComponent.prototype.ngOnInit = function () {
-        this.Error = this._errorService.GetError();
+        this.error = this.errorService.GetError();
     };
     ErrorPageComponent = __decorate([
         Component({

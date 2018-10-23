@@ -69,7 +69,7 @@ var appRoutes = [
         component: app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_2__["HomePageComponent"]
     },
     {
-        path: 'user/:UserName',
+        path: 'user/:userName',
         loadChildren: 'app/authorized-user-module/authorized-user.module#AuthorizedUserModule'
     },
     {
@@ -232,7 +232,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Error</h1>\r\n<p>\r\n  {{Error}}\r\n</p>\r\n"
+module.exports = "<h1>Error</h1>\r\n<p>\r\n  {{error}}\r\n</p>\r\n"
 
 /***/ }),
 
@@ -260,11 +260,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var ErrorPageComponent = /** @class */ (function () {
-    function ErrorPageComponent(_errorService) {
-        this._errorService = _errorService;
+    function ErrorPageComponent(errorService) {
+        this.errorService = errorService;
     }
     ErrorPageComponent.prototype.ngOnInit = function () {
-        this.Error = this._errorService.GetError();
+        this.error = this.errorService.GetError();
     };
     ErrorPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -287,7 +287,7 @@ var ErrorPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\r\n    <h1>BlackJack</h1>\r\n\r\n    <div class=\"form-group\">\r\n        <label>User name: </label>\r\n        <input class=\"form-control\" name=\"name\" [(ngModel)]=\"UserName\" #name=\"ngModel\" required pattern=\"^[a-zA-Z]*$\" />\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n        <button [disabled]=\"name.invalid\" class=\"btn btn-primary\" (click)=\"AuthUser()\">Enter</button>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"jumbotron\">\r\n    <h1>BlackJack</h1>\r\n\r\n    <div class=\"form-group\">\r\n        <label>User name: </label>\r\n        <input class=\"form-control\" name=\"name\" [(ngModel)]=\"userName\" #name=\"ngModel\" required pattern=\"^[a-zA-Z]*$\" />\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n        <button [disabled]=\"name.invalid\" class=\"btn btn-primary\" (click)=\"AuthUser()\">Enter</button>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -315,11 +315,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var HomePageComponent = /** @class */ (function () {
-    function HomePageComponent(_router) {
-        this._router = _router;
+    function HomePageComponent(router) {
+        this.router = router;
     }
     HomePageComponent.prototype.AuthUser = function () {
-        this._router.navigate(['/user', this.UserName]);
+        this.router.navigate(['/user', this.userName]);
     };
     HomePageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -365,17 +365,17 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var RequestInterceptor = /** @class */ (function () {
-    function RequestInterceptor(_errorService, _router) {
-        this._errorService = _errorService;
-        this._router = _router;
+    function RequestInterceptor(errorService, router) {
+        this.errorService = errorService;
+        this.router = router;
     }
     RequestInterceptor.prototype.intercept = function (request, next) {
         var _this = this;
         return next.handle(request).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function (event) { }, function (error) {
             if (error instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpErrorResponse"]) {
                 console.log(error);
-                _this._errorService.SetError(error["error"]["Message"]);
-                _this._router.navigate(['/error']);
+                _this.errorService.SetError(error["error"]["Message"]);
+                _this.router.navigate(['/error']);
             }
         }));
     };
@@ -461,10 +461,10 @@ var ErrorService = /** @class */ (function () {
     function ErrorService() {
     }
     ErrorService.prototype.SetError = function (error) {
-        this.Error = error;
+        this.error = error;
     };
     ErrorService.prototype.GetError = function () {
-        return this.Error;
+        return this.error;
     };
     ErrorService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -502,59 +502,59 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var HttpService = /** @class */ (function () {
-    function HttpService(_httpClient) {
-        this._httpClient = _httpClient;
+    function HttpService(httpClient) {
+        this.httpClient = httpClient;
     }
     HttpService.prototype.GetAuthorizedPlayer = function (userName) {
         var options = userName ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('userName', userName.toString()) } : {};
-        return this._httpClient.get('Start/AuthorizePlayer', options);
+        return this.httpClient.get('Start/AuthorizePlayer', options);
     };
     HttpService.prototype.CreateGame = function (playerId, amountOfBots) {
         var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
-        return this._httpClient.post('Start/CreateGame', body);
+        return this.httpClient.post('Start/CreateGame', body);
     };
     HttpService.prototype.ResumeGame = function (playerId) {
         var options = playerId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('playerId', playerId.toString()) } : {};
-        return this._httpClient.get('Start/ResumeGame', options);
+        return this.httpClient.get('Start/ResumeGame', options);
     };
     HttpService.prototype.GetGame = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Start/InitRound', options);
+        return this.httpClient.get('Start/InitializeRound', options);
     };
     HttpService.prototype.StartRound = function (gameId, humanGamePlayerId, bet) {
         var body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this._httpClient.post('Game/StartRound', body);
+        return this.httpClient.post('Round/Start', body);
     };
     HttpService.prototype.ContinueRound = function (gameId, continueRound) {
         var body = { GameId: gameId, ContinueRound: continueRound };
-        return this._httpClient.post('Game/ContinueRound', body);
+        return this.httpClient.post('Round/Continue', body);
     };
     HttpService.prototype.AddCard = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Game/AddCard', options);
+        return this.httpClient.get('Round/AddCard', options);
     };
     HttpService.prototype.ResumeAfterStartRound = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Game/ResumeAfterStartRound', options);
+        return this.httpClient.get('Round/ResumeAfterStart', options);
     };
     HttpService.prototype.ResumeAfterContinueRound = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Game/ResumeAfterContinueRound', options);
+        return this.httpClient.get('Round/ResumeAfterContinue', options);
     };
     HttpService.prototype.EndRound = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this._httpClient.get('Game/EndRound', options);
+        return this.httpClient.get('Round/End', options);
     };
     HttpService.prototype.EndGame = function (gameId, gameResult) {
         var body = { GameId: gameId, Result: gameResult };
-        return this._httpClient.post('Game/EndGame', body);
+        return this.httpClient.post('Round/EndGame', body);
     };
     HttpService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -591,10 +591,10 @@ var UserNameService = /** @class */ (function () {
     function UserNameService() {
     }
     UserNameService.prototype.SetUserName = function (userName) {
-        this.UserName = userName;
+        this.userName = userName;
     };
     UserNameService.prototype.GetUserName = function () {
-        return this.UserName;
+        return this.userName;
     };
     UserNameService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

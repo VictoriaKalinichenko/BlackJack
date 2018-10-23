@@ -11,42 +11,42 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserNameService } from 'app/shared/services/user-name.service';
 import { HttpService } from 'app/shared/services/http.service';
-import { AuthorizePlayerViewModel } from 'app/shared/view-models/authorize-player-view-model';
+import { AuthorizePlayerStartView } from 'app/shared/view-models/authorize-player-start-view';
 var StartPageComponent = /** @class */ (function () {
-    function StartPageComponent(_userNameService, _httpService, _router) {
-        this._userNameService = _userNameService;
-        this._httpService = _httpService;
-        this._router = _router;
-        this.Player = new AuthorizePlayerViewModel();
-        this.AmountOfBots = 0;
+    function StartPageComponent(userNameService, httpService, router) {
+        this.userNameService = userNameService;
+        this.httpService = httpService;
+        this.router = router;
+        this.player = new AuthorizePlayerStartView();
+        this.amountOfBots = 0;
     }
     StartPageComponent.prototype.ngOnInit = function () {
-        this.UserName = this._userNameService.GetUserName();
-        this.AuthUser(this.UserName);
+        this.userName = this.userNameService.GetUserName();
+        this.AuthUser(this.userName);
     };
     StartPageComponent.prototype.AuthUser = function (userName) {
         var _this = this;
-        this._httpService.GetAuthorizedPlayer(this.UserName)
+        this.httpService.GetAuthorizedPlayer(this.userName)
             .subscribe(function (data) {
-            _this.Player.Name = data.Name;
-            _this.Player.PlayerId = data.PlayerId;
-            _this.Player.ResumeGame = data.ResumeGame;
+            _this.player.name = data["Name"];
+            _this.player.playerId = data["PlayerId"];
+            _this.player.resumeGame = data["ResumeGame"];
         });
     };
     StartPageComponent.prototype.StartNewGame = function () {
         var _this = this;
-        this._httpService.CreateGame(this.Player.PlayerId, this.AmountOfBots)
+        this.httpService.CreateGame(this.player.playerId, this.amountOfBots)
             .subscribe(function (data) {
-            _this.GameId = data["GameId"];
-            _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
+            _this.gameId = data["GameId"];
+            _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);
         });
     };
     StartPageComponent.prototype.ResumeGame = function () {
         var _this = this;
-        this._httpService.ResumeGame(this.Player.PlayerId)
+        this.httpService.ResumeGame(this.player.playerId)
             .subscribe(function (data) {
-            _this.GameId = data["GameId"];
-            _this._router.navigate(['/user/' + _this.UserName + '/game/' + _this.GameId]);
+            _this.gameId = data["GameId"];
+            _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);
         });
     };
     StartPageComponent = __decorate([

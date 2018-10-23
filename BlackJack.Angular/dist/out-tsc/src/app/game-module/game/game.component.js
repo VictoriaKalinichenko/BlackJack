@@ -14,44 +14,44 @@ import { HttpService } from 'app/shared/services/http.service';
 import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
 import { PlayerMappingModel } from 'app/shared/mapping-models/player-mapping-model';
 var GameComponent = /** @class */ (function () {
-    function GameComponent(_route, _router, _httpService) {
-        this._route = _route;
-        this._router = _router;
-        this._httpService = _httpService;
-        this.Game = new GameMappingModel();
-        this.BetValidationError = false;
-        this.Bet = 50;
-        this.BetInput = false;
-        this.TakeCard = false;
-        this.BlackJackDangerChoice = false;
-        this.EndRound = false;
-        this.EndGame = false;
+    function GameComponent(route, router, httpService) {
+        this.route = route;
+        this.router = router;
+        this.httpService = httpService;
+        this.game = new GameMappingModel();
+        this.betValidationError = false;
+        this.bet = 50;
+        this.betInput = false;
+        this.takeCard = false;
+        this.blackJackDangerChoice = false;
+        this.endRound = false;
+        this.endGame = false;
     }
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._route.params.subscribe(function (params) {
-            _this.GameId = params['Id'];
+        this.route.params.subscribe(function (params) {
+            _this.gameId = params['Id'];
             _this.GetGame();
         });
     };
     GameComponent.prototype.GamePlayInitializer = function () {
-        if (this.Game.Stage == 0) {
+        if (this.game.stage == 0) {
             this.GamePlayBetInput();
         }
-        if (this.Game.Stage == 1) {
+        if (this.game.stage == 1) {
             this.ResumeAfterStartRound();
         }
-        if (this.Game.Stage == 2) {
+        if (this.game.stage == 2) {
             this.ResumeAfterContinueRound();
         }
     };
     GameComponent.prototype.GetGame = function () {
         var _this = this;
-        this._httpService.GetGame(this.GameId)
+        this.httpService.GetGame(this.gameId)
             .subscribe(function (data) {
-            _this.Game = deserialize(GameMappingModel, data);
+            _this.game = deserialize(GameMappingModel, data);
             if (data["IsGameOver"] != "") {
-                _this.GameResult = data["IsGameOver"];
+                _this.gameResult = data["IsGameOver"];
                 _this.GamePlayEndGame();
             }
             _this.GamePlayInitializer();
@@ -59,27 +59,27 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.ResumeAfterStartRound = function () {
         var _this = this;
-        this._httpService.ResumeAfterStartRound(this.Game.Id)
+        this.httpService.ResumeAfterStartRound(this.game.id)
             .subscribe(function (data) {
-            _this.Game = deserialize(GameMappingModel, data);
+            _this.game = deserialize(GameMappingModel, data);
             _this.StartRoundGamePlay(data["BlackJackChoice"], data["CanTakeCard"]);
         });
     };
     GameComponent.prototype.ResumeAfterContinueRound = function () {
         var _this = this;
-        this._httpService.ResumeAfterContinueRound(this.Game.Id)
+        this.httpService.ResumeAfterContinueRound(this.game.id)
             .subscribe(function (data) {
-            _this.Game = deserialize(GameMappingModel, data);
+            _this.game = deserialize(GameMappingModel, data);
             _this.ContinueRoundGamePlay(data["RoundResult"]);
         });
     };
     GameComponent.prototype.AddCard = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this._httpService.AddCard(this.Game.Id)
+            this.httpService.AddCard(this.game.id)
                 .subscribe(function (data) {
                 if (data["CanTakeCard"]) {
-                    _this.Game.Human = deserialize(PlayerMappingModel, data);
+                    _this.game.human = deserialize(PlayerMappingModel, data);
                 }
                 if (!data["CanTakeCard"]) {
                     _this.ContinueRound(false);
@@ -91,8 +91,8 @@ var GameComponent = /** @class */ (function () {
         }
     };
     GameComponent.prototype.StartRoundGamePlay = function (blackJackChoice, canTakeCard) {
-        this.Game.Stage = 1;
-        this.BetValidationError = false;
+        this.game.stage = 1;
+        this.betValidationError = false;
         if (blackJackChoice) {
             this.GamePlayBlackJackDangerChoice();
         }
@@ -104,83 +104,83 @@ var GameComponent = /** @class */ (function () {
         }
     };
     GameComponent.prototype.ContinueRoundGamePlay = function (roundResult) {
-        this.RoundResult = roundResult;
+        this.roundResult = roundResult;
         this.GamePlayEndRound();
     };
     GameComponent.prototype.StartRound = function () {
         var _this = this;
-        this._httpService.StartRound(this.Game.Id, this.Game.Human.GamePlayerId, this.Bet)
+        this.httpService.StartRound(this.game.id, this.game.human.gamePlayerId, this.bet)
             .subscribe(function (data) {
-            _this.Game = deserialize(GameMappingModel, data["Data"]);
-            if (data["Message"] != "") {
+            _this.game = deserialize(GameMappingModel, data["Data"]);
+            if (data["Message"] != null) {
                 _this.ShowValidationMessage(data["Message"]);
             }
-            if (data["Message"] == "") {
+            if (data["Message"] == null) {
                 _this.StartRoundGamePlay(data["Data"]["BlackJackChoice"], data["Data"]["CanTakeCard"]);
             }
         });
     };
     GameComponent.prototype.ShowValidationMessage = function (validationMessage) {
-        this.BetValidationError = true;
-        this.BetValidationMessage = validationMessage;
+        this.betValidationError = true;
+        this.betValidationMessage = validationMessage;
     };
     GameComponent.prototype.ContinueRound = function (continueRound) {
         var _this = this;
-        this._httpService.ContinueRound(this.Game.Id, continueRound)
+        this.httpService.ContinueRound(this.game.id, continueRound)
             .subscribe(function (data) {
-            _this.Game = deserialize(GameMappingModel, data);
+            _this.game = deserialize(GameMappingModel, data);
             _this.ContinueRoundGamePlay(data["RoundResult"]);
         });
     };
     GameComponent.prototype.StartNewGame = function () {
         var _this = this;
-        this._httpService.EndGame(this.Game.Id, this.GameResult)
+        this.httpService.EndGame(this.game.id, this.gameResult)
             .subscribe(function (data) {
-            _this._router.navigate(['/user/' + _this.Game.Human.Name]);
+            _this.router.navigate(['/user/' + _this.game.human.name]);
         });
     };
     GameComponent.prototype.StartNewRound = function () {
         var _this = this;
-        this._httpService.EndRound(this.Game.Id)
+        this.httpService.EndRound(this.game.id)
             .subscribe(function (data) {
             _this.GetGame();
         });
     };
     GameComponent.prototype.GamePlayBetInput = function () {
-        this.BetInput = true;
-        this.TakeCard = false;
-        this.BlackJackDangerChoice = false;
-        this.EndRound = false;
-        this.EndGame = false;
+        this.betInput = true;
+        this.takeCard = false;
+        this.blackJackDangerChoice = false;
+        this.endRound = false;
+        this.endGame = false;
     };
     GameComponent.prototype.GamePlayTakeCard = function () {
-        this.BetInput = false;
-        this.TakeCard = true;
-        this.BlackJackDangerChoice = false;
-        this.EndRound = false;
-        this.EndGame = false;
+        this.betInput = false;
+        this.takeCard = true;
+        this.blackJackDangerChoice = false;
+        this.endRound = false;
+        this.endGame = false;
     };
     GameComponent.prototype.GamePlayBlackJackDangerChoice = function () {
-        this.BetInput = false;
-        this.TakeCard = false;
-        this.BlackJackDangerChoice = true;
-        this.EndRound = false;
-        this.EndGame = false;
+        this.betInput = false;
+        this.takeCard = false;
+        this.blackJackDangerChoice = true;
+        this.endRound = false;
+        this.endGame = false;
     };
     GameComponent.prototype.GamePlayEndRound = function () {
-        this.Game.Stage = 2;
-        this.BetInput = false;
-        this.TakeCard = false;
-        this.BlackJackDangerChoice = false;
-        this.EndRound = true;
-        this.EndGame = false;
+        this.game.stage = 2;
+        this.betInput = false;
+        this.takeCard = false;
+        this.blackJackDangerChoice = false;
+        this.endRound = true;
+        this.endGame = false;
     };
     GameComponent.prototype.GamePlayEndGame = function () {
-        this.BetInput = false;
-        this.TakeCard = false;
-        this.BlackJackDangerChoice = false;
-        this.EndRound = false;
-        this.EndGame = true;
+        this.betInput = false;
+        this.takeCard = false;
+        this.blackJackDangerChoice = false;
+        this.endRound = false;
+        this.endGame = true;
     };
     GameComponent = __decorate([
         Component({

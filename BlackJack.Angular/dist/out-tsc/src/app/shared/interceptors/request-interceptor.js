@@ -13,17 +13,17 @@ import { Router } from '@angular/router';
 import { tap } from "rxjs/operators";
 import { ErrorService } from 'app/shared/services/error.service';
 var RequestInterceptor = /** @class */ (function () {
-    function RequestInterceptor(_errorService, _router) {
-        this._errorService = _errorService;
-        this._router = _router;
+    function RequestInterceptor(errorService, router) {
+        this.errorService = errorService;
+        this.router = router;
     }
     RequestInterceptor.prototype.intercept = function (request, next) {
         var _this = this;
         return next.handle(request).pipe(tap(function (event) { }, function (error) {
             if (error instanceof HttpErrorResponse) {
                 console.log(error);
-                _this._errorService.SetError(error["error"]["Message"]);
-                _this._router.navigate(['/error']);
+                _this.errorService.SetError(error["error"]["Message"]);
+                _this.router.navigate(['/error']);
             }
         }));
     };

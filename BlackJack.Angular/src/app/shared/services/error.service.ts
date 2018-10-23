@@ -4,13 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ErrorService {
-    Error: string;
+    error: string;
 
     SetError(error: string) {
-        this.Error = error;
+        this.error = error;
     }
 
     GetError() {
-        return this.Error;
+        return this.error;
     }
 }

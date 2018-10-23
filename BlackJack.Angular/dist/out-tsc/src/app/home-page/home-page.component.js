@@ -10,11 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 var HomePageComponent = /** @class */ (function () {
-    function HomePageComponent(_router) {
-        this._router = _router;
+    function HomePageComponent(router) {
+        this.router = router;
     }
     HomePageComponent.prototype.AuthUser = function () {
-        this._router.navigate(['/user', this.UserName]);
+        this.router.navigate(['/user', this.userName]);
     };
     HomePageComponent = __decorate([
         Component({

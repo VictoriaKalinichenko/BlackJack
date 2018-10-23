@@ -11,32 +11,32 @@ import { PlayerMappingModel } from 'app/shared/mapping-models/player-mapping-mod
 import { JsonProperty } from 'json-typescript-mapper';
 var GameMappingModel = /** @class */ (function () {
     function GameMappingModel() {
-        this.Id = void 0;
-        this.Stage = void 0;
-        this.Human = void 0;
-        this.Dealer = void 0;
-        this.Bots = void 0;
+        this.id = void 0;
+        this.stage = void 0;
+        this.human = void 0;
+        this.dealer = void 0;
+        this.bots = void 0;
     }
     __decorate([
         JsonProperty('Id'),
         __metadata("design:type", Number)
-    ], GameMappingModel.prototype, "Id", void 0);
+    ], GameMappingModel.prototype, "id", void 0);
     __decorate([
         JsonProperty('Stage'),
         __metadata("design:type", Number)
-    ], GameMappingModel.prototype, "Stage", void 0);
+    ], GameMappingModel.prototype, "stage", void 0);
     __decorate([
         JsonProperty({ clazz: PlayerMappingModel, name: 'Human' }),
         __metadata("design:type", PlayerMappingModel)
-    ], GameMappingModel.prototype, "Human", void 0);
+    ], GameMappingModel.prototype, "human", void 0);
     __decorate([
         JsonProperty({ clazz: PlayerMappingModel, name: 'Dealer' }),
         __metadata("design:type", PlayerMappingModel)
-    ], GameMappingModel.prototype, "Dealer", void 0);
+    ], GameMappingModel.prototype, "dealer", void 0);
     __decorate([
         JsonProperty({ clazz: PlayerMappingModel, name: 'Bots' }),
         __metadata("design:type", Array)
-    ], GameMappingModel.prototype, "Bots", void 0);
+    ], GameMappingModel.prototype, "bots", void 0);
     return GameMappingModel;
 }());
 export { GameMappingModel };

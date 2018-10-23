@@ -2,29 +2,29 @@
 
 export class PlayerMappingModel {
     @JsonProperty('Id')
-    GamePlayerId: number;
+    gamePlayerId: number;
 
     @JsonProperty('Name')
-    Name: string;
+    name: string;
 
     @JsonProperty('Score')
-    Score: number;
+    score: number;
 
     @JsonProperty('Bet')
-    Bet: number;
+    bet: number;
 
     @JsonProperty('RoundScore')
-    RoundScore: number;
+    roundScore: number;
 
     @JsonProperty('Cards')
-    Cards: string[];
+    cards: string[];
 
     constructor() {
-        this.GamePlayerId = void 0;
-        this.Name = void 0;
-        this.Score = void 0;
-        this.Bet = void 0;
-        this.RoundScore = void 0;
-        this.Cards = void 0;
+        this.gamePlayerId = void 0;
+        this.name = void 0;
+        this.score = void 0;
+        this.bet = void 0;
+        this.roundScore = void 0;
+        this.cards = void 0;
     }
 }

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { UserNameService } from 'app/shared/services/user-name.service';
 import { HttpService } from 'app/shared/services/http.service';
-import { AuthorizePlayerViewModel } from 'app/shared/view-models/authorize-player-view-model';
+import { AuthorizePlayerStartView } from 'app/shared/view-models/authorize-player-start-view';
 
 @Component({
   selector: 'app-start-page',
@@ -11,49 +11,49 @@ import { AuthorizePlayerViewModel } from 'app/shared/view-models/authorize-playe
   styleUrls: ['./start-page.component.css']
 })
 export class StartPageComponent implements OnInit {
-    UserName: string;
-    Player: AuthorizePlayerViewModel = new AuthorizePlayerViewModel();
-    AmountOfBots: number = 0;
-    GameId: number;
+    userName: string;
+    player: AuthorizePlayerStartView = new AuthorizePlayerStartView();
+    amountOfBots: number = 0;
+    gameId: number;
 
     constructor (
-        private _userNameService: UserNameService,
-        private _httpService: HttpService,
-        private _router: Router
+        private userNameService: UserNameService,
+        private httpService: HttpService,
+        private router: Router
     ) { }
 
     ngOnInit() {
-        this.UserName = this._userNameService.GetUserName();
-        this.AuthUser(this.UserName);
+        this.userName = this.userNameService.GetUserName();
+        this.AuthUser(this.userName);
     }
 
     AuthUser(userName: string) {
-        this._httpService.GetAuthorizedPlayer(this.UserName)
+        this.httpService.GetAuthorizedPlayer(this.userName)
             .subscribe(
-            (data: AuthorizePlayerViewModel) => {
-                this.Player.Name = data.Name;
-                this.Player.PlayerId = data.PlayerId;
-                this.Player.ResumeGame = data.ResumeGame;
+            (data) => {
+                this.player.name = data["Name"];
+                this.player.playerId = data["PlayerId"];
+                this.player.resumeGame = data["ResumeGame"];
             }
         );
     }
 
     StartNewGame() {
-        this._httpService.CreateGame(this.Player.PlayerId, this.AmountOfBots)
+        this.httpService.CreateGame(this.player.playerId, this.amountOfBots)
             .subscribe(
             (data) => {
-                this.GameId = data["GameId"];
-                this._router.navigate(['/user/' + this.UserName + '/game/' + this.GameId]);
+                this.gameId = data["GameId"];
+                this.router.navigate(['/user/' + this.userName + '/game/' + this.gameId]);
             }
         );
     }
 
     ResumeGame() {
-        this._httpService.ResumeGame(this.Player.PlayerId)
+        this.httpService.ResumeGame(this.player.playerId)
             .subscribe(
                 (data) => {
-                    this.GameId = data["GameId"];
-                    this._router.navigate(['/user/' + this.UserName + '/game/' + this.GameId]);
+                    this.gameId = data["GameId"];
+                    this.router.navigate(['/user/' + this.userName + '/game/' + this.gameId]);
                 }
             );
     }

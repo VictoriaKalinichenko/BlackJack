@@ -6,30 +6,30 @@ import { Input } from '@angular/core';
     templateUrl: './dealer-output.component.html'
 })
 export class DealerOutputComponent {
-    @Input() Score: number;
-    @Input() RoundScore: number;
-    @Input() Cards: string[];
+    @Input() score: number;
+    @Input() roundScore: number;
+    @Input() cards: string[];
     
-    RoundFirstPhase: boolean = false;
-    RoundSecondPhase: boolean = false;
+    roundFirstPhase: boolean = false;
+    roundSecondPhase: boolean = false;
 
     constructor() { }
 
     @Input()
-    set GameStage(stage: number) {
+    set gameStage(stage: number) {
         if (stage == 1) {
-            this.RoundFirstPhase = true;
-            this.RoundSecondPhase = false;
+            this.roundFirstPhase = true;
+            this.roundSecondPhase = false;
         }
 
         if (stage == 2) {
-            this.RoundFirstPhase = false;
-            this.RoundSecondPhase = true;
+            this.roundFirstPhase = false;
+            this.roundSecondPhase = true;
         }
 
         if (stage == 0) {
-            this.RoundFirstPhase = false;
-            this.RoundSecondPhase = false;
+            this.roundFirstPhase = false;
+            this.roundSecondPhase = false;
         }
     }
 }

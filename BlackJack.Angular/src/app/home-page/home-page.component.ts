@@ -6,13 +6,13 @@ import { Router } from '@angular/router';
     templateUrl: './home-page.component.html'
 })
 export class HomePageComponent {
-    UserName: string;
+    userName: string;
 
     constructor(
-        private _router: Router
+        private router: Router
     ) { }
 
     AuthUser() {
-        this._router.navigate(['/user', this.UserName]);
+        this.router.navigate(['/user', this.userName]);
     }
 }

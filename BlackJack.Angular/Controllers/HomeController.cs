@@ -6,7 +6,7 @@ namespace BlackJack.Angular.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return File(Url.Content("~/Scripts/libs/index.html"), "text/html");
         }
     }
 }

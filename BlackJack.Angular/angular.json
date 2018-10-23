@@ -15,7 +15,7 @@
           "options": {
             "deployUrl": "http://localhost:55953/Scripts/libs/",
             "outputPath": "./Scripts/libs",
-            "index": "Views/Home/Index.cshtml",
+            "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -23,8 +23,13 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [],
-            "scripts": []
+            "styles": [
+              "src/styles.css",
+              "src/bootstrap.css"
+            ],
+            "scripts": [
+
+            ]
           },
           "configurations": {
             "production": {

@@ -12,7 +12,7 @@ export class HomePageComponent {
         private router: Router
     ) { }
 
-    AuthUser() {
+    authUser() {
         this.router.navigate(['/user', this.userName]);
     }
 }

@@ -6,7 +6,7 @@
         <h3>Game resuming</h3>
         <p>You can resume your last game</p>
         <div class="form-group">
-            <a class="btn btn-primary" (click)="ResumeGame()">Resume game</a>
+            <a class="btn btn-primary" (click)="resumeGame()">Resume game</a>
         </div>
     </div>
 
@@ -21,7 +21,7 @@
                 Amount of bots must be more than or equals to 0 and less than or equals to 5.
             </div>
             <br />
-            <button [disabled]="amount.invalid" class="btn btn-primary" (click)="StartNewGame()">Start new game</button>
+            <button [disabled]="amount.invalid" class="btn btn-primary" (click)="startNewGame()">Start new game</button>
         </div>
     </div>
 </div>

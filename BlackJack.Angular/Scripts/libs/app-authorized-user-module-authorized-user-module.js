@@ -154,7 +154,7 @@ var AuthorizedUserComponent = /** @class */ (function () {
         this.route.params.subscribe(function (params) {
             _this.userName = params['userName'];
         });
-        this.userNameService.SetUserName(this.userName);
+        this.userNameService.setUserName(this.userName);
     };
     AuthorizedUserComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -189,7 +189,7 @@ module.exports = ".row-flex {\r\n    display: flex;\r\n    flex-flow: row wrap;\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngIf=\"player.resumeGame\" class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Game resuming</h3>\r\n        <p>You can resume your last game</p>\r\n        <div class=\"form-group\">\r\n            <a class=\"btn btn-primary\" (click)=\"ResumeGame()\">Resume game</a>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Start new game</h3>\r\n        <label class=\"control-label col-md-4\">Amount of bots:</label>\r\n        <div class=\"col-md-8\">\r\n            <input name=\"amount\" [(ngModel)]=\"amountOfBots\" class=\"form-control\"\r\n                   type=\"number\" value=\"0\" min=\"0\" max=\"5\"\r\n                   #amount=\"ngModel\" pattern=\"[0-5]\" />\r\n            <div [hidden]=\"amount.valid\" class=\"alert alert-danger\">\r\n                Amount of bots must be more than or equals to 0 and less than or equals to 5.\r\n            </div>\r\n            <br />\r\n            <button [disabled]=\"amount.invalid\" class=\"btn btn-primary\" (click)=\"StartNewGame()\">Start new game</button>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<h2>Main page</h2>\r\n<hr />\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngIf=\"player.resumeGame\" class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Game resuming</h3>\r\n        <p>You can resume your last game</p>\r\n        <div class=\"form-group\">\r\n            <a class=\"btn btn-primary\" (click)=\"resumeGame()\">Resume game</a>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 well\">\r\n        <h3>Start new game</h3>\r\n        <label class=\"control-label col-md-4\">Amount of bots:</label>\r\n        <div class=\"col-md-8\">\r\n            <input name=\"amount\" [(ngModel)]=\"amountOfBots\" class=\"form-control\"\r\n                   type=\"number\" value=\"0\" min=\"0\" max=\"5\"\r\n                   #amount=\"ngModel\" pattern=\"[0-5]\" />\r\n            <div [hidden]=\"amount.valid\" class=\"alert alert-danger\">\r\n                Amount of bots must be more than or equals to 0 and less than or equals to 5.\r\n            </div>\r\n            <br />\r\n            <button [disabled]=\"amount.invalid\" class=\"btn btn-primary\" (click)=\"startNewGame()\">Start new game</button>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -231,29 +231,29 @@ var StartPageComponent = /** @class */ (function () {
         this.amountOfBots = 0;
     }
     StartPageComponent.prototype.ngOnInit = function () {
-        this.userName = this.userNameService.GetUserName();
-        this.AuthUser(this.userName);
+        this.userName = this.userNameService.getUserName();
+        this.authUser(this.userName);
     };
-    StartPageComponent.prototype.AuthUser = function (userName) {
+    StartPageComponent.prototype.authUser = function (userName) {
         var _this = this;
-        this.httpService.GetAuthorizedPlayer(this.userName)
+        this.httpService.getAuthorizedPlayer(this.userName)
             .subscribe(function (data) {
             _this.player.name = data["Name"];
             _this.player.playerId = data["PlayerId"];
             _this.player.resumeGame = data["ResumeGame"];
         });
     };
-    StartPageComponent.prototype.StartNewGame = function () {
+    StartPageComponent.prototype.startNewGame = function () {
         var _this = this;
-        this.httpService.CreateGame(this.player.playerId, this.amountOfBots)
+        this.httpService.createGame(this.player.playerId, this.amountOfBots)
             .subscribe(function (data) {
             _this.gameId = data["GameId"];
             _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);
         });
     };
-    StartPageComponent.prototype.ResumeGame = function () {
+    StartPageComponent.prototype.resumeGame = function () {
         var _this = this;
-        this.httpService.ResumeGame(this.player.playerId)
+        this.httpService.resumeGame(this.player.playerId)
             .subscribe(function (data) {
             _this.gameId = data["GameId"];
             _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);

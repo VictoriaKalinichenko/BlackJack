@@ -22,28 +22,28 @@
                     <div *ngIf="betValidationError">
                         <div class="alert alert-danger">{{betValidationMessage}}</div>
                     </div>
-                    <button class="btn btn-primary" (click)="StartRound()">Enter</button>
+                    <button class="btn btn-primary" (click)="startRound()">Enter</button>
                 </div>
 
                 <div *ngIf="takeCard">
-                    <button class="btn btn-primary" (click)="AddCard(true)">Take card</button>
-                    <button class="btn btn-primary" (click)="AddCard(false)">Don't take</button>
+                    <button class="btn btn-primary" (click)="addCard(true)">Take card</button>
+                    <button class="btn btn-primary" (click)="addCard(false)">Don't take</button>
                 </div>
 
                 <div *ngIf="blackJackDangerChoice">
                     <p>You have BlackJack and dealer has BlackJack-danger</p>
-                    <button class="btn btn-primary" (click)="ContinueRound(true)">Continue round</button>
-                    <button class="btn btn-primary" (click)="ContinueRound(false)">Take award (1:1)</button>
+                    <button class="btn btn-primary" (click)="continueRound(true)">Continue round</button>
+                    <button class="btn btn-primary" (click)="continueRound(false)">Take award (1:1)</button>
                 </div>
 
                 <div *ngIf="endRound">
                     <p>{{roundResult}}</p>
-                    <button class="btn btn-primary" (click)="StartNewRound()">End round</button>
+                    <button class="btn btn-primary" (click)="startNewRound()">End round</button>
                 </div>
 
                 <div *ngIf="endGame">
                     <p>{{gameResult}}</p>
-                    <button class="btn btn-primary" (click)="StartNewGame()">End game</button>
+                    <button class="btn btn-primary" (click)="startNewGame()">End game</button>
                 </div>
             </div>
         </div>

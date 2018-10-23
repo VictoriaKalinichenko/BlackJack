@@ -13,7 +13,7 @@ var HomePageComponent = /** @class */ (function () {
     function HomePageComponent(router) {
         this.router = router;
     }
-    HomePageComponent.prototype.AuthUser = function () {
+    HomePageComponent.prototype.authUser = function () {
         this.router.navigate(['/user', this.userName]);
     };
     HomePageComponent = __decorate([

@@ -22,7 +22,7 @@ var RequestInterceptor = /** @class */ (function () {
         return next.handle(request).pipe(tap(function (event) { }, function (error) {
             if (error instanceof HttpErrorResponse) {
                 console.log(error);
-                _this.errorService.SetError(error["error"]["Message"]);
+                _this.errorService.setError(error["error"]["Message"]);
                 _this.router.navigate(['/error']);
             }
         }));

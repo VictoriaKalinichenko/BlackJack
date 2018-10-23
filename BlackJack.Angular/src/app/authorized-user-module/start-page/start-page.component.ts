@@ -23,12 +23,12 @@ export class StartPageComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.userName = this.userNameService.GetUserName();
-        this.AuthUser(this.userName);
+        this.userName = this.userNameService.getUserName();
+        this.authUser(this.userName);
     }
 
-    AuthUser(userName: string) {
-        this.httpService.GetAuthorizedPlayer(this.userName)
+    authUser(userName: string) {
+        this.httpService.getAuthorizedPlayer(this.userName)
             .subscribe(
             (data) => {
                 this.player.name = data["Name"];
@@ -38,8 +38,8 @@ export class StartPageComponent implements OnInit {
         );
     }
 
-    StartNewGame() {
-        this.httpService.CreateGame(this.player.playerId, this.amountOfBots)
+    startNewGame() {
+        this.httpService.createGame(this.player.playerId, this.amountOfBots)
             .subscribe(
             (data) => {
                 this.gameId = data["GameId"];
@@ -48,8 +48,8 @@ export class StartPageComponent implements OnInit {
         );
     }
 
-    ResumeGame() {
-        this.httpService.ResumeGame(this.player.playerId)
+    resumeGame() {
+        this.httpService.resumeGame(this.player.playerId)
             .subscribe(
                 (data) => {
                     this.gameId = data["GameId"];

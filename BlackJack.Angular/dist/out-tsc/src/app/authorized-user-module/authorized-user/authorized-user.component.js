@@ -20,7 +20,7 @@ var AuthorizedUserComponent = /** @class */ (function () {
         this.route.params.subscribe(function (params) {
             _this.userName = params['userName'];
         });
-        this.userNameService.SetUserName(this.userName);
+        this.userNameService.setUserName(this.userName);
     };
     AuthorizedUserComponent = __decorate([
         Component({

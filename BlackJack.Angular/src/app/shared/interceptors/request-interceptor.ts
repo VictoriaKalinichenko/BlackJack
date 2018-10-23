@@ -26,7 +26,7 @@ export class RequestInterceptor implements HttpInterceptor {
             (error: any) => {
                 if (error instanceof HttpErrorResponse) {
                     console.log(error);
-                    this.errorService.SetError(error["error"]["Message"]);
+                    this.errorService.setError(error["error"]["Message"]);
                     this.router.navigate(['/error']);
                 }
             }

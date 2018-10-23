@@ -1576,7 +1576,7 @@ module.exports = ".row-flex {\r\n    display: flex;\r\n    flex-flow: row wrap;\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n        <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n        <p>Name: {{game.dealer.name}}</p>\r\n        <app-dealer-output [score]=\"game.dealer.score\" [roundScore]=\"game.dealer.roundScore\" [cards]=\"game.dealer.cards\" [gameStage]=\"game.stage\"></app-dealer-output>\r\n    </div>\r\n\r\n    <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <h4><span class=\"label label-primary\">Human</span></h4>\r\n                <p>Name: {{game.human.name}}</p>\r\n                <app-player-output [score]=\"game.human.score\" [bet]=\"game.human.bet\" [roundScore]=\"game.human.roundScore\" [cards]=\"game.human.cards\" [gameStage]=\"game.stage\"></app-player-output>\r\n            </div>\r\n\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <div *ngIf=\"betInput\">\r\n                    <label class=\"control-label\">Enter your bet: </label>\r\n                    <input [(ngModel)]=\"bet\" type=\"number\"\r\n                           class=\"form-control\" step=\"50\" min=\"50\" value=\"50\" max={{game.human.score}} />\r\n                    <br />\r\n                    <div *ngIf=\"betValidationError\">\r\n                        <div class=\"alert alert-danger\">{{betValidationMessage}}</div>\r\n                    </div>\r\n                    <button class=\"btn btn-primary\" (click)=\"StartRound()\">Enter</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"takeCard\">\r\n                    <button class=\"btn btn-primary\" (click)=\"AddCard(true)\">Take card</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"AddCard(false)\">Don't take</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"blackJackDangerChoice\">\r\n                    <p>You have BlackJack and dealer has BlackJack-danger</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"ContinueRound(true)\">Continue round</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"ContinueRound(false)\">Take award (1:1)</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"endRound\">\r\n                    <p>{{roundResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"StartNewRound()\">End round</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"endGame\">\r\n                    <p>{{gameResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"StartNewGame()\">End game</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of game.bots\" class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n        <h4><span class=\"label label-default\">Bot</span></h4>\r\n        <p>Name: {{bot.name}}</p>\r\n        <app-player-output [score]=\"bot.score\" [roundScore]=\"bot.roundScore\" [bet]=\"bot.bet\" [cards]=\"bot.cards\" [gameStage]=\"game.stage\"></app-player-output>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n        <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n        <p>Name: {{game.dealer.name}}</p>\r\n        <app-dealer-output [score]=\"game.dealer.score\" [roundScore]=\"game.dealer.roundScore\" [cards]=\"game.dealer.cards\" [gameStage]=\"game.stage\"></app-dealer-output>\r\n    </div>\r\n\r\n    <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <h4><span class=\"label label-primary\">Human</span></h4>\r\n                <p>Name: {{game.human.name}}</p>\r\n                <app-player-output [score]=\"game.human.score\" [bet]=\"game.human.bet\" [roundScore]=\"game.human.roundScore\" [cards]=\"game.human.cards\" [gameStage]=\"game.stage\"></app-player-output>\r\n            </div>\r\n\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <div *ngIf=\"betInput\">\r\n                    <label class=\"control-label\">Enter your bet: </label>\r\n                    <input [(ngModel)]=\"bet\" type=\"number\"\r\n                           class=\"form-control\" step=\"50\" min=\"50\" value=\"50\" max={{game.human.score}} />\r\n                    <br />\r\n                    <div *ngIf=\"betValidationError\">\r\n                        <div class=\"alert alert-danger\">{{betValidationMessage}}</div>\r\n                    </div>\r\n                    <button class=\"btn btn-primary\" (click)=\"startRound()\">Enter</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"takeCard\">\r\n                    <button class=\"btn btn-primary\" (click)=\"addCard(true)\">Take card</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"addCard(false)\">Don't take</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"blackJackDangerChoice\">\r\n                    <p>You have BlackJack and dealer has BlackJack-danger</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"continueRound(true)\">Continue round</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"continueRound(false)\">Take award (1:1)</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"endRound\">\r\n                    <p>{{roundResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"startNewRound()\">End round</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"endGame\">\r\n                    <p>{{gameResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"startNewGame()\">End game</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of game.bots\" class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n        <h4><span class=\"label label-default\">Bot</span></h4>\r\n        <p>Name: {{bot.name}}</p>\r\n        <app-player-output [score]=\"bot.score\" [roundScore]=\"bot.roundScore\" [bet]=\"bot.bet\" [cards]=\"bot.cards\" [gameStage]=\"game.stage\"></app-player-output>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1630,143 +1630,143 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.gameId = params['Id'];
-            _this.GetGame();
+            _this.getGame();
         });
     };
-    GameComponent.prototype.GamePlayInitializer = function () {
+    GameComponent.prototype.gamePlayInitializer = function () {
         if (this.game.stage == 0) {
-            this.GamePlayBetInput();
+            this.gamePlayBetInput();
         }
         if (this.game.stage == 1) {
-            this.ResumeAfterStartRound();
+            this.resumeAfterStartRound();
         }
         if (this.game.stage == 2) {
-            this.ResumeAfterContinueRound();
+            this.resumeAfterContinueRound();
         }
     };
-    GameComponent.prototype.GetGame = function () {
+    GameComponent.prototype.getGame = function () {
         var _this = this;
-        this.httpService.GetGame(this.gameId)
+        this.httpService.getGame(this.gameId)
             .subscribe(function (data) {
             _this.game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_game_mapping_model__WEBPACK_IMPORTED_MODULE_4__["GameMappingModel"], data);
             if (data["IsGameOver"] != "") {
                 _this.gameResult = data["IsGameOver"];
-                _this.GamePlayEndGame();
+                _this.gamePlayEndGame();
             }
-            _this.GamePlayInitializer();
+            _this.gamePlayInitializer();
         });
     };
-    GameComponent.prototype.ResumeAfterStartRound = function () {
+    GameComponent.prototype.resumeAfterStartRound = function () {
         var _this = this;
-        this.httpService.ResumeAfterStartRound(this.game.id)
+        this.httpService.resumeAfterStartRound(this.game.id)
             .subscribe(function (data) {
             _this.game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_game_mapping_model__WEBPACK_IMPORTED_MODULE_4__["GameMappingModel"], data);
-            _this.StartRoundGamePlay(data["BlackJackChoice"], data["CanTakeCard"]);
+            _this.startRoundGamePlay(data["BlackJackChoice"], data["CanTakeCard"]);
         });
     };
-    GameComponent.prototype.ResumeAfterContinueRound = function () {
+    GameComponent.prototype.resumeAfterContinueRound = function () {
         var _this = this;
-        this.httpService.ResumeAfterContinueRound(this.game.id)
+        this.httpService.resumeAfterContinueRound(this.game.id)
             .subscribe(function (data) {
             _this.game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_game_mapping_model__WEBPACK_IMPORTED_MODULE_4__["GameMappingModel"], data);
-            _this.ContinueRoundGamePlay(data["RoundResult"]);
+            _this.continueRoundGamePlay(data["RoundResult"]);
         });
     };
-    GameComponent.prototype.AddCard = function (takeCard) {
+    GameComponent.prototype.addCard = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this.httpService.AddCard(this.game.id)
+            this.httpService.addCard(this.game.id)
                 .subscribe(function (data) {
                 if (data["CanTakeCard"]) {
                     _this.game.human = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_player_mapping_model__WEBPACK_IMPORTED_MODULE_5__["PlayerMappingModel"], data);
                 }
                 if (!data["CanTakeCard"]) {
-                    _this.ContinueRound(false);
+                    _this.continueRound(false);
                 }
             });
         }
         if (!takeCard) {
-            this.ContinueRound(false);
+            this.continueRound(false);
         }
     };
-    GameComponent.prototype.StartRoundGamePlay = function (blackJackChoice, canTakeCard) {
+    GameComponent.prototype.startRoundGamePlay = function (blackJackChoice, canTakeCard) {
         this.game.stage = 1;
         this.betValidationError = false;
         if (blackJackChoice) {
-            this.GamePlayBlackJackDangerChoice();
+            this.gamePlayBlackJackDangerChoice();
         }
         if (canTakeCard) {
-            this.GamePlayTakeCard();
+            this.gamePlayTakeCard();
         }
         if (!blackJackChoice && !canTakeCard) {
-            this.ContinueRound(false);
+            this.continueRound(false);
         }
     };
-    GameComponent.prototype.ContinueRoundGamePlay = function (roundResult) {
+    GameComponent.prototype.continueRoundGamePlay = function (roundResult) {
         this.roundResult = roundResult;
-        this.GamePlayEndRound();
+        this.gamePlayEndRound();
     };
-    GameComponent.prototype.StartRound = function () {
+    GameComponent.prototype.startRound = function () {
         var _this = this;
-        this.httpService.StartRound(this.game.id, this.game.human.gamePlayerId, this.bet)
+        this.httpService.startRound(this.game.id, this.game.human.gamePlayerId, this.bet)
             .subscribe(function (data) {
             _this.game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_game_mapping_model__WEBPACK_IMPORTED_MODULE_4__["GameMappingModel"], data["Data"]);
             if (data["Message"] != null) {
-                _this.ShowValidationMessage(data["Message"]);
+                _this.showValidationMessage(data["Message"]);
             }
             if (data["Message"] == null) {
-                _this.StartRoundGamePlay(data["Data"]["BlackJackChoice"], data["Data"]["CanTakeCard"]);
+                _this.startRoundGamePlay(data["Data"]["BlackJackChoice"], data["Data"]["CanTakeCard"]);
             }
         });
     };
-    GameComponent.prototype.ShowValidationMessage = function (validationMessage) {
+    GameComponent.prototype.showValidationMessage = function (validationMessage) {
         this.betValidationError = true;
         this.betValidationMessage = validationMessage;
     };
-    GameComponent.prototype.ContinueRound = function (continueRound) {
+    GameComponent.prototype.continueRound = function (continueRound) {
         var _this = this;
-        this.httpService.ContinueRound(this.game.id, continueRound)
+        this.httpService.continueRound(this.game.id, continueRound)
             .subscribe(function (data) {
             _this.game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_game_mapping_model__WEBPACK_IMPORTED_MODULE_4__["GameMappingModel"], data);
-            _this.ContinueRoundGamePlay(data["RoundResult"]);
+            _this.continueRoundGamePlay(data["RoundResult"]);
         });
     };
-    GameComponent.prototype.StartNewGame = function () {
+    GameComponent.prototype.startNewGame = function () {
         var _this = this;
-        this.httpService.EndGame(this.game.id, this.gameResult)
+        this.httpService.endGame(this.game.id, this.gameResult)
             .subscribe(function (data) {
             _this.router.navigate(['/user/' + _this.game.human.name]);
         });
     };
-    GameComponent.prototype.StartNewRound = function () {
+    GameComponent.prototype.startNewRound = function () {
         var _this = this;
-        this.httpService.EndRound(this.game.id)
+        this.httpService.endRound(this.game.id)
             .subscribe(function (data) {
-            _this.GetGame();
+            _this.getGame();
         });
     };
-    GameComponent.prototype.GamePlayBetInput = function () {
+    GameComponent.prototype.gamePlayBetInput = function () {
         this.betInput = true;
         this.takeCard = false;
         this.blackJackDangerChoice = false;
         this.endRound = false;
         this.endGame = false;
     };
-    GameComponent.prototype.GamePlayTakeCard = function () {
+    GameComponent.prototype.gamePlayTakeCard = function () {
         this.betInput = false;
         this.takeCard = true;
         this.blackJackDangerChoice = false;
         this.endRound = false;
         this.endGame = false;
     };
-    GameComponent.prototype.GamePlayBlackJackDangerChoice = function () {
+    GameComponent.prototype.gamePlayBlackJackDangerChoice = function () {
         this.betInput = false;
         this.takeCard = false;
         this.blackJackDangerChoice = true;
         this.endRound = false;
         this.endGame = false;
     };
-    GameComponent.prototype.GamePlayEndRound = function () {
+    GameComponent.prototype.gamePlayEndRound = function () {
         this.game.stage = 2;
         this.betInput = false;
         this.takeCard = false;
@@ -1774,7 +1774,7 @@ var GameComponent = /** @class */ (function () {
         this.endRound = true;
         this.endGame = false;
     };
-    GameComponent.prototype.GamePlayEndGame = function () {
+    GameComponent.prototype.gamePlayEndGame = function () {
         this.betInput = false;
         this.takeCard = false;
         this.blackJackDangerChoice = false;

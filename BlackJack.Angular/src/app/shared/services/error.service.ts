@@ -6,11 +6,11 @@ import { Injectable } from '@angular/core';
 export class ErrorService {
     error: string;
 
-    SetError(error: string) {
+    setError(error: string) {
         this.error = error;
     }
 
-    GetError() {
+    getError() {
         return this.error;
     }
 }

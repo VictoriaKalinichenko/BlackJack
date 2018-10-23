@@ -20,6 +20,6 @@ export class AuthorizedUserComponent implements OnInit {
             this.userName = params['userName']
         });
 
-        this.userNameService.SetUserName(this.userName);
+        this.userNameService.setUserName(this.userName);
     }
 }

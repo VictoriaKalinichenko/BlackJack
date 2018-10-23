@@ -6,11 +6,11 @@ import { Injectable } from '@angular/core';
 export class UserNameService {
     userName: string;
     
-    SetUserName(userName: string) {
+    setUserName(userName: string) {
         this.userName = userName;
     }
 
-    GetUserName() {
+    getUserName() {
         return this.userName;
     }
 }

@@ -8,10 +8,10 @@ import { Injectable } from '@angular/core';
 var UserNameService = /** @class */ (function () {
     function UserNameService() {
     }
-    UserNameService.prototype.SetUserName = function (userName) {
+    UserNameService.prototype.setUserName = function (userName) {
         this.userName = userName;
     };
-    UserNameService.prototype.GetUserName = function () {
+    UserNameService.prototype.getUserName = function () {
         return this.userName;
     };
     UserNameService = __decorate([

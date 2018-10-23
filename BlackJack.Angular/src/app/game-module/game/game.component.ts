@@ -36,63 +36,63 @@ export class GameComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.gameId = params['Id'];
-            this.GetGame();
+            this.getGame();
         });
     }
 
-    GamePlayInitializer() {
+    gamePlayInitializer() {
         if (this.game.stage == 0) {
-            this.GamePlayBetInput();
+            this.gamePlayBetInput();
         }
 
         if (this.game.stage == 1) {
-            this.ResumeAfterStartRound();
+            this.resumeAfterStartRound();
         }
 
         if (this.game.stage == 2) {
-            this.ResumeAfterContinueRound();
+            this.resumeAfterContinueRound();
         }
     }
 
-    GetGame() {
-        this.httpService.GetGame(this.gameId)
+    getGame() {
+        this.httpService.getGame(this.gameId)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
 
                     if (data["IsGameOver"] != "") {
                         this.gameResult = data["IsGameOver"];
-                        this.GamePlayEndGame();
+                        this.gamePlayEndGame();
                     }
 
-                    this.GamePlayInitializer();
+                    this.gamePlayInitializer();
                 }
             );
     }
 
-    ResumeAfterStartRound() {
-        this.httpService.ResumeAfterStartRound(this.game.id)
+    resumeAfterStartRound() {
+        this.httpService.resumeAfterStartRound(this.game.id)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
-                    this.StartRoundGamePlay(data["BlackJackChoice"], data["CanTakeCard"]);
+                    this.startRoundGamePlay(data["BlackJackChoice"], data["CanTakeCard"]);
                 }
             );
     }
 
-    ResumeAfterContinueRound() {
-        this.httpService.ResumeAfterContinueRound(this.game.id)
+    resumeAfterContinueRound() {
+        this.httpService.resumeAfterContinueRound(this.game.id)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
-                    this.ContinueRoundGamePlay(data["RoundResult"]);
+                    this.continueRoundGamePlay(data["RoundResult"]);
                 }
             );
     }
 
-    AddCard(takeCard: boolean) {
+    addCard(takeCard: boolean) {
         if (takeCard) {
-            this.httpService.AddCard(this.game.id)
+            this.httpService.addCard(this.game.id)
                 .subscribe(
                 (data) => {
                     if (data["CanTakeCard"]) {
@@ -100,69 +100,69 @@ export class GameComponent implements OnInit {
                     }
 
                     if (!data["CanTakeCard"]) {
-                        this.ContinueRound(false);
+                        this.continueRound(false);
                     }
                 }
             );
         }
 
         if (!takeCard) {
-            this.ContinueRound(false);
+            this.continueRound(false);
         }
     }
 
-    StartRoundGamePlay(blackJackChoice: boolean, canTakeCard: boolean) {
+    startRoundGamePlay(blackJackChoice: boolean, canTakeCard: boolean) {
         this.game.stage = 1;
         this.betValidationError = false;
         if (blackJackChoice) {
-            this.GamePlayBlackJackDangerChoice();
+            this.gamePlayBlackJackDangerChoice();
         }
         if (canTakeCard) {
-            this.GamePlayTakeCard();
+            this.gamePlayTakeCard();
         }
         if (!blackJackChoice && !canTakeCard) {
-            this.ContinueRound(false);
+            this.continueRound(false);
         }
     }
 
-    ContinueRoundGamePlay(roundResult: string) {
+    continueRoundGamePlay(roundResult: string) {
         this.roundResult = roundResult;
-        this.GamePlayEndRound();
+        this.gamePlayEndRound();
     }
 
-    StartRound() {
-        this.httpService.StartRound(this.game.id, this.game.human.gamePlayerId, this.bet)
+    startRound() {
+        this.httpService.startRound(this.game.id, this.game.human.gamePlayerId, this.bet)
             .subscribe(
             (data) => {
                 this.game = deserialize(GameMappingModel, data["Data"]);
 
                 if (data["Message"] != null) {
-                    this.ShowValidationMessage(data["Message"]);
+                    this.showValidationMessage(data["Message"]);
                 }
                 if (data["Message"] == null) {
-                    this.StartRoundGamePlay(data["Data"]["BlackJackChoice"], data["Data"]["CanTakeCard"]);
+                    this.startRoundGamePlay(data["Data"]["BlackJackChoice"], data["Data"]["CanTakeCard"]);
                 }
             }
         );
     }
 
-    ShowValidationMessage(validationMessage: string) {
+    showValidationMessage(validationMessage: string) {
         this.betValidationError = true;
         this.betValidationMessage = validationMessage;
     }
 
-    ContinueRound(continueRound: boolean) {
-        this.httpService.ContinueRound(this.game.id, continueRound)
+    continueRound(continueRound: boolean) {
+        this.httpService.continueRound(this.game.id, continueRound)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
-                    this.ContinueRoundGamePlay(data["RoundResult"]);
+                    this.continueRoundGamePlay(data["RoundResult"]);
                 }
             );
     }
 
-    StartNewGame() {
-        this.httpService.EndGame(this.game.id, this.gameResult)
+    startNewGame() {
+        this.httpService.endGame(this.game.id, this.gameResult)
             .subscribe(
                 (data) => {
                     this.router.navigate(['/user/' + this.game.human.name]);
@@ -170,16 +170,16 @@ export class GameComponent implements OnInit {
             );
     }
 
-    StartNewRound() {
-        this.httpService.EndRound(this.game.id)
+    startNewRound() {
+        this.httpService.endRound(this.game.id)
             .subscribe(
                 (data) => {
-                    this.GetGame();
+                    this.getGame();
                 }
             );
     }
 
-    GamePlayBetInput() {
+    gamePlayBetInput() {
         this.betInput = true;
         this.takeCard = false;
         this.blackJackDangerChoice = false;
@@ -187,7 +187,7 @@ export class GameComponent implements OnInit {
         this.endGame = false;
     }
 
-    GamePlayTakeCard() {
+    gamePlayTakeCard() {
         this.betInput = false;
         this.takeCard = true;
         this.blackJackDangerChoice = false;
@@ -195,7 +195,7 @@ export class GameComponent implements OnInit {
         this.endGame = false;
     }
 
-    GamePlayBlackJackDangerChoice() {
+    gamePlayBlackJackDangerChoice() {
         this.betInput = false;
         this.takeCard = false;
         this.blackJackDangerChoice = true;
@@ -203,7 +203,7 @@ export class GameComponent implements OnInit {
         this.endGame = false;
     }
 
-    GamePlayEndRound() {
+    gamePlayEndRound() {
         this.game.stage = 2;
         this.betInput = false;
         this.takeCard = false;
@@ -212,7 +212,7 @@ export class GameComponent implements OnInit {
         this.endGame = false;
     }
 
-    GamePlayEndGame() {
+    gamePlayEndGame() {
         this.betInput = false;
         this.takeCard = false;
         this.blackJackDangerChoice = false;

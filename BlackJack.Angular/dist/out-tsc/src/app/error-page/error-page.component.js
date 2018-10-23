@@ -14,7 +14,7 @@ var ErrorPageComponent = /** @class */ (function () {
         this.errorService = errorService;
     }
     ErrorPageComponent.prototype.ngOnInit = function () {
-        this.error = this.errorService.GetError();
+        this.error = this.errorService.getError();
     };
     ErrorPageComponent = __decorate([
         Component({

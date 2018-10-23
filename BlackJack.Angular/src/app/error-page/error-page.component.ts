@@ -13,6 +13,6 @@ export class ErrorPageComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.error = this.errorService.GetError();
+        this.error = this.errorService.getError();
     }
 }

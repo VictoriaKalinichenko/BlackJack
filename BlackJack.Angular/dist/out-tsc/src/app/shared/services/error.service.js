@@ -8,10 +8,10 @@ import { Injectable } from '@angular/core';
 var ErrorService = /** @class */ (function () {
     function ErrorService() {
     }
-    ErrorService.prototype.SetError = function (error) {
+    ErrorService.prototype.setError = function (error) {
         this.error = error;
     };
-    ErrorService.prototype.GetError = function () {
+    ErrorService.prototype.getError = function () {
         return this.error;
     };
     ErrorService = __decorate([

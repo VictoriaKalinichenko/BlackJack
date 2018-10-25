@@ -67,7 +67,7 @@ namespace BlackJack.UI.Controllers
             try
             {
                 long gameId = await _startService.CreateGame(playerId, amountOfBots);
-                return RedirectToAction("InitializeRound", new { gameId = gameId });
+                return RedirectToAction("Initialize", new { gameId = gameId });
             }
             catch (Exception exception)
             {
@@ -82,7 +82,7 @@ namespace BlackJack.UI.Controllers
             try
             {
                 long gameId = await _startService.ResumeGame(playerId);
-                return RedirectToAction("InitializeRound", new { gameId = gameId });
+                return RedirectToAction("Initialize", new { gameId = gameId });
             }
             catch (Exception exception)
             {

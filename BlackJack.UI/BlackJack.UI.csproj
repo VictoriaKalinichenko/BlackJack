@@ -2714,7 +2714,7 @@
     <Content Include="Views\GameHistory\Index.cshtml" />
     <Content Include="Views\Shared\_StartPage.cshtml" />
     <Content Include="Views\Start\AuthorizePlayer.cshtml" />
-    <Content Include="Views\Start\InitializeRound.cshtml" />
+    <Content Include="Views\Start\Initialize.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,6 +5,9 @@ import { AuthorizedUserRoutingModule } from 'app/authorized-user-module/authoriz
 import { AuthorizedUserComponent } from 'app/authorized-user-module/authorized-user/authorized-user.component';
 import { StartPageComponent } from 'app/authorized-user-module/start-page/start-page.component';
 
+import { UserNameService } from 'app/shared/services/user-name.service';
+import { StartService } from 'app/shared/services/start.service';
+
 @NgModule({
     declarations: [
         AuthorizedUserComponent,
@@ -13,6 +16,10 @@ import { StartPageComponent } from 'app/authorized-user-module/start-page/start-
     imports: [
         AuthorizedUserRoutingModule,
         SharedModule
+    ],
+    providers: [
+        UserNameService,
+        StartService
     ]
 })
 export class AuthorizedUserModule { }

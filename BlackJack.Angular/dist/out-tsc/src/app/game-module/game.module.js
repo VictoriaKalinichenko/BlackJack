@@ -10,6 +10,7 @@ import { GameRoutingModule } from 'app/game-module/game-routing.module';
 import { GameComponent } from 'app/game-module/game/game.component';
 import { PlayerOutputComponent } from 'app/game-module/player-output/player-output.component';
 import { DealerOutputComponent } from 'app/game-module/dealer-output/dealer-output.component';
+import { RoundService } from 'app/shared/services/round.service';
 var GameModule = /** @class */ (function () {
     function GameModule() {
     }
@@ -23,6 +24,9 @@ var GameModule = /** @class */ (function () {
                 GameComponent,
                 PlayerOutputComponent,
                 DealerOutputComponent
+            ],
+            providers: [
+                RoundService
             ]
         })
     ], GameModule);

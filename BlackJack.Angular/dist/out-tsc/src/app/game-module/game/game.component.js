@@ -10,14 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { deserialize } from 'json-typescript-mapper';
-import { HttpService } from 'app/shared/services/http.service';
+import { RoundService } from 'app/shared/services/round.service';
+import { StartService } from 'app/shared/services/start.service';
 import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
 import { PlayerMappingModel } from 'app/shared/mapping-models/player-mapping-model';
 var GameComponent = /** @class */ (function () {
-    function GameComponent(route, router, httpService) {
+    function GameComponent(route, router, roundService, startService) {
         this.route = route;
         this.router = router;
-        this.httpService = httpService;
+        this.roundService = roundService;
+        this.startService = startService;
         this.game = new GameMappingModel();
         this.betValidationError = false;
         this.bet = 50;
@@ -47,7 +49,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.getGame = function () {
         var _this = this;
-        this.httpService.getGame(this.gameId)
+        this.startService.getGame(this.gameId)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
             if (data["IsGameOver"] != "") {
@@ -59,7 +61,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.resumeAfterStartRound = function () {
         var _this = this;
-        this.httpService.resumeAfterStartRound(this.game.id)
+        this.roundService.resumeAfterStartRound(this.game.id)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
             _this.startRoundGamePlay(data["BlackJackChoice"], data["CanTakeCard"]);
@@ -67,7 +69,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.resumeAfterContinueRound = function () {
         var _this = this;
-        this.httpService.resumeAfterContinueRound(this.game.id)
+        this.roundService.resumeAfterContinueRound(this.game.id)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
             _this.continueRoundGamePlay(data["RoundResult"]);
@@ -76,7 +78,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.addCard = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this.httpService.addCard(this.game.id)
+            this.roundService.addCard(this.game.id)
                 .subscribe(function (data) {
                 if (data["CanTakeCard"]) {
                     _this.game.human = deserialize(PlayerMappingModel, data);
@@ -109,7 +111,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.startRound = function () {
         var _this = this;
-        this.httpService.startRound(this.game.id, this.game.human.gamePlayerId, this.bet)
+        this.roundService.startRound(this.game.id, this.game.human.gamePlayerId, this.bet)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data["Data"]);
             if (data["Message"] != null) {
@@ -126,7 +128,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.continueRound = function (continueRound) {
         var _this = this;
-        this.httpService.continueRound(this.game.id, continueRound)
+        this.roundService.continueRound(this.game.id, continueRound)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
             _this.continueRoundGamePlay(data["RoundResult"]);
@@ -134,14 +136,14 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.startNewGame = function () {
         var _this = this;
-        this.httpService.endGame(this.game.id, this.gameResult)
+        this.roundService.endGame(this.game.id, this.gameResult)
             .subscribe(function (data) {
             _this.router.navigate(['/user/' + _this.game.human.name]);
         });
     };
     GameComponent.prototype.startNewRound = function () {
         var _this = this;
-        this.httpService.endRound(this.game.id)
+        this.roundService.endRound(this.game.id)
             .subscribe(function (data) {
             _this.getGame();
         });
@@ -190,7 +192,8 @@ var GameComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [ActivatedRoute,
             Router,
-            HttpService])
+            RoundService,
+            StartService])
     ], GameComponent);
     return GameComponent;
 }());

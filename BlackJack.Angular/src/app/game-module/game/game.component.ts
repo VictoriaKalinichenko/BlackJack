@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { deserialize } from 'json-typescript-mapper';
 
-import { HttpService } from 'app/shared/services/http.service';
+import { RoundService } from 'app/shared/services/round.service';
+import { StartService } from 'app/shared/services/start.service';
+
 import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
 import { PlayerMappingModel } from 'app/shared/mapping-models/player-mapping-model';
 
 @Component({
     selector: 'app-game',
-    templateUrl: './game.component.html',
-    styleUrls: ['./game.component.css']
+    templateUrl: './game.component.html'
 })
 export class GameComponent implements OnInit {
     gameId: number;
@@ -30,7 +31,8 @@ export class GameComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private httpService: HttpService
+        private roundService: RoundService,
+        private startService: StartService
     ) { }
 
     ngOnInit() {
@@ -55,7 +57,7 @@ export class GameComponent implements OnInit {
     }
 
     getGame() {
-        this.httpService.getGame(this.gameId)
+        this.startService.getGame(this.gameId)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
@@ -71,7 +73,7 @@ export class GameComponent implements OnInit {
     }
 
     resumeAfterStartRound() {
-        this.httpService.resumeAfterStartRound(this.game.id)
+        this.roundService.resumeAfterStartRound(this.game.id)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
@@ -81,7 +83,7 @@ export class GameComponent implements OnInit {
     }
 
     resumeAfterContinueRound() {
-        this.httpService.resumeAfterContinueRound(this.game.id)
+        this.roundService.resumeAfterContinueRound(this.game.id)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
@@ -92,7 +94,7 @@ export class GameComponent implements OnInit {
 
     addCard(takeCard: boolean) {
         if (takeCard) {
-            this.httpService.addCard(this.game.id)
+            this.roundService.addCard(this.game.id)
                 .subscribe(
                 (data) => {
                     if (data["CanTakeCard"]) {
@@ -131,7 +133,7 @@ export class GameComponent implements OnInit {
     }
 
     startRound() {
-        this.httpService.startRound(this.game.id, this.game.human.gamePlayerId, this.bet)
+        this.roundService.startRound(this.game.id, this.game.human.gamePlayerId, this.bet)
             .subscribe(
             (data) => {
                 this.game = deserialize(GameMappingModel, data["Data"]);
@@ -152,7 +154,7 @@ export class GameComponent implements OnInit {
     }
 
     continueRound(continueRound: boolean) {
-        this.httpService.continueRound(this.game.id, continueRound)
+        this.roundService.continueRound(this.game.id, continueRound)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
@@ -162,7 +164,7 @@ export class GameComponent implements OnInit {
     }
 
     startNewGame() {
-        this.httpService.endGame(this.game.id, this.gameResult)
+        this.roundService.endGame(this.game.id, this.gameResult)
             .subscribe(
                 (data) => {
                     this.router.navigate(['/user/' + this.game.human.name]);
@@ -171,7 +173,7 @@ export class GameComponent implements OnInit {
     }
 
     startNewRound() {
-        this.httpService.endRound(this.game.id)
+        this.roundService.endRound(this.game.id)
             .subscribe(
                 (data) => {
                     this.getGame();

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { AuthorizedUserModule } from 'app/authorized-user-module/authorized-user.module';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: AuthorizedUserModule
 })
 export class UserNameService {
     userName: string;

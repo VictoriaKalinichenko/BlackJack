@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserNameService } from 'app/shared/services/user-name.service';
-import { HttpService } from 'app/shared/services/http.service';
+import { StartService } from 'app/shared/services/start.service';
 import { AuthorizePlayerStartView } from 'app/shared/view-models/authorize-player-start-view';
 
 @Component({
   selector: 'app-start-page',
-  templateUrl: './start-page.component.html',
-  styleUrls: ['./start-page.component.css']
+  templateUrl: './start-page.component.html'
 })
 export class StartPageComponent implements OnInit {
     userName: string;
@@ -18,7 +17,7 @@ export class StartPageComponent implements OnInit {
 
     constructor (
         private userNameService: UserNameService,
-        private httpService: HttpService,
+        private startService: StartService,
         private router: Router
     ) { }
 
@@ -28,7 +27,7 @@ export class StartPageComponent implements OnInit {
     }
 
     authUser(userName: string) {
-        this.httpService.getAuthorizedPlayer(this.userName)
+        this.startService.getAuthorizedPlayer(this.userName)
             .subscribe(
             (data) => {
                 this.player.name = data["Name"];
@@ -39,7 +38,7 @@ export class StartPageComponent implements OnInit {
     }
 
     startNewGame() {
-        this.httpService.createGame(this.player.playerId, this.amountOfBots)
+        this.startService.createGame(this.player.playerId, this.amountOfBots)
             .subscribe(
             (data) => {
                 this.gameId = data["GameId"];
@@ -49,7 +48,7 @@ export class StartPageComponent implements OnInit {
     }
 
     resumeGame() {
-        this.httpService.resumeGame(this.player.playerId)
+        this.startService.resumeGame(this.player.playerId)
             .subscribe(
                 (data) => {
                     this.gameId = data["GameId"];

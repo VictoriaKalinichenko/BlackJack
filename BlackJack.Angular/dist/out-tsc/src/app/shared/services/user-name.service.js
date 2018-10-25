@@ -5,6 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Injectable } from '@angular/core';
+import { AuthorizedUserModule } from 'app/authorized-user-module/authorized-user.module';
 var UserNameService = /** @class */ (function () {
     function UserNameService() {
     }
@@ -16,7 +17,7 @@ var UserNameService = /** @class */ (function () {
     };
     UserNameService = __decorate([
         Injectable({
-            providedIn: 'root'
+            providedIn: AuthorizedUserModule
         })
     ], UserNameService);
     return UserNameService;

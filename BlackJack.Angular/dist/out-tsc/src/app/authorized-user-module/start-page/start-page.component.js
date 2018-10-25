@@ -10,12 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserNameService } from 'app/shared/services/user-name.service';
-import { HttpService } from 'app/shared/services/http.service';
+import { StartService } from 'app/shared/services/start.service';
 import { AuthorizePlayerStartView } from 'app/shared/view-models/authorize-player-start-view';
 var StartPageComponent = /** @class */ (function () {
-    function StartPageComponent(userNameService, httpService, router) {
+    function StartPageComponent(userNameService, startService, router) {
         this.userNameService = userNameService;
-        this.httpService = httpService;
+        this.startService = startService;
         this.router = router;
         this.player = new AuthorizePlayerStartView();
         this.amountOfBots = 0;
@@ -26,7 +26,7 @@ var StartPageComponent = /** @class */ (function () {
     };
     StartPageComponent.prototype.authUser = function (userName) {
         var _this = this;
-        this.httpService.getAuthorizedPlayer(this.userName)
+        this.startService.getAuthorizedPlayer(this.userName)
             .subscribe(function (data) {
             _this.player.name = data["Name"];
             _this.player.playerId = data["PlayerId"];
@@ -35,7 +35,7 @@ var StartPageComponent = /** @class */ (function () {
     };
     StartPageComponent.prototype.startNewGame = function () {
         var _this = this;
-        this.httpService.createGame(this.player.playerId, this.amountOfBots)
+        this.startService.createGame(this.player.playerId, this.amountOfBots)
             .subscribe(function (data) {
             _this.gameId = data["GameId"];
             _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);
@@ -43,7 +43,7 @@ var StartPageComponent = /** @class */ (function () {
     };
     StartPageComponent.prototype.resumeGame = function () {
         var _this = this;
-        this.httpService.resumeGame(this.player.playerId)
+        this.startService.resumeGame(this.player.playerId)
             .subscribe(function (data) {
             _this.gameId = data["GameId"];
             _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);
@@ -56,7 +56,7 @@ var StartPageComponent = /** @class */ (function () {
             styleUrls: ['./start-page.component.css']
         }),
         __metadata("design:paramtypes", [UserNameService,
-            HttpService,
+            StartService,
             Router])
     ], StartPageComponent);
     return StartPageComponent;

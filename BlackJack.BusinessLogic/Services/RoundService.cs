@@ -243,7 +243,7 @@ namespace BlackJack.BusinessLogic.Services
             return card;
         }
 
-        private int CountCardScore(IEnumerable<PlayerCard> playerCards)
+        private int CountCardScore(List<PlayerCard> playerCards)
         {
             int roundScore = 0;
 
@@ -257,10 +257,10 @@ namespace BlackJack.BusinessLogic.Services
                 roundScore += cardScore;
             }
 
-            int aceCount = playerCards.Where(m => m.Card.Rank == CardRank.Ace).Count();
-            for (; aceCount > 0 && roundScore > CardValueHelper.BlackJackScore;)
+            List<PlayerCard> aces = playerCards.Where(m => m.Card.Rank == CardRank.Ace).ToList();
+            for (; aces.Count() > 0 && roundScore > CardValueHelper.BlackJackScore;)
             {
-                aceCount--;
+                aces.Remove(aces.First());
                 roundScore -= (int)CardRank.Ten;
             }
 

@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["app-authorized-user-module-authorized-user-module"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~app-authorized-user-module-authorized-user-module~app-game-module-game-module"],{
 
 /***/ "./src/app/authorized-user-module/authorized-user-routing.module.ts":
 /*!**************************************************************************!*\
@@ -75,12 +75,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var app_authorized_user_module_authorized_user_routing_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/authorized-user-module/authorized-user-routing.module */ "./src/app/authorized-user-module/authorized-user-routing.module.ts");
 /* harmony import */ var app_authorized_user_module_authorized_user_authorized_user_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/authorized-user-module/authorized-user/authorized-user.component */ "./src/app/authorized-user-module/authorized-user/authorized-user.component.ts");
 /* harmony import */ var app_authorized_user_module_start_page_start_page_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/authorized-user-module/start-page/start-page.component */ "./src/app/authorized-user-module/start-page/start-page.component.ts");
+/* harmony import */ var app_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/shared/services/user-name.service */ "./src/app/shared/services/user-name.service.ts");
+/* harmony import */ var app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/shared/services/start.service */ "./src/app/shared/services/start.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -98,6 +102,10 @@ var AuthorizedUserModule = /** @class */ (function () {
             imports: [
                 app_authorized_user_module_authorized_user_routing_module__WEBPACK_IMPORTED_MODULE_2__["AuthorizedUserRoutingModule"],
                 app_shared_modules_shared_module__WEBPACK_IMPORTED_MODULE_1__["SharedModule"]
+            ],
+            providers: [
+                app_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_5__["UserNameService"],
+                app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_6__["StartService"]
             ]
         })
     ], AuthorizedUserModule);
@@ -178,7 +186,7 @@ var AuthorizedUserComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".row-flex {\r\n    display: flex;\r\n    flex-flow: row wrap;\r\n}\r\n"
+module.exports = ""
 
 /***/ }),
 
@@ -206,7 +214,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var app_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/shared/services/user-name.service */ "./src/app/shared/services/user-name.service.ts");
-/* harmony import */ var app_shared_services_http_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/shared/services/http.service */ "./src/app/shared/services/http.service.ts");
+/* harmony import */ var app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/shared/services/start.service */ "./src/app/shared/services/start.service.ts");
 /* harmony import */ var app_shared_view_models_authorize_player_start_view__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/shared/view-models/authorize-player-start-view */ "./src/app/shared/view-models/authorize-player-start-view.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -223,9 +231,9 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var StartPageComponent = /** @class */ (function () {
-    function StartPageComponent(userNameService, httpService, router) {
+    function StartPageComponent(userNameService, startService, router) {
         this.userNameService = userNameService;
-        this.httpService = httpService;
+        this.startService = startService;
         this.router = router;
         this.player = new app_shared_view_models_authorize_player_start_view__WEBPACK_IMPORTED_MODULE_4__["AuthorizePlayerStartView"]();
         this.amountOfBots = 0;
@@ -236,7 +244,7 @@ var StartPageComponent = /** @class */ (function () {
     };
     StartPageComponent.prototype.authUser = function (userName) {
         var _this = this;
-        this.httpService.getAuthorizedPlayer(this.userName)
+        this.startService.getAuthorizedPlayer(this.userName)
             .subscribe(function (data) {
             _this.player.name = data["Name"];
             _this.player.playerId = data["PlayerId"];
@@ -245,7 +253,7 @@ var StartPageComponent = /** @class */ (function () {
     };
     StartPageComponent.prototype.startNewGame = function () {
         var _this = this;
-        this.httpService.createGame(this.player.playerId, this.amountOfBots)
+        this.startService.createGame(this.player.playerId, this.amountOfBots)
             .subscribe(function (data) {
             _this.gameId = data["GameId"];
             _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);
@@ -253,7 +261,7 @@ var StartPageComponent = /** @class */ (function () {
     };
     StartPageComponent.prototype.resumeGame = function () {
         var _this = this;
-        this.httpService.resumeGame(this.player.playerId)
+        this.startService.resumeGame(this.player.playerId)
             .subscribe(function (data) {
             _this.gameId = data["GameId"];
             _this.router.navigate(['/user/' + _this.userName + '/game/' + _this.gameId]);
@@ -266,10 +274,112 @@ var StartPageComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./start-page.component.css */ "./src/app/authorized-user-module/start-page/start-page.component.css")]
         }),
         __metadata("design:paramtypes", [app_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_2__["UserNameService"],
-            app_shared_services_http_service__WEBPACK_IMPORTED_MODULE_3__["HttpService"],
+            app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_3__["StartService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], StartPageComponent);
     return StartPageComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/start.service.ts":
+/*!**************************************************!*\
+  !*** ./src/app/shared/services/start.service.ts ***!
+  \**************************************************/
+/*! exports provided: StartService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StartService", function() { return StartService; });
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var app_authorized_user_module_authorized_user_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/authorized-user-module/authorized-user.module */ "./src/app/authorized-user-module/authorized-user.module.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var StartService = /** @class */ (function () {
+    function StartService(httpClient) {
+        this.httpClient = httpClient;
+    }
+    StartService.prototype.getAuthorizedPlayer = function (userName) {
+        var options = userName ?
+            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('userName', userName.toString()) } : {};
+        return this.httpClient.get('Start/AuthorizePlayer', options);
+    };
+    StartService.prototype.createGame = function (playerId, amountOfBots) {
+        var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
+        return this.httpClient.post('Start/CreateGame', body);
+    };
+    StartService.prototype.resumeGame = function (playerId) {
+        var options = playerId ?
+            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('playerId', playerId.toString()) } : {};
+        return this.httpClient.get('Start/ResumeGame', options);
+    };
+    StartService.prototype.getGame = function (gameId) {
+        var options = gameId ?
+            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('gameId', gameId.toString()) } : {};
+        return this.httpClient.get('Start/InitializeRound', options);
+    };
+    StartService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: app_authorized_user_module_authorized_user_module__WEBPACK_IMPORTED_MODULE_2__["AuthorizedUserModule"]
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
+    ], StartService);
+    return StartService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/user-name.service.ts":
+/*!******************************************************!*\
+  !*** ./src/app/shared/services/user-name.service.ts ***!
+  \******************************************************/
+/*! exports provided: UserNameService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserNameService", function() { return UserNameService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var app_authorized_user_module_authorized_user_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! app/authorized-user-module/authorized-user.module */ "./src/app/authorized-user-module/authorized-user.module.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var UserNameService = /** @class */ (function () {
+    function UserNameService() {
+    }
+    UserNameService.prototype.setUserName = function (userName) {
+        this.userName = userName;
+    };
+    UserNameService.prototype.getUserName = function () {
+        return this.userName;
+    };
+    UserNameService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: app_authorized_user_module_authorized_user_module__WEBPACK_IMPORTED_MODULE_1__["AuthorizedUserModule"]
+        })
+    ], UserNameService);
+    return UserNameService;
 }());
 
 
@@ -297,4 +407,4 @@ var AuthorizePlayerStartView = /** @class */ (function () {
 /***/ })
 
 }]);
-//# sourceMappingURL=app-authorized-user-module-authorized-user-module.js.map
+//# sourceMappingURL=default~app-authorized-user-module-authorized-user-module~app-game-module-game-module.js.map

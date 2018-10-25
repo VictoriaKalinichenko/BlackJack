@@ -6,6 +6,8 @@ import { GameComponent } from 'app/game-module/game/game.component';
 import { PlayerOutputComponent } from 'app/game-module/player-output/player-output.component';
 import { DealerOutputComponent } from 'app/game-module/dealer-output/dealer-output.component';
 
+import { RoundService } from 'app/shared/services/round.service';
+
 @NgModule({
     imports: [
         GameRoutingModule,
@@ -15,6 +17,9 @@ import { DealerOutputComponent } from 'app/game-module/dealer-output/dealer-outp
         GameComponent,
         PlayerOutputComponent,
         DealerOutputComponent
+    ],
+    providers: [
+        RoundService
     ]
 })
 export class GameModule { }

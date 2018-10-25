@@ -232,10 +232,8 @@
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\authorized-user-module\authorized-user\authorized-user.component.html" />
     <Content Include="src\app\game-module\dealer-output\dealer-output.component.html" />
-    <Content Include="src\app\game-module\game\game.component.css" />
     <Content Include="src\app\game-module\game\game.component.html" />
     <Content Include="src\app\game-module\player-output\player-output.component.html" />
-    <Content Include="src\app\authorized-user-module\start-page\start-page.component.css" />
     <Content Include="src\app\authorized-user-module\start-page\start-page.component.html" />
     <Content Include="src\app\error-page\error-page.component.html" />
     <Content Include="src\app\home-page\home-page.component.html" />
@@ -302,11 +300,12 @@
     <TypeScriptCompile Include="src\app\authorized-user-module\start-page\start-page.component.ts" />
     <TypeScriptCompile Include="src\app\error-page\error-page.component.ts" />
     <TypeScriptCompile Include="src\app\home-page\home-page.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\round.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\start.service.ts" />
     <TypeScriptCompile Include="src\app\shared\view-models\authorize-player-start-view.ts" />
     <TypeScriptCompile Include="src\app\shared\mapping-models\game-mapping-model.ts" />
     <TypeScriptCompile Include="src\app\shared\mapping-models\player-mapping-model.ts" />
     <TypeScriptCompile Include="src\app\shared\services\error.service.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\http.service.ts" />
     <TypeScriptCompile Include="src\app\shared\interceptors\request-interceptor.ts" />
     <TypeScriptCompile Include="src\app\shared\services\user-name.service.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />

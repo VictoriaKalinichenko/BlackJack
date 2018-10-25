@@ -10,10 +10,11 @@
 var map = {
 	"app/authorized-user-module/authorized-user.module": [
 		"./src/app/authorized-user-module/authorized-user.module.ts",
-		"app-authorized-user-module-authorized-user-module"
+		"default~app-authorized-user-module-authorized-user-module~app-game-module-game-module"
 	],
 	"app/game-module/game.module": [
 		"./src/app/game-module/game.module.ts",
+		"default~app-authorized-user-module-authorized-user-module~app-game-module-game-module",
 		"app-game-module-game-module"
 	]
 };
@@ -26,7 +27,7 @@ function webpackAsyncContext(req) {
 			throw e;
 		});
 	}
-	return __webpack_require__.e(ids[1]).then(function() {
+	return Promise.all(ids.slice(1).map(__webpack_require__.e)).then(function() {
 		var id = ids[0];
 		return __webpack_require__(id);
 	});
@@ -161,18 +162,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var app_app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/app.component */ "./src/app/app.component.ts");
 /* harmony import */ var app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/home-page/home-page.component */ "./src/app/home-page/home-page.component.ts");
 /* harmony import */ var app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! app/error-page/error-page.component */ "./src/app/error-page/error-page.component.ts");
-/* harmony import */ var app_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! app/shared/services/user-name.service */ "./src/app/shared/services/user-name.service.ts");
-/* harmony import */ var app_shared_services_error_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! app/shared/services/error.service */ "./src/app/shared/services/error.service.ts");
-/* harmony import */ var app_shared_services_http_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! app/shared/services/http.service */ "./src/app/shared/services/http.service.ts");
-/* harmony import */ var app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! app/shared/interceptors/request-interceptor */ "./src/app/shared/interceptors/request-interceptor.ts");
+/* harmony import */ var app_shared_services_error_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! app/shared/services/error.service */ "./src/app/shared/services/error.service.ts");
+/* harmony import */ var app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! app/shared/interceptors/request-interceptor */ "./src/app/shared/interceptors/request-interceptor.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
-
 
 
 
@@ -200,16 +197,14 @@ var AppModule = /** @class */ (function () {
                 app_app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"]
             ],
             providers: [
-                app_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_9__["UserNameService"],
-                app_shared_services_error_service__WEBPACK_IMPORTED_MODULE_10__["ErrorService"],
-                app_shared_services_http_service__WEBPACK_IMPORTED_MODULE_11__["HttpService"],
+                app_shared_services_error_service__WEBPACK_IMPORTED_MODULE_9__["ErrorService"],
                 {
                     provide: _angular_common__WEBPACK_IMPORTED_MODULE_4__["APP_BASE_HREF"],
                     useValue: '/'
                 },
                 {
                     provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"],
-                    useClass: app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_12__["RequestInterceptor"],
+                    useClass: app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_10__["RequestInterceptor"],
                     multi: true
                 }
             ],
@@ -472,136 +467,6 @@ var ErrorService = /** @class */ (function () {
         })
     ], ErrorService);
     return ErrorService;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/services/http.service.ts":
-/*!*************************************************!*\
-  !*** ./src/app/shared/services/http.service.ts ***!
-  \*************************************************/
-/*! exports provided: HttpService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpService", function() { return HttpService; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var HttpService = /** @class */ (function () {
-    function HttpService(httpClient) {
-        this.httpClient = httpClient;
-    }
-    HttpService.prototype.getAuthorizedPlayer = function (userName) {
-        var options = userName ?
-            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('userName', userName.toString()) } : {};
-        return this.httpClient.get('Start/AuthorizePlayer', options);
-    };
-    HttpService.prototype.createGame = function (playerId, amountOfBots) {
-        var body = { PlayerId: playerId, AmountOfBots: amountOfBots };
-        return this.httpClient.post('Start/CreateGame', body);
-    };
-    HttpService.prototype.resumeGame = function (playerId) {
-        var options = playerId ?
-            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('playerId', playerId.toString()) } : {};
-        return this.httpClient.get('Start/ResumeGame', options);
-    };
-    HttpService.prototype.getGame = function (gameId) {
-        var options = gameId ?
-            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Start/InitializeRound', options);
-    };
-    HttpService.prototype.startRound = function (gameId, humanGamePlayerId, bet) {
-        var body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this.httpClient.post('Round/Start', body);
-    };
-    HttpService.prototype.continueRound = function (gameId, continueRound) {
-        var body = { GameId: gameId, ContinueRound: continueRound };
-        return this.httpClient.post('Round/Continue', body);
-    };
-    HttpService.prototype.addCard = function (gameId) {
-        var options = gameId ?
-            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/AddCard', options);
-    };
-    HttpService.prototype.resumeAfterStartRound = function (gameId) {
-        var options = gameId ?
-            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/ResumeAfterStart', options);
-    };
-    HttpService.prototype.resumeAfterContinueRound = function (gameId) {
-        var options = gameId ?
-            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/ResumeAfterContinue', options);
-    };
-    HttpService.prototype.endRound = function (gameId) {
-        var options = gameId ?
-            { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/End', options);
-    };
-    HttpService.prototype.endGame = function (gameId, gameResult) {
-        var body = { GameId: gameId, Result: gameResult };
-        return this.httpClient.post('Round/EndGame', body);
-    };
-    HttpService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
-            providedIn: 'root'
-        }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
-    ], HttpService);
-    return HttpService;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/services/user-name.service.ts":
-/*!******************************************************!*\
-  !*** ./src/app/shared/services/user-name.service.ts ***!
-  \******************************************************/
-/*! exports provided: UserNameService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserNameService", function() { return UserNameService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var UserNameService = /** @class */ (function () {
-    function UserNameService() {
-    }
-    UserNameService.prototype.setUserName = function (userName) {
-        this.userName = userName;
-    };
-    UserNameService.prototype.getUserName = function () {
-        return this.userName;
-    };
-    UserNameService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
-            providedIn: 'root'
-        })
-    ], UserNameService);
-    return UserNameService;
 }());
 
 

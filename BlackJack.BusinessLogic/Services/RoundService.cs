@@ -247,21 +247,35 @@ namespace BlackJack.BusinessLogic.Services
         {
             int roundScore = 0;
 
+            int aceCount = 0;
             foreach (PlayerCard playerCard in playerCards)
             {
-                int cardScore = (int)playerCard.Card.Rank;
-                if (cardScore > (int)CardRank.Ace)
+                if (playerCard.Card.Rank == CardRank.Ace)
                 {
-                    cardScore = (int)CardRank.Ten;
+                    aceCount++;
                 }
-                roundScore += cardScore;
-            }
 
-            int aceCount = playerCards.Where(m => m.Card.Rank == CardRank.Ace).Count();
-            for (; aceCount > 0 && roundScore > CardValue.BlackJackScore;)
+                if (playerCard.Card.Rank == CardRank.Dame ||
+                    playerCard.Card.Rank == CardRank.Jack ||
+                    playerCard.Card.Rank == CardRank.King)
+                {
+                    roundScore += (int)CardRank.Ten;
+                }
+
+                if ((int)playerCard.Card.Rank < (int)CardRank.Ace)
+                {
+                    roundScore += (int)playerCard.Card.Rank;
+                }
+            }
+            
+            for (int iterator = aceCount; iterator > 0; iterator--)
             {
-                aceCount--;
-                roundScore -= (int)CardRank.Ten;
+                int aceWorth = (int)CardRank.Ace;
+                if (roundScore >= CardValue.BlackJackScore)
+                {
+                    aceWorth = (int)CardRank.AceOnePoint;
+                }
+                roundScore += aceWorth;
             }
 
             return roundScore;

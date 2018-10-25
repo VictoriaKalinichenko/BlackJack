@@ -13,6 +13,6 @@ namespace BlackJack.BusinessLogic.Interfaces
 
         Task<long> ResumeGame(long playerId);
 
-        Task<InitializeRoundStartView> InitializeRound(long gameId);
+        Task<InitializeStartView> InitializeRound(long gameId);
     }
 }

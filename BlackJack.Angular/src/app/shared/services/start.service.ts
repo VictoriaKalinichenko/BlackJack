@@ -31,6 +31,6 @@ export class StartService {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this.httpClient.get('Start/InitializeRound', options);
+        return this.httpClient.get('Start/Initialize', options);
     }
 }

@@ -12,17 +12,17 @@ namespace BlackJack.BusinessLogic.Mappers
         {
             Mapper.Initialize(config =>
             {
-                config.CreateMap<Game, InitializeRoundStartView>();
+                config.CreateMap<Game, InitializeStartView>();
                 config.CreateMap<HistoryMessage, HistoryMessageGetGameHistoryViewItem>();
 
-                config.CreateMap<GamePlayer, GamePlayerInitializeRoundStartViewItem>()
+                config.CreateMap<GamePlayer, GamePlayerInitializeStartViewItem>()
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
                 
-                config.CreateMap<GamePlayer, GamePlayerResponseStartRoundViewItem>()
+                config.CreateMap<GamePlayer, GamePlayerStartRoundViewItem>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<GamePlayer, GamePlayerResponseContinueRoundViewItem>()
+                config.CreateMap<GamePlayer, GamePlayerContinueRoundViewItem>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 

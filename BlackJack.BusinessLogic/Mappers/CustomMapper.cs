@@ -27,32 +27,32 @@ namespace BlackJack.BusinessLogic.Mappers
             return authorizePlayerStartView;
         }
 
-        public static InitializeRoundStartView GetInitializeRoundStartView(Game game, List<GamePlayer> players, string isGameOver)
+        public static InitializeStartView GetInitializeStartView(Game game, List<GamePlayer> players, string isGameOver)
         {
-            InitializeRoundStartView initializeRoundStartView = Mapper.Map<Game, InitializeRoundStartView>(game);
-            initializeRoundStartView.Bots = new List<GamePlayerInitializeRoundStartViewItem>();
+            InitializeStartView initializeStartView = Mapper.Map<Game, InitializeStartView>(game);
+            initializeStartView.Bots = new List<GamePlayerInitializeStartViewItem>();
 
             foreach (GamePlayer player in players)
             {
                 if (player.Player.Type == PlayerType.Dealer)
                 {
-                    initializeRoundStartView.Dealer = Mapper.Map<GamePlayer, GamePlayerInitializeRoundStartViewItem>(player);
+                    initializeStartView.Dealer = Mapper.Map<GamePlayer, GamePlayerInitializeStartViewItem>(player);
                 }
 
                 if (player.Player.Type == PlayerType.Human)
                 {
-                    initializeRoundStartView.Human = Mapper.Map<GamePlayer, GamePlayerInitializeRoundStartViewItem>(player);
+                    initializeStartView.Human = Mapper.Map<GamePlayer, GamePlayerInitializeStartViewItem>(player);
                 }
 
                 if (player.Player.Type == PlayerType.Bot)
                 {
-                    GamePlayerInitializeRoundStartViewItem bot = Mapper.Map<GamePlayer, GamePlayerInitializeRoundStartViewItem>(player);
-                    initializeRoundStartView.Bots.Add(bot);
+                    GamePlayerInitializeStartViewItem bot = Mapper.Map<GamePlayer, GamePlayerInitializeStartViewItem>(player);
+                    initializeStartView.Bots.Add(bot);
                 }
             }
 
-            initializeRoundStartView.IsGameOver = isGameOver;
-            return initializeRoundStartView;
+            initializeStartView.IsGameOver = isGameOver;
+            return initializeStartView;
         }
 
         public static ResponseStartRoundView GetResponseStartRoundView(List<GamePlayer> players, long gameId, bool canTakeCard, bool isBlackJackChoice)
@@ -63,12 +63,12 @@ namespace BlackJack.BusinessLogic.Mappers
             players.Remove(dealer);
 
             var responseStartRoundView = new ResponseStartRoundView();
-            responseStartRoundView.Dealer = Mapper.Map<GamePlayer, GamePlayerResponseStartRoundViewItem>(dealer);
+            responseStartRoundView.Dealer = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(dealer);
             responseStartRoundView.Dealer.RoundScore = 0;
             responseStartRoundView.Dealer.Cards.Clear();
             responseStartRoundView.Dealer.Cards.Add(dealer.PlayerCards[0].Card.ToString());
-            responseStartRoundView.Human = Mapper.Map<GamePlayer, GamePlayerResponseStartRoundViewItem>(human);
-            responseStartRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerResponseStartRoundViewItem>>(players);
+            responseStartRoundView.Human = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(human);
+            responseStartRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerStartRoundViewItem>>(players);
             responseStartRoundView.CanTakeCard = canTakeCard;
             responseStartRoundView.BlackJackChoice = isBlackJackChoice;
             responseStartRoundView.Id = gameId;
@@ -83,9 +83,9 @@ namespace BlackJack.BusinessLogic.Mappers
             players.Remove(dealer);
 
             var responseContinueRoundView = new ResponseContinueRoundView();
-            responseContinueRoundView.Dealer = Mapper.Map<GamePlayer, GamePlayerResponseContinueRoundViewItem>(dealer);
-            responseContinueRoundView.Human = Mapper.Map<GamePlayer, GamePlayerResponseContinueRoundViewItem>(human);
-            responseContinueRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerResponseContinueRoundViewItem>>(players);
+            responseContinueRoundView.Dealer = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(dealer);
+            responseContinueRoundView.Human = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(human);
+            responseContinueRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerContinueRoundViewItem>>(players);
             responseContinueRoundView.RoundResult = humanRoundResult;
             responseContinueRoundView.Id = gameId;
             return responseContinueRoundView;

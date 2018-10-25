@@ -51,7 +51,7 @@
     <Compile Include="ResumeAfterStartRoundView.cs" />
     <Compile Include="ResponseStartRoundView.cs" />
     <Compile Include="RequestContinueRoundView.cs" />
-    <Compile Include="InitializeRoundStartView.cs" />
+    <Compile Include="InitializeStartView.cs" />
     <Compile Include="GetGameHistoryView.cs" />
   </ItemGroup>
   <ItemGroup />

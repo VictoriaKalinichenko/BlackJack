@@ -6,12 +6,12 @@ namespace BlackJack.ViewModels
     {
         public long Id { get; set; }
         public string RoundResult { get; set; }
-        public GamePlayerResponseContinueRoundViewItem Dealer { get; set; }
-        public GamePlayerResponseContinueRoundViewItem Human { get; set; }
-        public List<GamePlayerResponseContinueRoundViewItem> Bots { get; set; }
+        public GamePlayerContinueRoundViewItem Dealer { get; set; }
+        public GamePlayerContinueRoundViewItem Human { get; set; }
+        public List<GamePlayerContinueRoundViewItem> Bots { get; set; }
     }
 
-    public class GamePlayerResponseContinueRoundViewItem
+    public class GamePlayerContinueRoundViewItem
     {
         public long Id { get; set; }
         public string Name { get; set; }

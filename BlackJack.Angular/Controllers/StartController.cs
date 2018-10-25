@@ -78,13 +78,13 @@ namespace BlackJack.Angular.Controllers
             }
         }
 
-        [Route("InitializeRound"), HttpGet]
-        public async Task<IHttpActionResult> InitializeRound(long gameId)
+        [Route("Initialize"), HttpGet]
+        public async Task<IHttpActionResult> Initialize(long gameId)
         {
             try
             {
-                InitializeRoundStartView initializeRoundStartView = await _startService.InitializeRound(gameId);
-                return Ok(initializeRoundStartView);
+                InitializeStartView initializeStartView = await _startService.InitializeRound(gameId);
+                return Ok(initializeStartView);
             }
             catch (Exception exception)
             {

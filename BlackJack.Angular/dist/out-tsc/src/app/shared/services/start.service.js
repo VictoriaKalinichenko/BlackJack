@@ -31,7 +31,7 @@ var StartService = /** @class */ (function () {
     StartService.prototype.getGame = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Start/InitializeRound', options);
+        return this.httpClient.get('Start/Initialize', options);
     };
     StartService = __decorate([
         Injectable({

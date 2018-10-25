@@ -318,7 +318,7 @@ var StartService = /** @class */ (function () {
     StartService.prototype.getGame = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Start/InitializeRound', options);
+        return this.httpClient.get('Start/Initialize', options);
     };
     StartService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({

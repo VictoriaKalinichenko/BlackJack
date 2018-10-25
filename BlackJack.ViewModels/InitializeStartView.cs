@@ -2,17 +2,17 @@
 
 namespace BlackJack.ViewModels
 {
-    public class InitializeRoundStartView
+    public class InitializeStartView
     {
         public long Id { get; set; }
         public int Stage { get; set; }
         public string IsGameOver { get; set; }
-        public GamePlayerInitializeRoundStartViewItem Dealer { get; set; }
-        public GamePlayerInitializeRoundStartViewItem Human { get; set; }
-        public List<GamePlayerInitializeRoundStartViewItem> Bots { get; set; }
+        public GamePlayerInitializeStartViewItem Dealer { get; set; }
+        public GamePlayerInitializeStartViewItem Human { get; set; }
+        public List<GamePlayerInitializeStartViewItem> Bots { get; set; }
     }
 
-    public class GamePlayerInitializeRoundStartViewItem
+    public class GamePlayerInitializeStartViewItem
     {
         public long Id { get; set; }
         public string Name { get; set; }

@@ -72,15 +72,15 @@ namespace BlackJack.BusinessLogic.Services
             return gameId;
         }
 
-        public async Task<InitializeRoundStartView> InitializeRound(long gameId)
+        public async Task<InitializeStartView> InitializeRound(long gameId)
         {
             Game game = await _gameRepository.Get(gameId);
             List<GamePlayer> players = (await _gamePlayerRepository.GetAllForInitializeRound(gameId)).ToList();
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
             string isGameOver = IsGameOver(human, dealer);
-            InitializeRoundStartView initializeRoundStartView = CustomMapper.GetInitializeRoundStartView(game, players, isGameOver);
-            return initializeRoundStartView;
+            InitializeStartView initializeStartView = CustomMapper.GetInitializeStartView(game, players, isGameOver);
+            return initializeStartView;
         }
         
         private async Task<List<Player>> CreatePlayerList(long playerId, int amountOfBots)

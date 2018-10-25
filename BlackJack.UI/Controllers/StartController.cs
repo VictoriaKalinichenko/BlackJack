@@ -92,12 +92,12 @@ namespace BlackJack.UI.Controllers
             }
         }
 
-        public async Task<ActionResult> InitializeRound(long gameId)
+        public async Task<ActionResult> Initialize(long gameId)
         {
             try
             {
-                InitializeRoundStartView initializeRoundStartView = await _startService.InitializeRound(gameId);
-                return View(initializeRoundStartView);
+                InitializeStartView initializeStartView = await _startService.InitializeRound(gameId);
+                return View(initializeStartView);
             }
             catch (Exception exception)
             {

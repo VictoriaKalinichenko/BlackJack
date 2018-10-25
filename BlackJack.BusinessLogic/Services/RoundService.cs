@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BlackJack.BusinessLogic.Helpers;
+using BlackJack.BusinessLogic.Constants;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
@@ -74,7 +74,7 @@ namespace BlackJack.BusinessLogic.Services
             AddCardRoundView addCardRoundView = Mapper.Map<GamePlayer, AddCardRoundView>(human);
             addCardRoundView.CanTakeCard = true;
 
-            if (human.RoundScore >= CardValueHelper.BlackJackScore)
+            if (human.RoundScore >= CardValue.BlackJackScore)
             {
                 addCardRoundView.CanTakeCard = false;
             }
@@ -88,7 +88,7 @@ namespace BlackJack.BusinessLogic.Services
 
             if (requestContinueRoundView.ContinueRound)
             {
-                players.Where(m => m.Player.Type == PlayerType.Human).First().BetPayCoefficient = BetValueHelper.DefaultCoefficient;
+                players.Where(m => m.Player.Type == PlayerType.Human).First().BetPayCoefficient = BetValue.DefaultCoefficient;
             }
 
             List<PlayerCard> playerCardsInserted = await DistributeSecondCards(players, requestContinueRoundView.GameId);
@@ -130,7 +130,7 @@ namespace BlackJack.BusinessLogic.Services
             bool isCorrect = true;
             int score = await _gamePlayerRepository.GetScoreById(gamePlayerId);
 
-            if (bet > score || bet <= GameValueHelper.Zero)
+            if (bet > score || bet <= 0)
             {
                 isCorrect = false;
             }
@@ -140,7 +140,7 @@ namespace BlackJack.BusinessLogic.Services
 
         private async Task DistributeFirstCards(IEnumerable<GamePlayer> gamePlayers)
         {
-            int cardAmount = gamePlayers.Count() * CardValueHelper.BlackJackAmount;
+            int cardAmount = gamePlayers.Count() * CardValue.BlackJackAmount;
             List<Card> deck = (await _cardRepository.GetSpecifiedAmount(cardAmount)).ToList();
             var playerCards = new List<PlayerCard>();
 
@@ -174,7 +174,7 @@ namespace BlackJack.BusinessLogic.Services
             foreach (GamePlayer gamePlayer in players)
             {
                 if (!(gamePlayer.Player.Type == PlayerType.Human) && 
-                    gamePlayer.RoundScore < CardValueHelper.BlackJackScore)
+                    gamePlayer.RoundScore < CardValue.BlackJackScore)
                 {
                     Card card = TakeCardFromDeck(deck);
                     PlayerCard playerCard = AddCardToPlayer(gamePlayer, card);
@@ -200,13 +200,13 @@ namespace BlackJack.BusinessLogic.Services
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
 
             bool canTakeCard = true;
-            if (human.RoundScore >= CardValueHelper.BlackJackScore)
+            if (human.RoundScore >= CardValue.BlackJackScore)
             {
                 canTakeCard = false;
             }
 
             bool blackJackChoice = false;
-            if (human.BetPayCoefficient == BetValueHelper.WinCoefficient)
+            if (human.BetPayCoefficient == BetValue.WinCoefficient)
             {
                 blackJackChoice = true;
             }
@@ -231,8 +231,8 @@ namespace BlackJack.BusinessLogic.Services
 
             foreach (var gamePlayer in players)
             {
-                gamePlayer.RoundScore = GameValueHelper.Zero;
-                gamePlayer.CardAmount = GameValueHelper.Zero;
+                gamePlayer.RoundScore = 0;
+                gamePlayer.CardAmount = 0;
             }
         }
 
@@ -257,10 +257,10 @@ namespace BlackJack.BusinessLogic.Services
                 roundScore += cardScore;
             }
 
-            List<PlayerCard> aces = playerCards.Where(m => m.Card.Rank == CardRank.Ace).ToList();
-            for (; aces.Count() > 0 && roundScore > CardValueHelper.BlackJackScore;)
+            int aceCount = playerCards.Where(m => m.Card.Rank == CardRank.Ace).Count();
+            for (; aceCount > 0 && roundScore > CardValue.BlackJackScore;)
             {
-                aces.Remove(aces.First());
+                aceCount--;
                 roundScore -= (int)CardRank.Ten;
             }
 
@@ -271,7 +271,7 @@ namespace BlackJack.BusinessLogic.Services
         {
             long cardId;
             var random = new Random();
-            cardId = random.Next(CardValueHelper.MinId, CardValueHelper.MaxId);
+            cardId = random.Next(CardValue.MinId, CardValue.MaxId);
             return cardId;
         }
     }

@@ -1,4 +1,4 @@
-﻿using BlackJack.BusinessLogic.Helpers;
+﻿using BlackJack.BusinessLogic.Constants;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
@@ -126,7 +126,7 @@ namespace BlackJack.BusinessLogic.Managers
             {
                 string playerType = gamePlayer.Player.Type.ToString();
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValue.BlackJackCoefficient)
                 {
                     logs.Add(new HistoryMessage()
                     {
@@ -137,7 +137,7 @@ namespace BlackJack.BusinessLogic.Managers
                     });
                 }
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.WinCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValue.WinCoefficient)
                 {
                     var log = new HistoryMessage()
                     {
@@ -188,7 +188,7 @@ namespace BlackJack.BusinessLogic.Managers
             {
                 string playerType = gamePlayer.Player.Type.ToString();
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.BlackJackCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValue.BlackJackCoefficient)
                 {
                     logs.Add(new HistoryMessage()
                     {
@@ -199,7 +199,7 @@ namespace BlackJack.BusinessLogic.Managers
                     });
                 }
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.WinCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValue.WinCoefficient)
                 {
                     logs.Add(new HistoryMessage()
                     {
@@ -210,7 +210,7 @@ namespace BlackJack.BusinessLogic.Managers
                     });
                 }
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.LoseCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValue.LoseCoefficient)
                 {
                     logs.Add(new HistoryMessage()
                     {
@@ -221,7 +221,7 @@ namespace BlackJack.BusinessLogic.Managers
                     });
                 }
 
-                if (gamePlayer.BetPayCoefficient == BetValueHelper.ZeroCoefficient)
+                if (gamePlayer.BetPayCoefficient == BetValue.ReturnCoefficient)
                 {
                     logs.Add(new HistoryMessage()
                     {

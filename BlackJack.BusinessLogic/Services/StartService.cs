@@ -1,4 +1,4 @@
-﻿using BlackJack.BusinessLogic.Helpers;
+﻿using BlackJack.BusinessLogic.Constants;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
@@ -87,12 +87,12 @@ namespace BlackJack.BusinessLogic.Services
         {
             var players = new List<Player>();
             var random = new Random();
-            Player dealer = CustomMapper.GetPlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Dealer);
+            Player dealer = CustomMapper.GetPlayer(((BotName)random.Next(GameValue.BotNameAmount)).ToString(), PlayerType.Dealer);
             players.Add(dealer);
 
             for (int i = 0; i < amountOfBots; i++)
             {
-                Player bot = CustomMapper.GetPlayer(((BotName)random.Next(GameValueHelper.BotNameAmount)).ToString(), PlayerType.Bot);
+                Player bot = CustomMapper.GetPlayer(((BotName)random.Next(GameValue.BotNameAmount)).ToString(), PlayerType.Bot);
                 players.Add(bot);
             }
 
@@ -105,14 +105,14 @@ namespace BlackJack.BusinessLogic.Services
         {
             string isGameOver = string.Empty;
 
-            if (dealer.Score <= GameValueHelper.Zero)
+            if (dealer.Score <= GameValue.EndGameScore)
             {
-                isGameOver = GameMessageHelper.DealerIsLoser;
+                isGameOver = GameMessage.DealerIsLoser;
             }
 
-            if (human.Score <= GameValueHelper.Zero)
+            if (human.Score <= GameValue.EndGameScore)
             {
-                isGameOver = GameMessageHelper.DealerIsWinner;
+                isGameOver = GameMessage.DealerIsWinner;
             }
 
             return isGameOver;

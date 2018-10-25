@@ -1563,17 +1563,6 @@ var GameModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/game-module/game/game.component.css":
-/*!*****************************************************!*\
-  !*** ./src/app/game-module/game/game.component.css ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "\r\n\r\n"
-
-/***/ }),
-
 /***/ "./src/app/game-module/game/game.component.html":
 /*!******************************************************!*\
   !*** ./src/app/game-module/game/game.component.html ***!
@@ -1792,8 +1781,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-game',
-            template: __webpack_require__(/*! ./game.component.html */ "./src/app/game-module/game/game.component.html"),
-            styles: [__webpack_require__(/*! ./game.component.css */ "./src/app/game-module/game/game.component.css")]
+            template: __webpack_require__(/*! ./game.component.html */ "./src/app/game-module/game/game.component.html")
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],

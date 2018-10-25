@@ -1,4 +1,5 @@
-﻿using BlackJack.BusinessLogic.Helpers;
+﻿using BlackJack.BusinessLogic.Constants;
+using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.ViewModels;
 using NLog;
@@ -11,6 +12,7 @@ namespace BlackJack.Angular.Controllers
     [RoutePrefix("Round")]
     public class RoundController : ApiController
     {
+        public static readonly string _success = "SUCCESS";
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IRoundService _roundService;
 
@@ -26,17 +28,17 @@ namespace BlackJack.Angular.Controllers
             {
                 if (endGameRoundView == null || endGameRoundView.Result == null)
                 {
-                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                    return BadRequest(GameMessage.ReceivedDataError);
                 }
 
                 await _roundService.EndGame(endGameRoundView);
-                return Ok(GameMessageHelper.Success);
+                return Ok(_success);
             }
             catch (Exception exception)
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameError);
+                return BadRequest(GameMessage.GameError);
             }
         }
 
@@ -47,13 +49,13 @@ namespace BlackJack.Angular.Controllers
             {
                 if (requestStartRoundView == null)
                 {
-                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                    return BadRequest(GameMessage.ReceivedDataError);
                 }
 
                 ResponseStartRoundView responseStartRoundView = await _roundService.Start(requestStartRoundView);
                 if (responseStartRoundView == null)
                 {
-                    return Ok(new { Message = GameMessageHelper.BetIsNotValid });
+                    return Ok(new { Message = GameMessage.BetIsNotValid });
                 }
 
                 return Ok(new { Data = responseStartRoundView });
@@ -62,7 +64,7 @@ namespace BlackJack.Angular.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameError);
+                return BadRequest(GameMessage.GameError);
             }
         }
 
@@ -78,7 +80,7 @@ namespace BlackJack.Angular.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameError);
+                return BadRequest(GameMessage.GameError);
             }
         }
 
@@ -94,7 +96,7 @@ namespace BlackJack.Angular.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameError);
+                return BadRequest(GameMessage.GameError);
             }
         }
 
@@ -105,7 +107,7 @@ namespace BlackJack.Angular.Controllers
             {
                 if (requestContinueRoundView == null)
                 {
-                    return BadRequest(GameMessageHelper.ReceivedDataError);
+                    return BadRequest(GameMessage.ReceivedDataError);
                 }
 
                 ResponseContinueRoundView responseContinueRoundView = await _roundService.Continue(requestContinueRoundView);
@@ -115,7 +117,7 @@ namespace BlackJack.Angular.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameError);
+                return BadRequest(GameMessage.GameError);
             }
         }
 
@@ -131,7 +133,7 @@ namespace BlackJack.Angular.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameError);
+                return BadRequest(GameMessage.GameError);
             }
         }
 
@@ -141,13 +143,13 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 await _roundService.EndRound(gameId);
-                return Ok(GameMessageHelper.Success);
+                return Ok(_success);
             }
             catch (Exception exception)
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameError);
+                return BadRequest(GameMessage.GameError);
             }
         }
     }

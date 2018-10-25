@@ -179,17 +179,6 @@ var AuthorizedUserComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/authorized-user-module/start-page/start-page.component.css":
-/*!****************************************************************************!*\
-  !*** ./src/app/authorized-user-module/start-page/start-page.component.css ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
 /***/ "./src/app/authorized-user-module/start-page/start-page.component.html":
 /*!*****************************************************************************!*\
   !*** ./src/app/authorized-user-module/start-page/start-page.component.html ***!
@@ -270,8 +259,7 @@ var StartPageComponent = /** @class */ (function () {
     StartPageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-start-page',
-            template: __webpack_require__(/*! ./start-page.component.html */ "./src/app/authorized-user-module/start-page/start-page.component.html"),
-            styles: [__webpack_require__(/*! ./start-page.component.css */ "./src/app/authorized-user-module/start-page/start-page.component.css")]
+            template: __webpack_require__(/*! ./start-page.component.html */ "./src/app/authorized-user-module/start-page/start-page.component.html")
         }),
         __metadata("design:paramtypes", [app_shared_services_user_name_service__WEBPACK_IMPORTED_MODULE_2__["UserNameService"],
             app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_3__["StartService"],

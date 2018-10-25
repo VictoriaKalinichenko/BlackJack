@@ -64,14 +64,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\GameMessage.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Interfaces\IHistoryMessageManager.cs" />
     <Compile Include="Managers\HistoryMessageManager.cs" />
     <Compile Include="Mappers\AutoMapperConfig.cs" />
-    <Compile Include="Helpers\CardValueHelper.cs" />
-    <Compile Include="Helpers\GameMessageHelper.cs" />
-    <Compile Include="Helpers\GameValueHelper.cs" />
-    <Compile Include="Helpers\BetValueHelper.cs" />
+    <Compile Include="Constants\CardValue.cs" />
+    <Compile Include="Constants\GameValue.cs" />
+    <Compile Include="Constants\BetValue.cs" />
     <Compile Include="Interfaces\IGamePlayerManager.cs" />
     <Compile Include="Interfaces\IGameHistoryService.cs" />
     <Compile Include="Interfaces\IStartService.cs" />

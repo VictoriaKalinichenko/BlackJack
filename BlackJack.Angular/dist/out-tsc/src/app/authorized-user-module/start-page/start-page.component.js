@@ -52,8 +52,7 @@ var StartPageComponent = /** @class */ (function () {
     StartPageComponent = __decorate([
         Component({
             selector: 'app-start-page',
-            templateUrl: './start-page.component.html',
-            styleUrls: ['./start-page.component.css']
+            templateUrl: './start-page.component.html'
         }),
         __metadata("design:paramtypes", [UserNameService,
             StartService,

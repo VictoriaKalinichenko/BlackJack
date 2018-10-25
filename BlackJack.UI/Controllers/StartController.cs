@@ -1,4 +1,5 @@
-﻿using BlackJack.BusinessLogic.Helpers;
+﻿using BlackJack.BusinessLogic.Constants;
+using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.ViewModels;
 using NLog;
@@ -36,7 +37,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessageHelper.PlayerAuthError });
+                return RedirectToAction("Error", new { message = GameMessage.PlayerAuthError });
             }
         }
         
@@ -46,7 +47,7 @@ namespace BlackJack.UI.Controllers
             {
                 if(String.IsNullOrEmpty(userName))
                 {
-                    new Exception(GameMessageHelper.ReceivedDataError);
+                    new Exception(GameMessage.ReceivedDataError);
                 }
 
                 AuthorizePlayerStartView authorizePlayerStartView = await _startService.AuthorizePlayer(userName);
@@ -56,7 +57,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessageHelper.PlayerAuthError });
+                return RedirectToAction("Error", new { message = GameMessage.PlayerAuthError });
             }
         }
 
@@ -72,7 +73,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessageHelper.GameCreationError });
+                return RedirectToAction("Error", new { message = GameMessage.GameCreationError });
             }
         }
 
@@ -87,7 +88,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessageHelper.GameResumingError });
+                return RedirectToAction("Error", new { message = GameMessage.GameResumingError });
             }
         }
 
@@ -102,7 +103,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessageHelper.GameLoadingError });
+                return RedirectToAction("Error", new { message = GameMessage.GameLoadingError });
             }
         }
 

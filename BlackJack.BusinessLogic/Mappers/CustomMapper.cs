@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BlackJack.BusinessLogic.Helpers;
+using BlackJack.BusinessLogic.Constants;
 using BlackJack.Entities.Entities;
 using BlackJack.Entities.Enums;
 using BlackJack.ViewModels;
@@ -64,7 +64,7 @@ namespace BlackJack.BusinessLogic.Mappers
 
             var responseStartRoundView = new ResponseStartRoundView();
             responseStartRoundView.Dealer = Mapper.Map<GamePlayer, GamePlayerResponseStartRoundViewItem>(dealer);
-            responseStartRoundView.Dealer.RoundScore = GameValueHelper.Zero;
+            responseStartRoundView.Dealer.RoundScore = 0;
             responseStartRoundView.Dealer.Cards.Clear();
             responseStartRoundView.Dealer.Cards.Add(dealer.PlayerCards[0].Card.ToString());
             responseStartRoundView.Human = Mapper.Map<GamePlayer, GamePlayerResponseStartRoundViewItem>(human);
@@ -113,10 +113,8 @@ namespace BlackJack.BusinessLogic.Mappers
                 GameId = gameId,
                 PlayerId = player.Id,
                 Player = player,
-                Score = GameValueHelper.DefaultPlayerScore,
-                BetPayCoefficient = BetValueHelper.DefaultCoefficient,
-                Bet = GameValueHelper.Zero,
-                RoundScore = GameValueHelper.Zero
+                Score = GameValue.DefaultPlayerScore,
+                BetPayCoefficient = BetValue.DefaultCoefficient
             };
 
             return gamePlayer;

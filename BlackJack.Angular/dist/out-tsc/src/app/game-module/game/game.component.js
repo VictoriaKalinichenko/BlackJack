@@ -187,8 +187,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent = __decorate([
         Component({
             selector: 'app-game',
-            templateUrl: './game.component.html',
-            styleUrls: ['./game.component.css']
+            templateUrl: './game.component.html'
         }),
         __metadata("design:paramtypes", [ActivatedRoute,
             Router,

@@ -1,4 +1,5 @@
-﻿using BlackJack.BusinessLogic.Helpers;
+﻿using BlackJack.BusinessLogic.Constants;
+using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.ViewModels;
 using NLog;
@@ -13,8 +14,7 @@ namespace BlackJack.Angular.Controllers
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IStartService _startService;
-
-
+        
         public StartController (IStartService startService)
         {
             _startService = startService;
@@ -27,7 +27,7 @@ namespace BlackJack.Angular.Controllers
             {
                 if (String.IsNullOrEmpty(userName))
                 {
-                    BadRequest(GameMessageHelper.ReceivedDataError);
+                    BadRequest(GameMessage.ReceivedDataError);
                 }
 
                 AuthorizePlayerStartView authorizePlayerStartView = await _startService.AuthorizePlayer(userName);
@@ -37,7 +37,7 @@ namespace BlackJack.Angular.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.PlayerAuthError);
+                return BadRequest(GameMessage.PlayerAuthError);
             }
         }
 
@@ -48,7 +48,7 @@ namespace BlackJack.Angular.Controllers
             {
                 if (createGameStartView == null)
                 {
-                    BadRequest(GameMessageHelper.ReceivedDataError);
+                    BadRequest(GameMessage.ReceivedDataError);
                 }
 
                 long gameId = await _startService.CreateGame(createGameStartView.PlayerId, createGameStartView.AmountOfBots);
@@ -58,7 +58,7 @@ namespace BlackJack.Angular.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameCreationError);
+                return BadRequest(GameMessage.GameCreationError);
             }
         }
 
@@ -74,7 +74,7 @@ namespace BlackJack.Angular.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameResumingError);
+                return BadRequest(GameMessage.GameResumingError);
             }
         }
 
@@ -90,7 +90,7 @@ namespace BlackJack.Angular.Controllers
             {
                 string message = LogHelper.ToString(exception);
                 _logger.Error(message);
-                return BadRequest(GameMessageHelper.GameLoadingError);
+                return BadRequest(GameMessage.GameLoadingError);
             }
         }
     }

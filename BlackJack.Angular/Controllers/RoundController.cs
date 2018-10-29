@@ -12,7 +12,6 @@ namespace BlackJack.Angular.Controllers
     [RoutePrefix("Round")]
     public class RoundController : ApiController
     {
-        public static readonly string _success = "SUCCESS";
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IRoundService _roundService;
 
@@ -32,7 +31,7 @@ namespace BlackJack.Angular.Controllers
                 }
 
                 await _roundService.EndGame(endGameRoundView);
-                return Ok(_success);
+                return Ok("SUCCESS");
             }
             catch (Exception exception)
             {
@@ -143,7 +142,7 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 await _roundService.EndRound(gameId);
-                return Ok(_success);
+                return Ok("SUCCESS");
             }
             catch (Exception exception)
             {

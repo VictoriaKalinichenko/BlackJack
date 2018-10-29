@@ -127,5 +127,17 @@ namespace BlackJack.BusinessLogic.Mappers
             var playerCard = new PlayerCard() { GamePlayerId = gamePlayer.Id, CardId = card.Id, Card = card };
             return playerCard;
         }
+
+        public static Game GetGameForUpdateStage(long id, GameStage stage)
+        {
+            var game = new Game() { Id = id, Stage = stage };
+            return game;
+        }
+
+        public static Game GetGameForUpdateResult(long id, string result)
+        {
+            var game = new Game() { Id = id, Result = result };
+            return game;
+        }
     }
 }

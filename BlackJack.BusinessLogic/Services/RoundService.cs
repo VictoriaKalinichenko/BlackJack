@@ -50,7 +50,9 @@ namespace BlackJack.BusinessLogic.Services
             await DistributeFirstCards(players);
             _gamePlayerManager.DefinePayCoefficientsAfterRoundStart(players);
             await _gamePlayerRepository.UpdateMany(players);
-            await _gameRepository.UpdateStage(requestStartRoundView.GameId, GameStage.StartRound);
+
+            Game game = CustomMapper.GetGameForUpdateStage(requestStartRoundView.GameId, GameStage.StartRound);
+            await _gameRepository.Update(game);
             await _historyMessageManager.AddStartRoundMessages(players, requestStartRoundView.GameId);
 
             ResponseStartRoundView responseStartRoundView = GetStartRoundResponse(players);
@@ -94,7 +96,9 @@ namespace BlackJack.BusinessLogic.Services
             List<PlayerCard> playerCardsInserted = await DistributeSecondCards(players, requestContinueRoundView.GameId);
             _gamePlayerManager.DefinePayCoefficientsAfterRoundContinue(players);
             await _gamePlayerRepository.UpdateManyAfterContinueRound(players);
-            await _gameRepository.UpdateStage(requestContinueRoundView.GameId, GameStage.ContinueRound);
+
+            Game game = CustomMapper.GetGameForUpdateStage(requestContinueRoundView.GameId, GameStage.ContinueRound);
+            await _gameRepository.Update(game);
             await _historyMessageManager.AddContinueRoundMessages(players, playerCardsInserted, requestContinueRoundView.GameId);
 
             ResponseContinueRoundView responseContinueRoundView = GetContinueRoundResponse(players);
@@ -116,12 +120,15 @@ namespace BlackJack.BusinessLogic.Services
             await RemoveCards(players, gameId);
             await _gamePlayerRepository.UpdateMany(players);
             await _gamePlayerRepository.DeleteBotsWithZeroScore(gameId);
-            await _gameRepository.UpdateStage(gameId, GameStage.InitRound);
+
+            Game game = CustomMapper.GetGameForUpdateStage(gameId, GameStage.InitRound);
+            await _gameRepository.Update(game);
         }
         
         public async Task EndGame(EndGameRoundView endGameRoundView)
         {
-            await _gameRepository.UpdateResult(endGameRoundView.GameId, endGameRoundView.Result);
+            Game game = CustomMapper.GetGameForUpdateResult(endGameRoundView.GameId, endGameRoundView.Result);
+            await _gameRepository.Update(game);
             await _gamePlayerRepository.DeleteAllByGameId(endGameRoundView.GameId);
         }
 

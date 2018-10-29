@@ -2,7 +2,9 @@
 using BlackJack.BusinessLogic.Constants;
 using BlackJack.Entities.Entities;
 using BlackJack.Entities.Enums;
-using BlackJack.ViewModels;
+using BlackJack.ViewModels.GameHistory;
+using BlackJack.ViewModels.Round;
+using BlackJack.ViewModels.Start;
 using System.Collections.Generic;
 using System.Linq;
 

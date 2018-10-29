@@ -1,4 +1,4 @@
-﻿namespace BlackJack.ViewModels
+﻿namespace BlackJack.ViewModels.Round
 {
     public class EndGameRoundView
     {

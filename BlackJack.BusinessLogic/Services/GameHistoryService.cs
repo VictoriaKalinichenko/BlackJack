@@ -2,7 +2,7 @@
 using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
-using BlackJack.ViewModels;
+using BlackJack.ViewModels.GameHistory;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

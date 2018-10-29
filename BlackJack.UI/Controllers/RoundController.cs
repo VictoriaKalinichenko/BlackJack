@@ -1,7 +1,7 @@
 ﻿using BlackJack.BusinessLogic.Constants;
 using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
-using BlackJack.ViewModels;
+using BlackJack.ViewModels.Round;
 using NLog;
 using System;
 using System.Threading.Tasks;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlackJack.ViewModels
+namespace BlackJack.ViewModels.Round
 {
     public class ResumeAfterContinueRoundView
     {

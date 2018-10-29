@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BlackJack.Entities.Entities;
-using BlackJack.ViewModels;
+using BlackJack.ViewModels.GameHistory;
+using BlackJack.ViewModels.Round;
+using BlackJack.ViewModels.Start;
 using System.Collections.Generic;
 using System.Linq;
 

@@ -4,7 +4,7 @@ using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.Entities.Enums;
-using BlackJack.ViewModels;
+using BlackJack.ViewModels.Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;

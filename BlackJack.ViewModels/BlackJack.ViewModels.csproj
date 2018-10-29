@@ -41,18 +41,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CreateGameStartView.cs" />
-    <Compile Include="AddCardRoundView.cs" />
-    <Compile Include="ResumeAfterContinueRoundView.cs" />
-    <Compile Include="ResponseContinueRoundView.cs" />
-    <Compile Include="AuthorizePlayerStartView.cs" />
-    <Compile Include="RequestStartRoundView.cs" />
-    <Compile Include="EndGameRoundView.cs" />
-    <Compile Include="ResumeAfterStartRoundView.cs" />
-    <Compile Include="ResponseStartRoundView.cs" />
-    <Compile Include="RequestContinueRoundView.cs" />
-    <Compile Include="InitializeStartView.cs" />
-    <Compile Include="GetGameHistoryView.cs" />
+    <Compile Include="Start\CreateGameStartView.cs" />
+    <Compile Include="Round\AddCardRoundView.cs" />
+    <Compile Include="Round\ResumeAfterContinueRoundView.cs" />
+    <Compile Include="Round\ResponseContinueRoundView.cs" />
+    <Compile Include="Start\AuthorizePlayerStartView.cs" />
+    <Compile Include="Round\RequestStartRoundView.cs" />
+    <Compile Include="Round\EndGameRoundView.cs" />
+    <Compile Include="Round\ResumeAfterStartRoundView.cs" />
+    <Compile Include="Round\ResponseStartRoundView.cs" />
+    <Compile Include="Round\RequestContinueRoundView.cs" />
+    <Compile Include="Start\InitializeStartView.cs" />
+    <Compile Include="GameHistory\GetGameHistoryView.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

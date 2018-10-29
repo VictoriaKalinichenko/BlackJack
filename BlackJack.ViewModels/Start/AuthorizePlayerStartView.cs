@@ -1,4 +1,4 @@
-﻿namespace BlackJack.ViewModels
+﻿namespace BlackJack.ViewModels.Start
 {
     public class AuthorizePlayerStartView
     {

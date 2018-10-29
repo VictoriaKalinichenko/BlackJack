@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 
-namespace BlackJack.ViewModels
+namespace BlackJack.ViewModels.Round
 {
-    public class ResumeAfterStartRoundView
+    public class ResponseStartRoundView
     {
         public long Id { get; set; }
         public bool CanTakeCard { get; set; }
         public bool BlackJackChoice { get; set; }
-        public GamePlayerResumeAfterStartRoundViewItem Dealer { get; set; }
-        public GamePlayerResumeAfterStartRoundViewItem Human { get; set; }
-        public List<GamePlayerResumeAfterStartRoundViewItem> Bots { get; set; }
+        public GamePlayerStartRoundViewItem Dealer { get; set; }
+        public GamePlayerStartRoundViewItem Human { get; set; }
+        public List<GamePlayerStartRoundViewItem> Bots { get; set; }
     }
 
-    public class GamePlayerResumeAfterStartRoundViewItem
+    public class GamePlayerStartRoundViewItem
     {
         public long Id { get; set; }
         public string Name { get; set; }

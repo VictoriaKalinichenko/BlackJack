@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlackJack.ViewModels
+namespace BlackJack.ViewModels.GameHistory
 {
     public class GetGameHistoryView
     {

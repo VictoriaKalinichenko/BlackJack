@@ -1,6 +1,5 @@
 ﻿using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
-using BlackJack.Entities.Enums;
 using Dapper;
 using System.Data;
 using System.Data.SqlClient;
@@ -38,28 +37,6 @@ namespace BlackJack.DataAccess.Repositories
             {
                 Game game = await db.QueryFirstOrDefaultAsync<Game>(sqlQuery, new { playerId = playerId });
                 return game;
-            }
-        }
-        
-        public async Task UpdateStage(long gameId, GameStage stage)
-        {
-            string sqlQuery = @"UPDATE Games SET Stage = @stage
-                                WHERE Id = @gameId";
-
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                await db.QueryAsync(sqlQuery, new { stage = stage, gameId = gameId });
-            }
-        }
-
-        public async Task UpdateResult(long gameId, string result)
-        {
-            string sqlQuery = @"UPDATE Games SET Result = @result
-                                WHERE Id = @gameId";
-
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                await db.QueryAsync(sqlQuery, new { result = result, gameId = gameId });
             }
         }
     }

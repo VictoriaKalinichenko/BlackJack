@@ -14,6 +14,8 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 
         Task CreateMany(IEnumerable<T> items);
 
+        Task Update(T item);
+
         Task Delete(T item);
 
         Task DeleteMany(IEnumerable<T> items);

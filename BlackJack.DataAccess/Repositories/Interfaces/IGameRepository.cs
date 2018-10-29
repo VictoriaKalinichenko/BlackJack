@@ -9,9 +9,5 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
         Task<long> GetIdByPlayerId(long id);
 
         Task<Game> GetByPlayerId(long playerId);
-
-        Task UpdateStage(long gameId, GameStage stage);
-
-        Task UpdateResult(long gameId, string result);
     }
 }

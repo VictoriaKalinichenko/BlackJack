@@ -53,6 +53,14 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
+        public async Task Update(T item)
+        {
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                await db.UpdateAsync(item);
+            }
+        }
+
         public async Task Delete(T item)
         {
             using (IDbConnection db = new SqlConnection(_connectionString))

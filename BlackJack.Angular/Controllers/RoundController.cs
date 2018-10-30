@@ -1,5 +1,4 @@
 ﻿using BlackJack.BusinessLogic.Constants;
-using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.ViewModels.Round;
 using NLog;
@@ -35,7 +34,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameError);
             }
@@ -61,7 +60,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameError);
             }
@@ -77,7 +76,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameError);
             }
@@ -93,7 +92,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameError);
             }
@@ -114,7 +113,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameError);
             }
@@ -130,7 +129,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameError);
             }
@@ -146,7 +145,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameError);
             }

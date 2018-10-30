@@ -1,5 +1,4 @@
 ﻿using BlackJack.BusinessLogic.Constants;
-using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.ViewModels.Start;
 using NLog;
@@ -35,7 +34,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.PlayerAuthError);
             }
@@ -56,7 +55,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameCreationError);
             }
@@ -72,7 +71,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameResumingError);
             }
@@ -88,7 +87,7 @@ namespace BlackJack.Angular.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return BadRequest(GameMessage.GameLoadingError);
             }

@@ -1,5 +1,4 @@
 ﻿using BlackJack.BusinessLogic.Constants;
-using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.ViewModels.Start;
 using NLog;
@@ -35,7 +34,7 @@ namespace BlackJack.UI.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessage.PlayerAuthError });
             }
@@ -49,13 +48,13 @@ namespace BlackJack.UI.Controllers
                 {
                     new Exception(GameMessage.ReceivedDataError);
                 }
-
+                
                 AuthorizePlayerStartView authorizePlayerStartView = await _startService.AuthorizePlayer(userName);
                 return View(authorizePlayerStartView);
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessage.PlayerAuthError });
             }
@@ -71,7 +70,7 @@ namespace BlackJack.UI.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessage.GameCreationError });
             }
@@ -86,7 +85,7 @@ namespace BlackJack.UI.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessage.GameResumingError });
             }
@@ -101,7 +100,7 @@ namespace BlackJack.UI.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return RedirectToAction("Error", new { message = GameMessage.GameLoadingError });
             }

@@ -1,5 +1,4 @@
 ﻿using BlackJack.BusinessLogic.Constants;
-using BlackJack.BusinessLogic.Helpers;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.ViewModels.GameHistory;
 using Newtonsoft.Json;
@@ -36,7 +35,7 @@ namespace BlackJack.UI.Controllers
             }
             catch (Exception exception)
             {
-                string message = LogHelper.ToString(exception);
+                string message = exception.ToString();
                 _logger.Error(message);
                 return RedirectToAction("Error", "Start", new { message = GameMessage.HistoryMessagesError});
             }

@@ -10,11 +10,12 @@
 var map = {
 	"app/authorized-user-module/authorized-user.module": [
 		"./src/app/authorized-user-module/authorized-user.module.ts",
-		"default~app-authorized-user-module-authorized-user-module~app-game-module-game-module"
+		"common",
+		"app-authorized-user-module-authorized-user-module"
 	],
 	"app/game-module/game.module": [
 		"./src/app/game-module/game.module.ts",
-		"default~app-authorized-user-module-authorized-user-module~app-game-module-game-module",
+		"common",
 		"app-game-module-game-module"
 	]
 };

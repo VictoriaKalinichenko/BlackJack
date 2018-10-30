@@ -1,10 +1,7 @@
 ﻿import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GameModule } from 'app/game-module/game.module';
 
-@Injectable({
-    providedIn: GameModule
-})
+@Injectable()
 export class RoundService {
     constructor(private httpClient: HttpClient) { }
     

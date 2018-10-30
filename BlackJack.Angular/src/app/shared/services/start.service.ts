@@ -1,10 +1,7 @@
 ﻿import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthorizedUserModule } from 'app/authorized-user-module/authorized-user.module';
 
-@Injectable({
-    providedIn: AuthorizedUserModule
-})
+@Injectable()
 export class StartService {
     constructor(private httpClient: HttpClient) { }
 

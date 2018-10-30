@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthorizedUserModule } from 'app/authorized-user-module/authorized-user.module';
 var StartService = /** @class */ (function () {
     function StartService(httpClient) {
         this.httpClient = httpClient;
@@ -34,9 +33,7 @@ var StartService = /** @class */ (function () {
         return this.httpClient.get('Start/Initialize', options);
     };
     StartService = __decorate([
-        Injectable({
-            providedIn: AuthorizedUserModule
-        }),
+        Injectable(),
         __metadata("design:paramtypes", [HttpClient])
     ], StartService);
     return StartService;

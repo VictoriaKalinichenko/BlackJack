@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GameModule } from 'app/game-module/game.module';
 var RoundService = /** @class */ (function () {
     function RoundService(httpClient) {
         this.httpClient = httpClient;
@@ -47,9 +46,7 @@ var RoundService = /** @class */ (function () {
         return this.httpClient.post('Round/EndGame', body);
     };
     RoundService = __decorate([
-        Injectable({
-            providedIn: GameModule
-        }),
+        Injectable(),
         __metadata("design:paramtypes", [HttpClient])
     ], RoundService);
     return RoundService;

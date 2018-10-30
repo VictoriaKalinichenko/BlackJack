@@ -2,9 +2,9 @@
 {
     public enum CardLear
     {
-        Clubs = 1,
-        Hearts = 2,
-        Diamonds = 3,
-        Spades = 4
+        Clubs = 0,
+        Hearts = 1,
+        Diamonds = 2,
+        Spades = 3
     }
 }

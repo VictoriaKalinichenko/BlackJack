@@ -7,5 +7,7 @@
         public static readonly int BlackJackScore = 21;
         public static readonly int MaxId = 52;
         public static readonly int MinId = 1;
+        public static readonly int AceFullWorth = 11;
+        public static readonly int AceOnePointWorth = 1;
     }
 }

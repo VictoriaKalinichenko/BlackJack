@@ -6,6 +6,7 @@ namespace BlackJack.Entities.Entities
     {
         public CardRank Rank { get; set; }
         public CardLear Lear { get; set; }
+        public int Worth { get; set; }
 
         public override string ToString()
         {

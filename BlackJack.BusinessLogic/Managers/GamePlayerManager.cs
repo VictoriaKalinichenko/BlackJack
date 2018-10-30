@@ -36,7 +36,7 @@ namespace BlackJack.BusinessLogic.Managers
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
 
             bool dealerBlackJackDanger = false;
-            if ((int)dealer.PlayerCards[0].Card.Rank >= CardValue.DealerBlackJackDanger)
+            if (dealer.PlayerCards[0].Card.Worth >= CardValue.DealerBlackJackDanger)
             {
                 dealerBlackJackDanger = true;
             }

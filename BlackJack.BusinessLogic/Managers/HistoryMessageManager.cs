@@ -242,7 +242,7 @@ namespace BlackJack.BusinessLogic.Managers
             var log = new HistoryMessage()
             {
                 GameId = gamePlayer.GameId,
-                Message = $@"Card(Id={card.Id}, Value={card.Rank}, Name={card.ToString()}) is added to 
+                Message = $@"Card(Id={card.Id}, Value={card.Worth}, Name={card.ToString()}) is added to 
                              {playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name})"
             };
 

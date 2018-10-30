@@ -15,7 +15,7 @@ namespace BlackJack.DataAccess.Repositories
 
         public async Task<IEnumerable<Card>> GetSpecifiedAmount(int cardAmount)
         {
-            string sqlQuery = $@"SELECT TOP (@cardAmount) Id, Rank, Lear FROM Cards
+            string sqlQuery = $@"SELECT TOP (@cardAmount) Id, Rank, Lear, Worth FROM Cards
                                  ORDER BY NEWID()";
 
             using (IDbConnection db = new SqlConnection(_connectionString))

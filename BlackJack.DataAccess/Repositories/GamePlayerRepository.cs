@@ -61,7 +61,7 @@ namespace BlackJack.DataAccess.Repositories
         public async Task<GamePlayer> GetWithCards(long gameId, int playerType)
         {
             string sqlQuery = $@"SELECT A.Id, A.GameId, A.RoundScore, A.CardAmount, A.Score, A.Bet, 
-                                 A.BetPayCoefficient, B.Id, C.Id, C.Rank, C.Lear, D.Id, D.Name, D.Type
+                                 A.BetPayCoefficient, B.Id, C.Id, C.Rank, C.Lear, C.Worth, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
                                  LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
                                  LEFT JOIN Cards AS C ON B.CardId = C.Id
@@ -98,7 +98,7 @@ namespace BlackJack.DataAccess.Repositories
         public async Task<IEnumerable<GamePlayer>> GetAllWithCards(long gameId)
         {
             string sqlQuery = $@"SELECT A.Id, A.GameId, A.RoundScore, A.Score, A.Bet, A.CardAmount, A.BetPayCoefficient, 
-                                 B.Id, C.Id, C.Rank, C.Lear, D.Id, D.Name, D.Type
+                                 B.Id, C.Id, C.Rank, C.Lear, C.Worth, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
                                  LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
                                  LEFT JOIN Cards AS C ON B.CardId = C.Id

@@ -2,19 +2,18 @@
 {
     public enum CardRank
     {
-        AceOnePoint = 1,
-        Two = 2,
-        Three = 3,
-        Four = 4,
-        Five = 5,
-        Six = 6,
-        Seven = 7,
-        Eight = 8,
-        Nine = 9,
-        Ten = 10,
-        Ace = 11,
-        Jack = 12,
-        Dame = 13,
-        King = 14
+        Two = 0,
+        Three = 1,
+        Four = 2,
+        Five = 3,
+        Six = 4,
+        Seven = 5,
+        Eight = 6,
+        Nine = 7,
+        Ten = 8,
+        Ace = 9,
+        Jack = 10,
+        Dame = 11,
+        King = 12
     }
 }

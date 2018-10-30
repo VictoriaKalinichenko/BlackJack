@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\GameMessage.cs" />
-    <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Interfaces\IHistoryMessageManager.cs" />
     <Compile Include="Managers\HistoryMessageManager.cs" />
     <Compile Include="Mappers\AutoMapperConfig.cs" />

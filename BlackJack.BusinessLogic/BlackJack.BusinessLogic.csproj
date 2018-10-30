@@ -70,7 +70,7 @@
     <Compile Include="Managers\HistoryMessageManager.cs" />
     <Compile Include="Mappers\AutoMapperConfig.cs" />
     <Compile Include="Constants\CardValue.cs" />
-    <Compile Include="Constants\GameValue.cs" />
+    <Compile Include="Constants\GameConstant.cs" />
     <Compile Include="Constants\BetValue.cs" />
     <Compile Include="Interfaces\IGamePlayerManager.cs" />
     <Compile Include="Interfaces\IGameHistoryService.cs" />

@@ -5,7 +5,6 @@ using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.Entities.Enums;
 using BlackJack.ViewModels.Start;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -86,13 +85,12 @@ namespace BlackJack.BusinessLogic.Services
         private async Task<List<Player>> CreatePlayerList(long playerId, int amountOfBots)
         {
             var players = new List<Player>();
-            var random = new Random();
-            Player dealer = CustomMapper.GetPlayer(((BotName)random.Next(GameValue.BotNameAmount)).ToString(), PlayerType.Dealer);
+            Player dealer = CustomMapper.GetPlayer(GameConstant.DealerName, PlayerType.Dealer);
             players.Add(dealer);
 
             for (int i = 0; i < amountOfBots; i++)
             {
-                Player bot = CustomMapper.GetPlayer(((BotName)random.Next(GameValue.BotNameAmount)).ToString(), PlayerType.Bot);
+                Player bot = CustomMapper.GetPlayer(GameConstant.BotName + i, PlayerType.Bot);
                 players.Add(bot);
             }
 
@@ -105,12 +103,12 @@ namespace BlackJack.BusinessLogic.Services
         {
             string isGameOver = string.Empty;
 
-            if (dealer.Score <= GameValue.EndGameScore)
+            if (dealer.Score <= GameConstant.EndGameScore)
             {
                 isGameOver = GameMessage.DealerIsLoser;
             }
 
-            if (human.Score <= GameValue.EndGameScore)
+            if (human.Score <= GameConstant.EndGameScore)
             {
                 isGameOver = GameMessage.DealerIsWinner;
             }

@@ -64,7 +64,6 @@
     <Compile Include="Entities\HistoryMessage.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\PlayerCard.cs" />
-    <Compile Include="Enums\BotName.cs" />
     <Compile Include="Enums\CardRank.cs" />
     <Compile Include="Enums\CardLear.cs" />
     <Compile Include="Enums\GameStage.cs" />

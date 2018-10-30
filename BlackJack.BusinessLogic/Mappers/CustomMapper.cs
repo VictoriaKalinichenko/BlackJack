@@ -115,7 +115,7 @@ namespace BlackJack.BusinessLogic.Mappers
                 GameId = gameId,
                 PlayerId = player.Id,
                 Player = player,
-                Score = GameValue.DefaultPlayerScore,
+                Score = GameConstant.DefaultPlayerScore,
                 BetPayCoefficient = BetValue.DefaultCoefficient
             };
 

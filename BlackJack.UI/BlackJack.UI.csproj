@@ -2706,13 +2706,11 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Start\Index.cshtml" />
     <Content Include="Views\Start\Error.cshtml" />
     <Content Include="Views\GameHistory\Index.cshtml" />
-    <Content Include="Views\Shared\_StartPage.cshtml" />
     <Content Include="Views\Start\AuthorizePlayer.cshtml" />
     <Content Include="Views\Start\Initialize.cshtml" />
   </ItemGroup>

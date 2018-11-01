@@ -1,8 +1,6 @@
-﻿using BlackJack.BusinessLogic.Constants;
-using BlackJack.BusinessLogic.Interfaces;
+﻿using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
-using BlackJack.Entities.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,25 +43,29 @@ namespace BlackJack.BusinessLogic.Managers
                 Message = "New round is started"
             });
             
-            List<HistoryMessage> cardLogs = CreateMessagesForAddCardForStartRound(gamePlayers);
+            List<HistoryMessage> cardLogs = CreateMessagesForAddCardsForStartRound(gamePlayers);
             logs.AddRange(cardLogs);
             
             await _historyMessageRepository.CreateMany(logs);
         }
 
-        public async Task AddMessagesForContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> playerCards, long gameId)
+        public async Task AddMessagesForContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> playerCards, string roundResult, long gameId)
         {
             var logs = new List<HistoryMessage>();
 
-            List<HistoryMessage> cardLogs = CreateMessagesForAddCardForContinueRound(gamePlayers, playerCards);
+            List<HistoryMessage> cardLogs = CreateMessagesForAddCardsForContinueRound(gamePlayers, playerCards);
             logs.AddRange(cardLogs);
 
+            logs.Add(new HistoryMessage()
+            {
+                GameId = gameId,
+                Message = $"RoundResult: {roundResult}"
+            });
 
-            
             await _historyMessageRepository.CreateMany(logs);
         }
         
-        private List<HistoryMessage> CreateMessagesForAddCardForStartRound(List<GamePlayer> gamePlayers)
+        private List<HistoryMessage> CreateMessagesForAddCardsForStartRound(List<GamePlayer> gamePlayers)
         {
             var logs = new List<HistoryMessage>();
 
@@ -76,21 +78,21 @@ namespace BlackJack.BusinessLogic.Managers
             return logs;
         }
         
-        private List<HistoryMessage> CreateMessagesForAddCardForContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> playerCardsInserted)
+        private List<HistoryMessage> CreateMessagesForAddCardsForContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> createdPlayerCards)
         {
             var logs = new List<HistoryMessage>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                List<PlayerCard> playerCards = playerCardsInserted.Where(m => m.GamePlayerId == gamePlayer.Id).ToList();
-                List<HistoryMessage> gamePlayerLogs = CreateMessagesForAddCardPerPlayer(gamePlayer, playerCards);
+                List<PlayerCard> playerCards = createdPlayerCards.Where(m => m.GamePlayerId == gamePlayer.Id).ToList();
+                List<HistoryMessage> gamePlayerLogs = CreateMessagesForAddCardsPerPlayer(gamePlayer, playerCards);
                 logs.AddRange(gamePlayerLogs);
             }
 
             return logs;
         }
 
-        private List<HistoryMessage> CreateMessagesForAddCardPerPlayer(GamePlayer gamePlayer, List<PlayerCard> playerCards)
+        private List<HistoryMessage> CreateMessagesForAddCardsPerPlayer(GamePlayer gamePlayer, List<PlayerCard> playerCards)
         {
             var logs = new List<HistoryMessage>();
 

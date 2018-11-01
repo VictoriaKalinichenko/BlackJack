@@ -5,6 +5,6 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 {
     public interface IPlayerCardRepository : IBaseRepository<PlayerCard>
     {
-        Task DeleteAllByGameId(long gameId);
+        Task DeleteByGameId(long gameId);
     }
 }

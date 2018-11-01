@@ -1,50 +1,28 @@
-﻿@using BlackJack.ViewModels
+﻿@using BlackJack.ViewModels.Start
 @model InitializeStartView
 @{
     ViewBag.Title = "Index";
-    ViewBag.UserName = Model.Human.Name;
+    ViewBag.UserName = Model.UserName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <input type="hidden" id="gameid" name="gameid" value=@Model.Id />
-<input type="hidden" id="stage" name="stage" value="@Model.Stage" />
-<input type="hidden" id="userName" value=@Model.Human.Name />
+<input type="hidden" id="roundresult" name="roundresult" value="@Model.RoundResult" />
+<input type="hidden" id="isnewgame" name="isnewgame" value="@Model.IsNewGame" />
 <div id="players">
     <div class="row row-flex">
-        <div id="dealer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
-            <input type="hidden" id="dealergameplayerid" name="dealergameplayerid" value=@Model.Dealer.Id />
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
             <h4><span class="label label-danger">Dealer</span></h4>
-            <p>Name: @Model.Dealer.Name</p>
-            <div id="dealergameplay">
-                <p>Score: @Model.Dealer.Score</p>
-            </div>
+            <div id="dealer"></div>
         </div>
 
-        <div id="human" class="col-lg-8 col-md-8 col-sm-8 col-xs-12 well">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 well">
             <div class="row row-flex">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <input type="hidden" id="humangameplayerid" name="humangameplayerid" value=@Model.Human.Id />
                     <h4><span class="label label-primary">Human</span></h4>
-                    <p>Name: @Model.Human.Name</p>
-                    <div id="humangameplay">
-                        <p>Score: @Model.Human.Score</p>
-                    </div>
+                    <div id="human"></div>
                 </div>
-                <div id="gameplay" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    @if (String.IsNullOrEmpty(Model.IsGameOver))
-                    {
-                        <label class="control-label">Enter your bet: </label>
-                        <input type="number" id="betinput" class="form-control" step="50" min="50" value="50" max=@Model.Human.Score />
-                        <input type="hidden" id="humanscore" value=@Model.Human.Score />
-                        <br />
-                        <input type="submit" class="btn btn-primary" name="betbutton" id="betbutton" value="Enter" />
-                    }
-                    @if (!String.IsNullOrEmpty(Model.IsGameOver))
-                    {
-                        <p id="gameresult">@Model.IsGameOver</p>
-                        <input type="submit" class="btn btn-primary" id="endgame" value="Enter" />
-                    }
-                </div>
+                <div id="gameplay" class="col-lg-6 col-md-6 col-sm-6 col-xs-12"></div>
             </div>
         </div>
 
@@ -56,9 +34,7 @@
         @foreach (var bot in Model.Bots)
         {
             <div id="bot" class="col-lg-2 col-md-4 col-sm-4 col-xs-6 well">
-                <input type="hidden" id="botgameplayerid@(++botCount)" value=@bot.Id />
                 <h4><span class="label label-default">Bot</span></h4>
-                <p>Name: @bot.Name</p>
 
                 <div id="botgameplay@(botCount)">
                     <p>Score: @bot.Score</p>

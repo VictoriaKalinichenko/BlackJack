@@ -54,7 +54,7 @@ namespace BlackJack.DataAccess.Repositories
        
         public async Task<IEnumerable<GamePlayer>> GetAllByGameId(long gameId)
         {
-            string sqlQuery = $@"SELECT A.Id, A.GameId, A.PlayerId, A.RoundResult,
+            string sqlQuery = $@"SELECT A.Id, A.GameId, A.PlayerId,
                                  B.Id, C.Id, C.Rank, C.Lear, C.Worth, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
                                  LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId

@@ -62,13 +62,7 @@ namespace BlackJack.BusinessLogic.Services
             await _playerCardRepository.Create(createdPlayerCard);
 
             AddCardRoundView addCardRoundView = Mapper.Map<GamePlayer, AddCardRoundView>(human);
-
-            addCardRoundView.CanTakeCard = true;
-            int cardScore = CountCardScore(human.PlayerCards);
-            if (cardScore >= CardValue.MaxCardScore)
-            {
-                addCardRoundView.CanTakeCard = false;
-            }
+            addCardRoundView.CanTakeCard = CanTakeCard(human);
 
             return addCardRoundView;
         }
@@ -87,7 +81,7 @@ namespace BlackJack.BusinessLogic.Services
             string roundResult = GetRoundResult(human, dealer);
             await _gameRepository.UpdateRoundResult(gameId, roundResult);
 
-            await _historyMessageManager.AddMessagesForContinueRound(players, createdPlayerCards, gameId);
+            await _historyMessageManager.AddMessagesForContinueRound(players, createdPlayerCards, roundResult, gameId);
 
             ContinueRoundView continueRoundView = CustomMapper.GetContinueRoundView(players, gameId, roundResult);
             return continueRoundView;
@@ -113,7 +107,7 @@ namespace BlackJack.BusinessLogic.Services
                 return returnedPlayers;
             }
 
-            await _playerCardRepository.DeleteAllByGameId(gameId);
+            await _playerCardRepository.DeleteByGameId(gameId);
             return returnedPlayers;
         }
 

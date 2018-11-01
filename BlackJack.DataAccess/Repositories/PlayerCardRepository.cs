@@ -12,7 +12,7 @@ namespace BlackJack.DataAccess.Repositories
         public PlayerCardRepository(string connectionString) : base(connectionString)
         { }
         
-        public async Task DeleteAllByGameId(long gameId)
+        public async Task DeleteByGameId(long gameId)
         {
             string sqlQuery = $@"DELETE FROM PlayerCards
                                  WHERE Id IN (SELECT A.Id FROM PlayerCards AS A

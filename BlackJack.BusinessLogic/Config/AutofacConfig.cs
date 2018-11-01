@@ -16,7 +16,6 @@ namespace BlackJack.BusinessLogic.Config
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<GamePlayerManager>().As<IGamePlayerManager>();
             builder.RegisterType<HistoryMessageManager>().As<IHistoryMessageManager>();
             
             builder.RegisterType<StartService>().As<IStartService>();

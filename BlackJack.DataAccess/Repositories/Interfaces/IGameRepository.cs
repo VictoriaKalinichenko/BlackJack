@@ -9,6 +9,8 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 
         Task<Game> GetByPlayerId(long playerId);
 
+        Task<string> GetHumanNameByGameId(long gameId);
+
         Task UpdateRoundResult(long id, string roundResult);
     }
 }

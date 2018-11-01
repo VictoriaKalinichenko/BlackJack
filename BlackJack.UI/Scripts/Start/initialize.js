@@ -1,10 +1,15 @@
 ﻿$(document).ready( function() {
 
     $(window).load( function() {
-        var stage = $("#stage").val();
+        var roundResult = $("#roundresult").val();
+        var gameId = $("#gameid").val();
+        var isNewGame = $("#isnewgame").val();
+        var transParam = {
+            gameId: gameId
+        };
 
-        if (stage == 0) {
-            return;
+        if (isNewGame) {
+            startRound(transParam);
         }
 
         if (stage == 1) {
@@ -71,52 +76,31 @@
         });
     });
 
-    $("#betbutton").click( function() {
-        var betInput = $("#betinput").val();
-        var humanScore = $("#humanscore").val();
-        var validationMessage = "";
 
-        if (betInput <= 0) {
-            validationMessage = "Bet must be more than 0";
-        }
 
-        if (betInput > humanScore) {
-            validationMessage = "Bet must be less than or equals to your score";
-        }
-
-        if (validationMessage != "") {
-            alert(validationMessage);
-            return;
-        } 
-
-        var gameId = $("#gameid").val();
-        var humanId = $("#humangameplayerid").val();
-        var transParam = {
-            bet: betInput,
-            gamePlayerId: humanId,
-            gameId: gameId
-        };
-
+    function startRound(transParam) {
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "/Round/Start",
             data: transParam,
             dataType: "json",
-            success: function(response) {
-                if (response.Message != null) {
-                    alert(response.Message);
-                }
+            success: function (response) {
+                loadPlayers(response.Human, response.Dealer, response.Bots);
 
-                if (response.Message == null) {
-                    startRoundPageReloading(response.Data);
+                if (startRoundView.CanTakeCard) {
+
                 }
             },
-            error: function(response) {
+            error: function (response) {
                 showError(response);
             }
         });
-    });
-    
+        
+    }
+
+
+
+
     function onTakeCard () {
         var gameId = $("#gameid").val();
         var transParam = {
@@ -250,36 +234,34 @@
         $("#gameplay").append(endRoundButton);
     }    
 
-    function startRoundPageReloading(data) {
+    function startRoundPageReloading(startRoundView) {
         $("#gameplay").text("");
 
-        if ( (!data.BlackJackChoice) && (!data.CanTakeCard) ) {
-            continueRound(false);
+        if ( (!startRoundView.CanTakeCard) ) {
+            continueRound();
         }
 
-        reloadPlayers(data);
-        reloadDealerInStartRound(data.Dealer);
-
-        if (data.BlackJackChoice) {
-            drowButtonsBlackJackChoice();
-        }
-
-        if (data.CanTakeCard) {
+        reloadPlayer(startRoundView.Human, "#human");
+        reloadPlayer(startRoundView.Dealer, "#dealer");
+        reloadBots(startRoundView.Bots);
+        
+        if (startRoundView.CanTakeCard) {
             drowButtonsTakeCard();
         }
     }
 
-    function continueRoundPageReloading(data) {
+    function continueRoundPageReloading(continueRoundView) {
         $("#gameplay").text("");
-        $("#gameplay").append(`<p>${data.RoundResult}</p>`)
-        reloadPlayers(data);
-        reloadDealerInContinueRound(data.Dealer);
+        $("#gameplay").append(`<p>${continueRoundView.RoundResult}</p>`);
+
+        reloadPlayer(continueRoundView.Human, "#human");
+        reloadPlayer(continueRoundView.Dealer, "#dealer");
+        reloadBots(continueRoundView.Bots);
+
         drowButtonsEndRound();
     }
 
-    function reloadPlayers(data) {
-        reloadPlayer(data.Human, "#humangameplay");
-
+    function reloadBots(bots) {
         if ($("#botgameplay1").length) {
             reloadPlayer(data.Bots[0], "#botgameplay1");
         }
@@ -302,9 +284,7 @@
     }
 
     function reloadPlayer(player, gamePlay) {
-        var text = `<p>Score: ${player.Score}</p>`;
-        text = text + `<p>Bet: ${player.Bet}</p>`;
-        text = text + `<p>RoundScore: ${player.RoundScore}</p>`;
+        var text = `<p>Name: ${player.Name}</p>`;
         text = text + `<p>Cards:</p><ul>`;
 
         $.each(player.Cards, function(i, item) {
@@ -315,35 +295,6 @@
 
         $(gamePlay).text("");
         $(gamePlay).append(text);
-    }
-
-    function reloadDealerInStartRound(player) {
-        var text = `<p>Score: ${player.Score}</p>`;
-        text = text + `<p>Card:</p><ul>`;
-
-        $.each(player.Cards, function (i, item) {
-            text = text + `<li>${item}</li>`;
-        });
-
-        text = text + `</ul>`;
-
-        $("#dealergameplay").text("");
-        $("#dealergameplay").append(text);
-    }
-
-    function reloadDealerInContinueRound(player) {
-        var text = `<p>Score: ${player.Score}</p>`;
-        text = text + `<p>RoundScore: ${player.RoundScore}</p>`;
-        text = text + `<p>Cards:</p><ul>`;
-
-        $.each(player.Cards, function (i, item) {
-            text = text + `<li>${item}</li>`;
-        });
-
-        text = text + `</ul>`;
-
-        $("#dealergameplay").text("");
-        $("#dealergameplay").append(text);
     }
    
     function showError(response) {

@@ -29,6 +29,11 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
+                if (String.IsNullOrWhiteSpace(userName))
+                {
+                    new Exception(GameMessage.ReceivedDataError);
+                }
+
                 await _startService.CreatePlayer(userName);
                 return RedirectToAction("AuthorizePlayer", new { userName });
             }
@@ -66,7 +71,7 @@ namespace BlackJack.UI.Controllers
             try
             {
                 long gameId = await _startService.CreateGame(playerId, amountOfBots);
-                return RedirectToAction("Initialize", new { gameId = gameId });
+                return RedirectToAction("Initialize", new { gameId = gameId, isNewGame = true });
             }
             catch (Exception exception)
             {
@@ -81,7 +86,7 @@ namespace BlackJack.UI.Controllers
             try
             {
                 long gameId = await _startService.ResumeGame(playerId);
-                return RedirectToAction("Initialize", new { gameId = gameId });
+                return RedirectToAction("Initialize", new { gameId = gameId, isNewGame = false });
             }
             catch (Exception exception)
             {
@@ -91,11 +96,11 @@ namespace BlackJack.UI.Controllers
             }
         }
 
-        public async Task<ActionResult> Initialize(long gameId)
+        public async Task<ActionResult> Initialize(long gameId, bool isNewGame)
         {
             try
             {
-                InitializeStartView initializeStartView = await _startService.InitializeRound(gameId);
+                InitializeStartView initializeStartView = await _startService.InitializeRound(gameId, isNewGame);
                 return View(initializeStartView);
             }
             catch (Exception exception)
@@ -103,13 +108,12 @@ namespace BlackJack.UI.Controllers
                 string message = exception.ToString();
                 _logger.Error(message);
                 return View("Error", new { message = GameMessage.GameLoadingError });
-                return RedirectToAction("Error", new { message = GameMessage.GameLoadingError });
             }
         }
 
         public ActionResult Error(string message)
         {
-            return View((object)message);
+            return RedirectToAction("Error", new { message = GameMessage.GameLoadingError });
         }
     }
 }

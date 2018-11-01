@@ -1,5 +1,6 @@
 ﻿using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
+using BlackJack.Entities.Enums;
 using Dapper;
 using System.Data;
 using System.Data.SqlClient;
@@ -25,6 +26,22 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
+        public async Task<string> GetHumanNameByGameId(long gameId)
+        {
+            string sqlQuery = $@"SELECT TOP (1) B.Name
+                                 FROM GamePlayers AS A
+                                 INNER JOIN Players AS B ON A.PlayerId = B.Id
+                                 WHERE A.GameId = @gameId AND B.Type = @playerType
+                                 ORDER BY A.CreationDate DESC";
+
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                string userName = await db.QueryFirstOrDefaultAsync<string>(sqlQuery, 
+                    new { gameId = gameId, playerType = PlayerType.Human });
+                return userName;
+            }
+        }
+
         public async Task<Game> GetByPlayerId(long playerId)
         {
             string sqlQuery = $@"SELECT TOP (1) B.Id, B.Stage, B.Result 
@@ -47,8 +64,7 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await db.QueryAsync(sqlQuery,
-                    new { roundResult = roundResult, id = id });
+                await db.QueryAsync(sqlQuery, new { roundResult = roundResult, id = id });
             }
         }
     }

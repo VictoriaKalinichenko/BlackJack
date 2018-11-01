@@ -1,15 +1,7 @@
 ﻿$(document).ready( function() {
 
     $(window).load( function() {
-        var isNewGame = $("#isnewgame").val();
-
-        if (isNewGame) {
-            startRound();
-        }
-
-        if (!isNewGame) {
-            restoreRound();
-        }
+        restoreRound();
     });
 
     function restoreRound() {
@@ -25,6 +17,10 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
+                if (response.Human.Cards[0] == null) {
+                    startRound();
+                }
+
                 if (roundResult != "") {
                     response.RoundResult = roundResult;
                     reloadPageForContinueRound(response);

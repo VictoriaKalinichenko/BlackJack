@@ -70,11 +70,11 @@ namespace BlackJack.BusinessLogic.Services
             return gameId;
         }
 
-        public async Task<InitializeStartView> InitializeRound(long gameId, bool isNewGame)
+        public async Task<InitializeStartView> InitializeRound(long gameId)
         {
             Game game = await _gameRepository.Get(gameId);
             string userName = await _gameRepository.GetHumanNameByGameId(gameId);
-            InitializeStartView initializeStartView = CustomMapper.GetInitializeStartView(game, userName, isNewGame);
+            InitializeStartView initializeStartView = CustomMapper.GetInitializeStartView(game, userName);
             return initializeStartView;
         }
                 

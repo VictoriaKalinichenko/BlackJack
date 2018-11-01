@@ -14,65 +14,18 @@ namespace BlackJack.Angular.Controllers
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IRoundService _roundService;
 
-        public RoundController(IRoundService gameService)
+        public RoundController(IRoundService roundService)
         {
-            _roundService = gameService;
+            _roundService = roundService;
         }
 
-        [Route("EndGame"), HttpPost]
-        public async Task<IHttpActionResult> EndGame(EndGameRoundView endGameRoundView)
+        [Route("Start"), HttpGet]
+        public async Task<IHttpActionResult> Start(long gameId)
         {
             try
             {
-                if (endGameRoundView == null || endGameRoundView.Result == null)
-                {
-                    return BadRequest(GameMessage.ReceivedDataError);
-                }
-
-                await _roundService.EndGame(endGameRoundView);
-                return Ok("SUCCESS");
-            }
-            catch (Exception exception)
-            {
-                string message = exception.ToString();
-                _logger.Error(message);
-                return BadRequest(GameMessage.GameError);
-            }
-        }
-
-        [Route("Start"), HttpPost]
-        public async Task<IHttpActionResult> Start(RequestStartRoundView requestStartRoundView)
-        {
-            try
-            {
-                if (requestStartRoundView == null)
-                {
-                    return BadRequest(GameMessage.ReceivedDataError);
-                }
-
-                StartRoundView responseStartRoundView = await _roundService.Start(requestStartRoundView);
-                if (responseStartRoundView == null)
-                {
-                    return Ok(new { Message = GameMessage.BetIsNotValid });
-                }
-
-                return Ok(new { Data = responseStartRoundView });
-            }
-            catch (Exception exception)
-            {
-                string message = exception.ToString();
-                _logger.Error(message);
-                return BadRequest(GameMessage.GameError);
-            }
-        }
-
-        [Route("ResumeAfterStart"), HttpGet]
-        public async Task<IHttpActionResult> ResumeAfterStart(long gameId)
-        {
-            try
-            {
-                RestoreRoundView resumeAfterStartRoundView = await _roundService.RestoreForContinuation(gameId);
-                return Ok(resumeAfterStartRoundView);
+                StartRoundView startRoundView = await _roundService.Start(gameId);
+                return Ok(startRoundView);
             }
             catch (Exception exception)
             {
@@ -98,18 +51,13 @@ namespace BlackJack.Angular.Controllers
             }
         }
 
-        [Route("Continue"), HttpPost]
-        public async Task<IHttpActionResult> Continue(RequestContinueRoundView requestContinueRoundView)
+        [Route("Continue"), HttpGet]
+        public async Task<IHttpActionResult> Continue(long gameId)
         {
             try
             {
-                if (requestContinueRoundView == null)
-                {
-                    return BadRequest(GameMessage.ReceivedDataError);
-                }
-
-                ContinueRoundView responseContinueRoundView = await _roundService.Continue(requestContinueRoundView);
-                return Ok(responseContinueRoundView);
+                ContinueRoundView continueRoundView = await _roundService.Continue(gameId);
+                return Ok(continueRoundView);
             }
             catch (Exception exception)
             {
@@ -119,29 +67,13 @@ namespace BlackJack.Angular.Controllers
             }
         }
 
-        [Route("ResumeAfterContinue"), HttpGet]
-        public async Task<IHttpActionResult> ResumeAfterContinue(long gameId)
+        [Route("Restore"), HttpGet]
+        public async Task<IHttpActionResult> Restore(long gameId)
         {
             try
             {
-                ResumeAfterContinueRoundView resumeAfterContinueRoundView = await _roundService.RestoreForEnding(gameId);
-                return Ok(resumeAfterContinueRoundView);
-            }
-            catch (Exception exception)
-            {
-                string message = exception.ToString();
-                _logger.Error(message);
-                return BadRequest(GameMessage.GameError);
-            }
-        }
-
-        [Route("End"), HttpGet]
-        public async Task<IHttpActionResult> End(long gameId)
-        {
-            try
-            {
-                await _roundService.End(gameId);
-                return Ok("SUCCESS");
+                RestoreRoundView restoreRoundView = await _roundService.Restore(gameId);
+                return Ok(restoreRoundView);
             }
             catch (Exception exception)
             {

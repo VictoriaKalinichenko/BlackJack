@@ -28,11 +28,10 @@ namespace BlackJack.BusinessLogic.Mappers
             return authorizePlayerStartView;
         }
         
-        public static InitializeStartView GetInitializeStartView(Game game, string userName, bool isNewGame)
+        public static InitializeStartView GetInitializeStartView(Game game, string userName)
         {
             InitializeStartView initializeStartView = Mapper.Map<Game, InitializeStartView>(game);
             initializeStartView.UserName = userName;
-            initializeStartView.IsNewGame = isNewGame;
             return initializeStartView;
         }
 

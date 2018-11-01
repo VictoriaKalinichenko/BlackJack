@@ -21,58 +21,59 @@ var GameComponent = /** @class */ (function () {
         this.roundService = roundService;
         this.startService = startService;
         this.game = new GameMappingModel();
-        this.betValidationError = false;
-        this.bet = 50;
-        this.betInput = false;
         this.takeCard = false;
-        this.blackJackDangerChoice = false;
         this.endRound = false;
-        this.endGame = false;
     }
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.gameId = params['Id'];
-            _this.getGame();
+            _this.initializeRound();
         });
     };
-    GameComponent.prototype.gamePlayInitializer = function () {
-        if (this.game.stage == 0) {
-            this.gamePlayBetInput();
-        }
-        if (this.game.stage == 1) {
-            this.resumeAfterStartRound();
-        }
-        if (this.game.stage == 2) {
-            this.resumeAfterContinueRound();
-        }
-    };
-    GameComponent.prototype.getGame = function () {
+    GameComponent.prototype.initializeRound = function () {
         var _this = this;
-        this.startService.getGame(this.gameId)
+        this.startService.initializeRound(this.gameId)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
-            if (data["IsGameOver"] != "") {
-                _this.gameResult = data["IsGameOver"];
-                _this.gamePlayEndGame();
+            _this.restoreRound();
+        });
+    };
+    GameComponent.prototype.startRound = function () {
+        var _this = this;
+        this.roundService.startRound(this.game.id)
+            .subscribe(function (data) {
+            _this.game = deserialize(GameMappingModel, data);
+            if (data["CanTakeCard"]) {
+                _this.endRound = false;
+                _this.takeCard = true;
             }
-            _this.gamePlayInitializer();
+            if (!data["CanTakeCard"]) {
+                _this.continueRound();
+            }
         });
     };
-    GameComponent.prototype.resumeAfterStartRound = function () {
+    GameComponent.prototype.restoreRound = function () {
         var _this = this;
-        this.roundService.resumeAfterStartRound(this.game.id)
+        this.roundService.restoreRound(this.game.id)
             .subscribe(function (data) {
+            var roundResult = _this.game.roundResult;
             _this.game = deserialize(GameMappingModel, data);
-            _this.startRoundGamePlay(data["BlackJackChoice"], data["CanTakeCard"]);
-        });
-    };
-    GameComponent.prototype.resumeAfterContinueRound = function () {
-        var _this = this;
-        this.roundService.resumeAfterContinueRound(this.game.id)
-            .subscribe(function (data) {
-            _this.game = deserialize(GameMappingModel, data);
-            _this.continueRoundGamePlay(data["RoundResult"]);
+            _this.game.roundResult = roundResult;
+            if (data["Human"]["Cards"][0] == null) {
+                _this.startRound();
+            }
+            if (!data["CanTakeCard"] && roundResult == "") {
+                _this.continueRound();
+            }
+            if (roundResult != "") {
+                _this.endRound = true;
+                _this.takeCard = false;
+            }
+            if (data["CanTakeCard"]) {
+                _this.endRound = false;
+                _this.takeCard = true;
+            }
         });
     };
     GameComponent.prototype.addCard = function (takeCard) {
@@ -84,105 +85,22 @@ var GameComponent = /** @class */ (function () {
                     _this.game.human = deserialize(PlayerMappingModel, data);
                 }
                 if (!data["CanTakeCard"]) {
-                    _this.continueRound(false);
+                    _this.continueRound();
                 }
             });
         }
         if (!takeCard) {
-            this.continueRound(false);
+            this.continueRound();
         }
     };
-    GameComponent.prototype.startRoundGamePlay = function (blackJackChoice, canTakeCard) {
-        this.game.stage = 1;
-        this.betValidationError = false;
-        if (blackJackChoice) {
-            this.gamePlayBlackJackDangerChoice();
-        }
-        if (canTakeCard) {
-            this.gamePlayTakeCard();
-        }
-        if (!blackJackChoice && !canTakeCard) {
-            this.continueRound(false);
-        }
-    };
-    GameComponent.prototype.continueRoundGamePlay = function (roundResult) {
-        this.roundResult = roundResult;
-        this.gamePlayEndRound();
-    };
-    GameComponent.prototype.startRound = function () {
+    GameComponent.prototype.continueRound = function () {
         var _this = this;
-        this.roundService.startRound(this.game.id, this.game.human.gamePlayerId, this.bet)
-            .subscribe(function (data) {
-            _this.game = deserialize(GameMappingModel, data["Data"]);
-            if (data["Message"] != null) {
-                _this.showValidationMessage(data["Message"]);
-            }
-            if (data["Message"] == null) {
-                _this.startRoundGamePlay(data["Data"]["BlackJackChoice"], data["Data"]["CanTakeCard"]);
-            }
-        });
-    };
-    GameComponent.prototype.showValidationMessage = function (validationMessage) {
-        this.betValidationError = true;
-        this.betValidationMessage = validationMessage;
-    };
-    GameComponent.prototype.continueRound = function (continueRound) {
-        var _this = this;
-        this.roundService.continueRound(this.game.id, continueRound)
+        this.roundService.continueRound(this.game.id)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
-            _this.continueRoundGamePlay(data["RoundResult"]);
+            _this.endRound = true;
+            _this.takeCard = false;
         });
-    };
-    GameComponent.prototype.startNewGame = function () {
-        var _this = this;
-        this.roundService.endGame(this.game.id, this.gameResult)
-            .subscribe(function (data) {
-            _this.router.navigate(['/user/' + _this.game.human.name]);
-        });
-    };
-    GameComponent.prototype.startNewRound = function () {
-        var _this = this;
-        this.roundService.endRound(this.game.id)
-            .subscribe(function (data) {
-            _this.getGame();
-        });
-    };
-    GameComponent.prototype.gamePlayBetInput = function () {
-        this.betInput = true;
-        this.takeCard = false;
-        this.blackJackDangerChoice = false;
-        this.endRound = false;
-        this.endGame = false;
-    };
-    GameComponent.prototype.gamePlayTakeCard = function () {
-        this.betInput = false;
-        this.takeCard = true;
-        this.blackJackDangerChoice = false;
-        this.endRound = false;
-        this.endGame = false;
-    };
-    GameComponent.prototype.gamePlayBlackJackDangerChoice = function () {
-        this.betInput = false;
-        this.takeCard = false;
-        this.blackJackDangerChoice = true;
-        this.endRound = false;
-        this.endGame = false;
-    };
-    GameComponent.prototype.gamePlayEndRound = function () {
-        this.game.stage = 2;
-        this.betInput = false;
-        this.takeCard = false;
-        this.blackJackDangerChoice = false;
-        this.endRound = true;
-        this.endGame = false;
-    };
-    GameComponent.prototype.gamePlayEndGame = function () {
-        this.betInput = false;
-        this.takeCard = false;
-        this.blackJackDangerChoice = false;
-        this.endRound = false;
-        this.endGame = true;
     };
     GameComponent = __decorate([
         Component({

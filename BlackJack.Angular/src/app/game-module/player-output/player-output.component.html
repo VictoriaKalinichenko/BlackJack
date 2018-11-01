@@ -1,10 +1,6 @@
-<p>Score: {{score}}</p>
+<p>Name: {{name}}</p>
 
-<div *ngIf="!roundStart">
-    <p>Bet: {{bet}}</p>
-    <p>CardScore: {{roundScore}}</p>
-    <p>Cards:</p>
-    <ul>
-        <li *ngFor="let card of cards">{{card}}</li>
-    </ul>
-</div>
+<p>Cards:</p>
+<ul>
+    <li *ngFor="let card of cards">{{card}}</li>
+</ul>

@@ -11,36 +11,15 @@ import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 var PlayerOutputComponent = /** @class */ (function () {
     function PlayerOutputComponent() {
-        this.roundStart = true;
     }
-    Object.defineProperty(PlayerOutputComponent.prototype, "gameStage", {
-        set: function (stage) {
-            this.roundStart = (stage == 0);
-        },
-        enumerable: true,
-        configurable: true
-    });
     __decorate([
         Input(),
-        __metadata("design:type", Number)
-    ], PlayerOutputComponent.prototype, "score", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Number)
-    ], PlayerOutputComponent.prototype, "roundScore", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Number)
-    ], PlayerOutputComponent.prototype, "bet", void 0);
+        __metadata("design:type", String)
+    ], PlayerOutputComponent.prototype, "name", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], PlayerOutputComponent.prototype, "cards", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Number),
-        __metadata("design:paramtypes", [Number])
-    ], PlayerOutputComponent.prototype, "gameStage", null);
     PlayerOutputComponent = __decorate([
         Component({
             selector: 'app-player-output',

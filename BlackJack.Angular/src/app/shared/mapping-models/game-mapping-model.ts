@@ -5,8 +5,8 @@ export class GameMappingModel {
     @JsonProperty('Id')
     id: number;
 
-    @JsonProperty('Stage')
-    stage: number;
+    @JsonProperty('RoundResult')
+    roundResult: string;
 
     @JsonProperty({ clazz: PlayerMappingModel, name: 'Human' })
     human: PlayerMappingModel;
@@ -19,7 +19,7 @@ export class GameMappingModel {
 
     constructor() {
         this.id = void 0;
-        this.stage = void 0;
+        this.roundResult = void 0;
         this.human = void 0;
         this.dealer = void 0;
         this.bots = void 0;

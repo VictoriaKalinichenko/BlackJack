@@ -100,7 +100,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                InitializeStartView initializeStartView = await _startService.InitializeRound(gameId, isNewGame);
+                InitializeStartView initializeStartView = await _startService.InitializeRound(gameId);
                 return View(initializeStartView);
             }
             catch (Exception exception)

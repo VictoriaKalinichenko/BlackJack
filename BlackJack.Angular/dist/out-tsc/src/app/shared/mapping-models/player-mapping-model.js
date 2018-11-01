@@ -12,9 +12,6 @@ var PlayerMappingModel = /** @class */ (function () {
     function PlayerMappingModel() {
         this.gamePlayerId = void 0;
         this.name = void 0;
-        this.score = void 0;
-        this.bet = void 0;
-        this.roundScore = void 0;
         this.cards = void 0;
     }
     __decorate([
@@ -25,18 +22,6 @@ var PlayerMappingModel = /** @class */ (function () {
         JsonProperty('Name'),
         __metadata("design:type", String)
     ], PlayerMappingModel.prototype, "name", void 0);
-    __decorate([
-        JsonProperty('Score'),
-        __metadata("design:type", Number)
-    ], PlayerMappingModel.prototype, "score", void 0);
-    __decorate([
-        JsonProperty('Bet'),
-        __metadata("design:type", Number)
-    ], PlayerMappingModel.prototype, "bet", void 0);
-    __decorate([
-        JsonProperty('RoundScore'),
-        __metadata("design:type", Number)
-    ], PlayerMappingModel.prototype, "roundScore", void 0);
     __decorate([
         JsonProperty('Cards'),
         __metadata("design:type", Array)

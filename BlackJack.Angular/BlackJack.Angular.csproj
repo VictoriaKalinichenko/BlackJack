@@ -233,7 +233,6 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\authorized-user-module\authorized-user\authorized-user.component.html" />
-    <Content Include="src\app\game-module\dealer-output\dealer-output.component.html" />
     <Content Include="src\app\game-module\game\game.component.html" />
     <Content Include="src\app\game-module\player-output\player-output.component.html" />
     <Content Include="src\app\authorized-user-module\start-page\start-page.component.html" />
@@ -298,7 +297,6 @@
     <TypeScriptCompile Include="src\app\authorized-user-module\authorized-user\authorized-user.component.ts" />
     <TypeScriptCompile Include="src\app\game-module\game-routing.module.ts" />
     <TypeScriptCompile Include="src\app\game-module\game.module.ts" />
-    <TypeScriptCompile Include="src\app\game-module\dealer-output\dealer-output.component.ts" />
     <TypeScriptCompile Include="src\app\game-module\game\game.component.ts" />
     <TypeScriptCompile Include="src\app\game-module\player-output\player-output.component.ts" />
     <TypeScriptCompile Include="src\app\authorized-user-module\start-page\start-page.component.ts" />

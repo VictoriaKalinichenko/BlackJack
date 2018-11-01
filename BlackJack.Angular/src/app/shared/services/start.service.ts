@@ -24,7 +24,7 @@ export class StartService {
         return this.httpClient.get('Start/ResumeGame', options);
     }
 
-    getGame(gameId: number) {
+    initializeRound(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 

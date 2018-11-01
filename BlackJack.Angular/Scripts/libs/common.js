@@ -41,7 +41,7 @@ var StartService = /** @class */ (function () {
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('playerId', playerId.toString()) } : {};
         return this.httpClient.get('Start/ResumeGame', options);
     };
-    StartService.prototype.getGame = function (gameId) {
+    StartService.prototype.initializeRound = function (gameId) {
         var options = gameId ?
             { params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpParams"]().set('gameId', gameId.toString()) } : {};
         return this.httpClient.get('Start/Initialize', options);

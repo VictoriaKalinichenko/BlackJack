@@ -13,37 +13,25 @@ var RoundService = /** @class */ (function () {
     function RoundService(httpClient) {
         this.httpClient = httpClient;
     }
-    RoundService.prototype.startRound = function (gameId, humanGamePlayerId, bet) {
-        var body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this.httpClient.post('Round/Start', body);
+    RoundService.prototype.startRound = function (gameId) {
+        var options = gameId ?
+            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
+        return this.httpClient.get('Round/Start', options);
     };
-    RoundService.prototype.continueRound = function (gameId, continueRound) {
-        var body = { GameId: gameId, ContinueRound: continueRound };
-        return this.httpClient.post('Round/Continue', body);
+    RoundService.prototype.continueRound = function (gameId) {
+        var options = gameId ?
+            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
+        return this.httpClient.get('Round/Continue', options);
     };
     RoundService.prototype.addCard = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
         return this.httpClient.get('Round/AddCard', options);
     };
-    RoundService.prototype.resumeAfterStartRound = function (gameId) {
+    RoundService.prototype.restoreRound = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/ResumeAfterStart', options);
-    };
-    RoundService.prototype.resumeAfterContinueRound = function (gameId) {
-        var options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/ResumeAfterContinue', options);
-    };
-    RoundService.prototype.endRound = function (gameId) {
-        var options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/End', options);
-    };
-    RoundService.prototype.endGame = function (gameId, gameResult) {
-        var body = { GameId: gameId, Result: gameResult };
-        return this.httpClient.post('Round/EndGame', body);
+        return this.httpClient.get('Round/Restore', options);
     };
     RoundService = __decorate([
         Injectable(),

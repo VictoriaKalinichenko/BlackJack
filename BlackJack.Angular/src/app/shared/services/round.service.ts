@@ -5,14 +5,18 @@ import { Injectable } from '@angular/core';
 export class RoundService {
     constructor(private httpClient: HttpClient) { }
     
-    startRound(gameId: number, humanGamePlayerId: number, bet: number) {
-        const body = { GameId: gameId, Bet: bet, GamePlayerId: humanGamePlayerId };
-        return this.httpClient.post('Round/Start', body);
+    startRound(gameId: number) {
+        const options = gameId ?
+            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
+
+        return this.httpClient.get('Round/Start', options);
     }
 
-    continueRound(gameId: number, continueRound: boolean) {
-        const body = { GameId: gameId, ContinueRound: continueRound };
-        return this.httpClient.post('Round/Continue', body);
+    continueRound(gameId: number) {
+        const options = gameId ?
+            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
+
+        return this.httpClient.get('Round/Continue', options);
     }
 
     addCard(gameId: number) {
@@ -22,29 +26,10 @@ export class RoundService {
         return this.httpClient.get('Round/AddCard', options);
     }
 
-    resumeAfterStartRound(gameId: number) {
+    restoreRound(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this.httpClient.get('Round/ResumeAfterStart', options);
-    }
-
-    resumeAfterContinueRound(gameId: number) {
-        const options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-
-        return this.httpClient.get('Round/ResumeAfterContinue', options);
-    }
-
-    endRound(gameId: number) {
-        const options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-
-        return this.httpClient.get('Round/End', options);
-    }
-
-    endGame(gameId: number, gameResult: string) {
-        const body = { GameId: gameId, Result: gameResult };
-        return this.httpClient.post('Round/EndGame', body);
+        return this.httpClient.get('Round/Restore', options);
     }
 }

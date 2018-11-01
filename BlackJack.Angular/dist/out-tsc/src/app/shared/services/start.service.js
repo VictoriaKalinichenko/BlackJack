@@ -27,7 +27,7 @@ var StartService = /** @class */ (function () {
             { params: new HttpParams().set('playerId', playerId.toString()) } : {};
         return this.httpClient.get('Start/ResumeGame', options);
     };
-    StartService.prototype.getGame = function (gameId) {
+    StartService.prototype.initializeRound = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
         return this.httpClient.get('Start/Initialize', options);

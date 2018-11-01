@@ -1,4 +1,5 @@
-﻿using BlackJack.BusinessLogic.Constants;
+﻿using AutoMapper;
+using BlackJack.BusinessLogic.Constants;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
@@ -6,7 +7,6 @@ using BlackJack.Entities.Entities;
 using BlackJack.Entities.Enums;
 using BlackJack.ViewModels.Start;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Services
@@ -60,7 +60,7 @@ namespace BlackJack.BusinessLogic.Services
             }
 
             await _gamePlayerRepository.CreateMany(gamePlayers);
-            await _historyMessageManager.AddCreationGameMessages(gamePlayers, game);
+            await _historyMessageManager.AddMessagesForCreateGame(gamePlayers, game);
             long gameId = game.Id;
             return gameId;
         }
@@ -71,49 +71,28 @@ namespace BlackJack.BusinessLogic.Services
             return gameId;
         }
 
-        public async Task<InitializeStartView> InitializeRound(long gameId)
+        public async Task<InitializeStartView> InitializeRound(int gameId)
         {
             Game game = await _gameRepository.Get(gameId);
-            List<GamePlayer> players = (await _gamePlayerRepository.GetAllForInitializeRound(gameId)).ToList();
-            GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
-            GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
-            string isGameOver = IsGameOver(human, dealer);
-            InitializeStartView initializeStartView = CustomMapper.GetInitializeStartView(game, players, isGameOver);
+            InitializeStartView initializeStartView = Mapper.Map<Game, InitializeStartView>(game);
             return initializeStartView;
         }
-        
+                
         private async Task<List<Player>> CreatePlayerList(long playerId, int amountOfBots)
         {
             var players = new List<Player>();
-            Player dealer = CustomMapper.GetPlayer(GameConstant.DealerName, PlayerType.Dealer);
+            Player dealer = CustomMapper.GetPlayer(GameStrings.DealerName, PlayerType.Dealer);
             players.Add(dealer);
 
             for (int i = 0; i < amountOfBots; i++)
             {
-                Player bot = CustomMapper.GetPlayer(GameConstant.BotName + i, PlayerType.Bot);
+                Player bot = CustomMapper.GetPlayer(GameStrings.BotName + i, PlayerType.Bot);
                 players.Add(bot);
             }
 
             players = await _playerRepository.CreateMany(players);
             players.Add(await _playerRepository.Get(playerId));
             return players;
-        }
-
-        private string IsGameOver(GamePlayer human, GamePlayer dealer)
-        {
-            string isGameOver = string.Empty;
-
-            if (dealer.Score <= GameConstant.EndGameScore)
-            {
-                isGameOver = GameMessage.DealerIsLoser;
-            }
-
-            if (human.Score <= GameConstant.EndGameScore)
-            {
-                isGameOver = GameMessage.DealerIsWinner;
-            }
-
-            return isGameOver;
         }
     }
 }

@@ -61,6 +61,14 @@ namespace BlackJack.DataAccess.Repositories
             }
         }
 
+        public async Task UpdateMany(IEnumerable<T> items)
+        {
+            using (DbConnection db = new SqlConnection(_connectionString))
+            {
+                await db.UpdateAsync(items);
+            }
+        }
+
         public async Task Delete(T item)
         {
             using (IDbConnection db = new SqlConnection(_connectionString))

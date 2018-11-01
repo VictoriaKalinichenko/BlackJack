@@ -39,5 +39,17 @@ namespace BlackJack.DataAccess.Repositories
                 return game;
             }
         }
+
+        public async Task UpdateRoundResult(long id, string roundResult)
+        {
+            string sqlQuery = @"UPDATE Games SET RoundResult = @roundResult
+                                WHERE Id = @id";
+
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                await db.QueryAsync(sqlQuery,
+                    new { roundResult = roundResult, id = id });
+            }
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace BlackJack.UI.Controllers
             try
             {
                 await _startService.CreatePlayer(userName);
-                return RedirectToAction("AuthorizePlayer", new { userName = userName });
+                return RedirectToAction("AuthorizePlayer", new { userName });
             }
             catch (Exception exception)
             {
@@ -44,7 +44,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                if(String.IsNullOrEmpty(userName))
+                if(String.IsNullOrWhiteSpace(userName))
                 {
                     new Exception(GameMessage.ReceivedDataError);
                 }
@@ -102,6 +102,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
+                return View("Error", new { message = GameMessage.GameLoadingError });
                 return RedirectToAction("Error", new { message = GameMessage.GameLoadingError });
             }
         }

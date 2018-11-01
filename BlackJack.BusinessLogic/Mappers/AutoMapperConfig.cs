@@ -16,10 +16,7 @@ namespace BlackJack.BusinessLogic.Mappers
             {
                 config.CreateMap<Game, InitializeStartView>();
                 config.CreateMap<HistoryMessage, HistoryMessageGetGameHistoryViewItem>();
-
-                config.CreateMap<GamePlayer, GamePlayerInitializeStartViewItem>()
-                    .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
-                
+                                
                 config.CreateMap<GamePlayer, GamePlayerStartRoundViewItem>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
@@ -32,8 +29,7 @@ namespace BlackJack.BusinessLogic.Mappers
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
                 
-                config.CreateMap<ResponseStartRoundView, ResumeAfterStartRoundView>();
-                config.CreateMap<ResponseContinueRoundView, ResumeAfterContinueRoundView>();
+                config.CreateMap<StartRoundView, RestoreRoundView>();
             });
         }
 

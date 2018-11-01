@@ -43,14 +43,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Start\CreateGameStartView.cs" />
     <Compile Include="Round\AddCardRoundView.cs" />
-    <Compile Include="Round\ResumeAfterContinueRoundView.cs" />
-    <Compile Include="Round\ResponseContinueRoundView.cs" />
+    <Compile Include="Round\ContinueRoundView.cs" />
     <Compile Include="Start\AuthorizePlayerStartView.cs" />
-    <Compile Include="Round\RequestStartRoundView.cs" />
-    <Compile Include="Round\EndGameRoundView.cs" />
-    <Compile Include="Round\ResumeAfterStartRoundView.cs" />
-    <Compile Include="Round\ResponseStartRoundView.cs" />
-    <Compile Include="Round\RequestContinueRoundView.cs" />
+    <Compile Include="Round\RestoreRoundView.cs" />
+    <Compile Include="Round\StartRoundView.cs" />
     <Compile Include="Start\InitializeStartView.cs" />
     <Compile Include="GameHistory\GetGameHistoryView.cs" />
   </ItemGroup>

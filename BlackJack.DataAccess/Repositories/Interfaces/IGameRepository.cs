@@ -1,5 +1,4 @@
 ﻿using BlackJack.Entities.Entities;
-using BlackJack.Entities.Enums;
 using System.Threading.Tasks;
 
 namespace BlackJack.DataAccess.Repositories.Interfaces
@@ -9,5 +8,7 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
         Task<long> GetIdByPlayerId(long id);
 
         Task<Game> GetByPlayerId(long playerId);
+
+        Task UpdateRoundResult(long id, string roundResult);
     }
 }

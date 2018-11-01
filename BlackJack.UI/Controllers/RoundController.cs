@@ -50,7 +50,7 @@ namespace BlackJack.UI.Controllers
                     return BadRequest(GameMessage.ReceivedDataError);
                 }
 
-                ResponseStartRoundView responseStartRoundView = await _roundService.Start(requestStartRoundView);
+                StartRoundView responseStartRoundView = await _roundService.Start(requestStartRoundView);
                 if (responseStartRoundView == null)
                 {
                     return Ok(new { Message = GameMessage.BetIsNotValid });
@@ -71,7 +71,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                ResumeAfterStartRoundView resumeAfterStartRoundView = await _roundService.ResumeAfterStart(gameId);
+                RestoreRoundView resumeAfterStartRoundView = await _roundService.RestoreForContinuation(gameId);
                 return Ok(resumeAfterStartRoundView);
             }
             catch (Exception exception)
@@ -108,7 +108,7 @@ namespace BlackJack.UI.Controllers
                     return BadRequest(GameMessage.ReceivedDataError);
                 }
 
-                ResponseContinueRoundView responseContinueRoundView = await _roundService.Continue(requestContinueRoundView);
+                ContinueRoundView responseContinueRoundView = await _roundService.Continue(requestContinueRoundView);
                 return Ok(responseContinueRoundView);
             }
             catch (Exception exception)
@@ -124,7 +124,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                ResumeAfterContinueRoundView resumeAfterContinueRoundView = await _roundService.ResumeAfterContinue(gameId);
+                ResumeAfterContinueRoundView resumeAfterContinueRoundView = await _roundService.RestoreForEnding(gameId);
                 return Ok(resumeAfterContinueRoundView);
             }
             catch (Exception exception)
@@ -140,7 +140,7 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                await _roundService.EndRound(gameId);
+                await _roundService.End(gameId);
                 return Ok("SUCCESS");
             }
             catch (Exception exception)

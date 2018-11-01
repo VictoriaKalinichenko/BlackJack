@@ -20,9 +20,9 @@ namespace BlackJack.DataAccess.Repositories
             string sqlQuery = $@"SELECT A.Id, A.GameId,
                                  B.Id, C.Id, C.Rank, C.Lear, C.Worth, D.Id, D.Name, D.Type
                                  FROM GamePlayers AS A 
-                                 LEFT JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
-                                 LEFT JOIN Cards AS C ON B.CardId = C.Id
-                                 LEFT JOIN Players AS D ON A.PlayerId = D.Id
+                                 INNER JOIN PlayerCards AS B ON A.Id = B.GamePlayerId
+                                 INNER JOIN Cards AS C ON B.CardId = C.Id
+                                 INNER JOIN Players AS D ON A.PlayerId = D.Id
                                  WHERE A.GameId = @gameId AND D.Type = @playerType";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
@@ -78,8 +78,12 @@ namespace BlackJack.DataAccess.Repositories
                         gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards = new List<PlayerCard>();
                     }
 
-                    playerCard.Card = card;
-                    gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards.Add(playerCard);
+                    if (playerCard != null && card != null)
+                    {
+                        playerCard.Card = card;
+                        gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards.Add(playerCard);
+                    }
+                    
                     return gamePlayer;
                 },
                 new { gameId = gameId },

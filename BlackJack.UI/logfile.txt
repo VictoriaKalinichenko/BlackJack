@@ -700,3 +700,104 @@ The statement has been terminated.
    at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
    at BlackJack.UI.Controllers.StartController.<CreateGame>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 68|The INSERT statement conflicted with the FOREIGN KEY constraint "FK_dbo.GamePlayers_dbo.Players_PlayerId". The conflict occurred in database "BlackJack", table "dbo.Players", column 'Id'.
 The statement has been terminated.
+2018-11-01 16:22:48.4873|ERROR|BlackJack.UI.Controllers.StartController|System.Data.SqlClient.SqlException (0x80131904): Invalid column name 'RoundResult'.
+   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__180_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.ValidateEnd(Task task)
+   at Dapper.SqlMapper.<QueryMultipleAsync>d__57.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at SqlServerAdapter.<InsertAsync>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.BaseRepository`1.<Create>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\BaseRepository.cs:line 43
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartService.<CreateGame>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartService.cs:line 51
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartController.<CreateGame>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 73
+ClientConnectionId:8bdb7fde-aa97-43f7-871b-4380a510f524
+Error Number:207,State:1,Class:16
+2018-11-01 16:24:35.2054|ERROR|BlackJack.UI.Controllers.StartController|System.Data.SqlClient.SqlException (0x80131904): Invalid column name 'RoundResult'.
+   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__180_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.ValidateEnd(Task task)
+   at Dapper.SqlMapper.<QueryMultipleAsync>d__57.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at SqlServerAdapter.<InsertAsync>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.BaseRepository`1.<Create>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\BaseRepository.cs:line 43
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartService.<CreateGame>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartService.cs:line 51
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartController.<CreateGame>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 73
+ClientConnectionId:54fc4a4a-95d2-453f-830c-17fa61570fe2
+Error Number:207,State:1,Class:16
+2018-11-01 16:38:05.5427|ERROR|BlackJack.UI.Controllers.StartController|System.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Stage'.
+Invalid column name 'Result'.
+   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__180_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.ValidateEnd(Task task)
+   at Dapper.SqlMapper.<QueryRowAsync>d__34`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.DataAccess.Repositories.GameRepository.<GetByPlayerId>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.DataAccess\Repositories\GameRepository.cs:line 53
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.BusinessLogic.Services.StartService.<AuthorizePlayer>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartService.cs:line 43
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartController.<AuthorizePlayer>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 57
+ClientConnectionId:0fc6fc8f-a9a6-4016-8175-014798f40a81
+Error Number:207,State:1,Class:16
+2018-11-01 16:46:10.8268|ERROR|BlackJack.UI.Controllers.StartController|System.NullReferenceException: Object reference not set to an instance of an object.
+   at BlackJack.BusinessLogic.Services.StartService.<AuthorizePlayer>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartService.cs:line 43
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartController.<AuthorizePlayer>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 57
+2018-11-01 16:52:14.5380|ERROR|BlackJack.UI.Controllers.StartController|System.NullReferenceException: Object reference not set to an instance of an object.
+   at BlackJack.BusinessLogic.Services.StartService.<AuthorizePlayer>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\StartService.cs:line 43
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.UI.Controllers.StartController.<AuthorizePlayer>d__5.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 57

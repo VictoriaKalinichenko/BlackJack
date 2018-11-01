@@ -25,6 +25,11 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
+                if (roundResult != "") {
+                    response.RoundResult = roundResult;
+                    reloadPageForContinueRound(response);
+                }
+
                 if (!response.CanTakeCard) {
                     continueRound();
                 }
@@ -172,24 +177,15 @@
     }    
 
     function reloadBots(bots) {
+        $("#bots").text("");
+
         bots.forEach(function (bot, iterator, bots) {
             var botPageItem = $('<div/>', {
                 id: "bot" + iterator,
                 class: "col-lg-2 col-md-4 col-sm-4 col-xs-6 well"
             });
-            $("#bots").appendChild(botPageItem);
-
-            var label = $('<h4/>', {
-                id: "botlabel" + iterator
-            });
-            $("#bot" + iterator).appendChild(label);
-
-            var labelText = $('<span/>', {
-                class: "label label-default",
-                text: "Bot"
-            });
-            $("botlabel" + iterator).appendChild(labelText);
-
+            $("#bots").append(botPageItem);
+            
             reloadPlayer(bot, "#bot" + iterator);
         });
     }

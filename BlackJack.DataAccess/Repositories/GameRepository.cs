@@ -36,15 +36,14 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                string userName = await db.QueryFirstOrDefaultAsync<string>(sqlQuery, 
-                    new { gameId = gameId, playerType = PlayerType.Human });
+                string userName = await db.QueryFirstOrDefaultAsync<string>(sqlQuery, new { gameId = gameId, playerType = PlayerType.Human });
                 return userName;
             }
         }
 
         public async Task<Game> GetByPlayerId(long playerId)
         {
-            string sqlQuery = $@"SELECT TOP (1) B.Id, B.Stage, B.Result 
+            string sqlQuery = $@"SELECT TOP (1) B.Id, B.RoundResult 
                                  FROM GamePlayers AS A
                                  INNER JOIN Games AS B ON A.GameId = B.Id
                                  WHERE A.PlayerId = @playerId
@@ -64,7 +63,8 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await db.QueryAsync(sqlQuery, new { roundResult = roundResult, id = id });
+                await db.QueryAsync(sqlQuery,
+                    new { roundResult = roundResult, id = id });
             }
         }
     }

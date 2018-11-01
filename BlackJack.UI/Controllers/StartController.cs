@@ -113,7 +113,7 @@ namespace BlackJack.UI.Controllers
 
         public ActionResult Error(string message)
         {
-            return RedirectToAction("Error", new { message = GameMessage.GameLoadingError });
+            return View((object)message);
         }
     }
 }

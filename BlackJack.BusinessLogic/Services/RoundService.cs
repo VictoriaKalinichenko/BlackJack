@@ -40,13 +40,21 @@ namespace BlackJack.BusinessLogic.Services
             List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
             await _gameRepository.UpdateRoundResult(gameId, string.Empty);
 
-            players = await RemoveCards(players, gameId);
-            players = await DistributeTwoCardsPerPlayer(players);
-            
+            await RemoveCards(players, gameId);
+            await DistributeCards(players, CardValue.TwoCardsPerPlayer);
+            players.ForEach((player) =>
+            {
+                player.CardScore = CountCardScore(player.PlayerCards);
+            });
+            await _gamePlayerRepository.UpdateMany(players);
             await _historyMessageManager.AddMessagesForStartRound(players, gameId);
 
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
-            bool canTakeCard = CanTakeCard(human);
+            bool canTakeCard = true;
+            if (human.CardScore >= CardValue.MaxCardScore)
+            {
+                canTakeCard = false;
+            }
 
             StartRoundView startRoundView = CustomMapper.GetStartRoundView(players, gameId, canTakeCard);
             return startRoundView;
@@ -56,13 +64,20 @@ namespace BlackJack.BusinessLogic.Services
         {
             GamePlayer human = await _gamePlayerRepository.GetHumanByGameId(gameId);
 
-            long cardId = GetRandomCardId();
-            Card card = await _cardRepository.Get(cardId);
-            PlayerCard createdPlayerCard = AddCardToPlayer(human, card);
-            await _playerCardRepository.Create(createdPlayerCard);
+            Card card = (await _cardRepository.GetSpecifiedAmount(CardValue.OneCardPerPlayer)).First();
+            PlayerCard addedPlayerCard = CustomMapper.GetPlayerCard(human, card);
+            human.PlayerCards.Add(addedPlayerCard);
+            await _playerCardRepository.Create(addedPlayerCard);
+
+            human.CardScore = CountCardScore(human.PlayerCards);
+            await _gamePlayerRepository.Update(human);
 
             AddCardRoundView addCardRoundView = Mapper.Map<GamePlayer, AddCardRoundView>(human);
-            addCardRoundView.CanTakeCard = CanTakeCard(human);
+            addCardRoundView.CanTakeCard = true;
+            if (human.CardScore >= CardValue.MaxCardScore)
+            {
+                addCardRoundView.CanTakeCard = false;
+            }
 
             return addCardRoundView;
         }
@@ -70,15 +85,16 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<ContinueRoundView> Continue(long gameId)
         {
             List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
-            GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
+            List<PlayerCard> createdPlayerCards = await DistributeCards(players, CardValue.OneCardPerPlayer, false);
+            players.ForEach((player) =>
+            {
+                player.CardScore = CountCardScore(player.PlayerCards);
+            });
+            await _gamePlayerRepository.UpdateMany(players);
+
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
-
-            List<PlayerCard> createdPlayerCards = await AddExtraCardsForDealer(dealer);
-            List<PlayerCard> createdExtraPlayerCardsForBots = await AddExtraCardsForBots(players);
-            createdPlayerCards.AddRange(createdExtraPlayerCardsForBots);
-            await _playerCardRepository.CreateMany(createdPlayerCards);
-
-            string roundResult = GetRoundResult(human, dealer);
+            GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
+            string roundResult = GetRoundResult(human.CardScore, dealer.CardScore);
             await _gameRepository.UpdateRoundResult(gameId, roundResult);
 
             await _historyMessageManager.AddMessagesForContinueRound(players, createdPlayerCards, roundResult, gameId);
@@ -91,114 +107,59 @@ namespace BlackJack.BusinessLogic.Services
         {
             List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
-            bool canTakeCard = CanTakeCard(human);
-
-            StartRoundView startRoundView = CustomMapper.GetStartRoundView(players, gameId, canTakeCard);
-            RestoreRoundView restoreRoundView = Mapper.Map<StartRoundView, RestoreRoundView>(startRoundView);
-            return restoreRoundView;
-        }
-
-        private async Task<List<GamePlayer>> RemoveCards(List<GamePlayer> players, long gameId)
-        {
-            List<GamePlayer> returnedPlayers = players;
-
-            if (returnedPlayers.All(m => m.PlayerCards.Count() == 0))
-            {
-                return returnedPlayers;
-            }
-
-            await _playerCardRepository.DeleteByGameId(gameId);
-            return returnedPlayers;
-        }
-
-        private async Task<List<GamePlayer>> DistributeTwoCardsPerPlayer(List<GamePlayer> players)
-        {
-            List<GamePlayer> returnedPlayers = players;
-            var createdPlayerCards = new List<PlayerCard>();
-
-            int cardAmount = returnedPlayers.Count() * CardValue.TwoCardsPerPlayer;
-            List<Card> deck = await _cardRepository.GetSpecifiedAmount(cardAmount);
-
-            foreach (GamePlayer player in returnedPlayers)
-            {
-                player.PlayerCards = new List<PlayerCard>();
-
-                Card card = TakeCardFromDeck(deck);
-                PlayerCard createdPlayerCard = AddCardToPlayer(player, card);
-
-                card = TakeCardFromDeck(deck);
-                createdPlayerCard = AddCardToPlayer(player, card);
-
-                createdPlayerCards.AddRange(player.PlayerCards);
-            }
-
-            await _playerCardRepository.CreateMany(createdPlayerCards);
-
-            return returnedPlayers;
-        }
-
-        private async Task<List<PlayerCard>> AddExtraCardsForDealer(GamePlayer dealer)
-        {
-            List<Card> deck = await _cardRepository.GetSpecifiedAmount(CardValue.MaxPossibleCardAmountForPlayer);
-            var createdPlayerCards = new List<PlayerCard>();
-
-            int cardScore = CountCardScore(dealer.PlayerCards);
-            for (int iterator = deck.Count(); iterator > 0 && cardScore < CardValue.EnoughDealerCardScore; iterator--)
-            {
-                Card card = TakeCardFromDeck(deck);
-                PlayerCard createdPlayerCard = AddCardToPlayer(dealer, card);
-                cardScore = CountCardScore(dealer.PlayerCards);
-                createdPlayerCards.Add(createdPlayerCard);
-            }
-            
-            return createdPlayerCards;
-        }
-
-        private async Task<List<PlayerCard>> AddExtraCardsForBots(IEnumerable<GamePlayer> players)
-        {
-            int cardAmount = players.Where(m => m.Player.Type == PlayerType.Bot).Count();
-            List<Card> deck = await _cardRepository.GetSpecifiedAmount(cardAmount);
-            var createdPlayerCards = new List<PlayerCard>();
-
-            foreach (GamePlayer player in players)
-            {
-                if (player.Player.Type == PlayerType.Bot)
-                {
-                    Card card = TakeCardFromDeck(deck);
-                    PlayerCard createdPlayerCard = AddCardToPlayer(player, card);
-                    createdPlayerCards.Add(createdPlayerCard);
-                }
-            }
-            
-            return createdPlayerCards;
-        }
-
-        private bool CanTakeCard(GamePlayer player)
-        {
             bool canTakeCard = true;
-
-            int humanScore = CountCardScore(player.PlayerCards);
-            if (humanScore >= CardValue.MaxCardScore)
+            if (human.CardScore >= CardValue.MaxCardScore)
             {
                 canTakeCard = false;
             }
-
-            return canTakeCard;
+            
+            RestoreRoundView restoreRoundView = CustomMapper.GetRestoreRoundView(players, gameId, canTakeCard);
+            return restoreRoundView;
         }
 
-        private string GetRoundResult(GamePlayer human, GamePlayer dealer)
+        private async Task RemoveCards(List<GamePlayer> players, long gameId)
+        {
+            if (players.All(m => m.PlayerCards.Count() == 0))
+            {
+                return;
+            }
+
+            await _playerCardRepository.DeleteByGameId(gameId);
+        }
+
+        private async Task<List<PlayerCard>> DistributeCards(List<GamePlayer> players, int cardAmountPerPlayer, bool humanNeedsCards = true)
+        {
+            var createdPlayerCards = new List<PlayerCard>();
+            int cardAmount = players.Count() * cardAmountPerPlayer;
+            List<Card> deck = await _cardRepository.GetSpecifiedAmount(cardAmount);
+
+            foreach (GamePlayer player in players)
+            {
+                if (humanNeedsCards || !(player.Player.Type == PlayerType.Human))
+                {
+                    List<Card> cards = PopCardsFromDeck(deck, cardAmountPerPlayer);
+                    List<PlayerCard> addedPlayerCards = CustomMapper.GetPlayerCards(player, cards);
+                    player.PlayerCards = addedPlayerCards;
+                    createdPlayerCards.AddRange(addedPlayerCards);
+                }
+            }
+
+            await _playerCardRepository.CreateMany(createdPlayerCards);
+            return createdPlayerCards;
+        }
+        
+        private string GetRoundResult(int humanScore, int dealerScore)
         {
             string roundResult = GameMessage.Lose;
-
-            int humanScore = CountCardScore(human.PlayerCards);
-            int dealerScore = CountCardScore(dealer.PlayerCards);
-
-            if (humanScore > dealerScore && humanScore <= CardValue.MaxCardScore)
+            
+            if (humanScore > dealerScore && humanScore <= CardValue.MaxCardScore 
+                && dealerScore <= CardValue.MaxCardScore)
             {
                 roundResult = GameMessage.Win;
             }
 
-            if (humanScore == dealerScore && humanScore <= CardValue.MaxCardScore)
+            if (humanScore == dealerScore && humanScore <= CardValue.MaxCardScore
+                && dealerScore <= CardValue.MaxCardScore)
             {
                 roundResult = GameMessage.Equal;
             }
@@ -206,18 +167,11 @@ namespace BlackJack.BusinessLogic.Services
             return roundResult;
         }
 
-        private Card TakeCardFromDeck(List<Card> deck)
+        private List<Card> PopCardsFromDeck(List<Card> deck, int cardAmount)
         {
-            Card card = deck.First();
-            deck.Remove(card);
-            return card;
-        }
-        
-        private PlayerCard AddCardToPlayer(GamePlayer player, Card card)
-        {
-            PlayerCard playerCard = CustomMapper.GetPlayerCard(player, card);
-            player.PlayerCards.Add(playerCard);
-            return playerCard;
+            List<Card> cards = deck.GetRange(CardValue.FirstItemIndex, cardAmount);
+            deck.RemoveRange(CardValue.FirstItemIndex, cardAmount);
+            return cards;
         }
 
         private int CountCardScore(List<PlayerCard> playerCards)

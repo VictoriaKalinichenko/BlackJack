@@ -66,7 +66,14 @@ namespace BlackJack.BusinessLogic.Mappers
             continueRoundView.Id = gameId;
             return continueRoundView;
         }
-        
+
+        public static RestoreRoundView GetRestoreRoundView(List<GamePlayer> players, long gameId, bool canTakeCard)
+        {
+            StartRoundView startRoundView = GetStartRoundView(players, gameId, canTakeCard);
+            RestoreRoundView restoreRoundView = Mapper.Map<StartRoundView, RestoreRoundView>(startRoundView);
+            return restoreRoundView;
+        }
+
         public static GetGameHistoryView GetGameHistoryView(List<HistoryMessage> historyMessages)
         {
             var getGameHistoryView = new GetGameHistoryView();
@@ -94,9 +101,32 @@ namespace BlackJack.BusinessLogic.Mappers
             return gamePlayer;
         }
         
+        public static List<PlayerCard> GetPlayerCards(GamePlayer gamePlayer, List<Card> cards)
+        {
+            var playerCards = new List<PlayerCard>();
+
+            foreach (Card card in cards)
+            {
+                var playerCard = new PlayerCard()
+                {
+                    CardId = card.Id,
+                    GamePlayerId = gamePlayer.Id
+                };
+
+                playerCards.Add(playerCard);
+            }
+
+            return playerCards;
+        }
+
         public static PlayerCard GetPlayerCard(GamePlayer gamePlayer, Card card)
         {
-            var playerCard = new PlayerCard() { GamePlayerId = gamePlayer.Id, CardId = card.Id, Card = card };
+            var playerCard = new PlayerCard()
+            {
+                CardId = card.Id,
+                GamePlayerId = gamePlayer.Id
+            };
+
             return playerCard;
         }
     }

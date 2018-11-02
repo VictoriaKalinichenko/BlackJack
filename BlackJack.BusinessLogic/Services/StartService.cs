@@ -91,7 +91,10 @@ namespace BlackJack.BusinessLogic.Services
             }
 
             players = await _playerRepository.CreateMany(players);
-            players.Add(await _playerRepository.Get(playerId));
+
+            Player human = await _playerRepository.Get(playerId);
+            players.Add(human);
+
             return players;
         }
     }

@@ -67,10 +67,10 @@ namespace BlackJack.BusinessLogic.Mappers
             return continueRoundView;
         }
         
-        public static GetGameHistoryView GetGameHistoryView(IEnumerable<HistoryMessage> historyMessages)
+        public static GetGameHistoryView GetGameHistoryView(List<HistoryMessage> historyMessages)
         {
             var getGameHistoryView = new GetGameHistoryView();
-            getGameHistoryView.HistoryMessages = Mapper.Map<IEnumerable<HistoryMessage>, List<HistoryMessageGetGameHistoryViewItem>>(historyMessages);
+            getGameHistoryView.HistoryMessages = Mapper.Map<List<HistoryMessage>, List<HistoryMessageGetGameHistoryViewItem>>(historyMessages);
             return getGameHistoryView;
         }
 

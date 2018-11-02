@@ -37,7 +37,7 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<StartRoundView> Start(long gameId)
         {  
-            List<GamePlayer> players = (await _gamePlayerRepository.GetAllByGameId(gameId)).ToList();
+            List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
             await _gameRepository.UpdateRoundResult(gameId, string.Empty);
 
             players = await RemoveCards(players, gameId);
@@ -69,7 +69,7 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<ContinueRoundView> Continue(long gameId)
         {
-            List<GamePlayer> players = (await _gamePlayerRepository.GetAllByGameId(gameId)).ToList();
+            List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
 
@@ -89,7 +89,7 @@ namespace BlackJack.BusinessLogic.Services
 
         public async Task<RestoreRoundView> Restore(long gameId)
         {
-            List<GamePlayer> players = (await _gamePlayerRepository.GetAllByGameId(gameId)).ToList();
+            List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             bool canTakeCard = CanTakeCard(human);
 
@@ -117,7 +117,7 @@ namespace BlackJack.BusinessLogic.Services
             var createdPlayerCards = new List<PlayerCard>();
 
             int cardAmount = returnedPlayers.Count() * CardValue.TwoCardsPerPlayer;
-            List<Card> deck = (await _cardRepository.GetSpecifiedAmount(cardAmount)).ToList();
+            List<Card> deck = await _cardRepository.GetSpecifiedAmount(cardAmount);
 
             foreach (GamePlayer player in returnedPlayers)
             {
@@ -139,7 +139,7 @@ namespace BlackJack.BusinessLogic.Services
 
         private async Task<List<PlayerCard>> AddExtraCardsForDealer(GamePlayer dealer)
         {
-            List<Card> deck = (await _cardRepository.GetSpecifiedAmount(CardValue.MaxPossibleCardAmountForPlayer)).ToList();
+            List<Card> deck = await _cardRepository.GetSpecifiedAmount(CardValue.MaxPossibleCardAmountForPlayer);
             var createdPlayerCards = new List<PlayerCard>();
 
             int cardScore = CountCardScore(dealer.PlayerCards);
@@ -157,7 +157,7 @@ namespace BlackJack.BusinessLogic.Services
         private async Task<List<PlayerCard>> AddExtraCardsForBots(IEnumerable<GamePlayer> players)
         {
             int cardAmount = players.Where(m => m.Player.Type == PlayerType.Bot).Count();
-            List<Card> deck = (await _cardRepository.GetSpecifiedAmount(cardAmount)).ToList();
+            List<Card> deck = await _cardRepository.GetSpecifiedAmount(cardAmount);
             var createdPlayerCards = new List<PlayerCard>();
 
             foreach (GamePlayer player in players)

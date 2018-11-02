@@ -8,7 +8,7 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
     {
         Task<T> Get(long id);
 
-        Task<IEnumerable<T>> GetAll();
+        Task<List<T>> GetAll();
 
         Task<long> Create(T item);
 

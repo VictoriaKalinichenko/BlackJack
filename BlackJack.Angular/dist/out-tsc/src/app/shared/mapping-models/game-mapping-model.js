@@ -13,7 +13,6 @@ var GameMappingModel = /** @class */ (function () {
     function GameMappingModel() {
         this.id = void 0;
         this.roundResult = void 0;
-        this.canTakeCard = void 0;
         this.human = void 0;
         this.dealer = void 0;
         this.bots = void 0;
@@ -26,10 +25,6 @@ var GameMappingModel = /** @class */ (function () {
         JsonProperty('RoundResult'),
         __metadata("design:type", String)
     ], GameMappingModel.prototype, "roundResult", void 0);
-    __decorate([
-        JsonProperty('CanTakeCard'),
-        __metadata("design:type", Boolean)
-    ], GameMappingModel.prototype, "canTakeCard", void 0);
     __decorate([
         JsonProperty({ clazz: PlayerMappingModel, name: 'Human' }),
         __metadata("design:type", PlayerMappingModel)

@@ -3,7 +3,6 @@ using BlackJack.Entities.Entities;
 using BlackJack.Entities.Enums;
 using BlackJack.ViewModels.GameHistory;
 using BlackJack.ViewModels.Round;
-using BlackJack.ViewModels.Start;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,12 +10,6 @@ namespace BlackJack.BusinessLogic.Mappers
 {
     public static class CustomMapper
     {        
-        public static InitializeStartView GetInitializeStartView(Game game)
-        {
-            InitializeStartView initializeStartView = Mapper.Map<Game, InitializeStartView>(game);
-            return initializeStartView;
-        }
-
         public static StartRoundView GetStartRoundView(List<GamePlayer> players, long gameId, bool canTakeCard)
         {
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();

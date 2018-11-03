@@ -220,10 +220,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\libs\3rdpartylicenses.txt" />
-    <Content Include="Scripts\libs\app-authorized-user-module-authorized-user-module.js" />
     <Content Include="Scripts\libs\app-game-module-game-module.js" />
-    <Content Include="Scripts\libs\common.js" />
     <Content Include="Scripts\libs\favicon.ico" />
+    <Content Include="Scripts\libs\glyphicons-halflings-regular.svg" />
     <Content Include="Scripts\libs\index.html" />
     <Content Include="Scripts\libs\main.js" />
     <Content Include="Scripts\libs\polyfills.js" />
@@ -258,15 +257,17 @@
     <Content Include="src\tslint.json" />
     <Content Include="tsconfig.json" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="src\index.html" />
+    <Content Include="Scripts\libs\app-game-module-game-module.js.map" />
+    <Content Include="Scripts\libs\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\libs\glyphicons-halflings-regular.ttf" />
+    <Content Include="Scripts\libs\glyphicons-halflings-regular.woff" />
+    <Content Include="Scripts\libs\glyphicons-halflings-regular.woff2" />
     <Content Include="Scripts\libs\main.js.map" />
     <Content Include="Scripts\libs\polyfills.js.map" />
     <Content Include="Scripts\libs\runtime.js.map" />
-    <Content Include="Scripts\libs\vendor.js.map" />
-    <Content Include="Scripts\libs\app-authorized-user-module-authorized-user-module.js.map" />
-    <Content Include="Scripts\libs\app-game-module-game-module.js.map" />
-    <Content Include="src\index.html" />
-    <Content Include="Scripts\libs\common.js.map" />
     <Content Include="Scripts\libs\styles.js.map" />
+    <Content Include="Scripts\libs\vendor.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

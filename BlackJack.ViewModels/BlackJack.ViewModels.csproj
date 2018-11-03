@@ -44,7 +44,6 @@
     <Compile Include="Start\CreateGameStartView.cs" />
     <Compile Include="Round\AddCardRoundView.cs" />
     <Compile Include="Round\ContinueRoundView.cs" />
-    <Compile Include="Start\AuthorizePlayerStartView.cs" />
     <Compile Include="Round\RestoreRoundView.cs" />
     <Compile Include="Round\StartRoundView.cs" />
     <Compile Include="Start\IndexStartView.cs" />

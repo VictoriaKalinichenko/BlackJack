@@ -1,4 +1,5 @@
-﻿using BlackJack.BusinessLogic.Constants;
+﻿using AutoMapper;
+using BlackJack.BusinessLogic.Constants;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
@@ -63,7 +64,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<InitializeStartView> InitializeRound(long gameId)
         {
             Game game = await _gameRepository.Get(gameId);
-            InitializeStartView initializeStartView = CustomMapper.GetInitializeStartView(game);
+            InitializeStartView initializeStartView = Mapper.Map<Game, InitializeStartView>(game);
             return initializeStartView;
         }
                 

@@ -41,10 +41,7 @@ namespace BlackJack.BusinessLogic.Services
 
             await RemoveCards(players, gameId);
             await DistributeCards(players, CardValue.TwoCardsPerPlayer);
-            players.ForEach((player) =>
-            {
-                player.CardScore = CountCardScore(player.PlayerCards);
-            });
+            CountCardScoreForPlayers(players);
             await _gamePlayerRepository.UpdateMany(players);
             await _historyMessageManager.AddMessagesForStartRound(players, gameId);
 
@@ -85,10 +82,7 @@ namespace BlackJack.BusinessLogic.Services
         {
             List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
             List<PlayerCard> createdPlayerCards = await DistributeCards(players, CardValue.OneCardPerPlayer, false);
-            players.ForEach((player) =>
-            {
-                player.CardScore = CountCardScore(player.PlayerCards);
-            });
+            CountCardScoreForPlayers(players);
             await _gamePlayerRepository.UpdateMany(players);
 
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
@@ -153,6 +147,14 @@ namespace BlackJack.BusinessLogic.Services
 
             await _playerCardRepository.CreateMany(createdPlayerCards);
             return createdPlayerCards;
+        }
+
+        private void CountCardScoreForPlayers(List<GamePlayer> players)
+        {
+            players.ForEach((player) =>
+            {
+                player.CardScore = CountCardScore(player.PlayerCards);
+            });
         }
         
         private string GetRoundResult(GamePlayer human, GamePlayer dealer)

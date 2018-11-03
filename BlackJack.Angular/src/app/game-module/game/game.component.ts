@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { deserialize } from 'json-typescript-mapper';
 
 import { RoundService } from 'app/shared/services/round.service';
@@ -21,7 +21,6 @@ export class GameComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private router: Router,
         private roundService: RoundService,
         private startService: StartService
     ) { }

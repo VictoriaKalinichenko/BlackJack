@@ -10,7 +10,6 @@ namespace BlackJack.ViewModels.GameHistory
 
     public class HistoryMessageGetGameHistoryViewItem
     {
-        public long Id { get; set; }
         public DateTime CreationDate { get; set; }
         public long GameId { get; set; }
         public string Message { get; set; }

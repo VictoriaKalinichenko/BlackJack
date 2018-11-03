@@ -15,19 +15,7 @@ namespace BlackJack.DataAccess.Repositories
     {
         public PlayerRepository(string connectionString) : base(connectionString)
         { }
-
-        public async Task<Player> SelectByName(string name, PlayerType playerType)
-        {
-            string sqlQuery = @"SELECT Id, Players.Name, Type FROM Players    
-                                WHERE Players.Name = @name AND Players.Type = @playerType";
-
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Player player = await db.QueryFirstOrDefaultAsync<Player>(sqlQuery, new { name = name, playerType = playerType });
-                return player;
-            }
-        }
-
+        
         public async Task<List<Player>> CreateMany(List<Player> players)
         {
             DapperPlusManager.Entity<Player>().Table("Players").Identity("Id");

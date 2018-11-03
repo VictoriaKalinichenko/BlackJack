@@ -31,7 +31,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return BadRequest(GameMessage.GameError);
+                return BadRequest(GameMessage.GameProcessingError);
             }
         }
         
@@ -47,7 +47,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return BadRequest(GameMessage.GameError);
+                return BadRequest(GameMessage.GameProcessingError);
             }
         }
         
@@ -63,7 +63,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return BadRequest(GameMessage.GameError);
+                return BadRequest(GameMessage.GameProcessingError);
             }
         }
 
@@ -79,7 +79,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return BadRequest(GameMessage.GameError);
+                return BadRequest(GameMessage.GameProcessingError);
             }
         }
     }

@@ -69,7 +69,7 @@
     <Compile Include="Managers\HistoryMessageManager.cs" />
     <Compile Include="Mappers\AutoMapperConfig.cs" />
     <Compile Include="Constants\CardValue.cs" />
-    <Compile Include="Constants\GameStrings.cs" />
+    <Compile Include="Constants\PlayerName.cs" />
     <Compile Include="Interfaces\IGameHistoryService.cs" />
     <Compile Include="Interfaces\IStartService.cs" />
     <Compile Include="Mappers\CustomMapper.cs" />

@@ -1,0 +1,21 @@
+﻿@using BlackJack.ViewModels.Start
+@model CreateGameStartView
+@{
+    ViewBag.Title = "Create game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create game</h2>
+
+@using (Html.BeginForm("CreateGame", "Start", null, FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(m => m.UserName)
+    <div class="form-group">
+        <label class="control-label col-md-4">Amount of bots: </label>
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.AmountOfBots, new { @class ="form-control", @type="number", @value="0", @min="0", @max=5 })
+        </div>
+    </div>
+
+    <input type="submit" value="Create game" class="btn btn-primary" />
+}

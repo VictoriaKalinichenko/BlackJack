@@ -47,6 +47,7 @@
     <Compile Include="Start\AuthorizePlayerStartView.cs" />
     <Compile Include="Round\RestoreRoundView.cs" />
     <Compile Include="Round\StartRoundView.cs" />
+    <Compile Include="Start\IndexStartView.cs" />
     <Compile Include="Start\InitializeStartView.cs" />
     <Compile Include="GameHistory\GetGameHistoryView.cs" />
   </ItemGroup>

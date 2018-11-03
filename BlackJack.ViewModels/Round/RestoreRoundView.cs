@@ -15,6 +15,7 @@ namespace BlackJack.ViewModels.Round
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public int CardScore { get; set; }
         public List<string> Cards { get; set; }
     }
 }

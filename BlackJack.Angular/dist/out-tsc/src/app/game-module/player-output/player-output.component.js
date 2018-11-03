@@ -18,6 +18,10 @@ var PlayerOutputComponent = /** @class */ (function () {
     ], PlayerOutputComponent.prototype, "name", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Number)
+    ], PlayerOutputComponent.prototype, "cardScore", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], PlayerOutputComponent.prototype, "cards", void 0);
     PlayerOutputComponent = __decorate([

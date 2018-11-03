@@ -27,30 +27,26 @@ namespace BlackJack.BusinessLogic.Services
             _historyMessageManager = historyMessageManager;
         }
 
-        public async Task CreatePlayer(string name)
+        public async Task<IndexStartView> SearchGameForPlayer(string name)
         {
-            Player human = await _playerRepository.SelectByName(name, PlayerType.Human);
-            if (human == null)
+            Game game = await _gameRepository.GetByHumanName(name);
+            IndexStartView indexStartView = new IndexStartView() { IsGameExist = false };
+
+            if (game != null)
             {
-                human = CustomMapper.GetPlayer(name, PlayerType.Human);
-                await _playerRepository.Create(human);
+                indexStartView.IsGameExist = true;
+                indexStartView.GameId = game.Id;
             }
-        }
 
-        public async Task<AuthorizePlayerStartView> AuthorizePlayer(string name)
-        {
-            Player human = await _playerRepository.SelectByName(name, PlayerType.Human);
-            Game game = await _gameRepository.GetByPlayerId(human.Id);
-            AuthorizePlayerStartView authorizePlayerStartView = CustomMapper.GetAuthorizePlayerStartView(human, game);
-            return authorizePlayerStartView;
+            return indexStartView;
         }
-
-        public async Task<long> CreateGame(long playerId, int amountOfBots)
+        
+        public async Task<long> CreateGame(CreateGameStartView createGameStartView)
         {
             var game = new Game();
             game.Id = await _gameRepository.Create(game);
 
-            List<Player> players = await CreatePlayerList(playerId, amountOfBots);
+            List<Player> players = await CreatePlayerList(createGameStartView.UserName, createGameStartView.AmountOfBots);
             var gamePlayers = new List<GamePlayer>();
             foreach (Player player in players)
             {
@@ -63,38 +59,30 @@ namespace BlackJack.BusinessLogic.Services
             long gameId = game.Id;
             return gameId;
         }
-
-        public async Task<long> ResumeGame(long playerId)
-        {
-            long gameId = await _gameRepository.GetIdByPlayerId(playerId);
-            return gameId;
-        }
-
+        
         public async Task<InitializeStartView> InitializeRound(long gameId)
         {
             Game game = await _gameRepository.Get(gameId);
-            string userName = await _gameRepository.GetHumanNameByGameId(gameId);
-            InitializeStartView initializeStartView = CustomMapper.GetInitializeStartView(game, userName);
+            InitializeStartView initializeStartView = CustomMapper.GetInitializeStartView(game);
             return initializeStartView;
         }
                 
-        private async Task<List<Player>> CreatePlayerList(long playerId, int amountOfBots)
+        private async Task<List<Player>> CreatePlayerList(string humanName, int amountOfBots)
         {
             var players = new List<Player>();
-            Player dealer = CustomMapper.GetPlayer(GameStrings.DealerName, PlayerType.Dealer);
+            Player human = CustomMapper.GetPlayer(humanName, PlayerType.Human);
+            players.Add(human);
+
+            Player dealer = CustomMapper.GetPlayer(PlayerName.DealerName, PlayerType.Dealer);
             players.Add(dealer);
 
             for (int i = 0; i < amountOfBots; i++)
             {
-                Player bot = CustomMapper.GetPlayer(GameStrings.BotName + i, PlayerType.Bot);
+                Player bot = CustomMapper.GetPlayer(PlayerName.BotName + i, PlayerType.Bot);
                 players.Add(bot);
             }
 
             players = await _playerRepository.CreateMany(players);
-
-            Player human = await _playerRepository.Get(playerId);
-            players.Add(human);
-
             return players;
         }
     }

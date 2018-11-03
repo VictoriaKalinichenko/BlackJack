@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_StartPage.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Home Page";
 }
 
@@ -11,9 +11,8 @@
     <div class="form-group">
         <label class="control-label col-md-2">Name: </label>
         <div class="col-md-10">
-            <input type="text" name="userName" class="form-control" required pattern="^[a-zA-Z]*$" />
-            <label class="control-label">Must have only letters (small or capital)</label>
-            <br /><br />
+            <input type="text" name="userName" class="form-control" />
+            <br />
             <input type="submit" value="Enter" class="btn btn-primary" />
         </div>
     </div>

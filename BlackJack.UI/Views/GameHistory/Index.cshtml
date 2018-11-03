@@ -15,34 +15,6 @@
     @Scripts.Render("~/bundles/KendoUI/js")
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Home", "AuthorizePlayer", "Start", new { userName = Model }, new { @class = "navbar-brand" })
-            </div>
-
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item">
-                        @Html.ActionLink("Game history", "Index", "GameHistory", new { userName = Model }, null)
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="navbar-text">
-                        <b>Log in as: @Model</b>
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Log out", "Index", "Start")
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
     <div class="container body-content">
         <h2>Game history</h2>
         <div id="grid"></div>

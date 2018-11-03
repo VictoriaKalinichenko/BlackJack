@@ -1,27 +1,22 @@
 ﻿import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class StartService {
     constructor(private httpClient: HttpClient) { }
 
-    getAuthorizedPlayer(userName: string) {
+    searchGameForPlayer(userName: string) {
         const options = userName ?
             { params: new HttpParams().set('userName', userName.toString()) } : {};
 
-        return this.httpClient.get('Start/AuthorizePlayer', options);
+        return this.httpClient.get('Start/Index', options);
     }
 
-    createGame(playerId: number, amountOfBots: number) {
-        const body = { PlayerId: playerId, AmountOfBots: amountOfBots };
+    createGame(userName: string, amountOfBots: number) {
+        const body = { UserName: userName, AmountOfBots: amountOfBots };
         return this.httpClient.post('Start/CreateGame', body);
-    }
-
-    resumeGame(playerId: number) {
-        const options = playerId ?
-            { params: new HttpParams().set('playerId', playerId.toString()) } : {};
-
-        return this.httpClient.get('Start/ResumeGame', options);
     }
 
     initializeRound(gameId: number) {

@@ -188,6 +188,7 @@
 
     function reloadPlayer(player, gamePlay) {
         var text = `<p>Name: ${player.Name}</p>`;
+        text = text + `<p>CardScore: ${player.CardScore}</p>`;
         text = text + `<p>Cards:</p><ul>`;
 
         $.each(player.Cards, function(i, item) {

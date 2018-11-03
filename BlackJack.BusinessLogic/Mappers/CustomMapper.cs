@@ -10,28 +10,10 @@ using System.Linq;
 namespace BlackJack.BusinessLogic.Mappers
 {
     public static class CustomMapper
-    {
-        public static AuthorizePlayerStartView GetAuthorizePlayerStartView(Player human, Game game)
-        {
-            var authorizePlayerStartView = new AuthorizePlayerStartView()
-            {
-                PlayerId = human.Id,
-                Name = human.Name,
-                ResumeGame = true
-            };
-
-            if (game == null)
-            {
-                authorizePlayerStartView.ResumeGame = false;
-            }
-
-            return authorizePlayerStartView;
-        }
-        
-        public static InitializeStartView GetInitializeStartView(Game game, string userName)
+    {        
+        public static InitializeStartView GetInitializeStartView(Game game)
         {
             InitializeStartView initializeStartView = Mapper.Map<Game, InitializeStartView>(game);
-            initializeStartView.UserName = userName;
             return initializeStartView;
         }
 
@@ -110,6 +92,7 @@ namespace BlackJack.BusinessLogic.Mappers
                 var playerCard = new PlayerCard()
                 {
                     CardId = card.Id,
+                    Card = card,
                     GamePlayerId = gamePlayer.Id
                 };
 
@@ -124,10 +107,22 @@ namespace BlackJack.BusinessLogic.Mappers
             var playerCard = new PlayerCard()
             {
                 CardId = card.Id,
+                Card = card,
                 GamePlayerId = gamePlayer.Id
             };
 
             return playerCard;
+        }
+
+        public static Game GetGame(long id, string roundResult)
+        {
+            var game = new Game()
+            {
+                Id = id,
+                RoundResult = roundResult
+            };
+
+            return game;
         }
     }
 }

@@ -13,7 +13,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from 'app/app.component';
 import { HomePageComponent } from 'app/home-page/home-page.component';
 import { ErrorPageComponent } from 'app/error-page/error-page.component';
+import { CreateGameComponent } from 'app/create-game/create-game.component';
 import { ErrorService } from 'app/shared/services/error.service';
+import { StartService } from 'app/shared/services/start.service';
 import { RequestInterceptor } from 'app/shared/interceptors/request-interceptor';
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -23,7 +25,8 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 AppComponent,
                 HomePageComponent,
-                ErrorPageComponent
+                ErrorPageComponent,
+                CreateGameComponent
             ],
             imports: [
                 BrowserModule,
@@ -32,6 +35,7 @@ var AppModule = /** @class */ (function () {
             ],
             providers: [
                 ErrorService,
+                StartService,
                 {
                     provide: APP_BASE_HREF,
                     useValue: '/'

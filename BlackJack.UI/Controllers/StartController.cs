@@ -34,18 +34,24 @@ namespace BlackJack.UI.Controllers
                     new Exception(GameMessage.ReceivedDataError);
                 }
 
-                await _startService.CreatePlayer(userName);
-                return RedirectToAction("AuthorizePlayer", new { userName });
+                IndexStartView indexStartView = await _startService.SearchGameForPlayer(userName);
+
+                if (indexStartView.IsGameExist)
+                {
+                    return RedirectToAction("Initialize", new { indexStartView.GameId });
+                }
+
+                return RedirectToAction("CreateGame", new { userName });
             }
             catch (Exception exception)
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessage.PlayerAuthError });
+                return RedirectToAction("Error", new { message = GameMessage.PlayerAuthorizationError });
             }
         }
         
-        public async Task<ActionResult> AuthorizePlayer(string userName)
+        public ActionResult CreateGame(string userName)
         {
             try
             {
@@ -53,25 +59,9 @@ namespace BlackJack.UI.Controllers
                 {
                     new Exception(GameMessage.ReceivedDataError);
                 }
-                
-                AuthorizePlayerStartView authorizePlayerStartView = await _startService.AuthorizePlayer(userName);
-                return View(authorizePlayerStartView);
-            }
-            catch (Exception exception)
-            {
-                string message = exception.ToString();
-                _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessage.PlayerAuthError });
-            }
-        }
 
-        [HttpPost]
-        public async Task<ActionResult> CreateGame(long playerId, int amountOfBots)
-        {
-            try
-            {
-                long gameId = await _startService.CreateGame(playerId, amountOfBots);
-                return RedirectToAction("Initialize", new { gameId = gameId, isNewGame = true });
+                var createGameStartView = new CreateGameStartView() { UserName = userName };
+                return View(createGameStartView);
             }
             catch (Exception exception)
             {
@@ -81,22 +71,29 @@ namespace BlackJack.UI.Controllers
             }
         }
 
-        public async Task<ActionResult> ResumeGame(long playerId)
+        [HttpPost]
+        public async Task<ActionResult> CreateGame(CreateGameStartView createGameStartView)
         {
             try
             {
-                long gameId = await _startService.ResumeGame(playerId);
-                return RedirectToAction("Initialize", new { gameId = gameId, isNewGame = false });
+                if (createGameStartView == null || 
+                    String.IsNullOrWhiteSpace(createGameStartView.UserName))
+                {
+                    new Exception(GameMessage.ReceivedDataError);
+                }
+
+                long gameId = await _startService.CreateGame(createGameStartView);
+                return RedirectToAction("Initialize", new { gameId = gameId });
             }
             catch (Exception exception)
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessage.GameResumingError });
+                return RedirectToAction("Error", new { message = GameMessage.GameCreationError });
             }
         }
-
-        public async Task<ActionResult> Initialize(long gameId, bool isNewGame)
+        
+        public async Task<ActionResult> Initialize(long gameId)
         {
             try
             {

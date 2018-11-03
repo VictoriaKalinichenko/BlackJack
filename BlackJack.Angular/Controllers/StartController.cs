@@ -19,24 +19,24 @@ namespace BlackJack.Angular.Controllers
             _startService = startService;
         }
 
-        [Route("AuthorizePlayer"), HttpGet]
-        public async Task<IHttpActionResult> AuthorizePlayer(string userName)
+        [Route("Index"), HttpGet]
+        public async Task<IHttpActionResult> Index(string userName)
         {
             try
             {
-                if (String.IsNullOrEmpty(userName))
+                if (String.IsNullOrWhiteSpace(userName))
                 {
-                    BadRequest(GameMessage.ReceivedDataError);
+                    new Exception(GameMessage.ReceivedDataError);
                 }
 
-                AuthorizePlayerStartView authorizePlayerStartView = await _startService.AuthorizePlayer(userName);
-                return Ok(authorizePlayerStartView);
+                IndexStartView indexStartView = await _startService.SearchGameForPlayer(userName);
+                return Ok(indexStartView);
             }
             catch (Exception exception)
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return BadRequest(GameMessage.PlayerAuthError);
+                return BadRequest(GameMessage.PlayerAuthorizationError);
             }
         }
 
@@ -45,13 +45,14 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                if (createGameStartView == null)
+                if (createGameStartView == null ||
+                    String.IsNullOrWhiteSpace(createGameStartView.UserName))
                 {
-                    BadRequest(GameMessage.ReceivedDataError);
+                    new Exception(GameMessage.ReceivedDataError);
                 }
 
-                long gameId = await _startService.CreateGame(createGameStartView.PlayerId, createGameStartView.AmountOfBots);
-                return Ok(new { GameId = gameId });
+                long gameId = await _startService.CreateGame(createGameStartView);
+                return Ok(gameId);
             }
             catch (Exception exception)
             {
@@ -60,23 +61,7 @@ namespace BlackJack.Angular.Controllers
                 return BadRequest(GameMessage.GameCreationError);
             }
         }
-
-        [Route("ResumeGame"), HttpGet]
-        public async Task<IHttpActionResult> ResumeGame(long playerId)
-        {
-            try
-            {
-                long gameId = await _startService.ResumeGame(playerId);
-                return Ok(new { GameId = gameId });
-            }
-            catch (Exception exception)
-            {
-                string message = exception.ToString();
-                _logger.Error(message);
-                return BadRequest(GameMessage.GameResumingError);
-            }
-        }
-
+        
         [Route("Initialize"), HttpGet]
         public async Task<IHttpActionResult> Initialize(long gameId)
         {

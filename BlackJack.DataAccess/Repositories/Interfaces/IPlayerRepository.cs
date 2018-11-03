@@ -7,8 +7,6 @@ namespace BlackJack.DataAccess.Repositories.Interfaces
 {
     public interface IPlayerRepository : IBaseRepository<Player>
     {
-        Task<Player> SelectByName(string name, PlayerType playerType);
-
         Task<List<Player>> CreateMany(List<Player> players);
     }
 }

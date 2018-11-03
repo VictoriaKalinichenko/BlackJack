@@ -7,5 +7,6 @@ import { Input } from '@angular/core';
 })
 export class PlayerOutputComponent {
     @Input() name: string;
+    @Input() cardScore: number;
     @Input() cards: string[];
 }

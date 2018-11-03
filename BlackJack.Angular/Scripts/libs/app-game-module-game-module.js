@@ -1480,7 +1480,7 @@ var GameModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n        <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n        <app-player-output [cards]=\"game.dealer.cards\" [name]=\"game.dealer.name\"></app-player-output>\r\n    </div>\r\n\r\n    <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <h4><span class=\"label label-primary\">Human</span></h4>\r\n                <app-player-output [cards]=\"game.human.cards\" [name]=\"game.human.name\"></app-player-output>\r\n            </div>\r\n\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <div *ngIf=\"takeCard\">\r\n                    <button class=\"btn btn-primary\" (click)=\"addCard(true)\">Take card</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"addCard(false)\">Don't take</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"endRound\">\r\n                    <p>{{game.roundResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"startRound()\">End round</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of game.bots\" class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n        <h4><span class=\"label label-default\">Bot</span></h4>\r\n        <app-player-output [cards]=\"bot.cards\" [name]=\"bot.name\"></app-player-output>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row row-flex\">\r\n    <div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12 well\">\r\n        <h4><span class=\"label label-danger\">Dealer</span></h4>\r\n        <app-player-output [cards]=\"game.dealer.cards\" [name]=\"game.dealer.name\" [cardScore]=\"game.dealer.cardScore\"></app-player-output>\r\n    </div>\r\n\r\n    <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12 well\">\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <h4><span class=\"label label-primary\">Human</span></h4>\r\n                <app-player-output [cards]=\"game.human.cards\" [name]=\"game.human.name\" [cardScore]=\"game.human.cardScore\"></app-player-output>\r\n            </div>\r\n\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <div *ngIf=\"takeCard\">\r\n                    <button class=\"btn btn-primary\" (click)=\"addCard(true)\">Take card</button>\r\n                    <button class=\"btn btn-primary\" (click)=\"addCard(false)\">Don't take</button>\r\n                </div>\r\n\r\n                <div *ngIf=\"endRound\">\r\n                    <p>{{game.roundResult}}</p>\r\n                    <button class=\"btn btn-primary\" (click)=\"startRound()\">End round</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row row-flex\">\r\n    <div *ngFor=\"let bot of game.bots\" class=\"col-lg-2 col-md-4 col-sm-4 col-xs-6 well\">\r\n        <h4><span class=\"label label-default\">Bot</span></h4>\r\n        <app-player-output [cards]=\"bot.cards\" [name]=\"bot.name\" [cardScore]=\"bot.cardScore\"></app-player-output>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1531,7 +1531,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
-            _this.gameId = params['Id'];
+            _this.gameId = params['gameId'];
             _this.initializeRound();
         });
     };
@@ -1630,7 +1630,7 @@ var GameComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>Name: {{name}}</p>\r\n\r\n<p>Cards:</p>\r\n<ul>\r\n    <li *ngFor=\"let card of cards\">{{card}}</li>\r\n</ul>"
+module.exports = "<p>Name: {{name}}</p>\r\n<p>CardScore: {{cardScore}}</p>\r\n\r\n<p>Cards:</p>\r\n<ul>\r\n    <li *ngFor=\"let card of cards\">{{card}}</li>\r\n</ul>"
 
 /***/ }),
 
@@ -1663,6 +1663,10 @@ var PlayerOutputComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", String)
     ], PlayerOutputComponent.prototype, "name", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], PlayerOutputComponent.prototype, "cardScore", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Array)
@@ -1765,6 +1769,7 @@ var PlayerMappingModel = /** @class */ (function () {
     function PlayerMappingModel() {
         this.gamePlayerId = void 0;
         this.name = void 0;
+        this.cardScore = void 0;
         this.cards = void 0;
     }
     __decorate([
@@ -1775,6 +1780,10 @@ var PlayerMappingModel = /** @class */ (function () {
         Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Name'),
         __metadata("design:type", String)
     ], PlayerMappingModel.prototype, "name", void 0);
+    __decorate([
+        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('CardScore'),
+        __metadata("design:type", Number)
+    ], PlayerMappingModel.prototype, "cardScore", void 0);
     __decorate([
         Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Cards'),
         __metadata("design:type", Array)

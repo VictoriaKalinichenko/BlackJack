@@ -28,7 +28,6 @@
         groupable: true,
         height: 550,
         columns: [
-            { field: "Id", title: "Id", width: 80 },
             { field: "GameId", title: "GameId", width: 120 },
             {
                 field: "CreationDate",

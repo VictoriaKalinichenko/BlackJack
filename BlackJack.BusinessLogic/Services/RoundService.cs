@@ -6,7 +6,6 @@ using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.Entities.Enums;
 using BlackJack.ViewModels.Round;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +19,6 @@ namespace BlackJack.BusinessLogic.Services
         private readonly IGamePlayerRepository _gamePlayerRepository;
         private readonly IPlayerCardRepository _playerCardRepository;
         private readonly ICardRepository _cardRepository;
-        
         private readonly IHistoryMessageManager _historyMessageManager;
 
         public RoundService(IPlayerRepository playerRepository, IGameRepository gameRepository, 
@@ -38,7 +36,8 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<StartRoundView> Start(long gameId)
         {  
             List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
-            await _gameRepository.UpdateRoundResult(gameId, string.Empty);
+            Game game = CustomMapper.GetGame(gameId, string.Empty);
+            await _gameRepository.Update(game);
 
             await RemoveCards(players, gameId);
             await DistributeCards(players, CardValue.TwoCardsPerPlayer);
@@ -65,9 +64,9 @@ namespace BlackJack.BusinessLogic.Services
             GamePlayer human = await _gamePlayerRepository.GetHumanByGameId(gameId);
 
             Card card = (await _cardRepository.GetSpecifiedAmount(CardValue.OneCardPerPlayer)).First();
-            PlayerCard addedPlayerCard = CustomMapper.GetPlayerCard(human, card);
-            human.PlayerCards.Add(addedPlayerCard);
-            await _playerCardRepository.Create(addedPlayerCard);
+            PlayerCard createdPlayerCard = CustomMapper.GetPlayerCard(human, card);
+            human.PlayerCards.Add(createdPlayerCard);
+            await _playerCardRepository.Create(createdPlayerCard);
 
             human.CardScore = CountCardScore(human.PlayerCards);
             await _gamePlayerRepository.Update(human);
@@ -94,8 +93,10 @@ namespace BlackJack.BusinessLogic.Services
 
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
-            string roundResult = GetRoundResult(human.CardScore, dealer.CardScore);
-            await _gameRepository.UpdateRoundResult(gameId, roundResult);
+            string roundResult = GetRoundResult(human, dealer);
+
+            Game game = CustomMapper.GetGame(gameId, roundResult);
+            await _gameRepository.Update(game);
 
             await _historyMessageManager.AddMessagesForContinueRound(players, createdPlayerCards, roundResult, gameId);
 
@@ -124,6 +125,12 @@ namespace BlackJack.BusinessLogic.Services
                 return;
             }
 
+            players.ForEach((player) =>
+            {
+                player.CardScore = 0;
+                player.PlayerCards.Clear();
+            });
+
             await _playerCardRepository.DeleteByGameId(gameId);
         }
 
@@ -138,9 +145,9 @@ namespace BlackJack.BusinessLogic.Services
                 if (humanNeedsCards || !(player.Player.Type == PlayerType.Human))
                 {
                     List<Card> cards = PopCardsFromDeck(deck, cardAmountPerPlayer);
-                    List<PlayerCard> addedPlayerCards = CustomMapper.GetPlayerCards(player, cards);
-                    player.PlayerCards = addedPlayerCards;
-                    createdPlayerCards.AddRange(addedPlayerCards);
+                    List<PlayerCard> createdPlayerCardsForPlayer = CustomMapper.GetPlayerCards(player, cards);
+                    player.PlayerCards.AddRange(createdPlayerCardsForPlayer);
+                    createdPlayerCards.AddRange(createdPlayerCardsForPlayer);
                 }
             }
 
@@ -148,18 +155,17 @@ namespace BlackJack.BusinessLogic.Services
             return createdPlayerCards;
         }
         
-        private string GetRoundResult(int humanScore, int dealerScore)
+        private string GetRoundResult(GamePlayer human, GamePlayer dealer)
         {
             string roundResult = GameMessage.Lose;
             
-            if (humanScore > dealerScore && humanScore <= CardValue.MaxCardScore 
-                && dealerScore <= CardValue.MaxCardScore)
+            if (human.CardScore <= CardValue.MaxCardScore && 
+               (human.CardScore > dealer.CardScore || dealer.CardScore > CardValue.MaxCardScore))
             {
                 roundResult = GameMessage.Win;
             }
 
-            if (humanScore == dealerScore && humanScore <= CardValue.MaxCardScore
-                && dealerScore <= CardValue.MaxCardScore)
+            if (human.CardScore == dealer.CardScore && human.CardScore <= CardValue.MaxCardScore)
             {
                 roundResult = GameMessage.Equal;
             }
@@ -203,14 +209,6 @@ namespace BlackJack.BusinessLogic.Services
             }
 
             return roundScore;
-        }
-
-        private long GetRandomCardId()
-        {
-            long cardId;
-            var random = new Random();
-            cardId = random.Next(CardValue.MinId, CardValue.MaxId);
-            return cardId;
         }
     }
 }

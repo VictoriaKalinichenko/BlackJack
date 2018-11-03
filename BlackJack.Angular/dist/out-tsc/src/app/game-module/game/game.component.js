@@ -27,7 +27,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
-            _this.gameId = params['Id'];
+            _this.gameId = params['gameId'];
             _this.initializeRound();
         });
     };

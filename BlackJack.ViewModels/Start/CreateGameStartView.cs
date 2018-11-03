@@ -2,7 +2,7 @@
 {
     public class CreateGameStartView
     {
-        public long PlayerId { get; set; }
+        public string UserName { get; set; }
         public int AmountOfBots { get; set; }
     }
 }

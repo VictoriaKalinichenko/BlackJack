@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomePageComponent } from 'app/home-page/home-page.component';
+import { CreateGameComponent } from 'app/create-game/create-game.component';
 import { ErrorPageComponent } from 'app/error-page/error-page.component';
 
 const appRoutes: Routes = [
@@ -10,8 +11,12 @@ const appRoutes: Routes = [
         component: HomePageComponent
     },
     {
-        path: 'user/:userName',
-        loadChildren: 'app/authorized-user-module/authorized-user.module#AuthorizedUserModule'
+        path: 'create/:userName',
+        component: CreateGameComponent
+    },
+    {
+        path: 'game/:gameId',
+        loadChildren: 'app/game-module/game.module#GameModule'
     },
     {
         path: 'error',

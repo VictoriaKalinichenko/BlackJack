@@ -9,19 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { StartService } from 'app/shared/services/start.service';
 var HomePageComponent = /** @class */ (function () {
-    function HomePageComponent(router) {
+    function HomePageComponent(router, startService) {
         this.router = router;
+        this.startService = startService;
     }
-    HomePageComponent.prototype.authUser = function () {
-        this.router.navigate(['/user', this.userName]);
+    HomePageComponent.prototype.searchGameForPlayer = function () {
+        var _this = this;
+        this.startService.searchGameForPlayer(this.userName)
+            .subscribe(function (data) {
+            if (data["IsGameExist"]) {
+                _this.router.navigate(['/game', data["GameId"]]);
+            }
+            if (!data["IsGameExist"]) {
+                _this.router.navigate(['/create', _this.userName]);
+            }
+        });
     };
     HomePageComponent = __decorate([
         Component({
             selector: 'app-home-page',
             templateUrl: './home-page.component.html'
         }),
-        __metadata("design:paramtypes", [Router])
+        __metadata("design:paramtypes", [Router,
+            StartService])
     ], HomePageComponent);
     return HomePageComponent;
 }());

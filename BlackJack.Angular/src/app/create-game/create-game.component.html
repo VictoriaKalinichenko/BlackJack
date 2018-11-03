@@ -1,0 +1,14 @@
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 well">
+    <h3>Start new game</h3>
+    <label class="control-label col-md-4">Amount of bots:</label>
+    <div class="col-md-8">
+        <input name="amount" [(ngModel)]="amountOfBots" class="form-control"
+               type="number" value="0" min="0" max="5"
+               #amount="ngModel" pattern="[0-5]" />
+        <div [hidden]="amount.valid" class="alert alert-danger">
+            Amount of bots must be more than or equals to 0 and less than or equals to 5.
+        </div>
+        <br />
+        <button [disabled]="amount.invalid" class="btn btn-primary" (click)="createGame()">Start new game</button>
+    </div>
+</div>

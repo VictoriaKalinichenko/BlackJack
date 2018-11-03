@@ -13,58 +13,19 @@ namespace BlackJack.DataAccess.Repositories
         public GameRepository(string connectionString) : base(connectionString)
         { }
         
-        public async Task<long> GetIdByPlayerId(long playerId)
+        public async Task<Game> GetByHumanName(string playerName)
         {
-            string sqlQuery = $@"SELECT TOP (1) GameId FROM GamePlayers 
-                                 WHERE PlayerId = @playerId
-                                 ORDER BY CreationDate DESC";
-
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                long gameId = await db.QueryFirstOrDefaultAsync<long>(sqlQuery, new { playerId });
-                return gameId;
-            }
-        }
-
-        public async Task<string> GetHumanNameByGameId(long gameId)
-        {
-            string sqlQuery = $@"SELECT TOP (1) B.Name
-                                 FROM GamePlayers AS A
+            string sqlQuery = $@"SELECT TOP (1) C.Id FROM GamePlayers AS A
                                  INNER JOIN Players AS B ON A.PlayerId = B.Id
-                                 WHERE A.GameId = @gameId AND B.Type = @playerType
-                                 ORDER BY A.CreationDate DESC";
+                                 INNER JOIN Games AS C ON A.GameId = C.Id
+                                 WHERE B.Name = @playerName AND B.Type = @playerType
+                                 ORDER BY C.CreationDate DESC";
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                string userName = await db.QueryFirstOrDefaultAsync<string>(sqlQuery, new { gameId = gameId, playerType = PlayerType.Human });
-                return userName;
-            }
-        }
-
-        public async Task<Game> GetByPlayerId(long playerId)
-        {
-            string sqlQuery = $@"SELECT TOP (1) B.Id, B.RoundResult 
-                                 FROM GamePlayers AS A
-                                 INNER JOIN Games AS B ON A.GameId = B.Id
-                                 WHERE A.PlayerId = @playerId
-                                 ORDER BY A.CreationDate DESC";
-
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Game game = await db.QueryFirstOrDefaultAsync<Game>(sqlQuery, new { playerId = playerId });
+                Game game = await db.QueryFirstOrDefaultAsync<Game>(sqlQuery, 
+                    new { playerName = playerName, playerType = PlayerType.Human });
                 return game;
-            }
-        }
-
-        public async Task UpdateRoundResult(long id, string roundResult)
-        {
-            string sqlQuery = @"UPDATE Games SET RoundResult = @roundResult
-                                WHERE Id = @id";
-
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                await db.QueryAsync(sqlQuery,
-                    new { roundResult = roundResult, id = id });
             }
         }
     }

@@ -28,7 +28,7 @@ export class GameComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.gameId = params['Id'];
+            this.gameId = params['gameId'];
             this.initializeRound();
         });
     }

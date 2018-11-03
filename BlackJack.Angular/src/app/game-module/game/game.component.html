@@ -1,14 +1,14 @@
 <div class="row row-flex">
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">
         <h4><span class="label label-danger">Dealer</span></h4>
-        <app-player-output [cards]="game.dealer.cards" [name]="game.dealer.name"></app-player-output>
+        <app-player-output [cards]="game.dealer.cards" [name]="game.dealer.name" [cardScore]="game.dealer.cardScore"></app-player-output>
     </div>
 
     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 well">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <h4><span class="label label-primary">Human</span></h4>
-                <app-player-output [cards]="game.human.cards" [name]="game.human.name"></app-player-output>
+                <app-player-output [cards]="game.human.cards" [name]="game.human.name" [cardScore]="game.human.cardScore"></app-player-output>
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -29,6 +29,6 @@
 <div class="row row-flex">
     <div *ngFor="let bot of game.bots" class="col-lg-2 col-md-4 col-sm-4 col-xs-6 well">
         <h4><span class="label label-default">Bot</span></h4>
-        <app-player-output [cards]="bot.cards" [name]="bot.name"></app-player-output>
+        <app-player-output [cards]="bot.cards" [name]="bot.name" [cardScore]="bot.cardScore"></app-player-output>
     </div>
 </div>

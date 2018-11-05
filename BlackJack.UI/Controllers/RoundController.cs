@@ -24,8 +24,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                StartRoundView startRoundView = await _roundService.Start(gameId);
-                return Ok(startRoundView);
+                StartRoundView view = await _roundService.Start(gameId);
+                return Ok(view);
             }
             catch (Exception exception)
             {
@@ -40,8 +40,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                AddCardRoundView addCardRoundView = await _roundService.AddCard(gameId);
-                return Ok(addCardRoundView);
+                AddCardRoundView view = await _roundService.AddCard(gameId);
+                return Ok(view);
             }
             catch (Exception exception)
             {
@@ -56,8 +56,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                ContinueRoundView continueRoundView = await _roundService.Continue(gameId);
-                return Ok(continueRoundView);
+                ContinueRoundView view = await _roundService.Continue(gameId);
+                return Ok(view);
             }
             catch (Exception exception)
             {
@@ -72,8 +72,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                RestoreRoundView restoreRoundView = await _roundService.Restore(gameId);
-                return Ok(restoreRoundView);
+                RestoreRoundView view = await _roundService.Restore(gameId);
+                return Ok(view);
             }
             catch (Exception exception)
             {

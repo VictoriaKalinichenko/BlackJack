@@ -31,23 +31,24 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<IndexStartView> SearchGameForPlayer(string name)
         {
             Game game = await _gameRepository.GetByHumanName(name);
-            IndexStartView indexStartView = new IndexStartView() { IsGameExist = false };
+            IndexStartView view = new IndexStartView();
+            view.IsGameExist = false;
 
             if (game != null)
             {
-                indexStartView.IsGameExist = true;
-                indexStartView.GameId = game.Id;
+                view.IsGameExist = true;
+                view.GameId = game.Id;
             }
 
-            return indexStartView;
+            return view;
         }
         
-        public async Task<long> CreateGame(CreateGameStartView createGameStartView)
+        public async Task<long> CreateGame(CreateGameStartView view)
         {
             var game = new Game();
             game.Id = await _gameRepository.Create(game);
 
-            List<Player> players = await CreatePlayerList(createGameStartView.UserName, createGameStartView.AmountOfBots);
+            List<Player> players = await CreatePlayerList(view.UserName, view.AmountOfBots);
             var gamePlayers = new List<GamePlayer>();
             foreach (Player player in players)
             {
@@ -64,8 +65,8 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<InitializeStartView> InitializeRound(long gameId)
         {
             Game game = await _gameRepository.Get(gameId);
-            InitializeStartView initializeStartView = Mapper.Map<Game, InitializeStartView>(game);
-            return initializeStartView;
+            InitializeStartView view = Mapper.Map<Game, InitializeStartView>(game);
+            return view;
         }
                 
         private async Task<List<Player>> CreatePlayerList(string humanName, int amountOfBots)

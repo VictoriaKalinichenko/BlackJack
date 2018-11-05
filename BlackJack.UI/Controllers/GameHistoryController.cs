@@ -29,8 +29,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                GetGameHistoryView getGameHistoryView = await _gameHistoryService.Get();
-                string jsonResult = JsonConvert.SerializeObject(getGameHistoryView);
+                GetGameHistoryView view = await _gameHistoryService.Get();
+                string jsonResult = JsonConvert.SerializeObject(view);
                 return Content(jsonResult, "application/json");
             }
             catch (Exception exception)

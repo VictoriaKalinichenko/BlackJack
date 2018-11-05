@@ -20,8 +20,8 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<GetGameHistoryView> Get()
         {
             List<HistoryMessage> historyMessages = await _historyMessageRepository.GetAll();
-            GetGameHistoryView getGameHistoryView = CustomMapper.GetGameHistoryView(historyMessages);
-            return getGameHistoryView;
+            GetGameHistoryView view = CustomMapper.GetGameHistoryView(historyMessages);
+            return view;
         }
     }
 }

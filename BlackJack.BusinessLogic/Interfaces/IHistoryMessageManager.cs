@@ -8,8 +8,6 @@ namespace BlackJack.BusinessLogic.Interfaces
     {
         Task AddMessagesForCreateGame(List<GamePlayer> gamePlayers, Game game);
 
-        Task AddMessagesForStartRound(List<GamePlayer> gamePlayers, long gameId);
-
-        Task AddMessagesForContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> playerCards, string roundResult, long gameId);
+        Task AddMessagesForRound(List<GamePlayer> gamePlayers, string roundResult, long gameId);
     }
 }

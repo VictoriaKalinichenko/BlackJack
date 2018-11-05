@@ -34,11 +34,11 @@ namespace BlackJack.UI.Controllers
                     new Exception(GameMessage.ReceivedDataError);
                 }
 
-                IndexStartView indexStartView = await _startService.SearchGameForPlayer(userName);
+                IndexStartView view = await _startService.SearchGameForPlayer(userName);
 
-                if (indexStartView.IsGameExist)
+                if (view.IsGameExist)
                 {
-                    return RedirectToAction("Initialize", new { indexStartView.GameId });
+                    return RedirectToAction("Initialize", new { view.GameId });
                 }
 
                 return RedirectToAction("CreateGame", new { userName });
@@ -60,8 +60,9 @@ namespace BlackJack.UI.Controllers
                     new Exception(GameMessage.ReceivedDataError);
                 }
 
-                var createGameStartView = new CreateGameStartView() { UserName = userName };
-                return View(createGameStartView);
+                var view = new CreateGameStartView();
+                view.UserName = userName;
+                return View(view);
             }
             catch (Exception exception)
             {
@@ -72,17 +73,17 @@ namespace BlackJack.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateGame(CreateGameStartView createGameStartView)
+        public async Task<ActionResult> CreateGame(CreateGameStartView view)
         {
             try
             {
-                if (createGameStartView == null || 
-                    String.IsNullOrWhiteSpace(createGameStartView.UserName))
+                if (view == null || 
+                    String.IsNullOrWhiteSpace(view.UserName))
                 {
                     new Exception(GameMessage.ReceivedDataError);
                 }
 
-                long gameId = await _startService.CreateGame(createGameStartView);
+                long gameId = await _startService.CreateGame(view);
                 return RedirectToAction("Initialize", new { gameId = gameId });
             }
             catch (Exception exception)
@@ -97,8 +98,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                InitializeStartView initializeStartView = await _startService.InitializeRound(gameId);
-                return View(initializeStartView);
+                InitializeStartView view = await _startService.InitializeRound(gameId);
+                return View(view);
             }
             catch (Exception exception)
             {

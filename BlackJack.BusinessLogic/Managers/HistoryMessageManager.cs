@@ -1,8 +1,8 @@
 ﻿using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Managers
@@ -18,104 +18,63 @@ namespace BlackJack.BusinessLogic.Managers
 
         public async Task AddMessagesForCreateGame(List<GamePlayer> gamePlayers, Game game)
         {
-            var logs = new List<HistoryMessage>();
+            var historyMessages = new List<HistoryMessage>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
                 string playerType = gamePlayer.Player.Type.ToString();
-                logs.Add(new HistoryMessage()
-                {
-                    GameId = gamePlayer.GameId,
-                    Message = $"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) is added to game"
-                });
+                string message = $"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) is added to game";
+                HistoryMessage historyMessage = CustomMapper.GetHistoryMessage(gamePlayer.GameId, message);
+                historyMessages.Add(historyMessage);
             }
 
-            await _historyMessageRepository.CreateMany(logs);
+            await _historyMessageRepository.CreateMany(historyMessages);
         }
 
-        public async Task AddMessagesForStartRound(List<GamePlayer> gamePlayers, long gameId)
+        public async Task AddMessagesForRound(List<GamePlayer> gamePlayers, string roundResult, long gameId)
         {
-            var logs = new List<HistoryMessage>();
+            var historyMessages = new List<HistoryMessage>();
 
-            logs.Add(new HistoryMessage()
-            {
-                GameId = gameId,
-                Message = "New round is started"
-            });
-            
-            List<HistoryMessage> cardLogs = CreateMessagesForAddCardsForStartRound(gamePlayers);
-            logs.AddRange(cardLogs);
-            
-            await _historyMessageRepository.CreateMany(logs);
-        }
+            List<HistoryMessage> cardHistoryMessages = CreateMessagesForAddCards(gamePlayers);
+            historyMessages.AddRange(cardHistoryMessages);
 
-        public async Task AddMessagesForContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> playerCards, string roundResult, long gameId)
-        {
-            var logs = new List<HistoryMessage>();
+            string message = $"RoundResult: {roundResult}";
+            HistoryMessage historyMessage = CustomMapper.GetHistoryMessage(gameId, message);
+            historyMessages.Add(historyMessage);
 
-            List<HistoryMessage> cardLogs = CreateMessagesForAddCardsForContinueRound(gamePlayers, playerCards);
-            logs.AddRange(cardLogs);
-
-            logs.Add(new HistoryMessage()
-            {
-                GameId = gameId,
-                Message = $"RoundResult: {roundResult}"
-            });
-
-            await _historyMessageRepository.CreateMany(logs);
+            await _historyMessageRepository.CreateMany(historyMessages);
         }
         
-        private List<HistoryMessage> CreateMessagesForAddCardsForStartRound(List<GamePlayer> gamePlayers)
+        private List<HistoryMessage> CreateMessagesForAddCards(List<GamePlayer> gamePlayers)
         {
-            var logs = new List<HistoryMessage>();
+            var historyMessages = new List<HistoryMessage>();
 
             foreach (GamePlayer gamePlayer in gamePlayers)
             {
-                logs.Add(CreateMessageForAddCard(gamePlayer, gamePlayer.PlayerCards[0].Card));
-                logs.Add(CreateMessageForAddCard(gamePlayer, gamePlayer.PlayerCards[1].Card));
+                var historyMessagesForPlayer = new List<HistoryMessage>();
+                historyMessagesForPlayer = CreateMessagesForAddCardsPerPlayer(gamePlayer);
+                historyMessages.AddRange(historyMessagesForPlayer);
             }
 
-            return logs;
+            return historyMessages;
         }
-        
-        private List<HistoryMessage> CreateMessagesForAddCardsForContinueRound(List<GamePlayer> gamePlayers, List<PlayerCard> createdPlayerCards)
-        {
-            var logs = new List<HistoryMessage>();
 
-            foreach (GamePlayer gamePlayer in gamePlayers)
+        private List<HistoryMessage> CreateMessagesForAddCardsPerPlayer(GamePlayer gamePlayer)
+        {
+            var historyMessages = new List<HistoryMessage>();
+
+            foreach (PlayerCard playerCard in gamePlayer.PlayerCards)
             {
-                List<PlayerCard> playerCards = createdPlayerCards.Where(m => m.GamePlayerId == gamePlayer.Id).ToList();
-                List<HistoryMessage> gamePlayerLogs = CreateMessagesForAddCardsPerPlayer(gamePlayer, playerCards);
-                logs.AddRange(gamePlayerLogs);
+                string playerType = gamePlayer.Player.Type.ToString();
+                string cardName = playerCard.Card.ToString();
+                string message = $@"Card(Id={playerCard.Card.Id}, Value={playerCard.Card.Worth}, Name={cardName}) is added to 
+                             {playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name})";
+
+                HistoryMessage historyMessage = CustomMapper.GetHistoryMessage(gamePlayer.GameId, message);
+                historyMessages.Add(historyMessage);
             }
 
-            return logs;
-        }
-
-        private List<HistoryMessage> CreateMessagesForAddCardsPerPlayer(GamePlayer gamePlayer, List<PlayerCard> playerCards)
-        {
-            var logs = new List<HistoryMessage>();
-
-            foreach (PlayerCard playerCard in playerCards)
-            {
-                CreateMessageForAddCard(gamePlayer, playerCard.Card);
-            }
-
-            return logs;
-        }
-        
-        private HistoryMessage CreateMessageForAddCard(GamePlayer gamePlayer, Card card)
-        {
-            string playerType = gamePlayer.Player.Type.ToString();
-            string cardName = card.ToString();
-            var log = new HistoryMessage()
-            {
-                GameId = gamePlayer.GameId,
-                Message = $@"Card(Id={card.Id}, Value={card.Worth}, Name={cardName}) is added to 
-                             {playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name})"
-            };
-
-            return log;
+            return historyMessages;
         }
     }
 }

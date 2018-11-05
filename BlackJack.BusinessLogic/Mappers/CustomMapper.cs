@@ -17,12 +17,12 @@ namespace BlackJack.BusinessLogic.Mappers
             players.Remove(human);
             players.Remove(dealer);
 
-            var startRoundView = new StartRoundView();
-            startRoundView.Dealer = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(dealer);
-            startRoundView.Human = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(human);
-            startRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerStartRoundViewItem>>(players);
-            startRoundView.CanTakeCard = canTakeCard;
-            return startRoundView;
+            var view = new StartRoundView();
+            view.Dealer = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(dealer);
+            view.Human = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(human);
+            view.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerStartRoundViewItem>>(players);
+            view.CanTakeCard = canTakeCard;
+            return view;
         }
 
         public static ContinueRoundView GetContinueRoundView(List<GamePlayer> players, string humanRoundResult)
@@ -32,26 +32,26 @@ namespace BlackJack.BusinessLogic.Mappers
             players.Remove(human);
             players.Remove(dealer);
 
-            var continueRoundView = new ContinueRoundView();
-            continueRoundView.Dealer = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(dealer);
-            continueRoundView.Human = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(human);
-            continueRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerContinueRoundViewItem>>(players);
-            continueRoundView.RoundResult = humanRoundResult;
-            return continueRoundView;
+            var view = new ContinueRoundView();
+            view.Dealer = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(dealer);
+            view.Human = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(human);
+            view.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerContinueRoundViewItem>>(players);
+            view.RoundResult = humanRoundResult;
+            return view;
         }
 
         public static RestoreRoundView GetRestoreRoundView(List<GamePlayer> players, bool canTakeCard)
         {
-            StartRoundView startRoundView = GetStartRoundView(players, canTakeCard);
-            RestoreRoundView restoreRoundView = Mapper.Map<StartRoundView, RestoreRoundView>(startRoundView);
-            return restoreRoundView;
+            StartRoundView startView = GetStartRoundView(players, canTakeCard);
+            RestoreRoundView viewForRestoreRound = Mapper.Map<StartRoundView, RestoreRoundView>(startView);
+            return viewForRestoreRound;
         }
 
         public static GetGameHistoryView GetGameHistoryView(List<HistoryMessage> historyMessages)
         {
-            var getGameHistoryView = new GetGameHistoryView();
-            getGameHistoryView.HistoryMessages = Mapper.Map<List<HistoryMessage>, List<HistoryMessageGetGameHistoryViewItem>>(historyMessages);
-            return getGameHistoryView;
+            var view = new GetGameHistoryView();
+            view.HistoryMessages = Mapper.Map<List<HistoryMessage>, List<HistoryMessageGetGameHistoryViewItem>>(historyMessages);
+            return view;
         }
 
         public static Player GetPlayer(string name, PlayerType playerType)
@@ -64,13 +64,10 @@ namespace BlackJack.BusinessLogic.Mappers
 
         public static GamePlayer GetGamePlayer(Player player, long gameId)
         {
-            var gamePlayer = new GamePlayer()
-            {
-                GameId = gameId,
-                PlayerId = player.Id,
-                Player = player
-            };
-
+            var gamePlayer = new GamePlayer();
+            gamePlayer.GameId = gameId;
+            gamePlayer.PlayerId = player.Id;
+            gamePlayer.Player = player;
             return gamePlayer;
         }
         
@@ -80,13 +77,10 @@ namespace BlackJack.BusinessLogic.Mappers
 
             foreach (Card card in cards)
             {
-                var playerCard = new PlayerCard()
-                {
-                    CardId = card.Id,
-                    Card = card,
-                    GamePlayerId = gamePlayer.Id
-                };
-
+                var playerCard = new PlayerCard();
+                playerCard.CardId = card.Id;
+                playerCard.Card = card;
+                playerCard.GamePlayerId = gamePlayer.Id;
                 playerCards.Add(playerCard);
             }
 
@@ -95,25 +89,27 @@ namespace BlackJack.BusinessLogic.Mappers
 
         public static PlayerCard GetPlayerCard(GamePlayer gamePlayer, Card card)
         {
-            var playerCard = new PlayerCard()
-            {
-                CardId = card.Id,
-                Card = card,
-                GamePlayerId = gamePlayer.Id
-            };
-
+            var playerCard = new PlayerCard();
+            playerCard.CardId = card.Id;
+            playerCard.Card = card;
+            playerCard.GamePlayerId = gamePlayer.Id;
             return playerCard;
         }
 
         public static Game GetGame(long id, string roundResult)
         {
-            var game = new Game()
-            {
-                Id = id,
-                RoundResult = roundResult
-            };
-
+            var game = new Game();
+            game.Id = id;
+            game.RoundResult = roundResult;
             return game;
+        }
+
+        public static HistoryMessage GetHistoryMessage (long gameId, string message)
+        {
+            var historyMessage = new HistoryMessage();
+            historyMessage.GameId = gameId;
+            historyMessage.Message = message;
+            return historyMessage;
         }
     }
 }

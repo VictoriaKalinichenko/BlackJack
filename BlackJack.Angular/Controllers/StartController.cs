@@ -29,8 +29,8 @@ namespace BlackJack.Angular.Controllers
                     new Exception(GameMessage.ReceivedDataError);
                 }
 
-                IndexStartView indexStartView = await _startService.SearchGameForPlayer(userName);
-                return Ok(indexStartView);
+                IndexStartView view = await _startService.SearchGameForPlayer(userName);
+                return Ok(view);
             }
             catch (Exception exception)
             {
@@ -41,17 +41,17 @@ namespace BlackJack.Angular.Controllers
         }
 
         [Route("CreateGame"), HttpPost]
-        public async Task<IHttpActionResult> CreateGame(CreateGameStartView createGameStartView)
+        public async Task<IHttpActionResult> CreateGame(CreateGameStartView view)
         {
             try
             {
-                if (createGameStartView == null ||
-                    String.IsNullOrWhiteSpace(createGameStartView.UserName))
+                if (view == null ||
+                    String.IsNullOrWhiteSpace(view.UserName))
                 {
                     new Exception(GameMessage.ReceivedDataError);
                 }
 
-                long gameId = await _startService.CreateGame(createGameStartView);
+                long gameId = await _startService.CreateGame(view);
                 return Ok(gameId);
             }
             catch (Exception exception)
@@ -67,8 +67,8 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                InitializeStartView initializeStartView = await _startService.InitializeRound(gameId);
-                return Ok(initializeStartView);
+                InitializeStartView view = await _startService.InitializeRound(gameId);
+                return Ok(view);
             }
             catch (Exception exception)
             {

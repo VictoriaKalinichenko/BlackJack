@@ -1,4 +1,4 @@
-﻿using BlackJack.BusinessLogic.Interfaces;
+﻿using BlackJack.BusinessLogic.Managers.Interfaces;
 using BlackJack.BusinessLogic.Mappers;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
@@ -16,7 +16,7 @@ namespace BlackJack.BusinessLogic.Managers
             _historyMessageRepository = historyMessageRepository;
         }
 
-        public async Task AddMessagesForCreateGame(List<GamePlayer> gamePlayers, Game game)
+        public async Task AddMessagesForCreateGame(List<GamePlayer> gamePlayers)
         {
             var historyMessages = new List<HistoryMessage>();
 

@@ -65,17 +65,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\GameMessage.cs" />
-    <Compile Include="Interfaces\IHistoryMessageManager.cs" />
+    <Compile Include="Managers\Interfaces\IHistoryMessageManager.cs" />
     <Compile Include="Managers\HistoryMessageManager.cs" />
     <Compile Include="Mappers\AutoMapperConfig.cs" />
     <Compile Include="Constants\CardValue.cs" />
     <Compile Include="Constants\PlayerName.cs" />
-    <Compile Include="Interfaces\IGameHistoryService.cs" />
-    <Compile Include="Interfaces\IStartService.cs" />
+    <Compile Include="Services\Interfaces\IGameHistoryService.cs" />
+    <Compile Include="Services\Interfaces\IStartService.cs" />
     <Compile Include="Mappers\CustomMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RoundService.cs" />
-    <Compile Include="Interfaces\IRoundService.cs" />
+    <Compile Include="Services\Interfaces\IRoundService.cs" />
     <Compile Include="Services\GameHistoryService.cs" />
     <Compile Include="Services\StartService.cs" />
     <Compile Include="Config\AutofacConfig.cs" />

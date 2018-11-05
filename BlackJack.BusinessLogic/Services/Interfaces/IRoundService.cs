@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using BlackJack.ViewModels.Round;
 
-namespace BlackJack.BusinessLogic.Interfaces
+namespace BlackJack.BusinessLogic.Services.Interfaces
 {
     public interface IRoundService
     {

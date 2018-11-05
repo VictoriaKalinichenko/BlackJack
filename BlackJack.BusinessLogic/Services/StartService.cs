@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using BlackJack.BusinessLogic.Constants;
-using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Managers.Interfaces;
 using BlackJack.BusinessLogic.Mappers;
+using BlackJack.BusinessLogic.Services.Interfaces;
 using BlackJack.DataAccess.Repositories.Interfaces;
 using BlackJack.Entities.Entities;
 using BlackJack.Entities.Enums;
@@ -57,7 +58,7 @@ namespace BlackJack.BusinessLogic.Services
             }
 
             await _gamePlayerRepository.CreateMany(gamePlayers);
-            await _historyMessageManager.AddMessagesForCreateGame(gamePlayers, game);
+            await _historyMessageManager.AddMessagesForCreateGame(gamePlayers);
             long gameId = game.Id;
             return gameId;
         }

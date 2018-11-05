@@ -43,7 +43,7 @@ export class GameComponent implements OnInit {
     }
 
     startRound() {
-        this.roundService.startRound(this.game.id)
+        this.roundService.startRound(this.gameId)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
@@ -61,7 +61,7 @@ export class GameComponent implements OnInit {
     }
 
     restoreRound() {
-        this.roundService.restoreRound(this.game.id)
+        this.roundService.restoreRound(this.gameId)
             .subscribe(
                 (data) => {
                     let roundResult = this.game.roundResult;
@@ -91,7 +91,7 @@ export class GameComponent implements OnInit {
 
     addCard(takeCard: boolean) {
         if (takeCard) {
-            this.roundService.addCard(this.game.id)
+            this.roundService.addCard(this.gameId)
                 .subscribe(
                     (data) => {
                         if (data["CanTakeCard"]) {
@@ -111,7 +111,7 @@ export class GameComponent implements OnInit {
     }
 
     continueRound() {
-        this.roundService.continueRound(this.game.id)
+        this.roundService.continueRound(this.gameId)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);

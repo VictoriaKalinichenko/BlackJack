@@ -10,7 +10,7 @@ namespace BlackJack.BusinessLogic.Mappers
 {
     public static class CustomMapper
     {        
-        public static StartRoundView GetStartRoundView(List<GamePlayer> players, long gameId, bool canTakeCard)
+        public static StartRoundView GetStartRoundView(List<GamePlayer> players, bool canTakeCard)
         {
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
@@ -22,11 +22,10 @@ namespace BlackJack.BusinessLogic.Mappers
             startRoundView.Human = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(human);
             startRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerStartRoundViewItem>>(players);
             startRoundView.CanTakeCard = canTakeCard;
-            startRoundView.Id = gameId;
             return startRoundView;
         }
 
-        public static ContinueRoundView GetContinueRoundView(List<GamePlayer> players, long gameId, string humanRoundResult)
+        public static ContinueRoundView GetContinueRoundView(List<GamePlayer> players, string humanRoundResult)
         {
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
@@ -38,13 +37,12 @@ namespace BlackJack.BusinessLogic.Mappers
             continueRoundView.Human = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(human);
             continueRoundView.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerContinueRoundViewItem>>(players);
             continueRoundView.RoundResult = humanRoundResult;
-            continueRoundView.Id = gameId;
             return continueRoundView;
         }
 
-        public static RestoreRoundView GetRestoreRoundView(List<GamePlayer> players, long gameId, bool canTakeCard)
+        public static RestoreRoundView GetRestoreRoundView(List<GamePlayer> players, bool canTakeCard)
         {
-            StartRoundView startRoundView = GetStartRoundView(players, gameId, canTakeCard);
+            StartRoundView startRoundView = GetStartRoundView(players, canTakeCard);
             RestoreRoundView restoreRoundView = Mapper.Map<StartRoundView, RestoreRoundView>(startRoundView);
             return restoreRoundView;
         }

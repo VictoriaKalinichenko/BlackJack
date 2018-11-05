@@ -1519,9 +1519,8 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var GameComponent = /** @class */ (function () {
-    function GameComponent(route, router, roundService, startService) {
+    function GameComponent(route, roundService, startService) {
         this.route = route;
-        this.router = router;
         this.roundService = roundService;
         this.startService = startService;
         this.game = new app_shared_mapping_models_game_mapping_model__WEBPACK_IMPORTED_MODULE_5__["GameMappingModel"]();
@@ -1545,7 +1544,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.startRound = function () {
         var _this = this;
-        this.roundService.startRound(this.game.id)
+        this.roundService.startRound(this.gameId)
             .subscribe(function (data) {
             _this.game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_game_mapping_model__WEBPACK_IMPORTED_MODULE_5__["GameMappingModel"], data);
             if (data["CanTakeCard"]) {
@@ -1559,7 +1558,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.restoreRound = function () {
         var _this = this;
-        this.roundService.restoreRound(this.game.id)
+        this.roundService.restoreRound(this.gameId)
             .subscribe(function (data) {
             var roundResult = _this.game.roundResult;
             _this.game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_game_mapping_model__WEBPACK_IMPORTED_MODULE_5__["GameMappingModel"], data);
@@ -1583,7 +1582,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.addCard = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this.roundService.addCard(this.game.id)
+            this.roundService.addCard(this.gameId)
                 .subscribe(function (data) {
                 if (data["CanTakeCard"]) {
                     _this.game.human = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_player_mapping_model__WEBPACK_IMPORTED_MODULE_6__["PlayerMappingModel"], data);
@@ -1599,7 +1598,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.continueRound = function () {
         var _this = this;
-        this.roundService.continueRound(this.game.id)
+        this.roundService.continueRound(this.gameId)
             .subscribe(function (data) {
             _this.game = Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_2__["deserialize"])(app_shared_mapping_models_game_mapping_model__WEBPACK_IMPORTED_MODULE_5__["GameMappingModel"], data);
             _this.endRound = true;
@@ -1612,7 +1611,6 @@ var GameComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./game.component.html */ "./src/app/game-module/game/game.component.html")
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
             app_shared_services_round_service__WEBPACK_IMPORTED_MODULE_3__["RoundService"],
             app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_4__["StartService"]])
     ], GameComponent);
@@ -1710,16 +1708,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var GameMappingModel = /** @class */ (function () {
     function GameMappingModel() {
-        this.id = void 0;
         this.roundResult = void 0;
         this.human = void 0;
         this.dealer = void 0;
         this.bots = void 0;
     }
-    __decorate([
-        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["JsonProperty"])('Id'),
-        __metadata("design:type", Number)
-    ], GameMappingModel.prototype, "id", void 0);
     __decorate([
         Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_1__["JsonProperty"])('RoundResult'),
         __metadata("design:type", String)
@@ -1767,15 +1760,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var PlayerMappingModel = /** @class */ (function () {
     function PlayerMappingModel() {
-        this.gamePlayerId = void 0;
         this.name = void 0;
         this.cardScore = void 0;
         this.cards = void 0;
     }
-    __decorate([
-        Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Id'),
-        __metadata("design:type", Number)
-    ], PlayerMappingModel.prototype, "gamePlayerId", void 0);
     __decorate([
         Object(json_typescript_mapper__WEBPACK_IMPORTED_MODULE_0__["JsonProperty"])('Name'),
         __metadata("design:type", String)

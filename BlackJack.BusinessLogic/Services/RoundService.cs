@@ -52,7 +52,7 @@ namespace BlackJack.BusinessLogic.Services
                 canTakeCard = false;
             }
 
-            StartRoundView startRoundView = CustomMapper.GetStartRoundView(players, gameId, canTakeCard);
+            StartRoundView startRoundView = CustomMapper.GetStartRoundView(players, canTakeCard);
             return startRoundView;
         }
         
@@ -94,7 +94,7 @@ namespace BlackJack.BusinessLogic.Services
 
             await _historyMessageManager.AddMessagesForContinueRound(players, createdPlayerCards, roundResult, gameId);
 
-            ContinueRoundView continueRoundView = CustomMapper.GetContinueRoundView(players, gameId, roundResult);
+            ContinueRoundView continueRoundView = CustomMapper.GetContinueRoundView(players, roundResult);
             return continueRoundView;
         }
 
@@ -108,7 +108,7 @@ namespace BlackJack.BusinessLogic.Services
                 canTakeCard = false;
             }
             
-            RestoreRoundView restoreRoundView = CustomMapper.GetRestoreRoundView(players, gameId, canTakeCard);
+            RestoreRoundView restoreRoundView = CustomMapper.GetRestoreRoundView(players, canTakeCard);
             return restoreRoundView;
         }
 

@@ -11,16 +11,11 @@ import { PlayerMappingModel } from 'app/shared/mapping-models/player-mapping-mod
 import { JsonProperty } from 'json-typescript-mapper';
 var GameMappingModel = /** @class */ (function () {
     function GameMappingModel() {
-        this.id = void 0;
         this.roundResult = void 0;
         this.human = void 0;
         this.dealer = void 0;
         this.bots = void 0;
     }
-    __decorate([
-        JsonProperty('Id'),
-        __metadata("design:type", Number)
-    ], GameMappingModel.prototype, "id", void 0);
     __decorate([
         JsonProperty('RoundResult'),
         __metadata("design:type", String)

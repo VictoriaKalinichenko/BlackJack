@@ -2,9 +2,6 @@
 import { JsonProperty } from 'json-typescript-mapper';
 
 export class GameMappingModel {
-    @JsonProperty('Id')
-    id: number;
-
     @JsonProperty('RoundResult')
     roundResult: string;
 
@@ -18,7 +15,6 @@ export class GameMappingModel {
     bots: PlayerMappingModel[];
 
     constructor() {
-        this.id = void 0;
         this.roundResult = void 0;
         this.human = void 0;
         this.dealer = void 0;

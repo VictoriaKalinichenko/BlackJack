@@ -8,16 +8,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { deserialize } from 'json-typescript-mapper';
 import { RoundService } from 'app/shared/services/round.service';
 import { StartService } from 'app/shared/services/start.service';
 import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
 import { PlayerMappingModel } from 'app/shared/mapping-models/player-mapping-model';
 var GameComponent = /** @class */ (function () {
-    function GameComponent(route, router, roundService, startService) {
+    function GameComponent(route, roundService, startService) {
         this.route = route;
-        this.router = router;
         this.roundService = roundService;
         this.startService = startService;
         this.game = new GameMappingModel();
@@ -41,7 +40,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.startRound = function () {
         var _this = this;
-        this.roundService.startRound(this.game.id)
+        this.roundService.startRound(this.gameId)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
             if (data["CanTakeCard"]) {
@@ -55,7 +54,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.restoreRound = function () {
         var _this = this;
-        this.roundService.restoreRound(this.game.id)
+        this.roundService.restoreRound(this.gameId)
             .subscribe(function (data) {
             var roundResult = _this.game.roundResult;
             _this.game = deserialize(GameMappingModel, data);
@@ -79,7 +78,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.addCard = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this.roundService.addCard(this.game.id)
+            this.roundService.addCard(this.gameId)
                 .subscribe(function (data) {
                 if (data["CanTakeCard"]) {
                     _this.game.human = deserialize(PlayerMappingModel, data);
@@ -95,7 +94,7 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.continueRound = function () {
         var _this = this;
-        this.roundService.continueRound(this.game.id)
+        this.roundService.continueRound(this.gameId)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
             _this.endRound = true;
@@ -108,7 +107,6 @@ var GameComponent = /** @class */ (function () {
             templateUrl: './game.component.html'
         }),
         __metadata("design:paramtypes", [ActivatedRoute,
-            Router,
             RoundService,
             StartService])
     ], GameComponent);

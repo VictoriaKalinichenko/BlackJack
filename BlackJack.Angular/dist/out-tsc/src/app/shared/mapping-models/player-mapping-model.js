@@ -10,15 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { JsonProperty } from 'json-typescript-mapper';
 var PlayerMappingModel = /** @class */ (function () {
     function PlayerMappingModel() {
-        this.gamePlayerId = void 0;
         this.name = void 0;
         this.cardScore = void 0;
         this.cards = void 0;
     }
-    __decorate([
-        JsonProperty('Id'),
-        __metadata("design:type", Number)
-    ], PlayerMappingModel.prototype, "gamePlayerId", void 0);
     __decorate([
         JsonProperty('Name'),
         __metadata("design:type", String)

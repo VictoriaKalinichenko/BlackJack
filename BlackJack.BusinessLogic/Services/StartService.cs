@@ -53,7 +53,7 @@ namespace BlackJack.BusinessLogic.Services
             var gamePlayers = new List<GamePlayer>();
             foreach (Player player in players)
             {
-                GamePlayer gamePlayer = CustomMapper.GetGamePlayer(player, game.Id);
+                GamePlayer gamePlayer = CustomMapper.MapGamePlayer(player, game.Id);
                 gamePlayers.Add(gamePlayer);
             }
 
@@ -73,15 +73,15 @@ namespace BlackJack.BusinessLogic.Services
         private async Task<List<Player>> CreatePlayerList(string humanName, int amountOfBots)
         {
             var players = new List<Player>();
-            Player human = CustomMapper.GetPlayer(humanName, PlayerType.Human);
+            Player human = CustomMapper.MapPlayer(humanName, PlayerType.Human);
             players.Add(human);
 
-            Player dealer = CustomMapper.GetPlayer(PlayerName.DealerName, PlayerType.Dealer);
+            Player dealer = CustomMapper.MapPlayer(PlayerName.DealerName, PlayerType.Dealer);
             players.Add(dealer);
 
             for (int i = 0; i < amountOfBots; i++)
             {
-                Player bot = CustomMapper.GetPlayer(PlayerName.BotName + i, PlayerType.Bot);
+                Player bot = CustomMapper.MapPlayer(PlayerName.BotName + i, PlayerType.Bot);
                 players.Add(bot);
             }
 

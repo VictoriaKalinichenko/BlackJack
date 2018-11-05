@@ -10,7 +10,7 @@ namespace BlackJack.BusinessLogic.Mappers
 {
     public static class CustomMapper
     {        
-        public static StartRoundView GetStartRoundView(List<GamePlayer> players, bool canTakeCard)
+        public static StartRoundView MapStartRoundView(List<GamePlayer> players, bool canTakeCard)
         {
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
@@ -25,7 +25,7 @@ namespace BlackJack.BusinessLogic.Mappers
             return view;
         }
 
-        public static ContinueRoundView GetContinueRoundView(List<GamePlayer> players, string humanRoundResult)
+        public static ContinueRoundView MapContinueRoundView(List<GamePlayer> players, string humanRoundResult)
         {
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
@@ -40,21 +40,21 @@ namespace BlackJack.BusinessLogic.Mappers
             return view;
         }
 
-        public static RestoreRoundView GetRestoreRoundView(List<GamePlayer> players, bool canTakeCard)
+        public static RestoreRoundView MapRestoreRoundView(List<GamePlayer> players, bool canTakeCard)
         {
-            StartRoundView startView = GetStartRoundView(players, canTakeCard);
+            StartRoundView startView = MapStartRoundView(players, canTakeCard);
             RestoreRoundView viewForRestoreRound = Mapper.Map<StartRoundView, RestoreRoundView>(startView);
             return viewForRestoreRound;
         }
 
-        public static GetGameHistoryView GetGameHistoryView(List<HistoryMessage> historyMessages)
+        public static GetGameHistoryView MapGameHistoryView(List<HistoryMessage> historyMessages)
         {
             var view = new GetGameHistoryView();
             view.HistoryMessages = Mapper.Map<List<HistoryMessage>, List<HistoryMessageGetGameHistoryViewItem>>(historyMessages);
             return view;
         }
 
-        public static Player GetPlayer(string name, PlayerType playerType)
+        public static Player MapPlayer(string name, PlayerType playerType)
         {
             var player = new Player();
             player.Name = name;
@@ -62,7 +62,7 @@ namespace BlackJack.BusinessLogic.Mappers
             return player;
         }
 
-        public static GamePlayer GetGamePlayer(Player player, long gameId)
+        public static GamePlayer MapGamePlayer(Player player, long gameId)
         {
             var gamePlayer = new GamePlayer();
             gamePlayer.GameId = gameId;
@@ -71,7 +71,7 @@ namespace BlackJack.BusinessLogic.Mappers
             return gamePlayer;
         }
         
-        public static List<PlayerCard> GetPlayerCards(GamePlayer gamePlayer, List<Card> cards)
+        public static List<PlayerCard> MapPlayerCards(GamePlayer gamePlayer, List<Card> cards)
         {
             var playerCards = new List<PlayerCard>();
 
@@ -87,7 +87,7 @@ namespace BlackJack.BusinessLogic.Mappers
             return playerCards;
         }
 
-        public static PlayerCard GetPlayerCard(GamePlayer gamePlayer, Card card)
+        public static PlayerCard MapPlayerCard(GamePlayer gamePlayer, Card card)
         {
             var playerCard = new PlayerCard();
             playerCard.CardId = card.Id;
@@ -96,7 +96,7 @@ namespace BlackJack.BusinessLogic.Mappers
             return playerCard;
         }
 
-        public static Game GetGame(long id, string roundResult)
+        public static Game MapGame(long id, string roundResult)
         {
             var game = new Game();
             game.Id = id;
@@ -104,7 +104,7 @@ namespace BlackJack.BusinessLogic.Mappers
             return game;
         }
 
-        public static HistoryMessage GetHistoryMessage (long gameId, string message)
+        public static HistoryMessage MapHistoryMessage (long gameId, string message)
         {
             var historyMessage = new HistoryMessage();
             historyMessage.GameId = gameId;

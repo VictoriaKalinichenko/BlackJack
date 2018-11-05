@@ -24,7 +24,7 @@ namespace BlackJack.BusinessLogic.Managers
             {
                 string playerType = gamePlayer.Player.Type.ToString();
                 string message = $"{playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name}) is added to game";
-                HistoryMessage historyMessage = CustomMapper.GetHistoryMessage(gamePlayer.GameId, message);
+                HistoryMessage historyMessage = CustomMapper.MapHistoryMessage(gamePlayer.GameId, message);
                 historyMessages.Add(historyMessage);
             }
 
@@ -39,7 +39,7 @@ namespace BlackJack.BusinessLogic.Managers
             historyMessages.AddRange(cardHistoryMessages);
 
             string message = $"RoundResult: {roundResult}";
-            HistoryMessage historyMessage = CustomMapper.GetHistoryMessage(gameId, message);
+            HistoryMessage historyMessage = CustomMapper.MapHistoryMessage(gameId, message);
             historyMessages.Add(historyMessage);
 
             await _historyMessageRepository.CreateMany(historyMessages);
@@ -70,7 +70,7 @@ namespace BlackJack.BusinessLogic.Managers
                 string message = $@"Card(Id={playerCard.Card.Id}, Value={playerCard.Card.Worth}, Name={cardName}) is added to 
                              {playerType}(Id={gamePlayer.Player.Id}, Name={gamePlayer.Player.Name})";
 
-                HistoryMessage historyMessage = CustomMapper.GetHistoryMessage(gamePlayer.GameId, message);
+                HistoryMessage historyMessage = CustomMapper.MapHistoryMessage(gamePlayer.GameId, message);
                 historyMessages.Add(historyMessage);
             }
 

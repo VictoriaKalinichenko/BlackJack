@@ -37,7 +37,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<StartRoundView> Start(long gameId)
         {  
             List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
-            Game game = CustomMapper.GetGame(gameId, string.Empty);
+            Game game = CustomMapper.MapGame(gameId, string.Empty);
             await _gameRepository.Update(game);
 
             players = await RemoveCards(players, gameId);
@@ -52,7 +52,7 @@ namespace BlackJack.BusinessLogic.Services
                 canTakeCard = false;
             }
 
-            StartRoundView view = CustomMapper.GetStartRoundView(players, canTakeCard);
+            StartRoundView view = CustomMapper.MapStartRoundView(players, canTakeCard);
             return view;
         }
         
@@ -61,7 +61,7 @@ namespace BlackJack.BusinessLogic.Services
             GamePlayer human = await _gamePlayerRepository.GetHumanByGameId(gameId);
 
             Card card = (await _cardRepository.GetSpecifiedAmount(CardValue.OneCardPerPlayer)).First();
-            PlayerCard createdPlayerCard = CustomMapper.GetPlayerCard(human, card);
+            PlayerCard createdPlayerCard = CustomMapper.MapPlayerCard(human, card);
             human.PlayerCards.Add(createdPlayerCard);
             await _playerCardRepository.Create(createdPlayerCard);
 
@@ -89,11 +89,11 @@ namespace BlackJack.BusinessLogic.Services
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
             string roundResult = GetRoundResult(human, dealer);
 
-            Game game = CustomMapper.GetGame(gameId, roundResult);
+            Game game = CustomMapper.MapGame(gameId, roundResult);
             await _gameRepository.Update(game);
             await _historyMessageManager.AddMessagesForRound(players, roundResult, gameId);
 
-            ContinueRoundView view = CustomMapper.GetContinueRoundView(players, roundResult);
+            ContinueRoundView view = CustomMapper.MapContinueRoundView(players, roundResult);
             return view;
         }
 
@@ -107,7 +107,7 @@ namespace BlackJack.BusinessLogic.Services
                 canTakeCard = false;
             }
             
-            RestoreRoundView view = CustomMapper.GetRestoreRoundView(players, canTakeCard);
+            RestoreRoundView view = CustomMapper.MapRestoreRoundView(players, canTakeCard);
             return view;
         }
 
@@ -141,7 +141,7 @@ namespace BlackJack.BusinessLogic.Services
                 if (humanNeedsCards || !(player.Player.Type == PlayerType.Human))
                 {
                     List<Card> cards = PopCardsFromDeck(deck, cardAmountPerPlayer);
-                    List<PlayerCard> createdPlayerCardsForPlayer = CustomMapper.GetPlayerCards(player, cards);
+                    List<PlayerCard> createdPlayerCardsForPlayer = CustomMapper.MapPlayerCards(player, cards);
                     player.PlayerCards.AddRange(createdPlayerCardsForPlayer);
                     createdPlayerCards.AddRange(createdPlayerCardsForPlayer);
                 }

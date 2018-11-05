@@ -1,5 +1,5 @@
 ﻿using BlackJack.BusinessLogic.Constants;
-using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Services.Interfaces;
 using BlackJack.ViewModels.GameHistory;
 using Newtonsoft.Json;
 using NLog;

@@ -37,7 +37,7 @@ namespace BlackJack.BusinessLogic.Services
         public async Task<StartRoundView> Start(long gameId)
         {  
             List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
-            Game game = CustomMapper.MapGame(gameId, string.Empty);
+            Game game = CustomMapper.MapGameWithIdAndRoundResult(gameId, string.Empty);
             await _gameRepository.Update(game);
 
             players = await RemoveCards(players, gameId);
@@ -56,7 +56,7 @@ namespace BlackJack.BusinessLogic.Services
             return view;
         }
         
-        public async Task<AddCardRoundView> AddCard(long gameId)
+        public async Task<AddCardRoundView> TakeCard(long gameId)
         {
             GamePlayer human = await _gamePlayerRepository.GetHumanByGameId(gameId);
 
@@ -78,7 +78,7 @@ namespace BlackJack.BusinessLogic.Services
             return view;
         }
 
-        public async Task<ContinueRoundView> Continue(long gameId)
+        public async Task<EndRoundView> End(long gameId)
         {
             List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
             players = await DistributeCards(players, CardValue.OneCardPerPlayer, false);
@@ -89,11 +89,11 @@ namespace BlackJack.BusinessLogic.Services
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
             string roundResult = GetRoundResult(human, dealer);
 
-            Game game = CustomMapper.MapGame(gameId, roundResult);
+            Game game = CustomMapper.MapGameWithIdAndRoundResult(gameId, roundResult);
             await _gameRepository.Update(game);
             await _historyMessageManager.AddMessagesForRound(players, roundResult, gameId);
 
-            ContinueRoundView view = CustomMapper.MapContinueRoundView(players, roundResult);
+            EndRoundView view = CustomMapper.MapContinueRoundView(players, roundResult);
             return view;
         }
 
@@ -188,7 +188,7 @@ namespace BlackJack.BusinessLogic.Services
 
         private int CountCardScore(List<PlayerCard> playerCards)
         {
-            int roundScore = 0;
+            int cardScore = 0;
 
             int aceCount = 0;
             foreach (PlayerCard playerCard in playerCards)
@@ -200,21 +200,21 @@ namespace BlackJack.BusinessLogic.Services
                 
                 if (playerCard.Card.Worth != CardValue.AceFullWorth)
                 {
-                    roundScore += playerCard.Card.Worth;
+                    cardScore += playerCard.Card.Worth;
                 }
             }
             
             for (int iterator = aceCount; iterator > 0; iterator--)
             {
                 int aceWorth = CardValue.AceFullWorth;
-                if (roundScore >= CardValue.MaxCardScore)
+                if (cardScore >= CardValue.MaxCardScore)
                 {
                     aceWorth = CardValue.AceOnePointWorth;
                 }
-                roundScore += aceWorth;
+                cardScore += aceWorth;
             }
 
-            return roundScore;
+            return cardScore;
         }
     }
 }

@@ -13,14 +13,14 @@ namespace BlackJack.Angular.Config
             var builder = new ContainerBuilder();
             string connectionString = ConfigurationManager.ConnectionStrings["dataBaseConnection"].ConnectionString;
 
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterApiControllers(typeof(MvcApplication).Assembly);
+            builder.RegisterControllers(typeof(Startup).Assembly);
+            builder.RegisterApiControllers(typeof(Startup).Assembly);
             builder.RegisterModelBinderProvider();
 
             builder.RegisterModule(new BusinessLogic.Config.AutofacConfig(connectionString));
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-            System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver((IContainer)container);
+            System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

@@ -35,12 +35,12 @@ namespace BlackJack.Angular.Controllers
             }
         }
 
-        [Route("AddCard"), HttpGet]
-        public async Task<IHttpActionResult> AddCard(long gameId)
+        [Route("TakeCard"), HttpGet]
+        public async Task<IHttpActionResult> TakeCard(long gameId)
         {
             try
             {
-                AddCardRoundView view = await _roundService.AddCard(gameId);
+                AddCardRoundView view = await _roundService.TakeCard(gameId);
                 return Ok(view);
             }
             catch (Exception exception)
@@ -51,12 +51,12 @@ namespace BlackJack.Angular.Controllers
             }
         }
 
-        [Route("Continue"), HttpGet]
-        public async Task<IHttpActionResult> Continue(long gameId)
+        [Route("End"), HttpGet]
+        public async Task<IHttpActionResult> End(long gameId)
         {
             try
             {
-                ContinueRoundView view = await _roundService.Continue(gameId);
+                EndRoundView view = await _roundService.End(gameId);
                 return Ok(view);
             }
             catch (Exception exception)

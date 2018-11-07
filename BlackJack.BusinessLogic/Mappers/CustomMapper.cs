@@ -25,14 +25,14 @@ namespace BlackJack.BusinessLogic.Mappers
             return view;
         }
 
-        public static ContinueRoundView MapContinueRoundView(List<GamePlayer> players, string humanRoundResult)
+        public static EndRoundView MapContinueRoundView(List<GamePlayer> players, string humanRoundResult)
         {
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
             players.Remove(human);
             players.Remove(dealer);
 
-            var view = new ContinueRoundView();
+            var view = new EndRoundView();
             view.Dealer = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(dealer);
             view.Human = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(human);
             view.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerContinueRoundViewItem>>(players);
@@ -96,7 +96,7 @@ namespace BlackJack.BusinessLogic.Mappers
             return playerCard;
         }
 
-        public static Game MapGame(long id, string roundResult)
+        public static Game MapGameWithIdAndRoundResult(long id, string roundResult)
         {
             var game = new Game();
             game.Id = id;

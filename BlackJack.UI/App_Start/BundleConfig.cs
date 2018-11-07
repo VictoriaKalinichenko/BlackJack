@@ -23,9 +23,9 @@ namespace BlackJack.UI
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/bundles/KendoUI/css").Include(
-                "~/Scripts/kendoui/styles/kendo.common.min.css",
-                "~/Scripts/kendoui/styles/kendo.default.min.css",
-                "~/Scripts/kendoui/styles/kendo.default.mobile.min.css"));
+                "~/Content/kendoui/styles/kendo.common.min.css",
+                "~/Content/kendoui/styles/kendo.default.min.css",
+                "~/Content/kendoui/styles/kendo.default.mobile.min.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/KendoUI/js").Include(
                 "~/Scripts/kendoui/js/jquery.min.js",

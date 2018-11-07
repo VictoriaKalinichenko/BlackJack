@@ -1,7 +1,8 @@
 ﻿using Autofac;
-using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Managers;
+using BlackJack.BusinessLogic.Managers.Interfaces;
 using BlackJack.BusinessLogic.Services;
+using BlackJack.BusinessLogic.Services.Interfaces;
 
 namespace BlackJack.BusinessLogic.Config
 {

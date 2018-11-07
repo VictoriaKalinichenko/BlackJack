@@ -7,9 +7,9 @@ namespace BlackJack.BusinessLogic.Services.Interfaces
     {
         Task<StartRoundView> Start(long gameId);
 
-        Task<AddCardRoundView> AddCard(long gameId);
+        Task<AddCardRoundView> TakeCard(long gameId);
 
-        Task<ContinueRoundView> Continue(long gameId);
+        Task<EndRoundView> End(long gameId);
 
         Task<RestoreRoundView> Restore(long gameId);
     }

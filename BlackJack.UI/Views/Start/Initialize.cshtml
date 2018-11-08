@@ -1,12 +1,12 @@
-﻿@using BlackJack.ViewModels.Start
+﻿@using BlackJack.ViewModels.Start;
 @model InitializeStartView
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<input type="hidden" id="gameid" name="gameid" value=@Model.Id />
-<input type="hidden" id="roundresult" name="roundresult" value="@Model.RoundResult" />
+<input type="hidden" id="gameid" name="gameid" value=@Model.GameId />
+<input type="hidden" id="isnewgame" name="isnewgame" value=@Model.IsNewGame />
 <div id="players">
     <div class="row row-flex">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">

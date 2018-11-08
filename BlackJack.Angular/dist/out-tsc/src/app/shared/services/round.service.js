@@ -18,20 +18,15 @@ var RoundService = /** @class */ (function () {
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
         return this.httpClient.get('Round/Start', options);
     };
-    RoundService.prototype.continueRound = function (gameId) {
+    RoundService.prototype.endRound = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/Continue', options);
+        return this.httpClient.get('Round/End', options);
     };
-    RoundService.prototype.addCard = function (gameId) {
+    RoundService.prototype.takeCard = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/AddCard', options);
-    };
-    RoundService.prototype.restoreRound = function (gameId) {
-        var options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/Restore', options);
+        return this.httpClient.get('Round/TakeCard', options);
     };
     RoundService = __decorate([
         Injectable(),

@@ -27,74 +27,46 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.gameId = params['gameId'];
-            _this.initializeRound();
+            _this.onStartRound();
         });
     };
-    GameComponent.prototype.initializeRound = function () {
-        var _this = this;
-        this.startService.initializeRound(this.gameId)
-            .subscribe(function (data) {
-            _this.game = deserialize(GameMappingModel, data);
-            _this.restoreRound();
-        });
-    };
-    GameComponent.prototype.startRound = function () {
+    GameComponent.prototype.onStartRound = function () {
         var _this = this;
         this.roundService.startRound(this.gameId)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
-            if (data["CanTakeCard"]) {
+            if (data["CanTakeCard"] != null) {
                 _this.endRound = false;
                 _this.takeCard = true;
             }
-            if (!data["CanTakeCard"]) {
-                _this.continueRound();
-            }
-        });
-    };
-    GameComponent.prototype.restoreRound = function () {
-        var _this = this;
-        this.roundService.restoreRound(this.gameId)
-            .subscribe(function (data) {
-            var roundResult = _this.game.roundResult;
-            _this.game = deserialize(GameMappingModel, data);
-            _this.game.roundResult = roundResult;
-            if (data["Human"]["Cards"][0] == null) {
-                _this.startRound();
-            }
-            if (!data["CanTakeCard"] && roundResult == "") {
-                _this.continueRound();
-            }
-            if (roundResult != "") {
+            if (data["CanTakeCard"] == null) {
                 _this.endRound = true;
                 _this.takeCard = false;
             }
-            if (data["CanTakeCard"]) {
-                _this.endRound = false;
-                _this.takeCard = true;
-            }
         });
     };
-    GameComponent.prototype.addCard = function (takeCard) {
+    GameComponent.prototype.onTakeCard = function (takeCard) {
         var _this = this;
         if (takeCard) {
-            this.roundService.addCard(this.gameId)
+            this.roundService.takeCard(this.gameId)
                 .subscribe(function (data) {
-                if (data["CanTakeCard"]) {
+                if (data["CanTakeCard"] != null) {
                     _this.game.human = deserialize(PlayerMappingModel, data);
                 }
-                if (!data["CanTakeCard"]) {
-                    _this.continueRound();
+                if (data["CanTakeCard"] == null) {
+                    _this.game = deserialize(GameMappingModel, data);
+                    _this.endRound = true;
+                    _this.takeCard = false;
                 }
             });
         }
         if (!takeCard) {
-            this.continueRound();
+            this.onContinueRound();
         }
     };
-    GameComponent.prototype.continueRound = function () {
+    GameComponent.prototype.onContinueRound = function () {
         var _this = this;
-        this.roundService.continueRound(this.gameId)
+        this.roundService.endRound(this.gameId)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
             _this.endRound = true;

@@ -84,7 +84,7 @@ namespace BlackJack.UI.Controllers
                 }
 
                 long gameId = await _startService.CreateGame(view);
-                return RedirectToAction("Initialize", new { gameId = gameId });
+                return RedirectToAction("Initialize", new { gameId = gameId, isNewGame = true });
             }
             catch (Exception exception)
             {
@@ -94,11 +94,13 @@ namespace BlackJack.UI.Controllers
             }
         }
         
-        public async Task<ActionResult> Initialize(long gameId)
+        public ActionResult Initialize(long gameId, bool isNewGame = false)
         {
             try
             {
-                InitializeStartView view = await _startService.InitializeRound(gameId);
+                var view = new InitializeStartView();
+                view.GameId = gameId;
+                view.IsNewGame = isNewGame;
                 return View(view);
             }
             catch (Exception exception)

@@ -2,7 +2,6 @@
 using BlackJack.Entities.Entities;
 using BlackJack.ViewModels.GameHistory;
 using BlackJack.ViewModels.Round;
-using BlackJack.ViewModels.Start;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,22 +13,14 @@ namespace BlackJack.BusinessLogic.Mappers
         {
             Mapper.Initialize(config =>
             {
-                config.CreateMap<Game, InitializeStartView>();
                 config.CreateMap<HistoryMessage, HistoryMessageGetGameHistoryViewItem>();
                                 
                 config.CreateMap<GamePlayer, GamePlayerStartRoundViewItem>()
                     .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
                     .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
 
-                config.CreateMap<GamePlayer, GamePlayerContinueRoundViewItem>()
-                    .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
-                    .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
-
-                config.CreateMap<GamePlayer, AddCardRoundView>()
-                    .ForMember("Cards", opt => opt.MapFrom(c => GetCardsStringList(c.PlayerCards)))
-                    .ForMember("Name", opt => opt.MapFrom(c => c.Player.Name));
-                
                 config.CreateMap<StartRoundView, RestoreRoundView>();
+                config.CreateMap<StartRoundView, TakeCardRoundView>();
             });
         }
 

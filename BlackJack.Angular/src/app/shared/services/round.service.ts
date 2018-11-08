@@ -12,24 +12,17 @@ export class RoundService {
         return this.httpClient.get('Round/Start', options);
     }
 
-    continueRound(gameId: number) {
+    endRound(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this.httpClient.get('Round/Continue', options);
+        return this.httpClient.get('Round/End', options);
     }
 
-    addCard(gameId: number) {
+    takeCard(gameId: number) {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this.httpClient.get('Round/AddCard', options);
-    }
-
-    restoreRound(gameId: number) {
-        const options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-
-        return this.httpClient.get('Round/Restore', options);
+        return this.httpClient.get('Round/TakeCard', options);
     }
 }

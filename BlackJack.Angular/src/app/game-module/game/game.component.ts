@@ -28,90 +28,54 @@ export class GameComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.gameId = params['gameId'];
-            this.initializeRound();
+            this.onStartRound();
         });
     }
-
-    initializeRound() {
-        this.startService.initializeRound(this.gameId)
-            .subscribe(
-                (data) => {
-                    this.game = deserialize(GameMappingModel, data);
-                    this.restoreRound();
-                }
-            );
-    }
-
-    startRound() {
+    
+    onStartRound() {
         this.roundService.startRound(this.gameId)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);
 
-                    if (data["CanTakeCard"]) {
+                    if (data["CanTakeCard"] != null) {
                         this.endRound = false;
                         this.takeCard = true;
                     }
 
-                    if (!data["CanTakeCard"]) {
-                        this.continueRound();
-                    }
-                }
-            );
-    }
-
-    restoreRound() {
-        this.roundService.restoreRound(this.gameId)
-            .subscribe(
-                (data) => {
-                    let roundResult = this.game.roundResult;
-                    this.game = deserialize(GameMappingModel, data);
-                    this.game.roundResult = roundResult;
-
-                    if (data["Human"]["Cards"][0] == null) {
-                        this.startRound();
-                    }
-
-                    if (!data["CanTakeCard"] && roundResult == "") {
-                        this.continueRound();
-                    }
-
-                    if (roundResult != "") {
+                    if (data["CanTakeCard"] == null) {
                         this.endRound = true;
                         this.takeCard = false;
                     }
-
-                    if (data["CanTakeCard"]) {
-                        this.endRound = false;
-                        this.takeCard = true;
-                    }
                 }
             );
     }
 
-    addCard(takeCard: boolean) {
+    onTakeCard(takeCard: boolean) {
         if (takeCard) {
-            this.roundService.addCard(this.gameId)
+            this.roundService.takeCard(this.gameId)
                 .subscribe(
                     (data) => {
-                        if (data["CanTakeCard"]) {
+                        if (data["CanTakeCard"] != null) {
                             this.game.human = deserialize(PlayerMappingModel, data);
                         }
 
-                        if (!data["CanTakeCard"]) {
-                            this.continueRound();
+                        if (data["CanTakeCard"] == null) {
+                            this.game = deserialize(GameMappingModel, data);
+                            this.endRound = true;
+                            this.takeCard = false;
                         }
                     }
                 );
         }
 
         if (!takeCard) {
-            this.continueRound();
+            this.onContinueRound();
         }
     }
 
-    continueRound() {
-        this.roundService.continueRound(this.gameId)
+    onContinueRound() {
+        this.roundService.endRound(this.gameId)
             .subscribe(
                 (data) => {
                     this.game = deserialize(GameMappingModel, data);

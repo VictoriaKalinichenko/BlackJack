@@ -1,12 +1,16 @@
-﻿$(document).ready( function() {
+﻿$(document).ready(function () {
+    var human;
+    var dealer;
+    var botList;
 
-    $(window).load( function() {
+
+    $(window).load(function () {
         restoreRound();
     });
 
     function restoreRound() {
-        var roundResult = $("#roundresult").val();
         var gameId = $("#gameid").val();
+        var isnewgame = $("#isnewgame").val();
         var transParam = {
             gameId: gameId
         };
@@ -17,21 +21,13 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (response.Human.Cards[0] == null) {
+                if (!isnewgame) {
+                    reloadPlayersOnStart(response);
+                    reloadGamePlay(response.RoundResult);
+                }
+
+                if (isnewgame) {
                     startRound();
-                }
-
-                if (roundResult != "") {
-                    response.RoundResult = roundResult;
-                    reloadPageForContinueRound(response);
-                }
-
-                if (!response.CanTakeCard) {
-                    continueRound();
-                }
-
-                if (response.CanTakeCard && (roundResult == "")) {
-                    reloadPageForStartRound(response);
                 }
             },
             error: function (response) {
@@ -39,7 +35,7 @@
             }
         });
     }
-    
+
     function startRound() {
         var gameId = $("#gameid").val();
         var transParam = {
@@ -52,21 +48,16 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if ( !response.CanTakeCard ) {
-                    continueRound();
-                }
-
-                if ( response.CanTakeCard ) {
-                    reloadPageForStartRound(response);
-                }
+                reloadPlayersOnStart(response);
+                reloadGamePlay(response.RoundResult);
             },
             error: function (response) {
                 showError(response);
             }
         });
     }
-    
-    function onTakeCard () {
+
+    function takeCard() {
         var gameId = $("#gameid").val();
         var transParam = {
             gameId: gameId
@@ -74,25 +65,20 @@
 
         $.ajax({
             type: "GET",
-            url: "/Round/AddCard",
+            url: "/Round/TakeCard",
             data: transParam,
             dataType: "json",
-            success: function(response) {
-                if (response.CanTakeCard) {
-                    reloadPlayer(response, "#human");
-                }
-
-                if (!response.CanTakeCard) {
-                    continueRound();
-                }
+            success: function (response) {
+                reloadPlayersOnTakeCard(response);
+                reloadGamePlay(response.RoundResult);
             },
-            error: function(response) {
+            error: function (response) {
                 showError(response);
             }
         });
     }
 
-    function continueRound() {
+    function endRound() {
         var gameId = $("#gameid").val();
         var transParam = {
             GameId: gameId
@@ -100,39 +86,53 @@
 
         $.ajax({
             type: "GET",
-            url: "/Round/Continue",
+            url: "/Round/End",
             data: transParam,
             dataType: "json",
             success: function (response) {
-                reloadPageForContinueRound(response);
+                $("#gameplay").text('');
+                $("#gameplay").append(`<p>${response}</p>`);
+                drowButtonsEndRound();
             },
             error: function (response) {
                 showError(response);
             }
         });
     }
-    
-    function reloadPageForStartRound(startRoundView) {
-        $("#gameplay").text("");
-        
-        reloadPlayer(startRoundView.Human, "#human");
-        reloadPlayer(startRoundView.Dealer, "#dealer");
-        reloadBots(startRoundView.Bots);
 
-        drowButtonsForTakeCard();
+    function reloadPlayersOnStart(response) {
+        human = new Player(response.Human, "human");
+        dealer = new Player(response.Dealer, "dealer");
+        botList = new BotList(response.Bots);
+
+        human.show();
+        dealer.show();
+        botList.show();
     }
 
-    function reloadPageForContinueRound(continueRoundView) {
-        $("#gameplay").text("");
-        $("#gameplay").append(`<p>${continueRoundView.RoundResult}</p>`);
+    function reloadPlayersOnTakeCard(response) {
+        human.reloadCards(response.Human);
+        dealer.reloadCards(response.Dealer);
+        botList.reloadCards(response.Bots);
 
-        reloadPlayer(continueRoundView.Human, "#human");
-        reloadPlayer(continueRoundView.Dealer, "#dealer");
-        reloadBots(continueRoundView.Bots);
-
-        drowButtonsEndRound();
+        human.show();
+        dealer.show();
+        botList.show();
     }
-    
+
+    function reloadGamePlay(roundResult) {
+        $("#gameplay").text('');
+
+        if (roundResult != "") {
+            $("#gameplay").append(`<p>${roundResult}</p>`);
+            drowButtonsEndRound();
+        }
+
+        if (roundResult == "") {
+            drowButtonsForTakeCard();
+        }
+    }
+
     function drowButtonsForTakeCard() {
         var takeOneMoreCardButton = $('<input/>', {
             type: "button",
@@ -140,7 +140,7 @@
             value: "Take one more card",
             class: "btn btn-primary",
             click: function () {
-                onTakeCard();
+                takeCard();
             }
         });
 
@@ -150,7 +150,7 @@
             value: "Don\'t take",
             class: "btn btn-default",
             click: function () {
-                continueRound();
+                endRound();
             }
         });
 
@@ -170,38 +170,73 @@
         });
 
         $("#gameplay").append(endRoundButton);
-    }    
-
-    function reloadBots(bots) {
-        $("#bots").text("");
-
-        bots.forEach(function (bot, iterator, bots) {
-            var botPageItem = $('<div/>', {
-                id: "bot" + iterator,
-                class: "col-lg-2 col-md-4 col-sm-4 col-xs-6 well"
-            });
-            $("#bots").append(botPageItem);
-            
-            reloadPlayer(bot, "#bot" + iterator);
-        });
     }
-
-    function reloadPlayer(player, gamePlay) {
-        var text = `<p>Name: ${player.Name}</p>`;
-        text = text + `<p>CardScore: ${player.CardScore}</p>`;
-        text = text + `<p>Cards:</p><ul>`;
-
-        $.each(player.Cards, function(i, item) {
-            text = text + `<li>${item}</li>`;
-        });
-
-        text = text + `</ul>`;
-
-        $(gamePlay).text("");
-        $(gamePlay).append(text);
-    }
-   
+    
     function showError(response) {
         alert(`Status: ${response.status}, ${response.statusText}`);
     }
+
+
+
+    class Player {
+        constructor(player, domId) {
+            this.name = player.Name;
+            this.cardScore = player.CardScore;
+            this.cards = player.Cards;
+            this.domId = domId;
+        }
+
+        reloadCards(data) {
+            this.cardScore = data.CardScore;
+            this.cards = data.Cards;
+        }
+
+        show() {
+            var text = `<p>Name: ${this.name}</p>`;
+            text = text + `<p>CardScore: ${this.cardScore}</p>`;
+            text = text + `<p>Cards:</p><ul>`;
+
+            $.each(this.cards, function (i, item) {
+                text = text + `<li>${item}</li>`;
+            });
+
+            text = text + `</ul>`;
+
+            var domId = `#${this.domId}`;
+            $(domId).text("");
+            $(domId).append(text);
+        }
+    }
+
+    class BotList {
+        constructor(bots) {
+            this.bots = [];
+            
+            for (var iterator = 0; iterator < bots.length; iterator++) {
+                this.bots[iterator] = new Player(bots[iterator], `bot${iterator}`);
+            }
+        }
+
+        reloadCards(bots) {
+            for (var iterator = 0; iterator < bots.length; iterator++) {
+                this.bots[iterator].reloadCards(bots[iterator]);
+            }
+        }
+
+        show() {
+            $("#bots").text("");
+
+            this.bots.forEach(function (bot, iterator, bots) {
+                var botPageItem = $('<div/>', {
+                    id: bot.domId,
+                    class: "col-lg-2 col-md-4 col-sm-4 col-xs-6 well"
+                });
+                $("#bots").append(botPageItem);
+
+                bot.show();
+            });
+        }
+    }
 });
+
+

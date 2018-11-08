@@ -8,7 +8,5 @@ namespace BlackJack.BusinessLogic.Services.Interfaces
         Task<IndexStartView> SearchGameForPlayer(string name);
 
         Task<long> CreateGame(CreateGameStartView createGameStartView);
-
-        Task<InitializeStartView> InitializeRound(long gameId);
     }
 }

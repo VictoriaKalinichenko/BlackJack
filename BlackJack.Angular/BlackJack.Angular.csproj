@@ -238,6 +238,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\game-module\game\game.component.html" />
+    <Content Include="src\app\game-module\game-play\game-play.component.html" />
     <Content Include="src\app\game-module\player-output\player-output.component.html" />
     <Content Include="src\app\error-page\error-page.component.html" />
     <Content Include="src\app\home-page\home-page.component.html" />
@@ -294,6 +295,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\app\app-routing.module.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\game-module\game-play\game-play.component.ts" />
     <TypeScriptCompile Include="src\app\shared\modules\shared.module.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\app\game-module\game-routing.module.ts" />

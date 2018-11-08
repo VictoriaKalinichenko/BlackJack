@@ -62,13 +62,6 @@ namespace BlackJack.BusinessLogic.Services
             long gameId = game.Id;
             return gameId;
         }
-        
-        public async Task<InitializeStartView> InitializeRound(long gameId)
-        {
-            Game game = await _gameRepository.Get(gameId);
-            InitializeStartView view = Mapper.Map<Game, InitializeStartView>(game);
-            return view;
-        }
                 
         private async Task<List<Player>> CreatePlayerList(string humanName, int amountOfBots)
         {

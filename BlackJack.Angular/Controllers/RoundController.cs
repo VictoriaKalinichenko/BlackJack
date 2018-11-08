@@ -25,6 +25,12 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 StartRoundView view = await _roundService.Start(gameId);
+
+                if (!view.CanTakeCard)
+                {
+                    return RedirectToRoute("EndRound", new { gameId });
+                }
+
                 return Ok(view);
             }
             catch (Exception exception)
@@ -40,7 +46,13 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                AddCardRoundView view = await _roundService.TakeCard(gameId);
+                TakeCardRoundView view = await _roundService.TakeCard(gameId);
+
+                if (!view.CanTakeCard)
+                {
+                    return RedirectToRoute("EndRound", new { gameId });
+                }
+
                 return Ok(view);
             }
             catch (Exception exception)
@@ -57,22 +69,6 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 EndRoundView view = await _roundService.End(gameId);
-                return Ok(view);
-            }
-            catch (Exception exception)
-            {
-                string message = exception.ToString();
-                _logger.Error(message);
-                return BadRequest(GameMessage.GameProcessingError);
-            }
-        }
-
-        [Route("Restore"), HttpGet]
-        public async Task<IHttpActionResult> Restore(long gameId)
-        {
-            try
-            {
-                RestoreRoundView view = await _roundService.Restore(gameId);
                 return Ok(view);
             }
             catch (Exception exception)

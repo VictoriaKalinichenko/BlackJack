@@ -61,21 +61,5 @@ namespace BlackJack.Angular.Controllers
                 return BadRequest(GameMessage.GameCreationError);
             }
         }
-        
-        [Route("Initialize"), HttpGet]
-        public async Task<IHttpActionResult> Initialize(long gameId)
-        {
-            try
-            {
-                InitializeStartView view = await _startService.InitializeRound(gameId);
-                return Ok(view);
-            }
-            catch (Exception exception)
-            {
-                string message = exception.ToString();
-                _logger.Error(message);
-                return BadRequest(GameMessage.GameLoadingError);
-            }
-        }
     }
 }

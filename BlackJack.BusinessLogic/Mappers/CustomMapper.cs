@@ -10,7 +10,7 @@ namespace BlackJack.BusinessLogic.Mappers
 {
     public static class CustomMapper
     {        
-        public static StartRoundView MapStartRoundView(List<GamePlayer> players, bool canTakeCard)
+        public static StartRoundView MapStartRoundView(List<GamePlayer> players, string roundResult)
         {
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
@@ -20,30 +20,22 @@ namespace BlackJack.BusinessLogic.Mappers
             var view = new StartRoundView();
             view.Dealer = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(dealer);
             view.Human = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(human);
-            view.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerStartRoundViewItem>>(players);
-            view.CanTakeCard = canTakeCard;
+            view.Bots = Mapper.Map<List<GamePlayer>, List<GamePlayerStartRoundViewItem>>(players);
+            view.RoundResult = roundResult;
             return view;
         }
 
-        public static EndRoundView MapContinueRoundView(List<GamePlayer> players, string humanRoundResult)
+        public static TakeCardRoundView MapTakeCardRoundView(List<GamePlayer> players, string roundResult)
         {
-            GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
-            GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
-            players.Remove(human);
-            players.Remove(dealer);
-
-            var view = new EndRoundView();
-            view.Dealer = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(dealer);
-            view.Human = Mapper.Map<GamePlayer, GamePlayerContinueRoundViewItem>(human);
-            view.Bots = Mapper.Map<IEnumerable<GamePlayer>, List<GamePlayerContinueRoundViewItem>>(players);
-            view.RoundResult = humanRoundResult;
-            return view;
+            StartRoundView viewForStartRound = MapStartRoundView(players, roundResult);
+            TakeCardRoundView viewForTakeCard = Mapper.Map<StartRoundView, TakeCardRoundView>(viewForStartRound);
+            return viewForTakeCard;
         }
 
-        public static RestoreRoundView MapRestoreRoundView(List<GamePlayer> players, bool canTakeCard)
+        public static RestoreRoundView MapRestoreRoundView(List<GamePlayer> players, string roundResult)
         {
-            StartRoundView startView = MapStartRoundView(players, canTakeCard);
-            RestoreRoundView viewForRestoreRound = Mapper.Map<StartRoundView, RestoreRoundView>(startView);
+            StartRoundView viewForStartRound = MapStartRoundView(players, roundResult);
+            RestoreRoundView viewForRestoreRound = Mapper.Map<StartRoundView, RestoreRoundView>(viewForStartRound);
             return viewForRestoreRound;
         }
 
@@ -96,7 +88,7 @@ namespace BlackJack.BusinessLogic.Mappers
             return playerCard;
         }
 
-        public static Game MapGameWithIdAndRoundResult(long id, string roundResult)
+        public static Game MapGame(long id, string roundResult)
         {
             var game = new Game();
             game.Id = id;

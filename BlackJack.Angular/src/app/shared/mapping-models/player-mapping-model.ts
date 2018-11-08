@@ -6,7 +6,7 @@ export class PlayerMappingModel {
 
     @JsonProperty('CardScore')
     cardScore: number;
-    
+
     @JsonProperty('Cards')
     cards: string[];
 

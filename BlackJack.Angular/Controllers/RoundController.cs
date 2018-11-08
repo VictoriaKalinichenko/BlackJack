@@ -25,12 +25,6 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 StartRoundView view = await _roundService.Start(gameId);
-
-                if (!view.CanTakeCard)
-                {
-                    return RedirectToRoute("EndRound", new { gameId });
-                }
-
                 return Ok(view);
             }
             catch (Exception exception)
@@ -47,12 +41,6 @@ namespace BlackJack.Angular.Controllers
             try
             {
                 TakeCardRoundView view = await _roundService.TakeCard(gameId);
-
-                if (!view.CanTakeCard)
-                {
-                    return RedirectToRoute("EndRound", new { gameId });
-                }
-
                 return Ok(view);
             }
             catch (Exception exception)
@@ -68,8 +56,8 @@ namespace BlackJack.Angular.Controllers
         {
             try
             {
-                EndRoundView view = await _roundService.End(gameId);
-                return Ok(view);
+                string roundResult = await _roundService.End(gameId);
+                return Ok(roundResult);
             }
             catch (Exception exception)
             {

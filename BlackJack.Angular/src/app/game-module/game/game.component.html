@@ -13,8 +13,8 @@
 
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div *ngIf="takeCard">
-                    <button class="btn btn-primary" (click)="onTakeCard(true)">Take card</button>
-                    <button class="btn btn-primary" (click)="onTakeCard(false)">Don't take</button>
+                    <button class="btn btn-primary" (click)="onTakeCard()">Take card</button>
+                    <button class="btn btn-primary" (click)="onContinueRound()">Don't take</button>
                 </div>
 
                 <div *ngIf="endRound">

@@ -13,7 +13,6 @@ import { deserialize } from 'json-typescript-mapper';
 import { RoundService } from 'app/shared/services/round.service';
 import { StartService } from 'app/shared/services/start.service';
 import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
-import { PlayerMappingModel } from 'app/shared/mapping-models/player-mapping-model';
 var GameComponent = /** @class */ (function () {
     function GameComponent(route, roundService, startService) {
         this.route = route;
@@ -35,40 +34,43 @@ var GameComponent = /** @class */ (function () {
         this.roundService.startRound(this.gameId)
             .subscribe(function (data) {
             _this.game = deserialize(GameMappingModel, data);
-            if (data["CanTakeCard"] != null) {
+            if (_this.game.roundResult == "") {
                 _this.endRound = false;
                 _this.takeCard = true;
             }
-            if (data["CanTakeCard"] == null) {
+            if (_this.game.roundResult != "") {
                 _this.endRound = true;
                 _this.takeCard = false;
             }
         });
     };
-    GameComponent.prototype.onTakeCard = function (takeCard) {
+    GameComponent.prototype.onTakeCard = function () {
         var _this = this;
-        if (takeCard) {
-            this.roundService.takeCard(this.gameId)
-                .subscribe(function (data) {
-                if (data["CanTakeCard"] != null) {
-                    _this.game.human = deserialize(PlayerMappingModel, data);
-                }
-                if (data["CanTakeCard"] == null) {
-                    _this.game = deserialize(GameMappingModel, data);
-                    _this.endRound = true;
-                    _this.takeCard = false;
-                }
+        this.roundService.takeCard(this.gameId)
+            .subscribe(function (data) {
+            var humanName = _this.game.human.name;
+            var dealerName = _this.game.dealer.name;
+            var botNames = [];
+            _this.game.bots.forEach(function (bot) {
+                botNames.push(bot.name);
             });
-        }
-        if (!takeCard) {
-            this.onContinueRound();
-        }
+            _this.game = deserialize(GameMappingModel, data);
+            _this.game.human.name = humanName;
+            _this.game.dealer.name = dealerName;
+            for (var iterator = 0; iterator < botNames.length; iterator++) {
+                _this.game.bots[iterator].name = botNames[iterator];
+            }
+            if (_this.game.roundResult != "") {
+                _this.endRound = true;
+                _this.takeCard = false;
+            }
+        });
     };
     GameComponent.prototype.onContinueRound = function () {
         var _this = this;
         this.roundService.endRound(this.gameId)
             .subscribe(function (data) {
-            _this.game = deserialize(GameMappingModel, data);
+            _this.game.roundResult = data;
             _this.endRound = true;
             _this.takeCard = false;
         });

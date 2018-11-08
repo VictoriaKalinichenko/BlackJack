@@ -5,8 +5,10 @@ import { deserialize } from 'json-typescript-mapper';
 import { RoundService } from 'app/shared/services/round.service';
 import { StartService } from 'app/shared/services/start.service';
 
+import { StartRoundView } from 'app/shared/models/start-round.view';
+import { TakeCardRoundView } from 'app/shared/models/take-card-round.view';
 import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
-import { PlayerMappingModel } from 'app/shared/mapping-models/player-mapping-model';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'app-game',
@@ -35,15 +37,15 @@ export class GameComponent implements OnInit {
     onStartRound() {
         this.roundService.startRound(this.gameId)
             .subscribe(
-                (data) => {
+                (data: StartRoundView) => {
                     this.game = deserialize(GameMappingModel, data);
 
-                    if (data["CanTakeCard"] != null) {
+                    if (this.game.roundResult == "") {
                         this.endRound = false;
                         this.takeCard = true;
                     }
 
-                    if (data["CanTakeCard"] == null) {
+                    if (this.game.roundResult != "") {
                         this.endRound = true;
                         this.takeCard = false;
                     }
@@ -51,34 +53,40 @@ export class GameComponent implements OnInit {
             );
     }
 
-    onTakeCard(takeCard: boolean) {
-        if (takeCard) {
-            this.roundService.takeCard(this.gameId)
-                .subscribe(
-                    (data) => {
-                        if (data["CanTakeCard"] != null) {
-                            this.game.human = deserialize(PlayerMappingModel, data);
-                        }
+    onTakeCard() {
+        this.roundService.takeCard(this.gameId)
+            .subscribe(
+                (data: TakeCardRoundView) => {
+                    let humanName = this.game.human.name;
+                    let dealerName = this.game.dealer.name;
+                    let botNames: string[] = [];
 
-                        if (data["CanTakeCard"] == null) {
-                            this.game = deserialize(GameMappingModel, data);
-                            this.endRound = true;
-                            this.takeCard = false;
-                        }
+                    this.game.bots.forEach(function (bot) {
+                        botNames.push(bot.name);
+                    });
+
+                    this.game = deserialize(GameMappingModel, data);
+
+                    this.game.human.name = humanName;
+                    this.game.dealer.name = dealerName;
+
+                    for (let iterator = 0; iterator < botNames.length; iterator++) {
+                        this.game.bots[iterator].name = botNames[iterator];
                     }
-                );
-        }
 
-        if (!takeCard) {
-            this.onContinueRound();
-        }
+                    if (this.game.roundResult != "") {
+                        this.endRound = true;
+                        this.takeCard = false;
+                    }
+                }
+            );
     }
 
     onContinueRound() {
         this.roundService.endRound(this.gameId)
             .subscribe(
-                (data) => {
-                    this.game = deserialize(GameMappingModel, data);
+                (data: string) => {
+                    this.game.roundResult = data;
                     this.endRound = true;
                     this.takeCard = false;
                 }

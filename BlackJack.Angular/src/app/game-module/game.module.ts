@@ -4,7 +4,6 @@ import { GameRoutingModule } from 'app/game-module/game-routing.module';
 
 import { GameComponent } from 'app/game-module/game/game.component';
 import { PlayerOutputComponent } from 'app/game-module/player-output/player-output.component';
-import { GamePlayComponent } from 'app/game-module/game-play/game-play.component';
 
 import { RoundService } from 'app/shared/services/round.service';
 
@@ -15,8 +14,7 @@ import { RoundService } from 'app/shared/services/round.service';
     ],
     declarations: [
         GameComponent,
-        PlayerOutputComponent,
-        GamePlayComponent
+        PlayerOutputComponent
     ],
     providers: [
         RoundService

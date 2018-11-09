@@ -154,8 +154,7 @@ namespace BlackJack.BusinessLogic.Services
             {
                 return string.Empty;
             }
-
-
+            
             string roundResult = GameMessage.Lose;
 
             if (human.CardScore <= CardValue.MaxCardScore && 

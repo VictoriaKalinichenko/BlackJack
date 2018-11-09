@@ -66,5 +66,21 @@ namespace BlackJack.Angular.Controllers
                 return BadRequest(GameMessage.GameProcessingError);
             }
         }
+
+        [Route("Restore"), HttpGet]
+        public async Task<IHttpActionResult> Restore(long gameId)
+        {
+            try
+            {
+                RestoreRoundView view = await _roundService.Restore(gameId);
+                return Ok(view);
+            }
+            catch (Exception exception)
+            {
+                string message = exception.ToString();
+                _logger.Error(message);
+                return BadRequest(GameMessage.GameProcessingError);
+            }
+        }
     }
 }

@@ -165,14 +165,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! app/error-page/error-page.component */ "./src/app/error-page/error-page.component.ts");
 /* harmony import */ var app_create_game_create_game_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! app/create-game/create-game.component */ "./src/app/create-game/create-game.component.ts");
 /* harmony import */ var app_shared_services_error_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! app/shared/services/error.service */ "./src/app/shared/services/error.service.ts");
-/* harmony import */ var app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! app/shared/services/start.service */ "./src/app/shared/services/start.service.ts");
-/* harmony import */ var app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! app/shared/interceptors/request-interceptor */ "./src/app/shared/interceptors/request-interceptor.ts");
+/* harmony import */ var app_shared_services_new_game_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! app/shared/services/new-game.service */ "./src/app/shared/services/new-game.service.ts");
+/* harmony import */ var app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! app/shared/services/start.service */ "./src/app/shared/services/start.service.ts");
+/* harmony import */ var app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! app/shared/interceptors/request-interceptor */ "./src/app/shared/interceptors/request-interceptor.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -204,14 +206,15 @@ var AppModule = /** @class */ (function () {
             ],
             providers: [
                 app_shared_services_error_service__WEBPACK_IMPORTED_MODULE_10__["ErrorService"],
-                app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_11__["StartService"],
+                app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_12__["StartService"],
+                app_shared_services_new_game_service__WEBPACK_IMPORTED_MODULE_11__["NewGameService"],
                 {
                     provide: _angular_common__WEBPACK_IMPORTED_MODULE_4__["APP_BASE_HREF"],
                     useValue: '/'
                 },
                 {
                     provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"],
-                    useClass: app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_12__["RequestInterceptor"],
+                    useClass: app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_13__["RequestInterceptor"],
                     multi: true
                 }
             ],
@@ -251,6 +254,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/shared/services/start.service */ "./src/app/shared/services/start.service.ts");
+/* harmony import */ var app_shared_services_new_game_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/shared/services/new-game.service */ "./src/app/shared/services/new-game.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -263,9 +267,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var CreateGameComponent = /** @class */ (function () {
-    function CreateGameComponent(startService, route, router) {
+    function CreateGameComponent(startService, newGameService, route, router) {
         this.startService = startService;
+        this.newGameService = newGameService;
         this.route = route;
         this.router = router;
         this.amountOfBots = 0;
@@ -280,6 +286,7 @@ var CreateGameComponent = /** @class */ (function () {
         var _this = this;
         this.startService.createGame(this.userName, this.amountOfBots)
             .subscribe(function (data) {
+            _this.newGameService.setIsNewGame();
             _this.router.navigate(['/game', data]);
         });
     };
@@ -289,6 +296,7 @@ var CreateGameComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./create-game.component.html */ "./src/app/create-game/create-game.component.html")
         }),
         __metadata("design:paramtypes", [app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_2__["StartService"],
+            app_shared_services_new_game_service__WEBPACK_IMPORTED_MODULE_3__["NewGameService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], CreateGameComponent);
@@ -559,6 +567,46 @@ var ErrorService = /** @class */ (function () {
         })
     ], ErrorService);
     return ErrorService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/new-game.service.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/shared/services/new-game.service.ts ***!
+  \*****************************************************/
+/*! exports provided: NewGameService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewGameService", function() { return NewGameService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var NewGameService = /** @class */ (function () {
+    function NewGameService() {
+        this.isNewGame = false;
+    }
+    NewGameService.prototype.setIsNewGame = function () {
+        this.isNewGame = true;
+    };
+    NewGameService.prototype.getIsNewGame = function () {
+        return this.isNewGame;
+    };
+    NewGameService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        })
+    ], NewGameService);
+    return NewGameService;
 }());
 
 

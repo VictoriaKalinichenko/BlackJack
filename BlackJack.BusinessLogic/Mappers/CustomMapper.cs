@@ -79,15 +79,6 @@ namespace BlackJack.BusinessLogic.Mappers
             return playerCards;
         }
 
-        public static PlayerCard MapPlayerCard(GamePlayer gamePlayer, Card card)
-        {
-            var playerCard = new PlayerCard();
-            playerCard.CardId = card.Id;
-            playerCard.Card = card;
-            playerCard.GamePlayerId = gamePlayer.Id;
-            return playerCard;
-        }
-
         public static Game MapGame(long id, string roundResult)
         {
             var game = new Game();

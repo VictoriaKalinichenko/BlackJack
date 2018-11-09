@@ -1,18 +1,20 @@
-﻿import { JsonProperty } from 'json-typescript-mapper';
+﻿import { Deserializable } from "app/shared/interfaces/deserializable";
 
-export class PlayerMappingModel {
-    @JsonProperty('Name')
+export class PlayerMappingModel implements Deserializable {
+
     name: string;
-
-    @JsonProperty('CardScore')
     cardScore: number;
-
-    @JsonProperty('Cards')
     cards: string[];
 
-    constructor() {
-        this.name = void 0;
-        this.cardScore = void 0;
-        this.cards = void 0;
+    deserialize(input: any) {
+
+        if (input.Name != null) {
+            this.name = input.Name;
+        }
+
+        this.cardScore = input.CardScore;
+        this.cards = input.Cards;
+
+        return this;
     }
 }

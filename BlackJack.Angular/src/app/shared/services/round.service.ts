@@ -25,4 +25,11 @@ export class RoundService {
 
         return this.httpClient.get('Round/TakeCard', options);
     }
+
+    restoreRound(gameId: number) {
+        const options = gameId ?
+            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
+
+        return this.httpClient.get('Round/Restore', options);
+    }
 }

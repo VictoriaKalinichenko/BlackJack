@@ -15,6 +15,7 @@ import { HomePageComponent } from 'app/home-page/home-page.component';
 import { ErrorPageComponent } from 'app/error-page/error-page.component';
 import { CreateGameComponent } from 'app/create-game/create-game.component';
 import { ErrorService } from 'app/shared/services/error.service';
+import { NewGameService } from 'app/shared/services/new-game.service';
 import { StartService } from 'app/shared/services/start.service';
 import { RequestInterceptor } from 'app/shared/interceptors/request-interceptor';
 var AppModule = /** @class */ (function () {
@@ -36,6 +37,7 @@ var AppModule = /** @class */ (function () {
             providers: [
                 ErrorService,
                 StartService,
+                NewGameService,
                 {
                     provide: APP_BASE_HREF,
                     useValue: '/'

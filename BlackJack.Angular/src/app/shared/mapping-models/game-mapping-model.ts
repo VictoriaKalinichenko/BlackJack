@@ -1,23 +1,29 @@
 ﻿import { PlayerMappingModel } from 'app/shared/mapping-models/player-mapping-model';
-import { JsonProperty } from 'json-typescript-mapper';
+import { Deserializable } from "app/shared/interfaces/deserializable";
 
-export class GameMappingModel {
-    @JsonProperty('RoundResult')
+export class GameMappingModel implements Deserializable {
+
     roundResult: string;
+    human: PlayerMappingModel = new PlayerMappingModel();
+    dealer: PlayerMappingModel = new PlayerMappingModel();
+    bots: PlayerMappingModel[] = [];
 
-    @JsonProperty({ clazz: PlayerMappingModel, name: 'Human' })
-    human: PlayerMappingModel;
+    deserialize(input: any) {
 
-    @JsonProperty({ clazz: PlayerMappingModel, name: 'Dealer' })
-    dealer: PlayerMappingModel;
+        this.dealer = this.dealer.deserialize(input.Dealer);
+        this.human = this.human.deserialize(input.Human);
 
-    @JsonProperty({ clazz: PlayerMappingModel, name: 'Bots' })
-    bots: PlayerMappingModel[];
+        for (let iterator = 0; iterator < input.Bots.length; iterator++) {
 
-    constructor() {
-        this.roundResult = void 0;
-        this.human = void 0;
-        this.dealer = void 0;
-        this.bots = void 0;
+            if (this.bots[iterator] == null) {
+                this.bots[iterator] = new PlayerMappingModel();
+            }
+
+            this.bots[iterator] = this.bots[iterator].deserialize(input.Bots[iterator]);
+        }
+
+        this.roundResult = input.RoundResult;
+
+        return this;
     }
 }

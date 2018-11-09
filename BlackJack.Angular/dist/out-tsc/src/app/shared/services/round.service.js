@@ -28,6 +28,11 @@ var RoundService = /** @class */ (function () {
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
         return this.httpClient.get('Round/TakeCard', options);
     };
+    RoundService.prototype.restoreRound = function (gameId) {
+        var options = gameId ?
+            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
+        return this.httpClient.get('Round/Restore', options);
+    };
     RoundService = __decorate([
         Injectable(),
         __metadata("design:paramtypes", [HttpClient])

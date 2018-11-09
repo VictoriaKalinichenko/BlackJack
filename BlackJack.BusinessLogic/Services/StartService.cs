@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BlackJack.BusinessLogic.Constants;
+﻿using BlackJack.BusinessLogic.Constants;
 using BlackJack.BusinessLogic.Managers.Interfaces;
 using BlackJack.BusinessLogic.Mappers;
 using BlackJack.BusinessLogic.Services.Interfaces;

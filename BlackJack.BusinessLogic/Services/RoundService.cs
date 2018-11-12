@@ -48,7 +48,7 @@ namespace BlackJack.BusinessLogic.Services
             Game game = CustomMapper.MapGame(gameId, roundResult);
             await _gameRepository.Update(game);
 
-            if (roundResult != string.Empty)
+            if (roundResult != GameMessage.RoundInProcess)
             {
                 await _historyMessageManager.AddMessagesForRound(players, roundResult, gameId);
             }
@@ -68,7 +68,7 @@ namespace BlackJack.BusinessLogic.Services
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
             string roundResult = GetRoundResult(human, dealer);
 
-            if (roundResult != string.Empty)
+            if (roundResult != GameMessage.RoundInProcess)
             {
                 Game game = CustomMapper.MapGame(gameId, roundResult);
                 await _gameRepository.Update(game);
@@ -152,7 +152,7 @@ namespace BlackJack.BusinessLogic.Services
         {
             if (!isEndRound && human.CardScore < CardValue.MaxCardScore)
             {
-                return string.Empty;
+                return GameMessage.RoundInProcess;
             }
             
             string roundResult = GameMessage.Lose;

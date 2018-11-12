@@ -123,12 +123,12 @@
     function reloadGamePlay(roundResult) {
         $("#gameplay").text('');
 
-        if (roundResult != "") {
+        if (roundResult != "Round is in process") {
             $("#gameplay").append(`<p>${roundResult}</p>`);
             drowButtonsEndRound();
         }
 
-        if (roundResult == "") {
+        if (roundResult == "Round is in process") {
             drowButtonsForTakeCard();
         }
     }

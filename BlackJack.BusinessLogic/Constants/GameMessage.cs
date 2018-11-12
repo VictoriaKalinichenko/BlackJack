@@ -12,5 +12,6 @@
         public static readonly string Win = "You are winner";
         public static readonly string Equal = "Your score equals dealer's score";
         public static readonly string Lose = "Dealer is winner";
+        public static readonly string RoundInProcess = "Round is in process";
     }
 }

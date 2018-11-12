@@ -47,7 +47,7 @@ export class GameComponent implements OnInit {
             .subscribe(
                 (data: StartRoundView) => {
                     this.game = this.game.deserialize(data);
-                    this.setGamePlay(this.game.roundResult);
+                    this.setGamePlay();
                 }
             );
     }
@@ -57,7 +57,7 @@ export class GameComponent implements OnInit {
             .subscribe(
                 (data: TakeCardRoundView) => {
                     this.game = this.game.deserialize(data);
-                    this.setGamePlay(this.game.roundResult);
+                    this.setGamePlay();
                 }
             );
     }
@@ -67,7 +67,7 @@ export class GameComponent implements OnInit {
             .subscribe(
                 (data: string) => {
                     this.game.roundResult = data;
-                    this.setGamePlay(this.game.roundResult);
+                    this.setGamePlay();
                 }
             );
     }
@@ -77,18 +77,18 @@ export class GameComponent implements OnInit {
             .subscribe(
                 (data: StartRoundView) => {
                     this.game = this.game.deserialize(data);
-                    this.setGamePlay(this.game.roundResult);
+                    this.setGamePlay();
                 }
             );
     }
 
-    setGamePlay(roundResult: string) {
-        if (this.game.roundResult == "") {
+    setGamePlay() {
+        if (this.game.roundResult == "Round is in process") {
             this.endRound = false;
             this.takeCard = true;
         }
 
-        if (this.game.roundResult != "") {
+        if (this.game.roundResult != "Round is in process") {
             this.endRound = true;
             this.takeCard = false;
         }

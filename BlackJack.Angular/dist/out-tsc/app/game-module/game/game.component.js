@@ -41,7 +41,7 @@ var GameComponent = /** @class */ (function () {
         this.roundService.startRound(this.gameId)
             .subscribe(function (data) {
             _this.game = _this.game.deserialize(data);
-            _this.setGamePlay(_this.game.roundResult);
+            _this.setGamePlay();
         });
     };
     GameComponent.prototype.onTakeCard = function () {
@@ -49,7 +49,7 @@ var GameComponent = /** @class */ (function () {
         this.roundService.takeCard(this.gameId)
             .subscribe(function (data) {
             _this.game = _this.game.deserialize(data);
-            _this.setGamePlay(_this.game.roundResult);
+            _this.setGamePlay();
         });
     };
     GameComponent.prototype.onContinueRound = function () {
@@ -57,7 +57,7 @@ var GameComponent = /** @class */ (function () {
         this.roundService.endRound(this.gameId)
             .subscribe(function (data) {
             _this.game.roundResult = data;
-            _this.setGamePlay(_this.game.roundResult);
+            _this.setGamePlay();
         });
     };
     GameComponent.prototype.onRestoreRound = function () {
@@ -65,15 +65,15 @@ var GameComponent = /** @class */ (function () {
         this.roundService.restoreRound(this.gameId)
             .subscribe(function (data) {
             _this.game = _this.game.deserialize(data);
-            _this.setGamePlay(_this.game.roundResult);
+            _this.setGamePlay();
         });
     };
-    GameComponent.prototype.setGamePlay = function (roundResult) {
-        if (this.game.roundResult == "") {
+    GameComponent.prototype.setGamePlay = function () {
+        if (this.game.roundResult == "Round is in process") {
             this.endRound = false;
             this.takeCard = true;
         }
-        if (this.game.roundResult != "") {
+        if (this.game.roundResult != "Round is in process") {
             this.endRound = true;
             this.takeCard = false;
         }

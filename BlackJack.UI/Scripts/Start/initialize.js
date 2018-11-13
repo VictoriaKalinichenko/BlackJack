@@ -113,8 +113,10 @@
 
     function reloadPlayersOnTakeCard(response) {
         human.reloadCards(response.Human);
+        dealer.reloadCards(response.Dealer);
         botList.reloadCards(response.Bots);
         human.show();
+        dealer.show();
         botList.show();
     }
 

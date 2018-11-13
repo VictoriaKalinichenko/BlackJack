@@ -58,6 +58,7 @@ export class GameComponent implements OnInit {
                 (data: TakeCardRoundView) => {
                     this.game.roundResult = data.roundResult;
                     this.game.human = Object.assign(this.game.human, data.human);
+                    this.game.dealer = Object.assign(this.game.dealer, data.dealer);
 
                     for (let iterator = 0; iterator < data.bots.length; iterator++) {
                         this.game.bots[iterator] = Object.assign(this.game.bots[iterator], data.bots[iterator]);

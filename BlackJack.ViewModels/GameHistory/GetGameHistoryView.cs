@@ -7,9 +7,9 @@ namespace BlackJack.ViewModels.GameHistory
     {
         public List<HistoryMessageGetGameHistoryViewItem> HistoryMessages { get; set; }
 
-        public GetGameHistoryView(List<HistoryMessageGetGameHistoryViewItem> historyMessages)
+        public GetGameHistoryView()
         {
-            HistoryMessages = historyMessages;
+            HistoryMessages = new List<HistoryMessageGetGameHistoryViewItem>();
         }
     }
 

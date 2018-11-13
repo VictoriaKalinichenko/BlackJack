@@ -8,6 +8,11 @@ namespace BlackJack.ViewModels.Round
         public GamePlayerStartRoundViewItem Dealer { get; set; }
         public GamePlayerStartRoundViewItem Human { get; set; }
         public List<GamePlayerStartRoundViewItem> Bots { get; set; }
+
+        public StartRoundView()
+        {
+            Bots = new List<GamePlayerStartRoundViewItem>();
+        }
     }
 
     public class GamePlayerStartRoundViewItem

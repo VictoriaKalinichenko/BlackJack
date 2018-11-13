@@ -105,7 +105,6 @@
         human = new Player(response.Human, "human");
         dealer = new Player(response.Dealer, "dealer");
         botList = new BotList(response.Bots);
-
         human.show();
         dealer.show();
         botList.show();
@@ -141,7 +140,7 @@
     function drowButtonsForTakeCard() {
         var takeOneMoreCardButton = $('<input/>', {
             type: "button",
-            id: "takeonemorecard",
+            id: "takeCard",
             value: "Take one more card",
             class: "btn btn-primary",
             click: function () {
@@ -151,7 +150,7 @@
 
         var dontTakeButton = $('<input/>', {
             type: "button",
-            id: "donttake",
+            id: "dontTake",
             value: "Don\'t take",
             class: "btn btn-default",
             click: function () {
@@ -166,7 +165,7 @@
     function drowButtonsEndRound() {
         var endRoundButton = $('<input/>', {
             type: "button",
-            id: "endroundbutton",
+            id: "endRound",
             value: "End round",
             class: "btn btn-primary",
             click: function () {
@@ -243,5 +242,3 @@
         }
     }
 });
-
-

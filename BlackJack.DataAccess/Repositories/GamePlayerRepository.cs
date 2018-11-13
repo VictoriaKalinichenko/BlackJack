@@ -33,11 +33,6 @@ namespace BlackJack.DataAccess.Repositories
                     {
                         gamePlayers.Add(gamePlayer);
                     }
-                    
-                    if (gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards == null)
-                    {
-                        gamePlayers.Find(m => m.Id == gamePlayer.Id).PlayerCards = new List<PlayerCard>();
-                    }
 
                     if (playerCard != null && card != null)
                     {

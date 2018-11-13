@@ -8,6 +8,11 @@ namespace BlackJack.ViewModels.Round
         public GamePlayerRestoreRoundViewItem Dealer { get; set; }
         public GamePlayerRestoreRoundViewItem Human { get; set; }
         public List<GamePlayerRestoreRoundViewItem> Bots { get; set; }
+
+        public RestoreRoundView()
+        {
+            Bots = new List<GamePlayerRestoreRoundViewItem>();
+        }
     }
 
     public class GamePlayerRestoreRoundViewItem

@@ -4,4 +4,10 @@ var TakeCardRoundView = /** @class */ (function () {
     return TakeCardRoundView;
 }());
 export { TakeCardRoundView };
+var GamePlayerTakeCardRoundViewItem = /** @class */ (function () {
+    function GamePlayerTakeCardRoundViewItem() {
+    }
+    return GamePlayerTakeCardRoundViewItem;
+}());
+export { GamePlayerTakeCardRoundViewItem };
 //# sourceMappingURL=take-card-round.view.js.map

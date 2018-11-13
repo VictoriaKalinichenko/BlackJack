@@ -56,8 +56,8 @@ namespace BlackJack.UI.Controllers
         {
             try
             {
-                string roundResult = await _roundService.End(gameId);
-                return Ok(roundResult);
+                EndRoundView view = await _roundService.End(gameId);
+                return Ok(view);
             }
             catch (Exception exception)
             {

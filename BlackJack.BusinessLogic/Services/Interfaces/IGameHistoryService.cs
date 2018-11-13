@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using BlackJack.ViewModels.GameHistory;
+﻿using BlackJack.ViewModels.GameHistory;
+using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Services.Interfaces
 {

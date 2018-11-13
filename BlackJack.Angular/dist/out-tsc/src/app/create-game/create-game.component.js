@@ -10,11 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StartService } from 'app/shared/services/start.service';
-import { NewGameService } from 'app/shared/services/new-game.service';
 var CreateGameComponent = /** @class */ (function () {
-    function CreateGameComponent(startService, newGameService, route, router) {
+    function CreateGameComponent(startService, route, router) {
         this.startService = startService;
-        this.newGameService = newGameService;
         this.route = route;
         this.router = router;
         this.amountOfBots = 0;
@@ -29,8 +27,7 @@ var CreateGameComponent = /** @class */ (function () {
         var _this = this;
         this.startService.createGame(this.userName, this.amountOfBots)
             .subscribe(function (data) {
-            _this.newGameService.setIsNewGame();
-            _this.router.navigate(['/game', data]);
+            _this.router.navigate(['/game/' + data + '/' + true]);
         });
     };
     CreateGameComponent = __decorate([
@@ -39,7 +36,6 @@ var CreateGameComponent = /** @class */ (function () {
             templateUrl: './create-game.component.html'
         }),
         __metadata("design:paramtypes", [StartService,
-            NewGameService,
             ActivatedRoute,
             Router])
     ], CreateGameComponent);

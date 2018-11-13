@@ -19,8 +19,8 @@ namespace BlackJack.Angular.Controllers
             _startService = startService;
         }
 
-        [Route("Index"), HttpGet]
-        public async Task<IHttpActionResult> Index(string userName)
+        [Route("SearchGame"), HttpGet]
+        public async Task<IHttpActionResult> SearchGame(string userName)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace BlackJack.Angular.Controllers
                     new Exception(GameMessage.ReceivedDataError);
                 }
 
-                IndexStartView view = await _startService.SearchGameForPlayer(userName);
+                SearchGameStartView view = await _startService.SearchGame(userName);
                 return Ok(view);
             }
             catch (Exception exception)

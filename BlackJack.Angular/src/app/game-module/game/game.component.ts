@@ -3,11 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 
 import { RoundService } from 'app/shared/services/round.service';
 import { StartService } from 'app/shared/services/start.service';
-import { NewGameService } from 'app/shared/services/new-game.service';
 
-import { StartRoundView } from 'app/shared/models/start-round.view';
-import { TakeCardRoundView } from 'app/shared/models/take-card-round.view';
 import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
+import { StartRoundView } from 'app/shared/models/start-round.view';
+import { RestoreRoundView } from 'app/shared/models/restore-round.view';
+import { TakeCardRoundView } from 'app/shared/models/take-card-round.view';
+import { EndRoundView } from 'app/shared/models/end-round.view';
 
 @Component({
     selector: 'app-game',
@@ -17,66 +18,72 @@ export class GameComponent implements OnInit {
     gameId: number;
     game: GameMappingModel = new GameMappingModel();
     
-    takeCard: boolean = false;
-    endRound: boolean = false;
+    takeCardGamePlay: boolean = false;
+    endRoundGamePlay: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
         private roundService: RoundService,
-        private startService: StartService,
-        private newGameService: NewGameService
+        private startService: StartService
     ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.gameId = params['gameId'];
+            let isNewGame = params['isNewGame'];
 
-            let isNewGame = this.newGameService.getIsNewGame();
-            if (isNewGame) {
-                this.onStartRound();
+            if (isNewGame == "true") {
+                this.startRound();
             }
 
-            if (!isNewGame) {
-                this.onRestoreRound();
+            if (isNewGame == "false") {
+                this.restoreRound();
             }
         });
     }
     
-    onStartRound() {
+    startRound() {
         this.roundService.startRound(this.gameId)
             .subscribe(
                 (data: StartRoundView) => {
-                    this.game = this.game.deserialize(data);
+                    this.game = Object.assign(new GameMappingModel, data);
                     this.setGamePlay();
                 }
             );
     }
 
-    onTakeCard() {
+    takeCard() {
         this.roundService.takeCard(this.gameId)
             .subscribe(
                 (data: TakeCardRoundView) => {
-                    this.game = this.game.deserialize(data);
+                    this.game.roundResult = data.roundResult;
+                    this.game.human = Object.assign(this.game.human, data.human);
+
+                    for (let iterator = 0; iterator < data.bots.length; iterator++) {
+                        this.game.bots[iterator] = Object.assign(this.game.bots[iterator], data.bots[iterator]);
+                    }
+
                     this.setGamePlay();
                 }
             );
     }
 
-    onContinueRound() {
+    endRound() {
         this.roundService.endRound(this.gameId)
             .subscribe(
-                (data: string) => {
-                    this.game.roundResult = data;
+                (data: EndRoundView) => {
+                    this.game.roundResult = data.roundResult;
+                    this.game.dealer = Object.assign(this.game.dealer, data.dealer);
                     this.setGamePlay();
                 }
             );
     }
 
-    onRestoreRound() {
+    restoreRound() {
         this.roundService.restoreRound(this.gameId)
             .subscribe(
-                (data: StartRoundView) => {
-                    this.game = this.game.deserialize(data);
+                (data: RestoreRoundView) => {
+                    this.game = Object.assign(new GameMappingModel, data);
                     this.setGamePlay();
                 }
             );
@@ -84,13 +91,13 @@ export class GameComponent implements OnInit {
 
     setGamePlay() {
         if (this.game.roundResult == "Round is in process") {
-            this.endRound = false;
-            this.takeCard = true;
+            this.endRoundGamePlay = false;
+            this.takeCardGamePlay = true;
         }
 
         if (this.game.roundResult != "Round is in process") {
-            this.endRound = true;
-            this.takeCard = false;
+            this.endRoundGamePlay = true;
+            this.takeCardGamePlay = false;
         }
     }
 }

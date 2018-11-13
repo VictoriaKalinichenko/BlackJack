@@ -4,4 +4,10 @@ var StartRoundView = /** @class */ (function () {
     return StartRoundView;
 }());
 export { StartRoundView };
+var GamePlayerStartRoundViewItem = /** @class */ (function () {
+    function GamePlayerStartRoundViewItem() {
+    }
+    return GamePlayerStartRoundViewItem;
+}());
+export { GamePlayerStartRoundViewItem };
 //# sourceMappingURL=start-round.view.js.map

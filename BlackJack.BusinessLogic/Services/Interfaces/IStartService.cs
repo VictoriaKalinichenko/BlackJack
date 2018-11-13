@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using BlackJack.ViewModels.Start;
+﻿using BlackJack.ViewModels.Start;
+using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Services.Interfaces
 {
     public interface IStartService
     {
-        Task<IndexStartView> SearchGameForPlayer(string name);
+        Task<SearchGameStartView> SearchGame(string name);
 
         Task<long> CreateGame(CreateGameStartView createGameStartView);
     }

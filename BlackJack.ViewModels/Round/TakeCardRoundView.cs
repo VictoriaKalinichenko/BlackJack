@@ -5,8 +5,8 @@ namespace BlackJack.ViewModels.Round
     public class TakeCardRoundView
     {
         public string RoundResult { get; set; }
-        public GamePlayerTakeCardRoundViewItem Dealer { get; set; }
         public GamePlayerTakeCardRoundViewItem Human { get; set; }
+        public GamePlayerTakeCardRoundViewItem Dealer { get; set; }
         public List<GamePlayerTakeCardRoundViewItem> Bots { get; set; }
     }
 

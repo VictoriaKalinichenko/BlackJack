@@ -10,13 +10,11 @@ import {
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from "rxjs/operators";
-import { ErrorService } from 'app/shared/services/error.service';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
 
     constructor(
-        private errorService: ErrorService,
         private router: Router
     ) { }
 
@@ -26,8 +24,7 @@ export class RequestInterceptor implements HttpInterceptor {
             (error: any) => {
                 if (error instanceof HttpErrorResponse) {
                     console.log(error);
-                    this.errorService.setError(error["error"]["Message"]);
-                    this.router.navigate(['/error']);
+                    this.router.navigate(['/error', error]);
                 }
             }
         ));

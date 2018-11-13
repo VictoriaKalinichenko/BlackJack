@@ -19,13 +19,13 @@ namespace BlackJack.UI.Controllers
             _startService = startService;
         }
         
-        public ActionResult Index()
+        public ActionResult SearchGame()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(string userName)
+        public async Task<ActionResult> SearchGame(string userName)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace BlackJack.UI.Controllers
                     new Exception(GameMessage.ReceivedDataError);
                 }
 
-                IndexStartView view = await _startService.SearchGameForPlayer(userName);
+                SearchGameStartView view = await _startService.SearchGame(userName);
 
                 if (view.IsGameExist)
                 {
@@ -47,7 +47,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessage.PlayerAuthorizationError });
+                return RedirectToAction("Display", "Error", new { message = GameMessage.PlayerAuthorizationError });
             }
         }
         
@@ -68,7 +68,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessage.GameCreationError });
+                return RedirectToAction("Display", "Error", new { message = GameMessage.GameCreationError });
             }
         }
 
@@ -90,7 +90,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return RedirectToAction("Error", new { message = GameMessage.GameCreationError });
+                return RedirectToAction("Display", "Error", new { message = GameMessage.GameCreationError });
             }
         }
         
@@ -107,13 +107,8 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return View("Error", new { message = GameMessage.GameLoadingError });
+                return RedirectToAction("Display", "Error", new { message = GameMessage.GameLoadingError });
             }
-        }
-
-        public ActionResult Error(string message)
-        {
-            return View((object)message);
         }
     }
 }

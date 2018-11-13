@@ -11,10 +11,8 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from "rxjs/operators";
-import { ErrorService } from 'app/shared/services/error.service';
 var RequestInterceptor = /** @class */ (function () {
-    function RequestInterceptor(errorService, router) {
-        this.errorService = errorService;
+    function RequestInterceptor(router) {
         this.router = router;
     }
     RequestInterceptor.prototype.intercept = function (request, next) {
@@ -22,15 +20,13 @@ var RequestInterceptor = /** @class */ (function () {
         return next.handle(request).pipe(tap(function (event) { }, function (error) {
             if (error instanceof HttpErrorResponse) {
                 console.log(error);
-                _this.errorService.setError(error["error"]["Message"]);
-                _this.router.navigate(['/error']);
+                _this.router.navigate(['/error', error]);
             }
         }));
     };
     RequestInterceptor = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [ErrorService,
-            Router])
+        __metadata("design:paramtypes", [Router])
     ], RequestInterceptor);
     return RequestInterceptor;
 }());

@@ -6,6 +6,11 @@ namespace BlackJack.ViewModels.GameHistory
     public class GetGameHistoryView
     {
         public List<HistoryMessageGetGameHistoryViewItem> HistoryMessages { get; set; }
+
+        public GetGameHistoryView(List<HistoryMessageGetGameHistoryViewItem> historyMessages)
+        {
+            HistoryMessages = historyMessages;
+        }
     }
 
     public class HistoryMessageGetGameHistoryViewItem

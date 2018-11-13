@@ -13,19 +13,14 @@ var StartService = /** @class */ (function () {
     function StartService(httpClient) {
         this.httpClient = httpClient;
     }
-    StartService.prototype.searchGameForPlayer = function (userName) {
+    StartService.prototype.searchGame = function (userName) {
         var options = userName ?
             { params: new HttpParams().set('userName', userName.toString()) } : {};
-        return this.httpClient.get('Start/Index', options);
+        return this.httpClient.get('Start/SearchGame', options);
     };
     StartService.prototype.createGame = function (userName, amountOfBots) {
         var body = { UserName: userName, AmountOfBots: amountOfBots };
         return this.httpClient.post('Start/CreateGame', body);
-    };
-    StartService.prototype.initializeRound = function (gameId) {
-        var options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Start/Initialize', options);
     };
     StartService = __decorate([
         Injectable({

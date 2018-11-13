@@ -7,22 +7,15 @@ import { Injectable } from '@angular/core';
 export class StartService {
     constructor(private httpClient: HttpClient) { }
 
-    searchGameForPlayer(userName: string) {
+    searchGame(userName: string) {
         const options = userName ?
             { params: new HttpParams().set('userName', userName.toString()) } : {};
 
-        return this.httpClient.get('Start/Index', options);
+        return this.httpClient.get('Start/SearchGame', options);
     }
 
     createGame(userName: string, amountOfBots: number) {
         const body = { UserName: userName, AmountOfBots: amountOfBots };
         return this.httpClient.post('Start/CreateGame', body);
-    }
-
-    initializeRound(gameId: number) {
-        const options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-
-        return this.httpClient.get('Start/Initialize', options);
     }
 }

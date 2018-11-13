@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using BlackJack.ViewModels.Round;
+﻿using BlackJack.ViewModels.Round;
+using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Services.Interfaces
 {
@@ -9,7 +9,7 @@ namespace BlackJack.BusinessLogic.Services.Interfaces
 
         Task<TakeCardRoundView> TakeCard(long gameId);
 
-        Task<string> End(long gameId);
+        Task<EndRoundView> End(long gameId);
 
         Task<RestoreRoundView> Restore(long gameId);
     }

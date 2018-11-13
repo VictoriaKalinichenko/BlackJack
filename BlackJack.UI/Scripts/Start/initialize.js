@@ -9,8 +9,8 @@
     });
 
     function restoreRound() {
-        var gameId = $("#gameid").val();
-        var isnewgame = $("#isnewgame").val();
+        var gameId = $("#gameId").val();
+        var isNewGame = $("#isNewGame").val();
         var transParam = {
             gameId: gameId
         };
@@ -21,12 +21,12 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                if (!isnewgame) {
+                if (!isNewGame) {
                     reloadPlayersOnStart(response);
                     reloadGamePlay(response.RoundResult);
                 }
 
-                if (isnewgame) {
+                if (isNewGame) {
                     startRound();
                 }
             },
@@ -37,7 +37,7 @@
     }
 
     function startRound() {
-        var gameId = $("#gameid").val();
+        var gameId = $("#gameId").val();
         var transParam = {
             gameId: gameId
         };
@@ -58,7 +58,7 @@
     }
 
     function takeCard() {
-        var gameId = $("#gameid").val();
+        var gameId = $("#gameId").val();
         var transParam = {
             gameId: gameId
         };
@@ -79,7 +79,7 @@
     }
 
     function endRound() {
-        var gameId = $("#gameid").val();
+        var gameId = $("#gameId").val();
         var transParam = {
             GameId: gameId
         };
@@ -90,8 +90,9 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
+                reloadDealerOnTakeCard(response.Dealer);
                 $("#gameplay").text('');
-                $("#gameplay").append(`<p>${response}</p>`);
+                $("#gameplay").append(`<p>${response.RoundResult}</p>`);
                 drowButtonsEndRound();
             },
             error: function (response) {
@@ -112,12 +113,14 @@
 
     function reloadPlayersOnTakeCard(response) {
         human.reloadCards(response.Human);
-        dealer.reloadCards(response.Dealer);
         botList.reloadCards(response.Bots);
-
         human.show();
-        dealer.show();
         botList.show();
+    }
+
+    function reloadDealerOnTakeCard(dealerInfo) {
+        dealer.reloadCards(dealerInfo);
+        dealer.show();
     }
 
     function reloadGamePlay(roundResult) {

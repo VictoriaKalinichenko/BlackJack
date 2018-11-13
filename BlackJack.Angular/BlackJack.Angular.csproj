@@ -294,10 +294,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\app\app-routing.module.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
-    <TypeScriptCompile Include="src\app\shared\interfaces\deserializable.ts" />
-    <TypeScriptCompile Include="src\app\shared\mapping-models\player-mapping-model.ts" />
     <TypeScriptCompile Include="src\app\shared\mapping-models\game-mapping-model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\restore-round.view.ts" />
     <TypeScriptCompile Include="src\app\shared\models\start-round.view.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\end-round.view.ts" />
     <TypeScriptCompile Include="src\app\shared\models\take-card-round.view.ts" />
     <TypeScriptCompile Include="src\app\shared\modules\shared.module.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
@@ -307,10 +307,8 @@
     <TypeScriptCompile Include="src\app\game-module\player-output\player-output.component.ts" />
     <TypeScriptCompile Include="src\app\error-page\error-page.component.ts" />
     <TypeScriptCompile Include="src\app\home-page\home-page.component.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\new-game.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\round.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\start.service.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\error.service.ts" />
     <TypeScriptCompile Include="src\app\shared\interceptors\request-interceptor.ts" />
     <TypeScriptCompile Include="src\app\create-game\create-game.component.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />

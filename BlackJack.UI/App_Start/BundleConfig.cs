@@ -31,7 +31,7 @@ namespace BlackJack.UI
                 "~/Scripts/kendoui/js/jquery.min.js",
                 "~/Scripts/kendoui/js/kendo.all.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/KendoUI/Logs").Include(
+            bundles.Add(new ScriptBundle("~/bundles/KendoUI/GameHistory").Include(
                 "~/Scripts/GameHistory/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/RoundHandler").Include(

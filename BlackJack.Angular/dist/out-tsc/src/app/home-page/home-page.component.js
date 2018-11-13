@@ -15,12 +15,12 @@ var HomePageComponent = /** @class */ (function () {
         this.router = router;
         this.startService = startService;
     }
-    HomePageComponent.prototype.searchGameForPlayer = function () {
+    HomePageComponent.prototype.searchGame = function () {
         var _this = this;
-        this.startService.searchGameForPlayer(this.userName)
+        this.startService.searchGame(this.userName)
             .subscribe(function (data) {
             if (data["IsGameExist"]) {
-                _this.router.navigate(['/game', data["GameId"]]);
+                _this.router.navigate(['/game/' + data["GameId"] + '/' + false]);
             }
             if (!data["IsGameExist"]) {
                 _this.router.navigate(['/create', _this.userName]);

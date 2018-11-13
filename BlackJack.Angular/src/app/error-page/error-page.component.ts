@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ErrorService } from 'app/shared/services/error.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-error-page',
@@ -8,11 +8,11 @@ import { ErrorService } from 'app/shared/services/error.service';
 export class ErrorPageComponent implements OnInit {
     error: string;
 
-    constructor(
-        private errorService: ErrorService
-    ) { }
+    constructor(private route: ActivatedRoute) { }
 
     ngOnInit() {
-        this.error = this.errorService.getError();
+        this.route.params.subscribe(params => {
+            this.error = params['message'];
+        });
     }
 }

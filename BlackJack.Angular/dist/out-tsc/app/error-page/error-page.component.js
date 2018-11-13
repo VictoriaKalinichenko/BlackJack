@@ -8,20 +8,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { ErrorService } from 'app/shared/services/error.service';
+import { ActivatedRoute } from '@angular/router';
 var ErrorPageComponent = /** @class */ (function () {
-    function ErrorPageComponent(errorService) {
-        this.errorService = errorService;
+    function ErrorPageComponent(route) {
+        this.route = route;
     }
     ErrorPageComponent.prototype.ngOnInit = function () {
-        this.error = this.errorService.getError();
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.error = params['message'];
+        });
     };
     ErrorPageComponent = __decorate([
         Component({
             selector: 'app-error-page',
             templateUrl: './error-page.component.html'
         }),
-        __metadata("design:paramtypes", [ErrorService])
+        __metadata("design:paramtypes", [ActivatedRoute])
     ], ErrorPageComponent);
     return ErrorPageComponent;
 }());

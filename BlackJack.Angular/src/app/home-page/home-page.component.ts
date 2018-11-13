@@ -15,15 +15,15 @@ export class HomePageComponent {
         private startService: StartService
     ) { }
 
-    searchGameForPlayer() {
-        this.startService.searchGameForPlayer(this.userName)
+    searchGame() {
+        this.startService.searchGame(this.userName)
             .subscribe(
                 (data) => {
-                    if (data["IsGameExist"]) {
-                        this.router.navigate(['/game', data["GameId"]]);
+                    if (data["isGameExist"]) {
+                        this.router.navigate(['/game/' + data["gameId"] + '/' + false]);
                     }
 
-                    if (!data["IsGameExist"]) {
+                    if (!data["isGameExist"]) {
                         this.router.navigate(['/create', this.userName]);
                     }
                 }

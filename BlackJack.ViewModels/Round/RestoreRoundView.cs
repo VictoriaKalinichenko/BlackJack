@@ -4,7 +4,6 @@ namespace BlackJack.ViewModels.Round
 {
     public class RestoreRoundView
     {
-        public bool CanTakeCard { get; set; }
         public string RoundResult { get; set; }
         public GamePlayerRestoreRoundViewItem Dealer { get; set; }
         public GamePlayerRestoreRoundViewItem Human { get; set; }

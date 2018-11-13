@@ -28,10 +28,10 @@ namespace BlackJack.BusinessLogic.Services
             _historyMessageManager = historyMessageManager;
         }
 
-        public async Task<IndexStartView> SearchGameForPlayer(string name)
+        public async Task<SearchGameStartView> SearchGame(string name)
         {
             Game game = await _gameRepository.GetByHumanName(name);
-            IndexStartView view = new IndexStartView();
+            SearchGameStartView view = new SearchGameStartView();
             view.IsGameExist = false;
 
             if (game != null)

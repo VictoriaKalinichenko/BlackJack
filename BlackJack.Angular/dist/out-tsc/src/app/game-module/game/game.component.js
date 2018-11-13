@@ -11,71 +11,72 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoundService } from 'app/shared/services/round.service';
 import { StartService } from 'app/shared/services/start.service';
-import { NewGameService } from 'app/shared/services/new-game.service';
-import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
+import { StartRoundView, GamePlayerStartRoundViewItem } from 'app/shared/models/start-round.view';
 var GameComponent = /** @class */ (function () {
-    function GameComponent(route, roundService, startService, newGameService) {
+    function GameComponent(route, roundService, startService) {
         this.route = route;
         this.roundService = roundService;
         this.startService = startService;
-        this.newGameService = newGameService;
-        this.game = new GameMappingModel();
-        this.takeCard = false;
-        this.endRound = false;
+        this.takeCardGamePlay = false;
+        this.endRoundGamePlay = false;
     }
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.game = new StartRoundView();
+        this.game.human = new GamePlayerStartRoundViewItem();
+        this.game.dealer = new GamePlayerStartRoundViewItem();
+        this.game.bots = [];
         this.route.params.subscribe(function (params) {
             _this.gameId = params['gameId'];
-            var isNewGame = _this.newGameService.getIsNewGame();
+            var isNewGame = params['isNewGame'];
             if (isNewGame) {
-                _this.onStartRound();
+                _this.startRound();
             }
             if (!isNewGame) {
-                _this.onRestoreRound();
+                _this.restoreRound();
             }
         });
     };
-    GameComponent.prototype.onStartRound = function () {
+    GameComponent.prototype.startRound = function () {
         var _this = this;
         this.roundService.startRound(this.gameId)
             .subscribe(function (data) {
-            _this.game = _this.game.deserialize(data);
-            _this.setGamePlay(_this.game.roundResult);
+            //this.game = this.game.deserialize(data);
+            _this.setGamePlay();
         });
     };
-    GameComponent.prototype.onTakeCard = function () {
+    GameComponent.prototype.takeCard = function () {
         var _this = this;
         this.roundService.takeCard(this.gameId)
             .subscribe(function (data) {
-            _this.game = _this.game.deserialize(data);
-            _this.setGamePlay(_this.game.roundResult);
+            // this.game = this.game.deserialize(data);
+            _this.setGamePlay();
         });
     };
-    GameComponent.prototype.onContinueRound = function () {
+    GameComponent.prototype.endRound = function () {
         var _this = this;
         this.roundService.endRound(this.gameId)
             .subscribe(function (data) {
-            _this.game.roundResult = data;
-            _this.setGamePlay(_this.game.roundResult);
+            //this.game.roundResult = data;
+            _this.setGamePlay();
         });
     };
-    GameComponent.prototype.onRestoreRound = function () {
+    GameComponent.prototype.restoreRound = function () {
         var _this = this;
         this.roundService.restoreRound(this.gameId)
             .subscribe(function (data) {
-            _this.game = _this.game.deserialize(data);
-            _this.setGamePlay(_this.game.roundResult);
+            _this.game = data;
+            _this.setGamePlay();
         });
     };
-    GameComponent.prototype.setGamePlay = function (roundResult) {
-        if (this.game.roundResult == "") {
-            this.endRound = false;
-            this.takeCard = true;
+    GameComponent.prototype.setGamePlay = function () {
+        if (this.game.roundResult == "Round is in process") {
+            this.endRoundGamePlay = false;
+            this.takeCardGamePlay = true;
         }
-        if (this.game.roundResult != "") {
-            this.endRound = true;
-            this.takeCard = false;
+        if (this.game.roundResult != "Round is in process") {
+            this.endRoundGamePlay = true;
+            this.takeCardGamePlay = false;
         }
     };
     GameComponent = __decorate([
@@ -85,8 +86,7 @@ var GameComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [ActivatedRoute,
             RoundService,
-            StartService,
-            NewGameService])
+            StartService])
     ], GameComponent);
     return GameComponent;
 }());

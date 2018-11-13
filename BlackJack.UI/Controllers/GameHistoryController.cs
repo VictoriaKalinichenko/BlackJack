@@ -19,9 +19,9 @@ namespace BlackJack.UI.Controllers
             _gameHistoryService = gameHistoryService;
         }
 
-        public ActionResult Index(string userName)
+        public ActionResult Index()
         {
-            return View(model: userName);
+            return View();
         }
 
         [HttpGet]
@@ -37,7 +37,7 @@ namespace BlackJack.UI.Controllers
             {
                 string message = exception.ToString();
                 _logger.Error(message);
-                return RedirectToAction("Error", "Start", new { message = GameMessage.HistoryMessagesError});
+                return RedirectToAction("Display", "Error", new { message = GameMessage.HistoryMessagesError});
             }
         }
     }

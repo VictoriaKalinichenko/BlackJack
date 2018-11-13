@@ -1,6 +1,6 @@
 ﻿namespace BlackJack.ViewModels.Start
 {
-    public class IndexStartView
+    public class SearchGameStartView
     {
         public bool IsGameExist { get; set; }
         public long GameId { get; set; }

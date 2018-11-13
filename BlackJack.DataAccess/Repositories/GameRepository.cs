@@ -23,7 +23,7 @@ namespace BlackJack.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                Game game = await db.QueryFirstOrDefaultAsync<Game>(sqlQuery, 
+                var game = await db.QueryFirstOrDefaultAsync<Game>(sqlQuery, 
                     new { playerName = playerName, playerType = PlayerType.Human });
                 return game;
             }

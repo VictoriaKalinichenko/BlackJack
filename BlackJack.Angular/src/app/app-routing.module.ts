@@ -15,11 +15,11 @@ const appRoutes: Routes = [
         component: CreateGameComponent
     },
     {
-        path: 'game/:gameId',
+        path: 'game/:gameId/:isNewGame',
         loadChildren: 'app/game-module/game.module#GameModule'
     },
     {
-        path: 'error',
+        path: 'error/:message',
         component: ErrorPageComponent
     }
 ];

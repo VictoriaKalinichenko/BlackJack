@@ -12,14 +12,14 @@
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div *ngIf="takeCard">
-                    <button class="btn btn-primary" (click)="onTakeCard()">Take card</button>
-                    <button class="btn btn-primary" (click)="onContinueRound()">Don't take</button>
+                <div *ngIf="takeCardGamePlay">
+                    <button class="btn btn-primary" (click)="takeCard()">Take card</button>
+                    <button class="btn btn-primary" (click)="endRound()">Don't take</button>
                 </div>
 
-                <div *ngIf="endRound">
+                <div *ngIf="endRoundGamePlay">
                     <p>{{game.roundResult}}</p>
-                    <button class="btn btn-primary" (click)="onStartRound()">End round</button>
+                    <button class="btn btn-primary" (click)="startRound()">End round</button>
                 </div>
             </div>
         </div>

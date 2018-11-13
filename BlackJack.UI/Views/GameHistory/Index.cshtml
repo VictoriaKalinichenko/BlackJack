@@ -1,31 +1,15 @@
-﻿@model string
-@{
-    Layout = null;
+﻿@{
+    ViewBag.Title = "Game history";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game history - BlackJack</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/bundles/KendoUI/css")
-    @Scripts.Render("~/bundles/KendoUI/js")
-</head>
-<body>
-    <div class="container body-content">
-        <h2>Game history</h2>
-        <div id="grid"></div>
-        @Scripts.Render("~/bundles/KendoUI/Logs")
-        <hr />
-    </div>
 
-    @Scripts.Render("~/bundles/bootstrap")
-</body>
-</html>
+<div class="container body-content">
+    <h2>Game history</h2>
+    <div id="grid"></div>
+    <hr />
+</div>
 
-
-
-
+@Styles.Render("~/bundles/KendoUI/css")
+@Scripts.Render("~/bundles/KendoUI/js")
+@Scripts.Render("~/bundles/KendoUI/GameHistory")

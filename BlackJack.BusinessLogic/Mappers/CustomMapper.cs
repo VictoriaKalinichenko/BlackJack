@@ -28,21 +28,29 @@ namespace BlackJack.BusinessLogic.Mappers
         public static TakeCardRoundView MapTakeCardRoundView(List<GamePlayer> players, string roundResult)
         {
             StartRoundView viewForStartRound = MapStartRoundView(players, roundResult);
-            TakeCardRoundView viewForTakeCard = Mapper.Map<StartRoundView, TakeCardRoundView>(viewForStartRound);
+            var viewForTakeCard = Mapper.Map<StartRoundView, TakeCardRoundView>(viewForStartRound);
             return viewForTakeCard;
+        }
+
+        public static EndRoundView MapEndRoundView(GamePlayer dealer, string roundResult)
+        {
+            var view = new EndRoundView();
+            view.Dealer = Mapper.Map<GamePlayer, GamePlayerEndRoundViewItem>(dealer);
+            view.RoundResult = roundResult;
+            return view;
         }
 
         public static RestoreRoundView MapRestoreRoundView(List<GamePlayer> players, string roundResult)
         {
             StartRoundView viewForStartRound = MapStartRoundView(players, roundResult);
-            RestoreRoundView viewForRestoreRound = Mapper.Map<StartRoundView, RestoreRoundView>(viewForStartRound);
+            var viewForRestoreRound = Mapper.Map<StartRoundView, RestoreRoundView>(viewForStartRound);
             return viewForRestoreRound;
         }
 
         public static GetGameHistoryView MapGameHistoryView(List<HistoryMessage> historyMessages)
         {
-            var view = new GetGameHistoryView();
-            view.HistoryMessages = Mapper.Map<List<HistoryMessage>, List<HistoryMessageGetGameHistoryViewItem>>(historyMessages);
+            var historyMessageViewItems = Mapper.Map<List<HistoryMessage>, List<HistoryMessageGetGameHistoryViewItem>>(historyMessages);
+            var view = new GetGameHistoryView(historyMessageViewItems);
             return view;
         }
 
@@ -77,6 +85,15 @@ namespace BlackJack.BusinessLogic.Mappers
             }
 
             return playerCards;
+        }
+
+        public static PlayerCard MapPlayerCard(GamePlayer gamePlayer, Card card)
+        {
+            var playerCard = new PlayerCard();
+            playerCard.CardId = card.Id;
+            playerCard.Card = card;
+            playerCard.GamePlayerId = gamePlayer.Id;
+            return playerCard;
         }
 
         public static Game MapGame(long id, string roundResult)

@@ -22,8 +22,8 @@
             dataType: "json",
             success: function (response) {
                 if (!isNewGame) {
-                    reloadPlayersOnStart(response);
-                    reloadGamePlay(response.RoundResult);
+                    reloadPlayersOnStart(response)
+                    reloadGamePlay(response.roundResult);
                 }
 
                 if (isNewGame) {
@@ -49,7 +49,7 @@
             dataType: "json",
             success: function (response) {
                 reloadPlayersOnStart(response);
-                reloadGamePlay(response.RoundResult);
+                reloadGamePlay(response.roundResult);
             },
             error: function (response) {
                 showError(response);
@@ -70,7 +70,7 @@
             dataType: "json",
             success: function (response) {
                 reloadPlayersOnTakeCard(response);
-                reloadGamePlay(response.RoundResult);
+                reloadGamePlay(response.roundResult);
             },
             error: function (response) {
                 showError(response);
@@ -81,7 +81,7 @@
     function endRound() {
         var gameId = $("#gameId").val();
         var transParam = {
-            GameId: gameId
+            gameId: gameId
         };
 
         $.ajax({
@@ -90,10 +90,8 @@
             data: transParam,
             dataType: "json",
             success: function (response) {
-                reloadDealerOnTakeCard(response.Dealer);
-                $("#gameplay").text('');
-                $("#gameplay").append(`<p>${response.RoundResult}</p>`);
-                drowButtonsEndRound();
+                reloadDealerOnTakeCard(response.dealer);
+                reloadGamePlay(response.roundResult);
             },
             error: function (response) {
                 showError(response);
@@ -102,18 +100,18 @@
     }
 
     function reloadPlayersOnStart(response) {
-        human = new Player(response.Human, "human");
-        dealer = new Player(response.Dealer, "dealer");
-        botList = new BotList(response.Bots);
+        human = new Player(response.human, "human");
+        dealer = new Player(response.dealer, "dealer");
+        botList = new BotList(response.bots);
         human.show();
         dealer.show();
         botList.show();
     }
 
     function reloadPlayersOnTakeCard(response) {
-        human.reloadCards(response.Human);
-        dealer.reloadCards(response.Dealer);
-        botList.reloadCards(response.Bots);
+        human.reloadCards(response.human);
+        dealer.reloadCards(response.dealer);
+        botList.reloadCards(response.bots);
         human.show();
         dealer.show();
         botList.show();
@@ -184,23 +182,20 @@
 
     class Player {
         constructor(player, domId) {
-            this.name = player.Name;
-            this.cardScore = player.CardScore;
-            this.cards = player.Cards;
+            this.player = player;
             this.domId = domId;
         }
 
         reloadCards(data) {
-            this.cardScore = data.CardScore;
-            this.cards = data.Cards;
+            this.player = Object.assign(this.player, data);
         }
 
         show() {
-            var text = `<p>Name: ${this.name}</p>`;
-            text = text + `<p>CardScore: ${this.cardScore}</p>`;
+            var text = `<p>Name: ${this.player.name}</p>`;
+            text = text + `<p>CardScore: ${this.player.cardScore}</p>`;
             text = text + `<p>Cards:</p><ul>`;
 
-            $.each(this.cards, function (i, item) {
+            $.each(this.player.cards, function (i, item) {
                 text = text + `<li>${item}</li>`;
             });
 

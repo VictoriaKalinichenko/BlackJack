@@ -15,7 +15,7 @@ const appRoutes: Routes = [
         component: CreateGameComponent
     },
     {
-        path: 'game/:gameId/:isNewGame',
+        path: 'game/:userName/:gameId',
         loadChildren: 'app/game-module/game.module#GameModule'
     },
     {

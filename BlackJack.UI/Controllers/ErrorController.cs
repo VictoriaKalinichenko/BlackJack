@@ -1,12 +1,15 @@
-﻿using System.Web.Mvc;
+﻿using BlackJack.ViewModels.Error;
+using System.Web.Mvc;
 
 namespace BlackJack.UI.Controllers
 {
     public class ErrorController : Controller
     {
-        public ActionResult Display(string errorMessage)
+        public ActionResult Display(string message)
         {
-            return View((object)errorMessage);
+            var view = new DisplayErrorView();
+            view.Message = message;
+            return View(view);
         }
     }
 }

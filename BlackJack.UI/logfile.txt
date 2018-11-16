@@ -1012,3 +1012,13 @@ Error Number:515,State:2,Class:16
    at BlackJack.UI.Controllers.RoundController.<AddCard>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\RoundController.cs:line 43
 ClientConnectionId:13927372-0c7a-42fa-98ff-6a3cf1cf8baa
 Error Number:102,State:1,Class:15
+2018-11-16 16:41:44.6814|ERROR|BlackJack.UI.Controllers.StartController|System.Exception: Exception
+   at BlackJack.UI.Controllers.StartController.Initialize(Int64 gameId, Boolean isNewGame) in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 101
+2018-11-16 16:42:50.6043|ERROR|BlackJack.UI.Controllers.StartController|System.Exception: Exception
+   at BlackJack.UI.Controllers.StartController.Initialize(Int64 gameId, Boolean isNewGame) in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 101
+2018-11-16 16:45:11.8861|ERROR|BlackJack.UI.Controllers.StartController|System.Exception: Exception
+   at BlackJack.UI.Controllers.StartController.Initialize(Int64 gameId, Boolean isNewGame) in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 101
+2018-11-16 17:21:47.0746|ERROR|BlackJack.UI.Controllers.StartController|System.Exception: Exception
+   at BlackJack.UI.Controllers.StartController.Initialize(Int64 gameId, Boolean isNewGame) in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 101
+2018-11-16 18:00:52.1768|ERROR|BlackJack.UI.Controllers.StartController|System.Exception: Exception
+   at BlackJack.UI.Controllers.StartController.Initialize(Int64 gameId, Boolean isNewGame) in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 101

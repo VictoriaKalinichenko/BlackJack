@@ -1,4 +1,5 @@
-﻿@model string
+﻿@using BlackJack.ViewModels.Error
+@model DisplayErrorView
 @{
     ViewBag.Title = "Error";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,4 +7,4 @@
 
 <h2>Error</h2>
 
-<p>@Model</p>
+<p>@Model.Message</p>

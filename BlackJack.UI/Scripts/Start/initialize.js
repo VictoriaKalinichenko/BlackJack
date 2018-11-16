@@ -123,10 +123,10 @@
     }
 
     function reloadGamePlay(roundResult) {
-        $("#gameplay").text('');
+        $("#gamePlay").text('');
 
         if (roundResult != "Round is in process") {
-            $("#gameplay").append(`<p>${roundResult}</p>`);
+            $("#gamePlay").append(`<p>${roundResult}</p>`);
             drowButtonsEndRound();
         }
 
@@ -156,8 +156,8 @@
             }
         });
 
-        $("#gameplay").append(takeOneMoreCardButton);
-        $("#gameplay").append(dontTakeButton);
+        $("#gamePlay").append(takeOneMoreCardButton);
+        $("#gamePlay").append(dontTakeButton);
     }
 
     function drowButtonsEndRound() {
@@ -171,7 +171,7 @@
             }
         });
 
-        $("#gameplay").append(endRoundButton);
+        $("#gamePlay").append(endRoundButton);
     }
     
     function showError(response) {

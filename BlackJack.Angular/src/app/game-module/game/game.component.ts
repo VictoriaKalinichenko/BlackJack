@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RoundService } from 'app/shared/services/round.service';
 import { StartService } from 'app/shared/services/start.service';
 
-import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
+import { GameModel } from 'app/shared/models/game-model';
 import { StartRoundView } from 'app/shared/models/start-round.view';
 import { RestoreRoundView } from 'app/shared/models/restore-round.view';
 import { TakeCardRoundView } from 'app/shared/models/take-card-round.view';
@@ -16,7 +16,10 @@ import { EndRoundView } from 'app/shared/models/end-round.view';
 })
 export class GameComponent implements OnInit {
     gameId: number;
-    game: GameMappingModel = new GameMappingModel();
+    humanName: string;
+    dealerName: string = "Dealer";
+    botNames: string[] = ["Bot0", "Bot1", "Bot2", "Bot3", "Bot4"];
+    game: GameModel = new GameModel();
     
     takeCardGamePlay: boolean = false;
     endRoundGamePlay: boolean = false;
@@ -30,15 +33,8 @@ export class GameComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.gameId = params['gameId'];
-            let isNewGame = params['isNewGame'];
-
-            if (isNewGame == "true") {
-                this.startRound();
-            }
-
-            if (isNewGame == "false") {
-                this.restoreRound();
-            }
+            this.humanName = params['userName'];
+            this.startRound();
         });
     }
     
@@ -46,7 +42,7 @@ export class GameComponent implements OnInit {
         this.roundService.startRound(this.gameId)
             .subscribe(
                 (data: StartRoundView) => {
-                    this.game = Object.assign(new GameMappingModel, data);
+                    this.game = data as GameModel;
                     this.setGamePlay();
                 }
             );
@@ -75,16 +71,6 @@ export class GameComponent implements OnInit {
                 (data: EndRoundView) => {
                     this.game.roundResult = data.roundResult;
                     this.game.dealer = Object.assign(this.game.dealer, data.dealer);
-                    this.setGamePlay();
-                }
-            );
-    }
-
-    restoreRound() {
-        this.roundService.restoreRound(this.gameId)
-            .subscribe(
-                (data: RestoreRoundView) => {
-                    this.game = Object.assign(new GameMappingModel, data);
                     this.setGamePlay();
                 }
             );

@@ -1,40 +1,33 @@
 ﻿import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { RestoreRoundView } from 'app/shared/models/restore-round.view';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { RestoreRoundView } from 'app/shared/models/restore-round.view';
+import { StartRoundView } from '../models/start-round.view';
+import { EndRoundView } from '../models/end-round.view';
+import { TakeCardRoundView } from '../models/take-card-round.view';
 
 @Injectable()
 export class RoundService {
     constructor(private httpClient: HttpClient) { }
     
-    startRound(gameId: number) {
+    startRound(gameId: number): Observable<StartRoundView> {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this.httpClient.get('Round/Start', options);
+        return this.httpClient.get<StartRoundView>('Round/Start', options);
     }
 
-    endRound(gameId: number) {
+    endRound(gameId: number): Observable<EndRoundView> {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this.httpClient.get('Round/End', options);
+        return this.httpClient.get<EndRoundView>('Round/End', options);
     }
 
-    takeCard(gameId: number) {
+    takeCard(gameId: number): Observable<TakeCardRoundView> {
         const options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
 
-        return this.httpClient.get('Round/TakeCard', options);
-    }
-
-    restoreRound(gameId: number): Observable<RestoreRoundView> {
-        const options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-
-        return this.httpClient.get<RestoreRoundView>('Round/Restore', options);
-    }
-    
+        return this.httpClient.get<TakeCardRoundView>('Round/TakeCard', options);
+    }    
 }

@@ -20,7 +20,7 @@ export class HomePageComponent {
             .subscribe(
                 (data) => {
                     if (data["isGameExist"]) {
-                        this.router.navigate(['/game/' + data["gameId"] + '/' + false]);
+                        this.router.navigate(['/game/' + this.userName + '/' + data.gameId]);
                     }
 
                     if (!data["isGameExist"]) {

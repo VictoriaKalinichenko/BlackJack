@@ -1,7 +1,8 @@
 ﻿import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { CreateGameStartView } from 'app/shared/models/create-game-start.view';
 import { SearchGameStartView } from 'app/shared/models/search-game-start.view';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +18,9 @@ export class StartService {
     }
 
     createGame(userName: string, amountOfBots: number): Observable<number> {
-        const body = { UserName: userName, AmountOfBots: amountOfBots };
-        return this.httpClient.post<number>('Start/CreateGame', body);
+        const request = new CreateGameStartView();
+        request.userName = userName;
+        request.amountOfBots = amountOfBots;
+        return this.httpClient.post<number>('Start/CreateGame', request);
     }
 }

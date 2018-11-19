@@ -2,14 +2,14 @@
 
 namespace BlackJack.ViewModels.Round
 {
-    public class StartRoundView
+    public class ResponseStartRoundView
     {
         public string RoundResult { get; set; }
         public GamePlayerStartRoundViewItem Dealer { get; set; }
         public GamePlayerStartRoundViewItem Human { get; set; }
         public List<GamePlayerStartRoundViewItem> Bots { get; set; }
 
-        public StartRoundView()
+        public ResponseStartRoundView()
         {
             Bots = new List<GamePlayerStartRoundViewItem>();
         }
@@ -17,7 +17,6 @@ namespace BlackJack.ViewModels.Round
 
     public class GamePlayerStartRoundViewItem
     {
-        public string Name { get; set; }
         public int CardScore { get; set; }
         public List<string> Cards { get; set; }
     }

@@ -47,9 +47,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutingModule", function() { return AppRoutingModule; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/home-page/home-page.component */ "./src/app/home-page/home-page.component.ts");
-/* harmony import */ var app_create_game_create_game_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/create-game/create-game.component */ "./src/app/create-game/create-game.component.ts");
-/* harmony import */ var app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/error-page/error-page.component */ "./src/app/error-page/error-page.component.ts");
+/* harmony import */ var app_create_game_create_game_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/create-game/create-game.component */ "./src/app/create-game/create-game.component.ts");
+/* harmony import */ var app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/error-page/error-page.component */ "./src/app/error-page/error-page.component.ts");
+/* harmony import */ var app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/home-page/home-page.component */ "./src/app/home-page/home-page.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64,19 +64,19 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var appRoutes = [
     {
         path: '',
-        component: app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_2__["HomePageComponent"]
+        component: app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_4__["HomePageComponent"]
     },
     {
         path: 'create/:userName',
-        component: app_create_game_create_game_component__WEBPACK_IMPORTED_MODULE_3__["CreateGameComponent"]
+        component: app_create_game_create_game_component__WEBPACK_IMPORTED_MODULE_2__["CreateGameComponent"]
     },
     {
-        path: 'game/:gameId/:isNewGame',
+        path: 'game/:userName/:gameId/:isNewGame',
         loadChildren: 'app/game-module/game.module#GameModule'
     },
     {
         path: 'error/:message',
-        component: app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_4__["ErrorPageComponent"]
+        component: app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_3__["ErrorPageComponent"]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -277,7 +277,7 @@ var CreateGameComponent = /** @class */ (function () {
         var _this = this;
         this.startService.createGame(this.userName, this.amountOfBots)
             .subscribe(function (data) {
-            _this.router.navigate(['/game/' + data + '/' + true]);
+            _this.router.navigate(["/game/" + _this.userName + "/" + data + "/" + true]);
         });
     };
     CreateGameComponent = __decorate([
@@ -400,7 +400,7 @@ var HomePageComponent = /** @class */ (function () {
         this.startService.searchGame(this.userName)
             .subscribe(function (data) {
             if (data["isGameExist"]) {
-                _this.router.navigate(['/game/' + data["gameId"] + '/' + false]);
+                _this.router.navigate(["/game/" + _this.userName + "/" + data.gameId + "/" + false]);
             }
             if (!data["isGameExist"]) {
                 _this.router.navigate(['/create', _this.userName]);
@@ -432,8 +432,8 @@ var HomePageComponent = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequestInterceptor", function() { return RequestInterceptor; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -456,17 +456,37 @@ var RequestInterceptor = /** @class */ (function () {
     RequestInterceptor.prototype.intercept = function (request, next) {
         var _this = this;
         return next.handle(request).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function (event) { }, function (error) {
-            if (error instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpErrorResponse"]) {
+            if (error instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpErrorResponse"]) {
                 console.log(error);
                 _this.router.navigate(['/error', error]);
             }
         }));
     };
     RequestInterceptor = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], RequestInterceptor);
     return RequestInterceptor;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/models/create-game-start.view.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/shared/models/create-game-start.view.ts ***!
+  \*********************************************************/
+/*! exports provided: CreateGameStartView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateGameStartView", function() { return CreateGameStartView; });
+var CreateGameStartView = /** @class */ (function () {
+    function CreateGameStartView() {
+    }
+    return CreateGameStartView;
 }());
 
 
@@ -533,6 +553,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StartService", function() { return StartService; });
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var app_shared_models_create_game_start_view__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/shared/models/create-game-start.view */ "./src/app/shared/models/create-game-start.view.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -542,6 +563,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 var StartService = /** @class */ (function () {
@@ -554,8 +576,10 @@ var StartService = /** @class */ (function () {
         return this.httpClient.get('Start/SearchGame', options);
     };
     StartService.prototype.createGame = function (userName, amountOfBots) {
-        var body = { UserName: userName, AmountOfBots: amountOfBots };
-        return this.httpClient.post('Start/CreateGame', body);
+        var request = new app_shared_models_create_game_start_view__WEBPACK_IMPORTED_MODULE_2__["CreateGameStartView"]();
+        request.UserName = userName;
+        request.AmountOfBots = amountOfBots;
+        return this.httpClient.post('Start/CreateGame', request);
     };
     StartService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({

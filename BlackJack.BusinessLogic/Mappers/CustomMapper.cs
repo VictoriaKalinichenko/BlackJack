@@ -10,14 +10,14 @@ namespace BlackJack.BusinessLogic.Mappers
 {
     public static class CustomMapper
     {        
-        public static StartRoundView MapStartRoundView(List<GamePlayer> players, string roundResult)
+        public static ResponseStartRoundView MapResponseStartRoundView(List<GamePlayer> players, string roundResult)
         {
             GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
             GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
             players.Remove(human);
             players.Remove(dealer);
 
-            var view = new StartRoundView();
+            var view = new ResponseStartRoundView();
             view.Dealer = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(dealer);
             view.Human = Mapper.Map<GamePlayer, GamePlayerStartRoundViewItem>(human);
             view.Bots = Mapper.Map<List<GamePlayer>, List<GamePlayerStartRoundViewItem>>(players);
@@ -27,8 +27,8 @@ namespace BlackJack.BusinessLogic.Mappers
 
         public static TakeCardRoundView MapTakeCardRoundView(List<GamePlayer> players, string roundResult)
         {
-            StartRoundView viewForStartRound = MapStartRoundView(players, roundResult);
-            var viewForTakeCard = Mapper.Map<StartRoundView, TakeCardRoundView>(viewForStartRound);
+            ResponseStartRoundView viewForStartRound = MapResponseStartRoundView(players, roundResult);
+            var viewForTakeCard = Mapper.Map<ResponseStartRoundView, TakeCardRoundView>(viewForStartRound);
             return viewForTakeCard;
         }
 
@@ -38,13 +38,6 @@ namespace BlackJack.BusinessLogic.Mappers
             view.Dealer = Mapper.Map<GamePlayer, GamePlayerEndRoundViewItem>(dealer);
             view.RoundResult = roundResult;
             return view;
-        }
-
-        public static RestoreRoundView MapRestoreRoundView(List<GamePlayer> players, string roundResult)
-        {
-            StartRoundView viewForStartRound = MapStartRoundView(players, roundResult);
-            var viewForRestoreRound = Mapper.Map<StartRoundView, RestoreRoundView>(viewForStartRound);
-            return viewForRestoreRound;
         }
 
         public static GetGameHistoryView MapGameHistoryView(List<HistoryMessage> historyMessages)

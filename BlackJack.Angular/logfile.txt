@@ -1,1 +1,22 @@
 2018-10-12 17:53:53.2911|ERROR|BlackJack.Angular.Controllers.GameController|BlackJack.Angular|Void MoveNext()|   at BlackJack.Angular.Controllers.GameController.<AddCard>d__6.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\GameController.cs:line 105|Exception of type 'System.Exception' was thrown.
+2018-11-19 10:37:23.2163|ERROR|BlackJack.Angular.Controllers.RoundController|System.NullReferenceException: Object reference not set to an instance of an object.
+   at BlackJack.BusinessLogic.Services.RoundService.<Start>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\RoundService.cs:line 62
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.RoundController.<Start>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\RoundController.cs:line 27
+2018-11-19 10:39:36.4258|ERROR|BlackJack.Angular.Controllers.RoundController|System.NullReferenceException: Object reference not set to an instance of an object.
+   at BlackJack.BusinessLogic.Services.RoundService.<Start>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\RoundService.cs:line 62
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.RoundController.<Start>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\RoundController.cs:line 27
+2018-11-19 12:05:47.1188|ERROR|BlackJack.Angular.Controllers.RoundController|System.NullReferenceException: Object reference not set to an instance of an object.
+   at BlackJack.BusinessLogic.Services.RoundService.<Start>d__7.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.BusinessLogic\Services\RoundService.cs:line 62
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BlackJack.Angular.Controllers.RoundController.<Start>d__3.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.Angular\Controllers\RoundController.cs:line 27

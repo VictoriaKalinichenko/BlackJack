@@ -38,7 +38,7 @@ namespace BlackJack.UI.Controllers
 
                 if (view.IsGameExist)
                 {
-                    return RedirectToAction("Initialize", new { view.GameId });
+                    return RedirectToAction("Initialize", new { view.GameId, userName });
                 }
 
                 return RedirectToAction("CreateGame", new { userName });
@@ -84,7 +84,7 @@ namespace BlackJack.UI.Controllers
                 }
 
                 long gameId = await _startService.CreateGame(view);
-                return RedirectToAction("Initialize", new { gameId = gameId, isNewGame = true });
+                return RedirectToAction("Initialize", new { gameId = gameId, userName = view.UserName, isNewGame = true });
             }
             catch (Exception exception)
             {
@@ -94,12 +94,13 @@ namespace BlackJack.UI.Controllers
             }
         }
         
-        public ActionResult Initialize(long gameId, bool isNewGame = false)
+        public ActionResult Initialize(long gameId, string userName, bool isNewGame = false)
         {
             try
             {
                 var view = new InitializeStartView();
                 view.GameId = gameId;
+                view.UserName = userName;
                 view.IsNewGame = isNewGame;
                 return View(view);
             }

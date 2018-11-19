@@ -40,13 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Error\DisplayErrorView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Round\EndRoundView.cs" />
+    <Compile Include="Round\RequestStartRoundView.cs" />
     <Compile Include="Start\CreateGameStartView.cs" />
     <Compile Include="Round\TakeCardRoundView.cs" />
-    <Compile Include="Round\RestoreRoundView.cs" />
-    <Compile Include="Round\StartRoundView.cs" />
+    <Compile Include="Round\ResponseStartRoundView.cs" />
     <Compile Include="Start\SearchGameStartView.cs" />
     <Compile Include="GameHistory\GetGameHistoryView.cs" />
     <Compile Include="Start\InitializeStartView.cs" />

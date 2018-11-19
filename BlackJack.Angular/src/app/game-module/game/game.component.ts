@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { GameModel, PlayerModel } from 'app/shared/models/game-model';
 import { RoundService } from 'app/shared/services/round.service';
 import { StartService } from 'app/shared/services/start.service';
-
-import { GameModel } from 'app/shared/models/game-model';
-import { StartRoundView } from 'app/shared/models/start-round.view';
-import { RestoreRoundView } from 'app/shared/models/restore-round.view';
-import { TakeCardRoundView } from 'app/shared/models/take-card-round.view';
-import { EndRoundView } from 'app/shared/models/end-round.view';
 
 @Component({
     selector: 'app-game',
@@ -30,53 +24,47 @@ export class GameComponent implements OnInit {
         private startService: StartService
     ) { }
 
-    ngOnInit() {
+    ngOnInit() : void {
         this.route.params.subscribe(params => {
             this.gameId = params['gameId'];
             this.humanName = params['userName'];
-            this.startRound();
+            let isNewRound: boolean = params['isNewGame'];
+            this.startRound(isNewRound);
         });
     }
-    
-    startRound() {
-        this.roundService.startRound(this.gameId)
+
+    startRound(isNewRound: boolean): void {
+        this.roundService.startRound(this.gameId, isNewRound)
             .subscribe(
-                (data: StartRoundView) => {
+                (data) => {
                     this.game = data as GameModel;
                     this.setGamePlay();
                 }
             );
     }
 
-    takeCard() {
+    takeCard(): void {
         this.roundService.takeCard(this.gameId)
             .subscribe(
-                (data: TakeCardRoundView) => {
-                    this.game.roundResult = data.roundResult;
-                    this.game.human = Object.assign(this.game.human, data.human);
-                    this.game.dealer = Object.assign(this.game.dealer, data.dealer);
-
-                    for (let iterator = 0; iterator < data.bots.length; iterator++) {
-                        this.game.bots[iterator] = Object.assign(this.game.bots[iterator], data.bots[iterator]);
-                    }
-
+                (data) => {
+                    this.game = data as GameModel;
                     this.setGamePlay();
                 }
             );
     }
 
-    endRound() {
+    endRound(): void {
         this.roundService.endRound(this.gameId)
             .subscribe(
-                (data: EndRoundView) => {
+                (data) => {
                     this.game.roundResult = data.roundResult;
-                    this.game.dealer = Object.assign(this.game.dealer, data.dealer);
+                    this.game.dealer = data.dealer as PlayerModel;
                     this.setGamePlay();
                 }
             );
     }
 
-    setGamePlay() {
+    setGamePlay(): void {
         if (this.game.roundResult == "Round is in process") {
             this.endRoundGamePlay = false;
             this.takeCardGamePlay = true;

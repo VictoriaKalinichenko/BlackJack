@@ -18,7 +18,6 @@ namespace BlackJack.BusinessLogic.Services
         private readonly IGamePlayerRepository _gamePlayerRepository;
         private readonly IHistoryMessageManager _historyMessageManager;
         
-
         public StartService(IGameRepository gameRepository, IPlayerRepository playerRepository, 
             IGamePlayerRepository gamePlayerRepository, IHistoryMessageManager historyMessageManager)
         {

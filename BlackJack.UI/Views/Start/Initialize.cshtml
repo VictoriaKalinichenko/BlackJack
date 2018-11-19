@@ -6,7 +6,8 @@
 }
 
 <input type="hidden" id="gameId" name="gameId" value=@Model.GameId />
-<input type="hidden" id="isNewGame" name="isNewGame" value=@Model.IsNewGame />
+<input type="hidden" id="isNewGame" name="isNewGame" value=@Model.IsNewGame.ToString() />
+<input type="hidden" id="userName" name="userName" value=@Model.UserName />
 <div id="players">
     <div class="row row-flex">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 well">

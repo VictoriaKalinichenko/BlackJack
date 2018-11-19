@@ -9,7 +9,6 @@ namespace BlackJack.Angular
         {
             config.MapHttpAttributeRoutes();
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
         }
     }
 }

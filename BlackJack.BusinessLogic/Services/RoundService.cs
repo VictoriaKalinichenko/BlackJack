@@ -33,30 +33,34 @@ namespace BlackJack.BusinessLogic.Services
             _historyMessageManager = historyMessageManager;
         }
 
-        public async Task<StartRoundView> Start(long gameId)
+        public async Task<ResponseStartRoundView> Start(RequestStartRoundView requestView)
         {
-            List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
-            await RemoveCards(players, gameId);
-            await DistributeCards(players, CardValue.TwoCardsPerPlayer);
-            CountCardScoreForPlayers(players);
-            await _gamePlayerRepository.UpdateMany(players);
+            List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(requestView.GameId);
+            Game game = await _gameRepository.Get(requestView.GameId);
 
-            string roundResult = GameMessage.RoundInProcess;
-            GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
-
-            if (human.CardScore >= CardValue.MaxCardScore)
+            if (requestView.IsNewRound)
             {
-                GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
-                await DistributeEndCardsForDealer(dealer);
-                roundResult = GetRoundResult(human, dealer);
-                await _historyMessageManager.AddMessagesForRound(players, roundResult, gameId);
+                await RemoveCards(players, game.Id);
+                await DistributeCards(players, CardValue.TwoCardsPerPlayer);
+                CountCardScoreForPlayers(players);
+                await _gamePlayerRepository.UpdateMany(players);
+
+                game.RoundResult = GameMessage.RoundInProcess;
+                GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
+
+                if (human.CardScore >= CardValue.MaxCardScore)
+                {
+                    GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
+                    await DistributeEndCardsForDealer(dealer);
+                    game.RoundResult = GetRoundResult(human, dealer);
+                    await _historyMessageManager.AddMessagesForRound(players, game.RoundResult, game.Id);
+                }
+                
+                await _gameRepository.Update(game);
             }
 
-            Game game = CustomMapper.MapGame(gameId, roundResult);
-            await _gameRepository.Update(game);
-
-            StartRoundView view = CustomMapper.MapStartRoundView(players, roundResult);
-            return view;
+            ResponseStartRoundView responseView = CustomMapper.MapResponseStartRoundView(players, game.RoundResult);
+            return responseView;
         }
         
         public async Task<TakeCardRoundView> TakeCard(long gameId)
@@ -98,14 +102,6 @@ namespace BlackJack.BusinessLogic.Services
             await _historyMessageManager.AddMessagesForRound(players, roundResult, gameId);
 
             EndRoundView view = CustomMapper.MapEndRoundView(dealer, roundResult);
-            return view;
-        }
-
-        public async Task<RestoreRoundView> Restore(long gameId)
-        {
-            List<GamePlayer> players = await _gamePlayerRepository.GetAllByGameId(gameId);
-            Game game = await _gameRepository.Get(gameId);
-            RestoreRoundView view = CustomMapper.MapRestoreRoundView(players, game.RoundResult);
             return view;
         }
 

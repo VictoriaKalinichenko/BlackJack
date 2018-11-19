@@ -6,9 +6,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HomePageComponent } from 'app/home-page/home-page.component';
 import { CreateGameComponent } from 'app/create-game/create-game.component';
 import { ErrorPageComponent } from 'app/error-page/error-page.component';
+import { HomePageComponent } from 'app/home-page/home-page.component';
 var appRoutes = [
     {
         path: '',
@@ -19,7 +19,7 @@ var appRoutes = [
         component: CreateGameComponent
     },
     {
-        path: 'game/:gameId/:isNewGame',
+        path: 'game/:userName/:gameId/:isNewGame',
         loadChildren: 'app/game-module/game.module#GameModule'
     },
     {

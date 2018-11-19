@@ -2,53 +2,27 @@
     var human;
     var dealer;
     var botList;
-
-
+    
     $(window).load(function () {
-        restoreRound();
+        var isNewGame = $("#isNewGame").val();
+        var isNewRound = (isNewGame == 'True');
+        startRound(isNewRound);
     });
 
-    function restoreRound() {
+    function startRound(isNewRound) {
         var gameId = $("#gameId").val();
-        var isNewGame = $("#isNewGame").val();
         var transParam = {
-            gameId: gameId
+            GameId: gameId,
+            IsNewRound: isNewRound
         };
 
         $.ajax({
-            type: "GET",
-            url: "/Round/Restore",
-            data: transParam,
-            dataType: "json",
-            success: function (response) {
-                if (!isNewGame) {
-                    reloadPlayersOnStart(response)
-                    reloadGamePlay(response.roundResult);
-                }
-
-                if (isNewGame) {
-                    startRound();
-                }
-            },
-            error: function (response) {
-                showError(response);
-            }
-        });
-    }
-
-    function startRound() {
-        var gameId = $("#gameId").val();
-        var transParam = {
-            gameId: gameId
-        };
-
-        $.ajax({
-            type: "GET",
+            type: "POST",
             url: "/Round/Start",
             data: transParam,
             dataType: "json",
             success: function (response) {
-                reloadPlayersOnStart(response);
+                reloadPlayersOnStart(response)
                 reloadGamePlay(response.roundResult);
             },
             error: function (response) {
@@ -100,8 +74,9 @@
     }
 
     function reloadPlayersOnStart(response) {
-        human = new Player(response.human, "human");
-        dealer = new Player(response.dealer, "dealer");
+        var humanName = $("#userName").val();
+        human = new Player(response.human, humanName, "human");
+        dealer = new Player(response.dealer, "Dealer", "dealer");
         botList = new BotList(response.bots);
         human.show();
         dealer.show();
@@ -167,7 +142,7 @@
             value: "End round",
             class: "btn btn-primary",
             click: function () {
-                startRound();
+                startRound(true);
             }
         });
 
@@ -178,32 +153,29 @@
         alert(`Status: ${response.status}, ${response.statusText}`);
     }
 
-
-
     class Player {
-        constructor(player, domId) {
-            this.player = player;
+        constructor(cardsInformation, name, domId) {
+            this.cardsInformation = cardsInformation;
+            this.name = name;
             this.domId = domId;
         }
 
         reloadCards(data) {
-            this.player = Object.assign(this.player, data);
+            this.cardsInformation = data;
         }
 
         show() {
-            var text = `<p>Name: ${this.player.name}</p>`;
-            text = text + `<p>CardScore: ${this.player.cardScore}</p>`;
-            text = text + `<p>Cards:</p><ul>`;
-
-            $.each(this.player.cards, function (i, item) {
-                text = text + `<li>${item}</li>`;
-            });
-
-            text = text + `</ul>`;
-
             var domId = `#${this.domId}`;
             $(domId).text("");
-            $(domId).append(text);
+            $(domId).append(`<p>Name: ${this.name}</p>`);
+            $(domId).append(`<p>CardScore: ${this.cardsInformation.cardScore}</p>`);
+            $(domId).append(`<p>Cards:</p><ul>`);
+
+            $.each(this.cardsInformation.cards, function (i, item) {
+                $(domId).append(`<li>${item}</li>`);
+            });
+
+            $(domId).append(`</ul>`);
         }
     }
 
@@ -212,7 +184,7 @@
             this.bots = [];
             
             for (var iterator = 0; iterator < bots.length; iterator++) {
-                this.bots[iterator] = new Player(bots[iterator], `bot${iterator}`);
+                this.bots[iterator] = new Player(bots[iterator], `Bot${iterator}`, `bot${iterator}`);
             }
         }
 

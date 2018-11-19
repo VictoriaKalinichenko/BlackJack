@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { StartService } from 'app/shared/services/start.service';
 
 @Component({
@@ -15,19 +14,18 @@ export class HomePageComponent {
         private startService: StartService
     ) { }
 
-    searchGame() {
+    searchGame(): void {
         this.startService.searchGame(this.userName)
             .subscribe(
                 (data) => {
-                    if (data["isGameExist"]) {
-                        this.router.navigate(['/game/' + this.userName + '/' + data.gameId]);
+                    if (data.isGameExist) {
+                        this.router.navigate([`/game/${this.userName}/${data.gameId}/${false}`]);
                     }
 
-                    if (!data["isGameExist"]) {
+                    if (!data.isGameExist) {
                         this.router.navigate(['/create', this.userName]);
                     }
                 }
             );
-
     }
 }

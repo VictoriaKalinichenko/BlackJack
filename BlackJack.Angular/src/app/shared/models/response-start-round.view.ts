@@ -1,4 +1,4 @@
-﻿export class StartRoundView {
+﻿export class ResponseStartRoundView {
     roundResult: string;
     human: GamePlayerStartRoundViewItem;
     dealer: GamePlayerStartRoundViewItem;

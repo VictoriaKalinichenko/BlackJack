@@ -27,7 +27,7 @@ var CreateGameComponent = /** @class */ (function () {
         var _this = this;
         this.startService.createGame(this.userName, this.amountOfBots)
             .subscribe(function (data) {
-            _this.router.navigate(['/game/' + data + '/' + true]);
+            _this.router.navigate(["/game/" + _this.userName + "/" + data + "/" + true]);
         });
     };
     CreateGameComponent = __decorate([

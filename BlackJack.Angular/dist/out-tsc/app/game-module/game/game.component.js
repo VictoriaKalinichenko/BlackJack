@@ -9,15 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GameModel } from 'app/shared/models/game-model';
 import { RoundService } from 'app/shared/services/round.service';
 import { StartService } from 'app/shared/services/start.service';
-import { GameMappingModel } from 'app/shared/mapping-models/game-mapping-model';
 var GameComponent = /** @class */ (function () {
     function GameComponent(route, roundService, startService) {
         this.route = route;
         this.roundService = roundService;
         this.startService = startService;
-        this.game = new GameMappingModel();
+        this.dealerName = "Dealer";
+        this.botNames = ["Bot0", "Bot1", "Bot2", "Bot3", "Bot4"];
+        this.game = new GameModel();
         this.takeCardGamePlay = false;
         this.endRoundGamePlay = false;
     }
@@ -25,20 +27,16 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.gameId = params['gameId'];
-            var isNewGame = params['isNewGame'];
-            if (isNewGame == "true") {
-                _this.startRound();
-            }
-            if (isNewGame == "false") {
-                _this.restoreRound();
-            }
+            _this.humanName = params['userName'];
+            var isNewRound = params['isNewGame'];
+            _this.startRound(isNewRound);
         });
     };
-    GameComponent.prototype.startRound = function () {
+    GameComponent.prototype.startRound = function (isNewRound) {
         var _this = this;
-        this.roundService.startRound(this.gameId)
+        this.roundService.startRound(this.gameId, isNewRound)
             .subscribe(function (data) {
-            _this.game = Object.assign(new GameMappingModel, data);
+            _this.game = data;
             _this.setGamePlay();
         });
     };
@@ -46,11 +44,7 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.roundService.takeCard(this.gameId)
             .subscribe(function (data) {
-            _this.game.roundResult = data.roundResult;
-            _this.game.human = Object.assign(_this.game.human, data.human);
-            for (var iterator = 0; iterator < data.bots.length; iterator++) {
-                _this.game.bots[iterator] = Object.assign(_this.game.bots[iterator], data.bots[iterator]);
-            }
+            _this.game = data;
             _this.setGamePlay();
         });
     };
@@ -59,15 +53,7 @@ var GameComponent = /** @class */ (function () {
         this.roundService.endRound(this.gameId)
             .subscribe(function (data) {
             _this.game.roundResult = data.roundResult;
-            _this.game.dealer = Object.assign(_this.game.dealer, data.dealer);
-            _this.setGamePlay();
-        });
-    };
-    GameComponent.prototype.restoreRound = function () {
-        var _this = this;
-        this.roundService.restoreRound(this.gameId)
-            .subscribe(function (data) {
-            _this.game = Object.assign(new GameMappingModel, data);
+            _this.game.dealer = data.dealer;
             _this.setGamePlay();
         });
     };

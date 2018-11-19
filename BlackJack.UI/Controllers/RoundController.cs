@@ -19,13 +19,13 @@ namespace BlackJack.UI.Controllers
             _roundService = roundService;
         }
         
-        [Route("Start"), HttpGet]
-        public async Task<IHttpActionResult> Start(long gameId)
+        [Route("Start"), HttpPost]
+        public async Task<IHttpActionResult> Start(RequestStartRoundView requestView)
         {
             try
             {
-                StartRoundView view = await _roundService.Start(gameId);
-                return Ok(view);
+                ResponseStartRoundView responseView = await _roundService.Start(requestView);
+                return Ok(responseView);
             }
             catch (Exception exception)
             {
@@ -57,22 +57,6 @@ namespace BlackJack.UI.Controllers
             try
             {
                 EndRoundView view = await _roundService.End(gameId);
-                return Ok(view);
-            }
-            catch (Exception exception)
-            {
-                string message = exception.ToString();
-                _logger.Error(message);
-                return BadRequest(GameMessage.GameProcessingError);
-            }
-        }
-
-        [Route("Restore"), HttpGet]
-        public async Task<IHttpActionResult> Restore(long gameId)
-        {
-            try
-            {
-                RestoreRoundView view = await _roundService.Restore(gameId);
                 return Ok(view);
             }
             catch (Exception exception)

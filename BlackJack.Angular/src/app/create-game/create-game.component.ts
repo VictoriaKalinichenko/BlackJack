@@ -16,17 +16,17 @@ export class CreateGameComponent implements OnInit {
         private router: Router
     ) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.route.params.subscribe(params => {
             this.userName = params['userName'];
         });
     }
 
-    createGame() {
+    createGame(): void {
         this.startService.createGame(this.userName, this.amountOfBots)
             .subscribe(
             (data) => {
-                this.router.navigate(['/game/' + data + '/' + true]);
+                this.router.navigate([`/game/${this.userName}/${data}/${true}`]);
             }
         );
     }

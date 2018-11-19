@@ -295,9 +295,10 @@
     <TypeScriptCompile Include="src\app\app-routing.module.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\shared\models\game-model.ts" />
-    <TypeScriptCompile Include="src\app\shared\models\restore-round.view.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\request-start-round.view.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\create-game-start.view.ts" />
     <TypeScriptCompile Include="src\app\shared\models\search-game-start.view.ts" />
-    <TypeScriptCompile Include="src\app\shared\models\start-round.view.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\response-start-round.view.ts" />
     <TypeScriptCompile Include="src\app\shared\models\end-round.view.ts" />
     <TypeScriptCompile Include="src\app\shared\models\take-card-round.view.ts" />
     <TypeScriptCompile Include="src\app\shared\modules\shared.module.ts" />

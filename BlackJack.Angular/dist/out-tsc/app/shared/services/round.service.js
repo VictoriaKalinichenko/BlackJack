@@ -9,29 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RequestStartRoundView } from '../models/request-start-round.view';
 var RoundService = /** @class */ (function () {
     function RoundService(httpClient) {
         this.httpClient = httpClient;
     }
-    RoundService.prototype.startRound = function (gameId) {
-        var options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/Start', options);
-    };
-    RoundService.prototype.endRound = function (gameId) {
-        var options = gameId ?
-            { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/End', options);
+    RoundService.prototype.startRound = function (gameId, isNewRound) {
+        var request = new RequestStartRoundView();
+        request.gameId = gameId;
+        request.isNewRound = isNewRound;
+        return this.httpClient.post('Round/Start', request);
     };
     RoundService.prototype.takeCard = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
         return this.httpClient.get('Round/TakeCard', options);
     };
-    RoundService.prototype.restoreRound = function (gameId) {
+    RoundService.prototype.endRound = function (gameId) {
         var options = gameId ?
             { params: new HttpParams().set('gameId', gameId.toString()) } : {};
-        return this.httpClient.get('Round/Restore', options);
+        return this.httpClient.get('Round/End', options);
     };
     RoundService = __decorate([
         Injectable(),

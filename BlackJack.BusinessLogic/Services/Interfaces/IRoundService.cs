@@ -5,12 +5,10 @@ namespace BlackJack.BusinessLogic.Services.Interfaces
 {
     public interface IRoundService
     {
-        Task<StartRoundView> Start(long gameId);
+        Task<ResponseStartRoundView> Start(RequestStartRoundView view);
 
         Task<TakeCardRoundView> TakeCard(long gameId);
 
         Task<EndRoundView> End(long gameId);
-
-        Task<RestoreRoundView> Restore(long gameId);
     }
 }

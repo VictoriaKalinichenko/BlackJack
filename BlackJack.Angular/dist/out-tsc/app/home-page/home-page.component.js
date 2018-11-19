@@ -20,7 +20,7 @@ var HomePageComponent = /** @class */ (function () {
         this.startService.searchGame(this.userName)
             .subscribe(function (data) {
             if (data["isGameExist"]) {
-                _this.router.navigate(['/game/' + data["gameId"] + '/' + false]);
+                _this.router.navigate(["/game/" + _this.userName + "/" + data.gameId + "/" + false]);
             }
             if (!data["isGameExist"]) {
                 _this.router.navigate(['/create', _this.userName]);

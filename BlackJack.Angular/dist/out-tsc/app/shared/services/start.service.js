@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CreateGameStartView } from 'app/shared/models/create-game-start.view';
 var StartService = /** @class */ (function () {
     function StartService(httpClient) {
         this.httpClient = httpClient;
@@ -19,8 +20,10 @@ var StartService = /** @class */ (function () {
         return this.httpClient.get('Start/SearchGame', options);
     };
     StartService.prototype.createGame = function (userName, amountOfBots) {
-        var body = { UserName: userName, AmountOfBots: amountOfBots };
-        return this.httpClient.post('Start/CreateGame', body);
+        var request = new CreateGameStartView();
+        request.UserName = userName;
+        request.AmountOfBots = amountOfBots;
+        return this.httpClient.post('Start/CreateGame', request);
     };
     StartService = __decorate([
         Injectable({

@@ -1,5 +1,4 @@
-﻿using BlackJack.ViewModels.Error;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace BlackJack.UI.Controllers
 {
@@ -7,9 +6,7 @@ namespace BlackJack.UI.Controllers
     {
         public ActionResult Display(string message)
         {
-            var view = new DisplayErrorView();
-            view.Message = message;
-            return View(view);
+            return View("~/Views/Error/Display.cshtml", null, message);
         }
     }
 }

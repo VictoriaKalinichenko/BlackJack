@@ -1022,3 +1022,5 @@ Error Number:102,State:1,Class:15
    at BlackJack.UI.Controllers.StartController.Initialize(Int64 gameId, Boolean isNewGame) in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 101
 2018-11-16 18:00:52.1768|ERROR|BlackJack.UI.Controllers.StartController|System.Exception: Exception
    at BlackJack.UI.Controllers.StartController.Initialize(Int64 gameId, Boolean isNewGame) in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 101
+2018-11-19 16:29:23.1862|ERROR|BlackJack.UI.Controllers.StartController|System.Exception: errr
+   at BlackJack.UI.Controllers.StartController.<SearchGame>d__4.MoveNext() in C:\Users\Anuitex\source\repos\BlackJack\BlackJack.UI\Controllers\StartController.cs:line 32

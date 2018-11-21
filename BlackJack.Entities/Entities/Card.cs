@@ -10,8 +10,7 @@ namespace BlackJack.Entities.Entities
 
         public override string ToString()
         {
-            string convertedString = string.Empty;
-            convertedString = $"{Rank.ToString()} {Lear.ToString()}";
+            string convertedString = $"{Rank.ToString()} {Lear.ToString()}";
             return convertedString;
         }
     }

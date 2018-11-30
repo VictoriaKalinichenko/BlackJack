@@ -154,18 +154,18 @@ var AppComponent = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var app_shared_modules_shared_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/shared/modules/shared.module */ "./src/app/shared/modules/shared.module.ts");
-/* harmony import */ var app_app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var app_app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/app.component */ "./src/app/app.component.ts");
-/* harmony import */ var app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/home-page/home-page.component */ "./src/app/home-page/home-page.component.ts");
-/* harmony import */ var app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! app/error-page/error-page.component */ "./src/app/error-page/error-page.component.ts");
-/* harmony import */ var app_create_game_create_game_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! app/create-game/create-game.component */ "./src/app/create-game/create-game.component.ts");
-/* harmony import */ var app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! app/shared/services/start.service */ "./src/app/shared/services/start.service.ts");
-/* harmony import */ var app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! app/shared/interceptors/request-interceptor */ "./src/app/shared/interceptors/request-interceptor.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var app_app_routing_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var app_app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/app.component */ "./src/app/app.component.ts");
+/* harmony import */ var app_create_game_create_game_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/create-game/create-game.component */ "./src/app/create-game/create-game.component.ts");
+/* harmony import */ var app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/error-page/error-page.component */ "./src/app/error-page/error-page.component.ts");
+/* harmony import */ var app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! app/home-page/home-page.component */ "./src/app/home-page/home-page.component.ts");
+/* harmony import */ var app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! app/shared/interceptors/request-interceptor */ "./src/app/shared/interceptors/request-interceptor.ts");
+/* harmony import */ var app_shared_modules_shared_module__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! app/shared/modules/shared.module */ "./src/app/shared/modules/shared.module.ts");
+/* harmony import */ var app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! app/shared/services/start.service */ "./src/app/shared/services/start.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -188,32 +188,32 @@ var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                app_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-                app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_7__["HomePageComponent"],
-                app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_8__["ErrorPageComponent"],
-                app_create_game_create_game_component__WEBPACK_IMPORTED_MODULE_9__["CreateGameComponent"]
+                app_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
+                app_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_8__["HomePageComponent"],
+                app_error_page_error_page_component__WEBPACK_IMPORTED_MODULE_7__["ErrorPageComponent"],
+                app_create_game_create_game_component__WEBPACK_IMPORTED_MODULE_6__["CreateGameComponent"]
             ],
             imports: [
-                _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                app_shared_modules_shared_module__WEBPACK_IMPORTED_MODULE_2__["SharedModule"],
-                app_app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"]
+                _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__["BrowserModule"],
+                app_shared_modules_shared_module__WEBPACK_IMPORTED_MODULE_10__["SharedModule"],
+                app_app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"]
             ],
             providers: [
-                app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_10__["StartService"],
+                app_shared_services_start_service__WEBPACK_IMPORTED_MODULE_11__["StartService"],
                 {
-                    provide: _angular_common__WEBPACK_IMPORTED_MODULE_4__["APP_BASE_HREF"],
+                    provide: _angular_common__WEBPACK_IMPORTED_MODULE_0__["APP_BASE_HREF"],
                     useValue: '/'
                 },
                 {
-                    provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"],
-                    useClass: app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_11__["RequestInterceptor"],
+                    provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HTTP_INTERCEPTORS"],
+                    useClass: app_shared_interceptors_request_interceptor__WEBPACK_IMPORTED_MODULE_9__["RequestInterceptor"],
                     multi: true
                 }
             ],
             bootstrap: [
-                app_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]
+                app_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]
             ]
         })
     ], AppModule);
@@ -399,10 +399,10 @@ var HomePageComponent = /** @class */ (function () {
         var _this = this;
         this.startService.searchGame(this.userName)
             .subscribe(function (data) {
-            if (data["isGameExist"]) {
+            if (data.isGameExist) {
                 _this.router.navigate(["/game/" + _this.userName + "/" + data.gameId + "/" + false]);
             }
-            if (!data["isGameExist"]) {
+            if (!data.isGameExist) {
                 _this.router.navigate(['/create', _this.userName]);
             }
         });
@@ -503,9 +503,9 @@ var CreateGameStartView = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SharedModule", function() { return SharedModule; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -521,15 +521,15 @@ var SharedModule = /** @class */ (function () {
     function SharedModule() {
     }
     SharedModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             imports: [
-                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
+                _angular_common__WEBPACK_IMPORTED_MODULE_0__["CommonModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClientModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"]
             ],
             exports: [
-                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
+                _angular_common__WEBPACK_IMPORTED_MODULE_0__["CommonModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClientModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"]
             ]
         })
@@ -577,8 +577,8 @@ var StartService = /** @class */ (function () {
     };
     StartService.prototype.createGame = function (userName, amountOfBots) {
         var request = new app_shared_models_create_game_start_view__WEBPACK_IMPORTED_MODULE_2__["CreateGameStartView"]();
-        request.UserName = userName;
-        request.AmountOfBots = amountOfBots;
+        request.userName = userName;
+        request.amountOfBots = amountOfBots;
         return this.httpClient.post('Start/CreateGame', request);
     };
     StartService = __decorate([

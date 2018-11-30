@@ -21,8 +21,8 @@ var StartService = /** @class */ (function () {
     };
     StartService.prototype.createGame = function (userName, amountOfBots) {
         var request = new CreateGameStartView();
-        request.UserName = userName;
-        request.AmountOfBots = amountOfBots;
+        request.userName = userName;
+        request.amountOfBots = amountOfBots;
         return this.httpClient.post('Start/CreateGame', request);
     };
     StartService = __decorate([

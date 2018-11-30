@@ -44,20 +44,20 @@ namespace BlackJack.BusinessLogic.Services
                 await DistributeCards(players, CardValue.TwoCardsPerPlayer);
                 CountCardScoreForPlayers(players);
                 await _gamePlayerRepository.UpdateMany(players);
-
-                game.RoundResult = GameMessage.RoundInProcess;
-                GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
-
-                if (human.CardScore >= CardValue.MaxCardScore)
-                {
-                    GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
-                    await DistributeEndCardsForDealer(dealer);
-                    game.RoundResult = GetRoundResult(human, dealer);
-                    await _historyMessageManager.AddMessagesForRound(players, game.RoundResult, game.Id);
-                }
-                
-                await _gameRepository.Update(game);
             }
+            
+            game.RoundResult = GameMessage.RoundInProcess;
+            GamePlayer human = players.Where(m => m.Player.Type == PlayerType.Human).First();
+
+            if (human.CardScore >= CardValue.MaxCardScore)
+            {
+                GamePlayer dealer = players.Where(m => m.Player.Type == PlayerType.Dealer).First();
+                await DistributeEndCardsForDealer(dealer);
+                game.RoundResult = GetRoundResult(human, dealer);
+                await _historyMessageManager.AddMessagesForRound(players, game.RoundResult, game.Id);
+            }
+
+            await _gameRepository.Update(game);
 
             ResponseStartRoundView responseView = CustomMapper.MapResponseStartRoundView(players, game.RoundResult);
             return responseView;
@@ -121,7 +121,7 @@ namespace BlackJack.BusinessLogic.Services
             await _playerCardRepository.DeleteByGameId(gameId);
         }
 
-        private async Task DistributeCards (List<GamePlayer> players, int cardAmountPerPlayer, bool doesDealerNeedCards = true)
+        private async Task DistributeCards(List<GamePlayer> players, int cardAmountPerPlayer, bool doesDealerNeedCards = true)
         {
             var createdPlayerCards = new List<PlayerCard>();
             int cardAmount = players.Count() * cardAmountPerPlayer;

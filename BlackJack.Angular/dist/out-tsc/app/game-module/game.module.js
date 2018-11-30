@@ -5,10 +5,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from '@angular/core';
-import { SharedModule } from 'app/shared/modules/shared.module';
 import { GameRoutingModule } from 'app/game-module/game-routing.module';
 import { GameComponent } from 'app/game-module/game/game.component';
 import { PlayerOutputComponent } from 'app/game-module/player-output/player-output.component';
+import { SharedModule } from 'app/shared/modules/shared.module';
 import { RoundService } from 'app/shared/services/round.service';
 var GameModule = /** @class */ (function () {
     function GameModule() {

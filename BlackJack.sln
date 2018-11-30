@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Entities", "Black
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Angular", "BlackJack.Angular\BlackJack.Angular.csproj", "{EF7F29EB-2486-4113-AF55-12D2F38C0659}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.BusinessLogic.Tests", "BlackJack.BusinessLogic.Tests\BlackJack.BusinessLogic.Tests.csproj", "{CCDB6FAC-DD0A-4CA2-9864-66575E02C1C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{EF7F29EB-2486-4113-AF55-12D2F38C0659}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF7F29EB-2486-4113-AF55-12D2F38C0659}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF7F29EB-2486-4113-AF55-12D2F38C0659}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCDB6FAC-DD0A-4CA2-9864-66575E02C1C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCDB6FAC-DD0A-4CA2-9864-66575E02C1C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCDB6FAC-DD0A-4CA2-9864-66575E02C1C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCDB6FAC-DD0A-4CA2-9864-66575E02C1C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

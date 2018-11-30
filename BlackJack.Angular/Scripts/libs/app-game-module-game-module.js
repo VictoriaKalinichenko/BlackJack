@@ -56,10 +56,10 @@ var GameRoutingModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameModule", function() { return GameModule; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var app_shared_modules_shared_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! app/shared/modules/shared.module */ "./src/app/shared/modules/shared.module.ts");
-/* harmony import */ var app_game_module_game_routing_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/game-module/game-routing.module */ "./src/app/game-module/game-routing.module.ts");
-/* harmony import */ var app_game_module_game_game_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/game-module/game/game.component */ "./src/app/game-module/game/game.component.ts");
-/* harmony import */ var app_game_module_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/game-module/player-output/player-output.component */ "./src/app/game-module/player-output/player-output.component.ts");
+/* harmony import */ var app_game_module_game_routing_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! app/game-module/game-routing.module */ "./src/app/game-module/game-routing.module.ts");
+/* harmony import */ var app_game_module_game_game_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/game-module/game/game.component */ "./src/app/game-module/game/game.component.ts");
+/* harmony import */ var app_game_module_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/game-module/player-output/player-output.component */ "./src/app/game-module/player-output/player-output.component.ts");
+/* harmony import */ var app_shared_modules_shared_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/shared/modules/shared.module */ "./src/app/shared/modules/shared.module.ts");
 /* harmony import */ var app_shared_services_round_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/shared/services/round.service */ "./src/app/shared/services/round.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -79,12 +79,12 @@ var GameModule = /** @class */ (function () {
     GameModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
             imports: [
-                app_game_module_game_routing_module__WEBPACK_IMPORTED_MODULE_2__["GameRoutingModule"],
-                app_shared_modules_shared_module__WEBPACK_IMPORTED_MODULE_1__["SharedModule"]
+                app_game_module_game_routing_module__WEBPACK_IMPORTED_MODULE_1__["GameRoutingModule"],
+                app_shared_modules_shared_module__WEBPACK_IMPORTED_MODULE_4__["SharedModule"]
             ],
             declarations: [
-                app_game_module_game_game_component__WEBPACK_IMPORTED_MODULE_3__["GameComponent"],
-                app_game_module_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_4__["PlayerOutputComponent"]
+                app_game_module_game_game_component__WEBPACK_IMPORTED_MODULE_2__["GameComponent"],
+                app_game_module_player_output_player_output_component__WEBPACK_IMPORTED_MODULE_3__["PlayerOutputComponent"]
             ],
             providers: [
                 app_shared_services_round_service__WEBPACK_IMPORTED_MODULE_5__["RoundService"]
@@ -240,7 +240,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 var PlayerOutputComponent = /** @class */ (function () {
     function PlayerOutputComponent() {
